@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
       type: DataTypes.SMALLINT,
     },
     trunk: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM("small", "medium", "large"),
     },
     consumption: {
       type: DataTypes.FLOAT,
