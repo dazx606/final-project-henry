@@ -1,8 +1,14 @@
-import React from 'react'
+import React from 'react';
+import {NavLink, Outlet} from 'react-router-dom';
 
 function NavBar() {
   return (
-    <div>NavBar</div>
+    <div>
+        <div>
+            codigo de NavBar
+        </div>
+        <Outlet />
+    </div>
   )
 }
 
