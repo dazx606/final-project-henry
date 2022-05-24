@@ -8,7 +8,7 @@ const {
 
 //----------------------------------------HEROKU CONECTION------------------------------
 let sequelize;
-if(process.env.DATABASE_URL){
+if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialectOptions: {
       ssl: {
@@ -17,23 +17,23 @@ if(process.env.DATABASE_URL){
       }
     }
   }
-);
+  );
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+  sequelize
+    .authenticate()
+    .then(() => {
+      console.log('Connection has been established successfully.');
+    })
+    .catch(err => {
+      console.error('Unable to connect to the database:', err);
+    });
 } else {
   //-------------------------------------LOCAL----------------------------------------------------
 
   sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-});
+    logging: false, // set to console.log to see the raw SQL queries
+    native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+  });
 }
 
 
@@ -58,7 +58,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const {Car, CarType} = sequelize.models;
+const { Car, CarType, Location } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);

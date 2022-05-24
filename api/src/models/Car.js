@@ -29,6 +29,9 @@ module.exports = (sequelize) => {
     consumption: {
       type: DataTypes.FLOAT,
     },
+    engine: {
+      type: DataTypes.FLOAT,
+    },
     rating: {
       type: DataTypes.FLOAT,
       defaultValue: 0,
