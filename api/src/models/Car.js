@@ -32,6 +32,10 @@ module.exports = (sequelize) => {
     engine: {
       type: DataTypes.FLOAT,
     },
+    images: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
     rating: {
       type: DataTypes.FLOAT,
       defaultValue: 0,
