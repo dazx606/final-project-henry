@@ -58,7 +58,9 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
+
 const { Car, CarType, Driver, IncludedEquipment, Location, OptionalEquipment, Payment, RentOrder, User } = sequelize.models;
+
 
 // Aca vendrian las relaciones
 Car.belongsTo(CarType);
