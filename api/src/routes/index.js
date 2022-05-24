@@ -1,3 +1,4 @@
+const { Op } = require('../db.js');
 const { Router } = require("express");
 const { Car, Location } = require("../db.js");
 

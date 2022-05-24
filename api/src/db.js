@@ -58,10 +58,43 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Car, CarType, Location } = sequelize.models;
+
+const { Car, CarType, Driver, IncludedEquipment, Location, OptionalEquipment, Payment, RentOrder, User } = sequelize.models;
+
 
 // Aca vendrian las relaciones
-// Product.hasMany(Reviews);
+Car.belongsTo(CarType);
+CarType.hasMany(Car);
+
+Car.belongsTo(Location);
+Location.hasMany(Car);
+
+Car.belongsToMany( IncludedEquipment , {through:"CarEquipment"});
+IncludedEquipment.belongsToMany( Car , {through:"CarEquipment"});
+
+Car.belongsToMany( OptionalEquipment , {through:"CarOptionalEquipment"});
+OptionalEquipment.belongsToMany( Car , {through:"CarOptionalEquipment"});
+
+Payment.belongsTo(User);
+User.hasMany(Payment);
+
+Driver.belongsTo(User);
+User.hasMany(Driver);
+
+RentOrder.belongsTo(Car);
+Car.hasMany(RentOrder);
+
+RentOrder.belongsTo(User);
+User.hasMany(RentOrder);
+
+RentOrder.belongsToMany( Driver , {through:"RentDriver"});
+Driver.belongsToMany( RentOrder , {through:"RentDriver"});
+
+RentOrder.belongsTo(Location);
+Location.hasMany(RentOrder);
+
+RentOrder.belongsToMany( OptionalEquipment , {through:"RentEquipment"});
+OptionalEquipment.belongsToMany( RentOrder , {through:"RentEquipment"});
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

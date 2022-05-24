@@ -1,16 +1,12 @@
 const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
-    sequelize.define('location', {
-        city: {
+    sequelize.define('payment', {
+        firstName: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        latitude: {
-            type: DataTypes.FLOAT,
-            allowNull: false,
-        },
-        longitude: {
-            type: DataTypes.FLOAT,
+        lastName: {
+            type: DataTypes.STRING,
             allowNull: false,
         },
     }, { timestamps: false });
