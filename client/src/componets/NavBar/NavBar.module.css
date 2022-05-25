@@ -1,0 +1,161 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: sans-serif;
+}
+
+body {
+    background: #d1d1d1;
+}
+
+.checkbox {
+    display: none;
+}
+
+.header {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    background: #fff;
+}
+
+h1 {
+    font-size: 20px;
+}
+
+.icon {
+    color: #000;
+    width: 15px;
+    height: 15px;
+    padding: 5px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    border:#000 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.headercontainer {
+    width: 90%;
+    position: relative;
+    margin: 1rem auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btnLabel {
+    width: 2rem;
+    height: 1.4rem;
+}
+
+.headerButton {
+    width: 2rem;
+    height: 0.2rem;
+    background: #000;
+    position: absolute;
+    top: 1rem;
+    transition: all 0.2s;
+}
+
+.headerButton:hover {
+    cursor: pointer;
+}
+
+.headerButton::before,
+.headerButton::after {
+    content: "";
+    width: 2rem;
+    height: 0.25rem;
+    background: #000;
+    position: absolute;
+    top: -0.6rem;
+    transition: all 0.2s;
+}
+
+.headerButton::after {
+    top: 0.6rem;
+}
+
+.menu {
+    background: #d1d1d1;
+    width: 100%;
+    height: 5rem;
+    position: fixed;
+    z-index: 9;
+    top: -8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    padding-top: 3rem;
+    transition: all 0.5s;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    margin: 0.5rem;
+    
+}
+
+.link {
+    margin: 2rem 1.5rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.link a {
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.link a:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: rgb(66, 66, 66);
+    /*animacion de derecha a izquierda*/
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 0.2s ease-in-out;
+}
+
+.link a:hover:after {
+    /*animacion de derecha a izquierda*/
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+.checkbox:checked~.menu {
+    background: #fff;
+    top: 0rem;
+}
+
+.checkbox:checked+.header .headercontainer label .headerButton {
+    background: none;
+}
+
+.checkbox:checked+.header .headercontainer label .headerButton::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.checkbox:checked+.header .headercontainer label .headerButton::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
