@@ -1,10 +1,12 @@
 const { Op, Car, CarType, Driver, IncludedEquipment, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
 const { locations } = require("./locations");
+const { carTypes } = require("./carTypes");
+const { aFewHardcodedCars } = require("./cars");
 
 
 const preloadLocation = async () => {
     try {
-        await Promise.all(locations.map(async (l) => await Location.findOrCreate({
+        await Promise.all(locations.map(l => Location.findOrCreate({
             where: { city: l.city },
             defaults: { city: l.city, latitude: l.latitude, longitude: l.longitude }
         })))
@@ -13,14 +15,47 @@ const preloadLocation = async () => {
     }
 };
 
-const preloadCar = async () => {
+const preloadCarType = async () => {
     try {
-
+        await Promise.all(carTypes.map(t => CarType.findOrCreate({ where: { name: t }, })))
     } catch (error) {
         throw new Error(error);
     }
 };
+
+const preloadCar = async () => {
+    try {
+        await Promise.all(aFewHardcodedCars.map(async c => {
+            const newCar = await Car.findOrCreate({
+                where: { license_plate: c.license_plate },
+                defaults: {
+                    license_plate: c.license_plate,
+                    brand: c.brand,
+                    model: c.model,
+                    year: c.year,
+                    pricePerDay: c.pricePerDay,
+                    passengers: c.passengers,
+                    trunk: c.trunk,
+                    consumption: c.consumption,
+                    engine: c.engine,
+                    images: c.images,
+                }
+            })
+            if (newCar[1]) {
+                const newCarType = await CarType.findOne({ where: { name: c.carType } });
+                await newCarType.addCar(newCar[0]);
+                const newCarLocation = await Location.findOne({ where: { city: c.location } });
+                await newCarLocation.addCar(newCar[0]);
+            }
+        }
+        ))
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 module.exports = {
     preloadLocation,
+    preloadCarType,
     preloadCar,
 }

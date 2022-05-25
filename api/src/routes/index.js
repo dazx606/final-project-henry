@@ -28,7 +28,6 @@ router.get("/locations", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
 
 router.get("/locationCars/:locationId", async (req, res, next) => {
   try {
@@ -39,6 +38,37 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
       },
     });
     return res.json(cars);
+  } catch (error) {
+    next(error);
+  }
+
+router.get("/cars/:carsId", async (req, res, next) => {
+  try {
+    const { carsId } = req.params;
+    const car = await Car.findByPk(carsId, {
+      include: [
+        {
+          model: CarType,
+          as: "carType",
+          attributes: ["name"],
+        },
+        {
+          model: Location,
+          as: "location",
+        },
+        {
+          model: IncludedEquipment,
+          as: "includedEquipments",
+        },
+        {
+          model: OptionalEquipment,
+          as: "optionalEquipments",
+        },
+      ],
+    });
+
+    if (!car) return res.status(404).json({ msg: "No corresponding car" });
+    res.json(car);
   } catch (error) {
     next(error);
   }
