@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { Car, Location } = require("../db.js");
+const { Op, Car, Location } = require("../db.js");
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -20,7 +20,7 @@ router.get("/locationCars", async (req, res) => {
   const { locationId } = req.query;
   const cars = await Car.findAll({
     where: {
-      location: locationId,
+      locationId,
     },
   });
   res.json(cars);
