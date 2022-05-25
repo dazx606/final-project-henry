@@ -17,8 +17,8 @@ router.get("/locations", async (req, res) => {
   res.json(locations);
 });
 
-router.get("/locationCars", async (req, res) => {
-  const { locationId } = req.query;
+router.get("/locationCars/:locationId", async (req, res) => {
+  const { locationId } = req.params;
   const cars = await Car.findAll({
     where: {
       locationId,
