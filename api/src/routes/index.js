@@ -27,17 +27,13 @@ router.get("/locationCars", async (req, res) => {
   res.json(cars);
 });
 
-router.get("/cars/:carsId", async (req, res) => {
+router.get("/cars/:carsId", async (req, res, next) => {
   try {
     const { carsId } = req.params;
-    const car = await Car.findOne({
-      where: {
-        id: carsId,
-      },
-    });
+    const car = await Car.findByPk(carsId);
     res.json(car);
   } catch (error) {
-    res.status(404).json({ message: "the car doesn't exist" });
+    next(error);
   }
 });
 
