@@ -28,21 +28,19 @@ router.get("/locations", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-});
-//-------------------------Redundante esto lo esta haciendo Renato------------------------------
-// router.get("/locationCars/:locationId", async (req, res, next) => {
-//     try {
-//         const { locationId } = req.params;
-//         const cars = await Car.findAll({
-//             where: {
-//                 locationId: locationId,
-//             },
-//         });
-//         return res.json(cars);
-//     } catch (error) {
-//         next(error);
-//     }
-// });
+
+router.get("/locationCars/:locationId", async (req, res, next) => {
+  try {
+    const { locationId } = req.params;
+    const cars = await Car.findAll({
+      where: {
+        locationId: locationId,
+      },
+    });
+    return res.json(cars);
+  } catch (error) {
+    next(error);
+  }
 
 router.get("/cars/:carsId", async (req, res, next) => {
   try {
