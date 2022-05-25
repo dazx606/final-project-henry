@@ -1,4 +1,4 @@
-const { Op } = require('../db.js');
+const { Op } = require("../db.js");
 const { Router } = require("express");
 const { Car, Location } = require("../db.js");
 
@@ -25,6 +25,20 @@ router.get("/locationCars", async (req, res) => {
     },
   });
   res.json(cars);
+});
+
+router.get("/cars/:carsId", async (req, res) => {
+  try {
+    const { carsId } = req.params;
+    const car = await Car.findOne({
+      where: {
+        id: carsId,
+      },
+    });
+    res.json(car);
+  } catch (error) {
+    res.status(404).json({ message: "the car doesn't exist" });
+  }
 });
 
 module.exports = router;
