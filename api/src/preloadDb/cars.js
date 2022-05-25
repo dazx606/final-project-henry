@@ -1,19 +1,3 @@
-// export default [
-//     {
-//         carType: "Luxury",
-//         license_plate: "algo",
-//         brand: "Porsche",
-//         model: "Carrera 911",
-//         year: 2022,
-//         pricePerDay: 600,
-//         passengers: 2,
-//         trunk: "med",                     //ver
-//         consumption: 9.3,
-//         engine: 3,
-//         images: []
-//     },
-//     { Luxury	Nissan	GTR	550	AT	4	2 med	14, 3	3, 8},
-// ]
 class Car {
     constructor(carType, brand, model, year, pricePerDay, passengers, trunk, consumption, engine, images, includedEquipment, opcionalEquipment) {
         this.carType = carType;
@@ -35,3 +19,75 @@ class Car {
 
 let car2 = new Car("Luxury", "Porsche", "carrera", 911, 2021, 600, 2, "small", 9.3, 3)
 console.log(car);
+
+const aFewHardcodedCars = [
+    {
+        carType: "Luxury",
+        
+        license_plate: "98ABC33",
+        brand: "Porsche",
+        model: "Carrera 911",
+        year: 2021,
+        pricePerDay: 600,
+        passengers: 2,
+        trunk: "small",
+        consumption: 9.3,
+        engine: 3,
+        images: []
+    },
+    {
+        carType: "Luxury",
+        license_plate: "22PSM55",
+        brand: "Porsche",
+        model: "GTR",
+        year: 2020,
+        pricePerDay: 550,
+        passengers: 4,
+        trunk: "medium",
+        consumption: 14.3,
+        engine: 3.8,
+        images: []
+    },
+    {
+        carType: "Luxury",
+        license_plate: "11PNG61",
+        brand: "Mercedes",
+        model: "A-45",
+        year: 2020,
+        pricePerDay: 380,
+        passengers: 4,
+        trunk: "small",
+        consumption: 6.9,
+        engine: 2,
+        images: []
+    },
+    {
+        carType: "Premium",
+        license_plate: "33PNG61",
+        brand: "Renato",
+        model: "A-45",
+        year: 2020,
+        pricePerDay: 380,
+        passengers: 4,
+        trunk: "large",
+        consumption: 6.9,
+        engine: 2,
+        images: []
+    },
+    {
+        carType: "typoRaro",
+        license_plate: "43PNG61",
+        brand: "RenatoRaro",
+        model: "rarito",
+        year: 0,
+        pricePerDay: 2,
+        passengers: 50,
+        trunk: "small",
+        consumption: 120.33,
+        engine: 8,
+        images: []
+    },
+]
+
+
+module.exports = {aFewHardcodedCars}
