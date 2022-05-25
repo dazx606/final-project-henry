@@ -12,8 +12,8 @@ const URL = "http://localhost:3001/";
 export function getLocations() {
   return async (dispatch) => {
     try {
-      // ruta del back y logica necesaria
-      return dispatch({ type: GET_LOCATIONS, payload: locationsArray });
+      const response = await axios.get(`${URL}locations`);
+      return dispatch({ type: GET_LOCATIONS, payload: response.data });
     } catch (error) {
       console.log(error);
     }
@@ -23,7 +23,7 @@ export function getLocations() {
 export function getLocationCars() {
   return async (dispatch) => {
     try {
-      // ruta del back y logica necesaria
+      //const response = await axios.get(`${URL}cars`)
       return dispatch({ type: GET_LOCATION_CARS, payload: "por hacer" });
     } catch (error) {
       console.log(error);
