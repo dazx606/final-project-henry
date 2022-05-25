@@ -1,0 +1,9 @@
+.select {
+  border: none;
+  outline: none;
+  padding: 5px 5px;
+  font-size: medium;
+  color: rgb(66, 66, 66);
+  width: 20rem;
+  background-color: rgb(218, 235, 250);
+}

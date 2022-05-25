@@ -1,65 +1,39 @@
+//Datos hard codeados
+import { locationsArray } from "./hardcoded";
+
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
-import axios from 'axios';
-export const GET_LOCATIONS = 'GET_LOCATIONS';
-export const SET_CITY = 'SET_CITY';
 
+import axios from "axios";
+export const GET_LOCATIONS = "GET_LOCATIONS";
+export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
+export const SET_CITY = "SET_CITY";
+const URL = "http://localhost:3001/";
 
-const URL_LOCAL = 'http://localhost:3001';
-
-export const getLocations = () => {
-    const data = [
-        {   id:1,
-            city: 'Buenos Aires',
-            lat: 0,
-            long: 0
-        },
-        {
-            id:2,
-            city: 'Posadas',
-            lat: 0,
-            long: 0
-        },
-        {
-            id:3,
-            city: 'Bogotá',
-            lat: 0,
-            long: 0
-        },
-        {
-            id:4,
-            city: 'Medellin',
-            lat: 0,
-            long: 0
-        },
-        {
-            id:5,
-            city: 'Ciudad de Mexico',
-            lat: 0,
-            long: 0
-        },
-        {
-            id:6,
-            city: 'Santiago de Chile',
-            lat: 0,
-            long: 0
-        }
-    ]
+export function getLocations() {
+  return async (dispatch) => {
     try {
-        return ({
-            type: GET_LOCATIONS,
-            payload: data
-        })
-
-    } catch (e) {
-        console.log(e)
+      const response = await axios.get(`${URL}locations`);
+      return dispatch({ type: GET_LOCATIONS, payload: response.data });
+    } catch (error) {
+      console.log(error);
     }
+  };
+}
+
+export function getLocationCars() {
+  return async (dispatch) => {
+    try {
+      //const response = await axios.get(`${URL}cars`)
+      return dispatch({ type: GET_LOCATION_CARS, payload: "por hacer" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export const setCity = (payload) => {
-    return {
-        type: SET_CITY,
-        payload
-    }
-}
-
-
+  return {
+    type: SET_CITY,
+    payload,
+  };
+};
