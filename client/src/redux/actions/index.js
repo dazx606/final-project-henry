@@ -2,8 +2,12 @@
 import { locationsArray } from "./hardcoded";
 
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
+
+import axios from "axios";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
+export const SET_CITY = "SET_CITY";
+const URL = "http://localhost:3001/";
 
 export function getLocations() {
   return async (dispatch) => {
@@ -26,3 +30,10 @@ export function getLocationCars() {
     }
   };
 }
+
+export const setCity = (payload) => {
+  return {
+    type: SET_CITY,
+    payload,
+  };
+};

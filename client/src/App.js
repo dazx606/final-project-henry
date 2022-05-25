@@ -3,7 +3,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import CarDetail from "./pages/CarDetail/CarDetail";
-import NavBar from "./componets/NavBar/NavBar";
+import NavBar from "./components/NavBar/NavBar";
 import CarsSelection from "./pages/CarsSelection/CarsSelection";
 import Contact from "./pages/Contact/Contact";
 
