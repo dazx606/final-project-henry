@@ -39,6 +39,7 @@ const preloadCar = async () => {
                     consumption: c.consumption,
                     engine: c.engine,
                     images: c.images,
+                    rating: c.rating
                 }
             })
             if (newCar[1]) {
