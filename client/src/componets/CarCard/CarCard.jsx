@@ -5,7 +5,7 @@ function CarCard({carId}) {
   return (
     <div>
       CarCard
-      <Link to={`/car/${carId}`}></Link>
+      <Link to={`/car/${carId}`}>go to car detail</Link>
     </div>
   );
 }
