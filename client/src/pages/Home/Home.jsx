@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import LocationFilter from '../../componets/LocationFilter/LocationFilter'
+import LocationFilter from '../../components/LocationFilter/LocationFilter'
 
 function Home() {
     const city = useSelector((state) => state.city)
