@@ -1,11 +1,13 @@
-const { Router } = require('express');
-const { Car, CarType, Location } = require('../db.js')
-const { Op } = require('../db.js');
+const { Router } = require("express");
+const { Op, Car, CarType, Driver, IncludedEquipment, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
+const {  } = require('./controllers.js')
+
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 
 
 const router = Router();
+
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
