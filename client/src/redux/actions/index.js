@@ -1,6 +1,6 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 import axios from 'axios';
-export const GET_LOCATIONS = 'GET_LOCATION';
+export const GET_LOCATIONS = 'GET_LOCATIONS';
 export const SET_CITY = 'SET_CITY';
 
 
