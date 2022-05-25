@@ -17,13 +17,13 @@ class Car {
     }
 }
 
-let car2 = new Car("Luxury", "Porsche", "carrera", 911, 2021, 600, 2, "small", 9.3, 3)
-console.log(car);
+// let car = new Car("Luxury", "Porsche", "carrera", 911, 2021, 600, 2, "small", 9.3, 3)
+// console.log(car);
 
 const aFewHardcodedCars = [
     {
         carType: "Luxury",
-        
+
         license_plate: "98ABC33",
         brand: "Porsche",
         model: "Carrera 911",
@@ -33,7 +33,9 @@ const aFewHardcodedCars = [
         trunk: "small",
         consumption: 9.3,
         engine: 3,
-        images: []
+        images: [],
+
+        location:"Córdoba"
     },
     {
         carType: "Luxury",
@@ -46,7 +48,8 @@ const aFewHardcodedCars = [
         trunk: "medium",
         consumption: 14.3,
         engine: 3.8,
-        images: []
+        images: [],
+        location:"Córdoba"
     },
     {
         carType: "Luxury",
@@ -59,7 +62,8 @@ const aFewHardcodedCars = [
         trunk: "small",
         consumption: 6.9,
         engine: 2,
-        images: []
+        images: [],
+        location:"Guadalajara"
     },
     {
         carType: "Premium",
@@ -72,10 +76,11 @@ const aFewHardcodedCars = [
         trunk: "large",
         consumption: 6.9,
         engine: 2,
-        images: []
+        images: [],
+        location:"Cali"
     },
     {
-        carType: "typoRaro",
+        carType: "Hybrid",
         license_plate: "43PNG61",
         brand: "RenatoRaro",
         model: "rarito",
@@ -85,7 +90,8 @@ const aFewHardcodedCars = [
         trunk: "small",
         consumption: 120.33,
         engine: 8,
-        images: []
+        images: ["estoesunaimagen", "estatambien"],
+        location:"Medellin"
     },
 ]
 
