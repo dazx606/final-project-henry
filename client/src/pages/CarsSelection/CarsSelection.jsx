@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import CarCard from "../../components/CarCard/CarCard";
 import CarFilters from "../../components/CarFilters/CarFilters";
 import LocationFilter from "../../components/LocationFilter/LocationFilter";
-import CarCard from "../../components/CarCard/CarCard";
 
 import styles from "./CarsSelection.module.css";
 

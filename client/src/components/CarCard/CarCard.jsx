@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react router dom";
+import { Link } from "react-router-dom";
 
-function CarCard({carId}) {
+function CarCard({ carId }) {
   return (
     <div>
       CarCard
