@@ -1,0 +1,14 @@
+.selections {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(255, 255, 255);
+  padding: 0.5rem 3rem;
+  border-bottom: 1px solid rgb(185, 185, 185);
+}
+
+.title {
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 500;
+  padding-left: 3rem;
+}

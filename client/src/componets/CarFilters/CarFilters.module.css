@@ -1,0 +1,13 @@
+.select {
+  border: none;
+  outline: none;
+  padding: 5px 5px;
+  font-size: medium;
+  color: rgb(66, 66, 66);
+  margin-left: 5px;
+  background-color: rgb(218, 235, 250);
+}
+
+.filters {
+  display: flex;
+}
