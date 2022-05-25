@@ -8,7 +8,6 @@ const preloadLocation = async () => {
             where: { city: l.city },
             defaults: { city: l.city, latitude: l.latitude, longitude: l.longitude }
         })))
-        console.log(1);
     } catch (error) {
         throw new Error(error);
     }
@@ -16,7 +15,6 @@ const preloadLocation = async () => {
 
 const preloadCar = async () => {
     try {
-        console.log(2);
 
     } catch (error) {
         throw new Error(error);
