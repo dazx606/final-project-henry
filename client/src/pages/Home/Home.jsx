@@ -1,9 +1,25 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import LocationFilter from '../../componets/LocationFilter/LocationFilter'
 
 function Home() {
-  return (
-    <div>Home</div>
-  )
+    const city = useSelector((state) => state.city)
+
+    return (
+        <div>
+            <div>Home</div>
+            <div>
+                <span>Looking for a Car? select a city </span>
+                <LocationFilter />
+                <Link to={`/city/${city}`}>
+                    <button>Go</button>
+                </Link>
+
+            </div>
+
+        </div>
+    )
 }
 
 export default Home
