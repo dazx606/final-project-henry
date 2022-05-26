@@ -1,6 +1,3 @@
-//Datos hard codeados
-// import { locationsArray } from "./hardcoded";
-
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 
 import axios from "axios";
@@ -18,18 +15,31 @@ export function getLocations() {
       console.log(error);
     }
   };
-}
+};
 
-export function getLocationCars() {
+export function getLocationCars(locationId) {
   return async (dispatch) => {
     try {
+<<<<<<< HEAD
       // const response = await axios.get(`${URL}cars`);
       return dispatch({ type: GET_LOCATION_CARS, payload: "por hacer" });
+=======
+      const response = await axios.get(`${URL}locationCars/${locationId}`);
+      let brands = response.data.map((car) => car.brand);
+      brands = [...new Set(brands)];
+      let categories = response.data.map((car) => car.carType.name);
+      categories = [...new Set(categories)];
+      return dispatch({
+        type: GET_LOCATION_CARS,
+        payload: { brands: brands, categories: categories },
+      });
+>>>>>>> 06b81b7a58bc69518d86ceac437244f94e1c945c
     } catch (error) {
       console.log(error);
     }
   };
-}
+};
+
 
 export const setCity = (payload) => {
   return {
