@@ -2,7 +2,7 @@ import { GET_LOCATIONS, GET_LOCATION_CARS, SET_CITY, SEND_MESSAGE } from "../act
 
 const initialState = {
   locations: [],
-  locationCars: [],
+  locationCars: {},
   city: "",
 };
 
