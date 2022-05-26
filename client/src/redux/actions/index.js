@@ -1,6 +1,3 @@
-//Datos hard codeados
-import { locationsArray } from "./hardcoded";
-
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 
 import axios from "axios";
@@ -18,7 +15,7 @@ export function getLocations() {
       console.log(error);
     }
   };
-}
+};
 
 export function getLocationCars() {
   return async (dispatch) => {
@@ -29,7 +26,8 @@ export function getLocationCars() {
       console.log(error);
     }
   };
-}
+};
+
 
 export const setCity = (payload) => {
   return {
