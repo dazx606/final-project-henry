@@ -1,13 +1,23 @@
 .select {
   border: none;
   outline: none;
-  padding: 5px 5px;
+  padding: 0.6rem 0.5rem;
   font-size: medium;
   color: rgb(66, 66, 66);
-  margin-left: 5px;
+  margin-left: 0.5rem;
   background-color: rgb(218, 235, 250);
+  width: 8rem;
 }
 
 .filters {
   display: flex;
+  align-items: center;
+}
+
+.divider {
+  width: 2rem;
+}
+
+.to {
+  margin-left: 0.5rem;
 }

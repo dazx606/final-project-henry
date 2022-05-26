@@ -1,6 +1,3 @@
-//Datos hard codeados
-import { locationsArray } from "./hardcoded";
-
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 
 import axios from "axios";
@@ -20,11 +17,18 @@ export function getLocations() {
   };
 }
 
-export function getLocationCars() {
+export function getLocationCars(locationId) {
   return async (dispatch) => {
     try {
-      //const response = await axios.get(`${URL}cars`)
-      return dispatch({ type: GET_LOCATION_CARS, payload: "por hacer" });
+      const response = await axios.get(`${URL}locationCars/${locationId}`);
+      let brands = response.data.map((car) => car.brand);
+      brands = [...new Set(brands)];
+      let categories = response.data.map((car) => car.carType.name);
+      categories = [...new Set(categories)];
+      return dispatch({
+        type: GET_LOCATION_CARS,
+        payload: { brands: brands, categories: categories },
+      });
     } catch (error) {
       console.log(error);
     }
