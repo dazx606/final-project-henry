@@ -11,7 +11,10 @@ const {
     RentOrder,
     User,
 } = require("../db.js");
+require('dotenv').config();
+const { EMAIL, MIDDLE_EMAIL } = process.env
 const { } = require("./controllers.js");
+const { transporter } = require("../config/mailer")
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -27,6 +30,7 @@ router.get('/cars/:locationId', async (req, res, next) => {
     //PENDIENTE: FILTRADO POR FECHA!
     //date(availableDate)
     const { locationId } = req.params
+    const carsPerPage = 8
 
     try {
         //los tengo como un array de objetos.
@@ -34,8 +38,8 @@ router.get('/cars/:locationId', async (req, res, next) => {
             const categoryName = await CarType.findOne({ where: { name: category } })
             const filterByBoth = await Car.findAll({
                 where: { locationId: locationId, brand: brand, carTypeId: categoryName.id },
-                limit: 6,
-                offset: page * 6,
+                limit: carsPerPage,
+                offset: page * carsPerPage,
                 order: [[orderType, order]],
                 include: [{ model: CarType }, { model: Location }, { model: IncludedEquipment }, { model: OptionalEquipment }]
             })
@@ -44,8 +48,8 @@ router.get('/cars/:locationId', async (req, res, next) => {
         if (brand) {
             const carsByBrand = await Car.findAll({
                 where: { locationId: locationId, brand: brand },
-                limit: 6,
-                offset: page * 6,
+                limit: carsPerPage,
+                offset: page * carsPerPage,
                 order: [[orderType, order]],
                 include: [{ model: CarType }, { model: Location }, { model: IncludedEquipment }, { model: OptionalEquipment }]
             })
@@ -55,8 +59,8 @@ router.get('/cars/:locationId', async (req, res, next) => {
             const categoryName = await CarType.findOne({ where: { name: category } })
             const carsByCategory = await Car.findAll({
                 where: { locationId: locationId, carTypeId: categoryName.id },
-                limit: 6,
-                offset: page * 6,
+                limit: carsPerPage,
+                offset: page * carsPerPage,
                 order: [[orderType, order]],
                 include: [{ model: CarType }, { model: Location }, { model: IncludedEquipment }, { model: OptionalEquipment }]
             })
@@ -65,8 +69,8 @@ router.get('/cars/:locationId', async (req, res, next) => {
         if (orderType) {
             const onlyOrder = await Car.findAll({
                 where: { locationId: locationId },
-                limit: 6,
-                offset: page * 6,
+                limit: carsPerPage,
+                offset: page * carsPerPage,
                 order: [[orderType, order]],
                 include: [{ model: CarType }, { model: Location }, { model: IncludedEquipment }, { model: OptionalEquipment }]
             })
@@ -130,4 +134,26 @@ router.get("/car/:carsId", async (req, res, next) => {
     }
 });
 
+router.post('/send-email', async (req, res, next) => {
+    const { name, email, phone, message, subject } = req.body
+
+    contentHTML = `
+        <h1>User Information</h1>
+        <ul>
+            <li>Name: ${name}</li>
+            <li>User Email: ${email}</li>
+            <li>Phone: ${phone ? phone : 'Number not added'}</li>
+        </ul>
+        <p>${message}</p>
+    `
+
+    const info = await transporter.sendMail({
+        from: `RC G7 Contact Us <${MIDDLE_EMAIL}>`,
+        to: EMAIL,
+        subject: subject ? subject : 'No subject',
+        html: contentHTML,
+        replyTo: email
+    })
+    return res.send('Message sent succesfully')
+})
 module.exports = router;
