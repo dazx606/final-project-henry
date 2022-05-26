@@ -20,10 +20,6 @@ export function getLocations() {
 export function getLocationCars(locationId) {
   return async (dispatch) => {
     try {
-<<<<<<< HEAD
-      // const response = await axios.get(`${URL}cars`);
-      return dispatch({ type: GET_LOCATION_CARS, payload: "por hacer" });
-=======
       const response = await axios.get(`${URL}locationCars/${locationId}`);
       let brands = response.data.map((car) => car.brand);
       brands = [...new Set(brands)];
@@ -33,7 +29,6 @@ export function getLocationCars(locationId) {
         type: GET_LOCATION_CARS,
         payload: { brands: brands, categories: categories },
       });
->>>>>>> 06b81b7a58bc69518d86ceac437244f94e1c945c
     } catch (error) {
       console.log(error);
     }
