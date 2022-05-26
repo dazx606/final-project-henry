@@ -28,6 +28,7 @@ router.get("/locations", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+})
 
 router.get("/locationCars/:locationId", async (req, res, next) => {
   try {
@@ -41,8 +42,9 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+})
 
-router.get("/cars/:carsId", async (req, res, next) => {
+router.get("/car/:carsId", async (req, res, next) => {
   try {
     const { carsId } = req.params;
     const car = await Car.findByPk(carsId, {
