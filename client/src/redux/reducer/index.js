@@ -1,4 +1,4 @@
-import { GET_LOCATIONS, GET_LOCATION_CARS, SET_CITY } from "../actions";
+import { GET_LOCATIONS, GET_LOCATION_CARS, SET_CITY, SEND_MESSAGE } from "../actions";
 
 const initialState = {
   locations: [],
@@ -24,6 +24,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         city: payload,
       };
+
+    case SEND_MESSAGE:
+      return {
+        ...state
+      }
 
     default:
       return { ...state };
