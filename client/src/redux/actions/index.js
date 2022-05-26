@@ -15,7 +15,7 @@ export function getLocations() {
       console.log(error);
     }
   };
-}
+};
 
 export function getLocationCars(locationId) {
   return async (dispatch) => {
@@ -33,7 +33,8 @@ export function getLocationCars(locationId) {
       console.log(error);
     }
   };
-}
+};
+
 
 export const setCity = (payload) => {
   return {

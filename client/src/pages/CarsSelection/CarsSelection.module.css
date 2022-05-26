@@ -15,3 +15,8 @@
   background-color: rgb(255, 255, 255);
   padding: 0.5rem 3rem;
 }
+
+.cardsScreen{
+  display: flex;
+  
+}
