@@ -21,11 +21,19 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
+<<<<<<< HEAD
 router.get("/cars/:locationId", async (req, res, next) => {
   const { brand, category, order, orderType, date, page } = req.query;
   //PENDIENTE: FILTRADO POR FECHA!
   //date(availableDate)
   const { locationId } = req.params;
+=======
+router.get('/cars/:locationId', async (req, res, next) => {
+    const { brand, category, order, orderType, date, page } = req.query
+    //PENDIENTE: FILTRADO POR FECHA!
+    //date(availableDate)
+    const { locationId } = req.params
+>>>>>>> 8d592ab57e1f90a0bba05b0b1e85f7c82949d484
 
   try {
     //los tengo como un array de objetos.
@@ -119,6 +127,7 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
 });
 
 router.get("/locations", async (req, res, next) => {
+<<<<<<< HEAD
   try {
     const locations = await Location.findAll();
     return res.json(locations);
@@ -156,6 +165,45 @@ router.get("/car/:carsId", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+=======
+    try {
+        const locations = await Location.findAll();
+        return res.json(locations);
+    } catch (error) {
+        next(error);
+    }
+})
+
+router.get("/car/:carsId", async (req, res, next) => {
+    try {
+        const { carsId } = req.params;
+        const car = await Car.findByPk(carsId, {
+            include: [
+                {
+                    model: CarType,
+                    as: "carType",
+                    attributes: ["name"],
+                },
+                {
+                    model: Location,
+                    as: "location",
+                },
+                {
+                    model: IncludedEquipment,
+                    as: "includedEquipments",
+                },
+                {
+                    model: OptionalEquipment,
+                    as: "optionalEquipments",
+                },
+            ],
+        });
+        if (!car) return res.status(404).json({ msg: "No corresponding car" });
+        res.json(car);
+    } catch (error) {
+        next(error);
+    }
+>>>>>>> 8d592ab57e1f90a0bba05b0b1e85f7c82949d484
 });
 
 module.exports = router;
