@@ -13,13 +13,7 @@ const {
 } = require("../db.js");
 const {} = require("./controllers.js");
 
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
-
 const router = Router();
-
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
 
 router.get("/cars/:locationId", async (req, res, next) => {
   const { brand, category, order, orderType, date, page } = req.query;

@@ -1,7 +1,7 @@
 const { Op, Car, CarType, Driver, IncludedEquipment, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
 const { locations } = require("./locations");
 const { carTypes } = require("./carTypes");
-const { aFewHardcodedCars } = require("./cars");
+const { generateCars } = require("./cars");
 
 
 const preloadLocation = async () => {
@@ -25,7 +25,8 @@ const preloadCarType = async () => {
 
 const preloadCar = async () => {
     try {
-        await Promise.all(aFewHardcodedCars.map(async c => {
+        const cars = generateCars();
+        await Promise.all(cars.map(async c => {
             const newCar = await Car.findOrCreate({
                 where: { license_plate: c.license_plate },
                 defaults: {
@@ -39,14 +40,15 @@ const preloadCar = async () => {
                     consumption: c.consumption,
                     engine: c.engine,
                     images: c.images,
-                    rating: c.rating
+                    rating: c.rating,
+                    ratingNum: c.ratingNum,
                 }
             })
             if (newCar[1]) {
                 const newCarType = await CarType.findOne({ where: { name: c.carType } });
-                await newCarType.addCar(newCar[0]);
+                if (newCarType) await newCarType.addCar(newCar[0]);
                 const newCarLocation = await Location.findOne({ where: { city: c.location } });
-                await newCarLocation.addCar(newCar[0]);
+                if (newCarLocation) await newCarLocation.addCar(newCar[0]);
             }
         }
         ))
