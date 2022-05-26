@@ -44,7 +44,7 @@ const generateCars = () => {
     }
 
     allCars = [];
-    const addNewCar = (amount, carType, brand, model, year, pricePerDay, passengers, trunk, consumption, engine, images, includedEquipment, opcionalEquipment) => {
+    const addNewCar = (amount, carType, brand, model, year, pricePerDay, passengers, trunk, consumption, engine, includedEquipment, opcionalEquipment, images) => {
         for (let i = 0; i < amount; i++) {
             allCars.push({
                 carType,
@@ -66,6 +66,7 @@ const generateCars = () => {
             })
         }
     }
+    //---------------------el array de imagenes recibe [imagenTarjeta, imagenImponente, etc...]--------------------
     addNewCar(10, "Luxury", "Porsche", "Carrera 911", 2021, 600, 2, "small", 9.3, 3, [], [], []);
     addNewCar(10, "Luxury", "Nissan", "GTR", 2020, 550, 4, "small", 14.3, 3.8, [], [], []);
     addNewCar(12, "Luxury", "Mercedes", "A-45", 2020, 380, 4, "small", 6.9, 2, [], [], []);
