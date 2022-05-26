@@ -14,6 +14,7 @@ class Car {
         this.includedEquipment = includedEquipment;
         this.opcionalEquipment = opcionalEquipment;
 
+
     }
 }
 
@@ -34,13 +35,13 @@ const aFewHardcodedCars = [
         consumption: 9.3,
         engine: 3,
         images: [],
-
+        rating:3,
         location:"Córdoba"
     },
     {
         carType: "Luxury",
         license_plate: "22PSM55",
-        brand: "Porsche",
+        brand: "Nissan",
         model: "GTR",
         year: 2020,
         pricePerDay: 550,
@@ -49,6 +50,7 @@ const aFewHardcodedCars = [
         consumption: 14.3,
         engine: 3.8,
         images: [],
+        rating:4, 
         location:"Córdoba"
     },
     {
