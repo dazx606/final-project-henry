@@ -41,7 +41,7 @@ const aFewHardcodedCars = [
     {
         carType: "Luxury",
         license_plate: "22PSM55",
-        brand: "Nissan",
+        brand: "Porsche",
         model: "GTR",
         year: 2020,
         pricePerDay: 550,
