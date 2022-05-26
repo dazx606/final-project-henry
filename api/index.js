@@ -14,6 +14,7 @@ conn.sync({ force: true }).then(async () => {
     await preloadIncludedEquipment();
     await preloadOptionalEquipment();
     await preloadCar();
+    console.log('Preload done');
   } catch (error) {
     console.log(error);
   }

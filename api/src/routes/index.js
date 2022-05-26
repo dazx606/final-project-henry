@@ -34,7 +34,12 @@ router.get('/cars/:locationId', async (req, res, next) => {
                 limit: carsPerPage,
                 offset: page * carsPerPage,
                 order: [[orderType, order]],
-                include: [{ model: CarType }, { model: Location }, { model: IncludedEquipment }, { model: OptionalEquipment }]
+                include: [
+                    { model: CarType }, 
+                    { model: Location }, 
+                    { model: IncludedEquipment, attributes: ['name'], through: {attributes: []} }, 
+                    { model: OptionalEquipment, attributes: ['name'], through: {attributes: []} }
+                ]
             })
             return res.json(filterByBoth)
         }
@@ -44,7 +49,12 @@ router.get('/cars/:locationId', async (req, res, next) => {
                 limit: carsPerPage,
                 offset: page * carsPerPage,
                 order: [[orderType, order]],
-                include: [{ model: CarType }, { model: Location }, { model: IncludedEquipment }, { model: OptionalEquipment }]
+                include: [
+                    { model: CarType }, 
+                    { model: Location }, 
+                    { model: IncludedEquipment, attributes: ['name'], through: {attributes: []} }, 
+                    { model: OptionalEquipment, attributes: ['name'], through: {attributes: []} }
+                ]
             })
             return res.json(carsByBrand)
         }
@@ -55,7 +65,12 @@ router.get('/cars/:locationId', async (req, res, next) => {
                 limit: carsPerPage,
                 offset: page * carsPerPage,
                 order: [[orderType, order]],
-                include: [{ model: CarType }, { model: Location }, { model: IncludedEquipment }, { model: OptionalEquipment }]
+                include: [
+                    { model: CarType }, 
+                    { model: Location }, 
+                    { model: IncludedEquipment, attributes: ['name'], through: {attributes: []} }, 
+                    { model: OptionalEquipment, attributes: ['name'], through: {attributes: []} }
+                ]
             })
             return res.json(carsByCategory)
         }
@@ -65,7 +80,12 @@ router.get('/cars/:locationId', async (req, res, next) => {
                 limit: carsPerPage,
                 offset: page * carsPerPage,
                 order: [[orderType, order]],
-                include: [{ model: CarType }, { model: Location }, { model: IncludedEquipment }, { model: OptionalEquipment }]
+                include: [
+                    { model: CarType }, 
+                    { model: Location }, 
+                    { model: IncludedEquipment, attributes: ['name'], through: {attributes: []} }, 
+                    { model: OptionalEquipment, attributes: ['name'], through: {attributes: []} }
+                ]
             })
             return res.json(onlyOrder)
         }
@@ -82,8 +102,8 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
       include: [
         { model: CarType },
         { model: Location },
-        { model: IncludedEquipment },
-        { model: OptionalEquipment },
+        { model: IncludedEquipment, attributes: ['name'], through: {attributes: []} },
+        { model: OptionalEquipment, attributes: ['name'], through: {attributes: []} },
       ],
     });
     return res.json(allCars);
@@ -118,10 +138,14 @@ router.get("/car/:carsId", async (req, res, next) => {
         {
           model: IncludedEquipment,
           as: "includedEquipments",
+          attributes: ['name'], 
+          through: {attributes: []}
         },
         {
           model: OptionalEquipment,
           as: "optionalEquipments",
+          attributes: ['name'], 
+          through: {attributes: []}
         },
       ],
     });
