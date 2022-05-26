@@ -14,6 +14,7 @@ class Car {
         this.includedEquipment = includedEquipment;
         this.opcionalEquipment = opcionalEquipment;
 
+
     }
 }
 
@@ -34,7 +35,7 @@ const aFewHardcodedCars = [
         consumption: 9.3,
         engine: 3,
         images: [],
-
+        rating:3,
         location:"Córdoba"
     },
     {
@@ -49,6 +50,7 @@ const aFewHardcodedCars = [
         consumption: 14.3,
         engine: 3.8,
         images: [],
+        rating:4, 
         location:"Córdoba"
     },
     {
