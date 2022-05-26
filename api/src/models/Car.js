@@ -1,9 +1,10 @@
 const { DataTypes } = require('sequelize');
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
-  // defino el modelo
   sequelize.define('car', {
+    license_plate: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
     brand: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -12,9 +13,36 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    license_plate: {
-      type: DataTypes.STRING,
+    year: {
+      type: DataTypes.SMALLINT,
+    },
+    pricePerDay: {
+      type: DataTypes.FLOAT,
       allowNull: false,
     },
-  });
+    passengers: {
+      type: DataTypes.SMALLINT,
+    },
+    trunk: {
+      type: DataTypes.ENUM("small", "medium", "large"),
+    },
+    consumption: {
+      type: DataTypes.FLOAT,
+    },
+    engine: {
+      type: DataTypes.FLOAT,
+    },
+    images: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
+    rating: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
+    },
+    ratingNum: {
+      type: DataTypes.SMALLINT,
+      defaultValue: 0,
+    },
+  }, { timestamps: false });
 };
