@@ -120,8 +120,8 @@ const aFewHardcodedCars = [
         consumption: 9.3,
         engine: 3,
         images: [],
-
-        location: "Córdoba"
+        rating:3,
+        location:"Córdoba"
     },
     {
         carType: "Luxury",
@@ -135,7 +135,8 @@ const aFewHardcodedCars = [
         consumption: 14.3,
         engine: 3.8,
         images: [],
-        location: "Córdoba"
+        rating:4, 
+        location:"Córdoba"
     },
     {
         carType: "Luxury",
