@@ -28,6 +28,7 @@ router.get("/locations", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+})
 
 router.get("/locationCars/:locationId", async (req, res, next) => {
   try {
@@ -41,6 +42,7 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+})
 
 router.get("/car/:carsId", async (req, res, next) => {
   try {
