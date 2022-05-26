@@ -21,7 +21,7 @@ function CarsSelection() {
     consumption: 9.3,
     engine: 3,
     images: [],
-    rating: 3,
+    rating: 3.5,
     ratingNum: 0,
     carTypeId: 2,
     locationId: 3,
@@ -67,9 +67,9 @@ function CarsSelection() {
           />
         </div>
       </div>
-      <div>
+      <div className={styles.cardsScreen}>
         <CarCard carId={car.license_plate} brand={car.brand} model={car.model} pricePerDay={car.pricePerDay} rating={car.rating} 
-        image={'https://medias.fcacanada.ca/jellies/renditions/2022/800x510/CC22_WDEL75_2TB_PW7_APA_XXX_XXX_XXX.39b8b4c917c321aef46dc539d4d6bd9d.png'}  />
+        image={'https://www.pngarts.com/files/4/Porsche-PNG-Image-Transparent-Background.png'}  />
       </div>
     </div>
   );

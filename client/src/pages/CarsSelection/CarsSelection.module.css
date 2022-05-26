@@ -12,3 +12,8 @@
   font-weight: 500;
   padding-left: 3rem;
 }
+
+.cardsScreen{
+  display: flex;
+  
+}
