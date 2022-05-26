@@ -40,7 +40,8 @@ function CarsSelection() {
   const [selection, setSelection] = useState({
     orderType: "pricePerDay",
     order: "ASC",
-    date: "",
+    startDate: "",
+    endDate: "",
     carType: "", //category
     brand: "",
   });
