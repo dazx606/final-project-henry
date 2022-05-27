@@ -1,12 +1,8 @@
-.homeCont{
-    min-width: 100vw;
-    min-height: 90vh;
-    
-}
+
 .slCityT {
     margin-left: 16px;
     height: 100%;
-    color: var(--color4);
+    color: var(--color1);
     font-family: var(--font3);
     font-size: 1.3rem;
     font-weight: 500;
@@ -32,4 +28,8 @@
     align-items: center;
     align-content: center;
     margin-top: 16px;
+<<<<<<< HEAD
+=======
+    margin-bottom: 16px;
+>>>>>>> 19aeb7513ab14c0ed6823239a2a9d91e3e725d88
 }

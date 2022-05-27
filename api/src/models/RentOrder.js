@@ -6,11 +6,11 @@ ya que la reserva puede ser o no modificada */
 module.exports = (sequelize) => {
     sequelize.define('rentOrder', {
         startingDate: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
             allowNull: false
         },
         endingDate: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.STRING,
             allowNull: false
         }
     })
