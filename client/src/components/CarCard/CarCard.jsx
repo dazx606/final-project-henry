@@ -8,10 +8,7 @@ function CarCard({ carId, brand, model, pricePerDay, rating, image }) {
   const yellowStars = Math.floor(rating);
   const greyStars = Math.floor(totalStars - rating);
   const halfStar = Number.isInteger(rating);
-  console.log(greyStars)
-
-
-
+  
   return (
     <div className={styles.cardCont}>
 
@@ -28,7 +25,7 @@ function CarCard({ carId, brand, model, pricePerDay, rating, image }) {
           })
           }
           {!halfStar && <div className={styles.starH}><i className="fa-regular fa-star-half-stroke"></i></div>}
-          {greyStars && [...Array(greyStars)].map((i) => {
+          {greyStars!==0 && [...Array(greyStars)].map((i) => {
             return (
               <div className={styles.starG} key={i}><i className="fa-regular fa-star"></i></div>
             )

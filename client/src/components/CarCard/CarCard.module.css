@@ -1,15 +1,17 @@
 .cardCont {
-    width: 22rem;
+    margin-top: 3rem;
+    width: 20rem;
     height: 24rem;
     border:1px solid;
     border-color: var(--color1);
     background-color: var(--color3);
     border-radius: 4px;   
+    box-shadow:  4px 4px 12px 0px var(--color1Tr);
 
 }
 .photoContent{
     display:flex;
-    width: 22rem;
+    width: 20rem;
     height: 15rem;
     justify-content: center;
     margin-left: auto;
@@ -18,7 +20,7 @@
 
 .cardImg{
     object-fit: contain;
-    max-width: 22rem;
+    max-width: 18rem;
     max-height: 15rem;    
 
 }
@@ -27,7 +29,7 @@
      
 }
 .carTitle{
-    margin-left: 16px;
+    margin-left: 22px;
     margin-top: 8px;
     font-family: var(--font1);
     font-size: 1.3rem;
@@ -36,7 +38,7 @@
 }
 
 .carPrice{
-    margin-left: 16px;
+    margin-left: 22px;
     margin-top: 12px;
     font-family: var(--font1);
     font-size: 1rem;
@@ -46,9 +48,10 @@
 
 .starsCont{
     display: flex;
-    margin-left: 16px;
+    margin-left: 22px;
     margin-top: 8px;
     font-size: 1.1rem;
-    color: rgb(227, 211, 36);
+    color: var(--color4)
+    /* color: rgb(227, 211, 36); */
 }
 
