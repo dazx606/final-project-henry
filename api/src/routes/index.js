@@ -19,7 +19,7 @@ const { transporter } = require("../config/mailer")
 const router = Router();
 
 router.get('/cars/:locationId', async (req, res, next) => {
-    const { brand, category, order, orderType, date, page } = req.query
+    const { brand, category, order, orderType, startDate, endDate, page } = req.query
     //PENDIENTE: FILTRADO POR FECHA!
     //date(availableDate)
     const { locationId } = req.params
