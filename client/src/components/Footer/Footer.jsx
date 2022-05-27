@@ -26,7 +26,7 @@ export default function Footer() {
 
                 <i className={`fa-brands fa-twitter ${styles.icon}`}></i>
 
-                <i class={`fa-brands fa-instagram ${styles.icon}`}></i>
+                <i className={`fa-brands fa-instagram ${styles.icon}`}></i>
 
                 <p>rent a car</p>
 
