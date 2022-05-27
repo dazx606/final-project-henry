@@ -1,0 +1,32 @@
+
+.slCityT {
+    margin-left: 16px;
+    height: 100%;
+    color: var(--color1);
+    font-family: var(--font3);
+    font-size: 1.3rem;
+    font-weight: 500;
+    align-content: center;
+    padding-top: 4px;
+}
+
+.goBtn {
+    width: 2.5rem;
+    height: 2rem;
+    border: solid 1px;
+    border-color: var(--color2);
+    background-color: var(--color3);
+    border-radius: 8px;
+    font-family: var(--font3);
+    font-weight: 600;
+}
+
+.slctBar {
+    width: 90vw;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}

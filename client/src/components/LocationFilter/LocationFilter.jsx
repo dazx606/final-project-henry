@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getLocations, setCity } from '../../redux/actions';
+import styles from './LocationFilter.module.css';
 
 function LocationFilter() {
   
@@ -23,11 +24,11 @@ function LocationFilter() {
 
 
   return (
-    <select value={city} onChange={handleLocChange} >
-      <option hidden>City</option>
+    <select className={styles.citySelect} value={city} onChange={handleLocChange} >
+      <option className={styles.cityOptions} hidden>City</option>
       {
         locations?.map(l =>
-          <option key={l.city} value={l.id}>{l.city}</option>
+          <option className={styles.cityOptions} key={l.city} value={l.id}>{l.city}</option>
         )
       }
     </select>
