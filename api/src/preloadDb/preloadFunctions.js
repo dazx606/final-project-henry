@@ -4,6 +4,9 @@ const { carTypes } = require("./carTypes");
 const { includedEquipments } = require("./includedEquipments");
 const { optionalEquipments } = require("./optionalEquipments");
 const { generateCars } = require("./cars");
+const { drivers } = require("./drivers");
+const { users } = require("./users");
+const { rentOrders } = require("./rentOrders");
 
 
 const preloadLocation = async () => {
@@ -42,6 +45,7 @@ const preloadOptionalEquipment = async () => {
 };
 
 const preloadCar = async () => {
+
     try {
         const cars = generateCars();
         await Promise.all(cars.map(async c => {
@@ -83,10 +87,70 @@ const preloadCar = async () => {
     }
 };
 
+const preloadDriver = async () => {
+    try {
+        await Promise.all(drivers.map(d => Driver.findOrCreate({
+            where: { firstName: d.firstName },
+            defaults: { firstName: d.firstName, lastName: d.lastName }
+        })))
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const preloadUser = async () => {
+    try {
+        await Promise.all(users.map(async u => {
+            const newUser = await User.findOrCreate({
+                where: { email: u.email },
+                defaults: { email: u.email, password: u.password, phone: u.phone, language: u.language, admin: u.admin }
+            })
+            if (newUser[1] && u.drivers?.length) {
+                await Promise.all(u.drivers.map((d) => Driver.findOne({ where: { firstName: d } })))
+                    .then(driver => newUser[0].addDrivers(driver))
+            }
+        }))
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const preloadRentOrder = async () => {
+    try {
+        await Promise.all(rentOrders.map(async r => {
+            const newRentOrder = await RentOrder.findOrCreate({
+                where: { startingDate: r.startingDate },
+                defaults: { startingDate: r.startingDate, endingDate: r.endingDate }
+            })
+            if (newRentOrder[1]) {
+                const user = await User.findOne({ where: { email: r.user } });
+                await user.addRentOrder(newRentOrder[0]);
+                if (r.drivers?.length) {
+                    await Promise.all(r.drivers.map((d) => Driver.findOne({ where: { firstName: d } })))
+                        .then(driver => newRentOrder[0].addDrivers(driver))
+                }
+                const car = await Car.findOne({ where: { model: r.car } });
+                await car.addRentOrder(newRentOrder[0]);
+                if (r.optionalEquipment?.length) {
+                    await Promise.all(r.optionalEquipment.map((e) => OptionalEquipment.findOne({ where: { name: e } })))
+                        .then(equip => newRentOrder[0].addOptionalEquipments(equip))
+                }
+                const location = await Location.findOne({ where: { city: r.endLocation } });
+                await location.addRentOrder(newRentOrder[0]);
+            }
+        }))
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 module.exports = {
     preloadLocation,
     preloadCarType,
     preloadIncludedEquipment,
     preloadOptionalEquipment,
     preloadCar,
+    preloadDriver,
+    preloadUser,
+    preloadRentOrder,
 }
