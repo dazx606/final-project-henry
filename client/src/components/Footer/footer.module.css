@@ -3,7 +3,7 @@
   margin-top: auto;
   color: white;
   display: flex;
-  padding:10px;
+  padding: 10px;
   align-items: center;
   justify-content: space-evenly;
 }
@@ -30,9 +30,12 @@
   display: inline-block;
   padding: 5px;
 }
-.map{
-    border-left: 1px groove  white;
-    padding-left:70px;
-    padding:30px;
-    
+.map {
+  border-left: 1px groove white;
+  padding-left: 70px;
+  padding: 30px;
+}
+.mapContainer {
+  width: 300px;
+  height: 150px;
 }

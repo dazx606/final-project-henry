@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import LocationFilter from '../../components/LocationFilter/LocationFilter'
 import styles from './Home.module.css'
-import Footer from "../../components/Footer/Footer";
+
 import Carousel from "../../components/Carousel/Carousel";
 
 function Home() {
