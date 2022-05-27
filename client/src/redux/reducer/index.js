@@ -1,9 +1,15 @@
-import { GET_LOCATIONS, GET_LOCATION_CARS, SET_CITY } from "../actions";
+import {
+  GET_LOCATIONS,
+  GET_LOCATION_CARS,
+  SET_CITY,
+  GET_CAR_DETAILS,
+} from "../actions";
 
 const initialState = {
   locations: [],
   locationCars: {},
   city: "",
+  carDetails: [],
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -18,13 +24,16 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         locationCars: payload,
       };
-
     case SET_CITY:
       return {
         ...state,
         city: payload,
       };
-
+    case GET_CAR_DETAILS:
+      return {
+        ...state,
+        carDetails: payload,
+      };
     default:
       return { ...state };
   }

@@ -4,6 +4,7 @@ import axios from "axios";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
+export const GET_CAR_DETAILS = "GET_CAR_DETAILS";
 const URL = "http://localhost:3001/";
 
 export function getLocations() {
@@ -41,3 +42,14 @@ export const setCity = (payload) => {
     payload,
   };
 };
+
+export function getCarDetails(carId) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URL}car/${carId}`);
+      return dispatch({ type: GET_CAR_DETAILS, payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
