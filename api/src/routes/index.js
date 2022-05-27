@@ -15,94 +15,42 @@ router.get("/cars/:locationId", async (req, res, next) => {
   const carsPerPage = 8;
 
   try {
-    //los tengo como un array de objetos.
-    if (category && brand) {
-
-      const categoryName = await CarType.findOne({ where: { name: category } });
-      const filterByBoth = await Location.findByPk(
-        locationId,
-        {
-          include: [
-            {
-              model: CarModel,
-              where: { brand: brand, carTypeId: categoryName.id },
-              limit: carsPerPage,
-              offset: page * carsPerPage,
-              order: [[orderType, order]],
-              through: { attributes: [] },
-              include: [
-                { model: CarType },
-                { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
-                { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
-              ]
-            },
-          ]
-        }
-      )
-
-
-
-      // const categoryName = await CarType.findOne({ where: { name: category } });
-      // const filterByBoth = await CarModel.findAll({
-      //   where: { locationId: locationId, brand: brand, carTypeId: categoryName.id },
-      //   limit: carsPerPage,
-      //   offset: page * carsPerPage,
-      //   order: [[orderType, order]],
-      //   include: [
-      //     { model: CarType },
-      //     { model: Location },
-      //     { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
-      //     { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
-      //   ],
-      // });
-      return res.json(filterByBoth);
-    }
-    if (brand) {
-      const carsByBrand = await CarModel.findAll({
-        where: { locationId: locationId, brand: brand },
-        limit: carsPerPage,
-        offset: page * carsPerPage,
-        order: [[orderType, order]],
+    let carLocation = await Location.findByPk(
+      locationId,
+      {
         include: [
-          { model: CarType },
-          { model: Location },
-          { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
-          { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
-        ],
-      });
-      return res.json(carsByBrand);
+          {
+            model: CarModel,
+            through: { attributes: [] },
+            include: [
+              { model: CarType },
+              { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
+              { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
+            ]
+          },
+        ]
+      }
+    )
+    carLocation = carLocation.carModels.map(c => {
+      return {
+        ...c.dataValues,
+        carType: c.carType.dataValues.name,
+        includedEquipments: c.includedEquipments.map(e => e.dataValues.name),
+        optionalEquipments: c.optionalEquipments.map(e => e.dataValues.name),
+      }
+    });
+
+    if(brand) carLocation = carLocation.filter(c => c.brand === brand);
+    if(category) carLocation = carLocation.filter(c => c.carType === category);
+
+    if (orderType === "rating") {
+      carLocation.sort((a, b) => a.rating - b.rating);
+    } else {
+      carLocation.sort((a, b) => a.pricePerDay - b.pricePerDay);
     }
-    if (category) {
-      const categoryName = await CarType.findOne({ where: { name: category } });
-      const carsByCategory = await CarModel.findAll({
-        where: { locationId: locationId, carTypeId: categoryName.id },
-        limit: carsPerPage,
-        offset: page * carsPerPage,
-        order: [[orderType, order]],
-        include: [
-          { model: CarType },
-          { model: Location },
-          { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
-          { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
-        ],
-      });
-      return res.json(carsByCategory);
-    }
-    if (orderType) {
-      const onlyOrder = await CarModel.findAll({
-        where: { locationId: locationId },
-        limit: carsPerPage,
-        offset: page * carsPerPage,
-        order: [[orderType, order]],
-        include: [
-          { model: CarType },
-          { model: Location },
-          { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
-          { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
-        ],
-      });
-      return res.json(onlyOrder);
-    }
+    if (order === "DESC") carLocation.reverse();
+
+    return res.json(carLocation);
   } catch (error) {
     next(error);
   }
@@ -116,9 +64,9 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
       {
         include: [
           {
-            model: CarModel, through: { attributes: [] }, include: [
-              { model: CarType },
-            ]
+            model: CarModel,
+            through: { attributes: [] },
+            include: [{ model: CarType }]
           },
         ]
       }

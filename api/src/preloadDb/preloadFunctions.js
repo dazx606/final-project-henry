@@ -69,9 +69,7 @@ const preloadCar = async () => {
                 defaults: { license_plate: c.license_plate, year: c.year }
             })
             if (newIndividualCar[1]) {
-                // await newIndividualCar[0].addCarModel(newModel[0]);
                 await newModel[0].addIndividualCar(newIndividualCar[0]);
-
                 const newCarLocation = await Location.findOne({ where: { city: c.location }});
                 if (newCarLocation) {
                     await newCarLocation.addIndividualCar(newIndividualCar[0]);
