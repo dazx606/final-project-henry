@@ -1,9 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import styles from "./AboutUs.module.css";
 
 export default function AboutUs() {
     return (
-        <div>
+        <div className={styles.container}>
             <div>
                 <div>
                     <h3>About Us</h3>
