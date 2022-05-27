@@ -1,19 +1,8 @@
 const { Router } = require("express");
-const {
-  Op,
-  Car,
-  CarType,
-  Driver,
-  IncludedEquipment,
-  Location,
-  OptionalEquipment,
-  Payment,
-  RentOrder,
-  User,
-} = require("../db.js");
+const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL } = process.env;
-const {} = require("./controllers.js");
+const { } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 
 const router = Router();
@@ -28,23 +17,48 @@ router.get('/cars/:locationId', async (req, res, next) => {
   try {
     //los tengo como un array de objetos.
     if (category && brand) {
+
       const categoryName = await CarType.findOne({ where: { name: category } });
-      const filterByBoth = await Car.findAll({
-        where: { locationId: locationId, brand: brand, carTypeId: categoryName.id },
-        limit: carsPerPage,
-        offset: page * carsPerPage,
-        order: [[orderType, order]],
-        include: [
-          { model: CarType },
-          { model: Location },
-          { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
-          { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
-        ],
-      });
+      const filterByBoth = await Location.findByPk(
+        locationId,
+        {
+          include: [
+            {
+              model: CarModel,
+              where: { brand: brand, carTypeId: categoryName.id },
+              limit: carsPerPage,
+              offset: page * carsPerPage,
+              order: [[orderType, order]],
+              through: { attributes: [] },
+              include: [
+                { model: CarType },
+                { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
+                { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
+              ]
+            },
+          ]
+        }
+      )
+
+
+
+      // const categoryName = await CarType.findOne({ where: { name: category } });
+      // const filterByBoth = await CarModel.findAll({
+      //   where: { locationId: locationId, brand: brand, carTypeId: categoryName.id },
+      //   limit: carsPerPage,
+      //   offset: page * carsPerPage,
+      //   order: [[orderType, order]],
+      //   include: [
+      //     { model: CarType },
+      //     { model: Location },
+      //     { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
+      //     { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
+      //   ],
+      // });
       return res.json(filterByBoth);
     }
     if (brand) {
-      const carsByBrand = await Car.findAll({
+      const carsByBrand = await CarModel.findAll({
         where: { locationId: locationId, brand: brand },
         limit: carsPerPage,
         offset: page * carsPerPage,
@@ -60,7 +74,7 @@ router.get('/cars/:locationId', async (req, res, next) => {
     }
     if (category) {
       const categoryName = await CarType.findOne({ where: { name: category } });
-      const carsByCategory = await Car.findAll({
+      const carsByCategory = await CarModel.findAll({
         where: { locationId: locationId, carTypeId: categoryName.id },
         limit: carsPerPage,
         offset: page * carsPerPage,
@@ -75,7 +89,7 @@ router.get('/cars/:locationId', async (req, res, next) => {
       return res.json(carsByCategory);
     }
     if (orderType) {
-      const onlyOrder = await Car.findAll({
+      const onlyOrder = await CarModel.findAll({
         where: { locationId: locationId },
         limit: carsPerPage,
         offset: page * carsPerPage,
@@ -97,16 +111,23 @@ router.get('/cars/:locationId', async (req, res, next) => {
 router.get("/locationCars/:locationId", async (req, res, next) => {
   const { locationId } = req.params;
   try {
-    const allCars = await Car.findAll({
-      where: { locationId: locationId },
-      include: [
-        { model: CarType },
-        { model: Location },
-        { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
-        { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
-      ],
-    });
-    return res.json(allCars);
+    const locationCarModels = await Location.findByPk(
+      locationId,
+      {
+        include: [
+          {
+            model: CarModel, through: { attributes: [] }, include: [
+              { model: CarType },
+            ]
+          },
+        ]
+      }
+    )
+    let brands = locationCarModels.carModels.map((car) => car.brand);
+    brands = [...new Set(brands)];
+    let categories = locationCarModels.carModels.map((car) => car.carType.name);
+    categories = [...new Set(categories)];
+    return res.json({ brands, categories });
   } catch (error) {
     next(error);
   }
@@ -121,19 +142,15 @@ router.get("/locations", async (req, res, next) => {
   }
 });
 
-router.get("/car/:carsId", async (req, res, next) => {
+router.get("/car/:modelId", async (req, res, next) => {
   try {
-    const { carsId } = req.params;
-    const car = await Car.findByPk(carsId, {
+    const { modelId } = req.params;
+    const car = await CarModel.findByPk(modelId, {
       include: [
         {
           model: CarType,
           as: "carType",
           attributes: ["name"],
-        },
-        {
-          model: Location,
-          as: "location",
         },
         {
           model: IncludedEquipment,
