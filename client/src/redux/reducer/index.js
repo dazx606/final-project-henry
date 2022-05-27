@@ -3,6 +3,7 @@ import {
   GET_LOCATION_CARS,
   SET_CITY,
   GET_CAR_DETAILS,
+  SEND_MESSAGE,
 } from "../actions";
 
 const initialState = {
@@ -34,6 +35,12 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         carDetails: payload,
       };
+
+    case SEND_MESSAGE:
+      return {
+        ...state,
+      };
+
     default:
       return { ...state };
   }

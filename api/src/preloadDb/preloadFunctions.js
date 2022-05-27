@@ -1,6 +1,8 @@
 const { Op, Car, CarType, Driver, IncludedEquipment, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
 const { locations } = require("./locations");
 const { carTypes } = require("./carTypes");
+const { includedEquipments } = require("./includedEquipments");
+const { optionalEquipments } = require("./optionalEquipments");
 const { generateCars } = require("./cars");
 
 
@@ -18,6 +20,22 @@ const preloadLocation = async () => {
 const preloadCarType = async () => {
     try {
         await Promise.all(carTypes.map(t => CarType.findOrCreate({ where: { name: t }, })))
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const preloadIncludedEquipment = async () => {
+    try {
+        await Promise.all(includedEquipments.map(e => IncludedEquipment.findOrCreate({ where: { name: e }, })))
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const preloadOptionalEquipment = async () => {
+    try {
+        await Promise.all(optionalEquipments.map(e => OptionalEquipment.findOrCreate({ where: { name: e }, })))
     } catch (error) {
         throw new Error(error);
     }
@@ -49,6 +67,14 @@ const preloadCar = async () => {
                 if (newCarType) await newCarType.addCar(newCar[0]);
                 const newCarLocation = await Location.findOne({ where: { city: c.location } });
                 if (newCarLocation) await newCarLocation.addCar(newCar[0]);
+                if (c.includedEquipment.length) {
+                    await Promise.all(c.includedEquipment.map((e) => IncludedEquipment.findOne({ where: { name: e } })))
+                        .then(equipments => newCar[0].addIncludedEquipments(equipments))
+                }
+                if (c.opcionalEquipment.length) {
+                    await Promise.all(c.opcionalEquipment.map((e) => OptionalEquipment.findOne({ where: { name: e } })))
+                        .then(equipments => newCar[0].addOptionalEquipments(equipments))
+                }
             }
         }
         ))
@@ -60,5 +86,7 @@ const preloadCar = async () => {
 module.exports = {
     preloadLocation,
     preloadCarType,
+    preloadIncludedEquipment,
+    preloadOptionalEquipment,
     preloadCar,
 }
