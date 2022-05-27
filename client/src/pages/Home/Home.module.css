@@ -1,8 +1,4 @@
-.homeCont{
-    min-width: 100vw;
-    min-height: 90vh;
-    
-}
+
 .slCityT {
     margin-left: 16px;
     height: 100%;
@@ -32,4 +28,5 @@
     align-items: center;
     align-content: center;
     margin-top: 16px;
+    margin-bottom: 16px;
 }
