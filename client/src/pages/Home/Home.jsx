@@ -5,6 +5,7 @@ import LocationFilter from '../../components/LocationFilter/LocationFilter'
 import styles from './Home.module.css'
 import Footer from "../../components/Footer/Footer";
 import Carousel from "../../components/Carousel/Carousel";
+import Categories from '../../components/Categories/Categories'
 
 function Home() {
     const city = useSelector((state) => state.city);
@@ -19,6 +20,7 @@ function Home() {
                 </Link>
             </div>
             <Carousel />
+            <Categories/>
         </div>
     )
 
