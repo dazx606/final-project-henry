@@ -12,7 +12,7 @@ function NavBar() {
             <label htmlFor="btn-nav" className={styles.btnLabel}>
               <div className={styles.headerButton}></div>
             </label>
-            <h1>RENT A CAR</h1>
+            <NavLink className={styles.tittle} to="/"><h1>RENT A CAR</h1></NavLink>
             <NavLink to="/login" className={styles.icon}>
               <i className="fa-solid fa-user"></i>
             </NavLink>

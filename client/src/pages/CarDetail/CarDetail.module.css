@@ -1,0 +1,151 @@
+.container {
+  padding: 1rem 3rem;
+  position: relative;
+}
+
+.mainimagecontainer {
+  width: 100%;
+  height: 35rem;
+  padding: 0 auto;
+}
+
+.mainimage {
+  display: block;
+  margin: auto;
+  object-fit: cover;
+  object-position: 0 -340px;
+  width: 100%;
+  height: 100%;
+}
+
+.options {
+  width: 100%;
+  height: 30rem;
+  display: flex;
+}
+
+.carinfo {
+  padding: 1rem;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: auto;
+}
+
+.text {
+  font-size: 1.5rem;
+  text-align: justify;
+}
+
+.moreinfo {
+  width: 100%;
+}
+
+.accessories {
+  width: 100%;
+  background-color: antiquewhite;
+  height: 70%;
+}
+
+.rating {
+  width: 100%;
+  background-color: aliceblue;
+  height: 30%;
+}
+
+.caroptions {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.reserve {
+  font-size: 2rem;
+  width: 100%;
+  padding: 0.5rem 3rem;
+}
+
+.extraimages {
+  width: 90%;
+  height: 20rem;
+  display: flex;
+  margin: 0 auto;
+}
+
+.first {
+  width: 100%;
+  height: 100%;
+}
+
+.one {
+  display: block;
+  margin: auto;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.second {
+  width: 100%;
+  height: 100%;
+}
+
+.firstsplit {
+  width: 100%;
+  height: 50%;
+}
+
+.two {
+  display: block;
+  margin: auto;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.secondsplit {
+  width: 100%;
+  height: 50%;
+}
+
+.three {
+  display: block;
+  margin: auto;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.third {
+  width: 100%;
+  display: flex;
+  height: 100%;
+}
+
+.thirdsplit {
+  width: 100%;
+  height: 100%;
+}
+
+.four {
+  display: block;
+  margin: auto;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.fourthsplit {
+  width: 100%;
+  height: 100%;
+}
+
+.five {
+  display: block;
+  margin: auto;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}

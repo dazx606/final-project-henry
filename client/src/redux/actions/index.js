@@ -4,6 +4,8 @@ import axios from "axios";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
+export const GET_FILTERED_CARS = 'GET_FILTERED_CARS';
+export const GET_CAR_DETAILS = "GET_CAR_DETAILS";
 export const SEND_MESSAGE = "SEND_MESSAGE";
 const URL = "http://localhost:3001/";
 
@@ -16,7 +18,7 @@ export function getLocations() {
       console.log(error);
     }
   };
-};
+}
 
 export function getLocationCars(locationId) {
   return async (dispatch) => {
@@ -36,6 +38,24 @@ export function getLocationCars(locationId) {
   };
 };
 
+export function getFilteredCars({ brand, carType, order, startDate, endDate, orderType, page }, locationId) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URL}cars/${locationId}?brand=${brand}&category=${carType}&order=${order}&orderType=${orderType}&page=${page}`);
+      const cars = response.data;
+          
+      return dispatch({
+        type: GET_FILTERED_CARS,
+        payload: cars
+      })
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
 
 export const setCity = (payload) => {
   return {
@@ -44,16 +64,27 @@ export const setCity = (payload) => {
   };
 };
 
+export function getCarDetails(carId) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URL}car/${carId}`);
+      return dispatch({ type: GET_CAR_DETAILS, payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function sendMessage(payload) {
   return async (dispatch) => {
     try {
       const response = await axios.post(`${URL}send-email`, payload);
-      return dispatch({ 
-        type: SEND_MESSAGE, 
-        payload: response.data
-      })
+      return dispatch({
+        type: SEND_MESSAGE,
+        payload: response.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }

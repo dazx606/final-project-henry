@@ -1,6 +1,6 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
-const { preloadLocation, preloadCarType, preloadIncludedEquipment, preloadOptionalEquipment, preloadCar } = require("./src/preloadDb/preloadFunctions")
+const { preloadLocation, preloadCarType, preloadIncludedEquipment, preloadOptionalEquipment, preloadCar, preloadDriver, preloadUser, preloadRentOrder } = require("./src/preloadDb/preloadFunctions")
 const PORT = process.env.PORT || 3001;
 
 // Syncing all the models at once.
@@ -14,7 +14,10 @@ conn.sync({ force: true }).then(async () => {
     await preloadIncludedEquipment();
     await preloadOptionalEquipment();
     await preloadCar();
-    console.log('Preload done');
+    await preloadDriver();
+    await preloadUser();
+    await preloadRentOrder();
+    console.log("Preload done");
   } catch (error) {
     console.log(error);
   }
