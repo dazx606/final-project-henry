@@ -1,0 +1,38 @@
+.footer {
+  background-color: #242424;
+  margin-top: auto;
+  color: white;
+  display: flex;
+  padding:10px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.navLinks {
+  color: white;
+  font-family: sans-serif;
+  text-decoration: none;
+  padding: 5px 0;
+  display: inline-block;
+}
+.links {
+  display: flex;
+  padding-right: 50px;
+  flex-direction: column;
+}
+.icons {
+  font-family: sans-serif;
+}
+.info {
+  padding: 5px 0;
+}
+.icon {
+  display: inline-block;
+  padding: 5px;
+}
+.map{
+    border-left: 1px groove  white;
+    padding-left:70px;
+    padding:30px;
+    
+}
