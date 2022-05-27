@@ -1,10 +1,18 @@
-import { GET_FILTERED_CARS, GET_LOCATIONS, GET_LOCATION_CARS, SET_CITY } from "../actions";
+import {
+  GET_FILTERED_CARS,
+  GET_LOCATIONS,
+  GET_LOCATION_CARS,
+  SET_CITY,
+  GET_CAR_DETAILS,
+  SEND_MESSAGE,
+} from "../actions";
 
 const initialState = {
   locations: [],
   locationCars: {},
   city: "",
   filteredCars: [],
+  carDetails: [],
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -41,6 +49,16 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         city: payload,
+      };
+    case GET_CAR_DETAILS:
+      return {
+        ...state,
+        carDetails: payload,
+      };
+
+    case SEND_MESSAGE:
+      return {
+        ...state,
       };
 
     default:
