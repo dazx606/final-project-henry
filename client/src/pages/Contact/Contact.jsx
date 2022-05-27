@@ -3,12 +3,12 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import { useDispatch } from 'react-redux';
 import styles from "./Contact.module.css";
 import { sendMessage } from '../../redux/actions';
-const API_KEY = "AIzaSyDk5HhDM2Z_QGoh8ScG5pAM9-OXs9mjOCY";
+const apiKEY = process.env.REACT_APP_API_KEY;
 
 function Contact() {
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: API_KEY,
+    googleMapsApiKey: apiKEY,
   });
 
   return (
@@ -26,6 +26,7 @@ function Contact() {
           <p>Bellow you will find our office location. You can also review then on the map so you can easily find us. If you need a vehicle delivered on your door just contact us.</p>
         </div>
         <div>
+        {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3275.639918433856!2d-58.53701708489385!3d-34.81499997621464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcd0f4e2dea557%3A0xf19b6f81d441cc3b!2sAeropuerto%20Internacional%20Ezeiza!5e0!3m2!1ses!2sar!4v1653610621032!5m2!1ses!2sar" width="400" height="300" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
           {
             !isLoaded ? (<div>Loading...</div>) : <Map />
           }
@@ -41,9 +42,12 @@ function Contact() {
 function Map() {
   const center = useMemo(() => ({ lat: -34.81204911758577, lng: -58.53459236831713 }), []);
   return (
-    <GoogleMap zoom={10} center={center} mapContainerClassName={styles.mapContainer}>
-      <Marker position={{ lat: -34.81204911758577, lng: -58.53459236831713 }} />
-    </GoogleMap>
+    <div>
+      <GoogleMap zoom={14} center={center} mapContainerClassName={styles.mapContainer}>
+        <Marker position={center} title='Aeropuerto Internacional Ezeiza'/>
+      </GoogleMap>
+      
+    </div>
   )
 }
 
@@ -52,13 +56,13 @@ function validate(input) {
 
   if (!input.name) {
     errors.name = 'Full name is required.';
-  } else if (!/^[a-z A-z]+$/.test(input.name)) {
+  } else if (!/^[a-z A-Z]+$/.test(input.name)) {
     errors.name = 'You have entered an invalid full name!';
   } else if (!input.email) {
     errors.email = 'Email is required.';
   } else if (!/\S+@\S+\.\S+/.test(input.email)) {
     errors.email = 'You have entered an invalid email address!';
-  } else if (!/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(input.phone)) {
+  } else if (input.phone && !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(input.phone)) {
     errors.phone = 'You have entered an invalid phone number!';
   } else if (!input.message) {
     errors.message = 'Message is required.'
@@ -78,6 +82,7 @@ function Form() {
     name: '',
     email: '',
     phone: '',
+    subject: '',
     message: ''
   });
 
@@ -108,7 +113,6 @@ function Form() {
     if (
       !errors.hasOwnProperty("name") &&
       !errors.hasOwnProperty("email") &&
-      !errors.hasOwnProperty("phone") &&
       !errors.hasOwnProperty("message") &&
       !errors.hasOwnProperty("subject") &&
       input.name &&
@@ -126,7 +130,7 @@ function Form() {
       <h3>Please fill out the form below</h3>
       <form onSubmit={e => handleSubmit(e)}>
         <div>
-          <label>Full name*:</label>
+          <label>Full name*: </label>
           <input type="text" value={input.name} name='name' onChange={e => handleChange(e)} />
           {
             errors.name &&
@@ -134,7 +138,7 @@ function Form() {
           }
         </div>
         <div>
-          <label>Email*:</label>
+          <label>Email*: </label>
           <input type="email" value={input.email} name='email' onChange={e => handleChange(e)} />
           {
             errors.email &&
@@ -142,7 +146,7 @@ function Form() {
           }
         </div>
         <div>
-          <label>Phone:</label>
+          <label>Phone: </label>
           <input type="number" value={input.phone} name='phone' onChange={e => handleChange(e)} />
           {
             errors.phone &&
@@ -150,7 +154,7 @@ function Form() {
           }
         </div>
         <div>
-          <label>Subject:</label>
+          <label>Subject: </label>
           <input type="text" value={input.subject} name='subject' onChange={e => handleChange(e)} />
           {
             errors.subject &&
@@ -158,12 +162,15 @@ function Form() {
           }
         </div>
         <div>
-          <label>Message*:</label>
+          <label>Message*: </label>
           <textarea type='text' value={input.message} name='message' onChange={e => handleChange(e)} />
           {
             errors.message &&
             (<p>{errors.message}</p>)
           }
+        </div>
+        <div>
+          <p>* Please fill in required fields</p>
         </div>
         {
           disabled === false ?
