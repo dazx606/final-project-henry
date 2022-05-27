@@ -7,6 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
 code {
@@ -20,5 +21,8 @@ code {
   --color3: rgb(237, 242, 244);
   --color4: rgb(239, 35, 60);
   --color5: rgb(217, 4, 41);
+  --color1Tr: rgba(43, 45, 66, 0.652);
   --font1: 'Space Grotesk', sans-serif;
+  --font2: 'Montserrat', sans-serif;
+  --font3: 'Verdana', sans-serif;
 }

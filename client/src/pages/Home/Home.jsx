@@ -2,18 +2,18 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import LocationFilter from '../../components/LocationFilter/LocationFilter'
+import styles from './Home.module.css'
 
 function Home() {
     const city = useSelector((state) => state.city)
 
     return (
-        <div>
-            <div>Home</div>
-            <div>
-                <span>Looking for a Car? select a city </span>
+        <div className={styles.homeCont}>
+            <div className={styles.slctBar}>
+                <span className={styles.slCityT}>Looking for a Car? select a city </span>
                 <LocationFilter />
                 <Link to={`/city/${city}`}>
-                    <button>Go</button>
+                    <button className={styles.goBtn}>Go</button>
                 </Link>
 
             </div>
