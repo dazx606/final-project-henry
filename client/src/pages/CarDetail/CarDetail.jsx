@@ -11,7 +11,7 @@ function CarDetail() {
   const carDetails = useSelector((state) => state.carDetails);
 
   useEffect(() => {
-    dispatch(getCarDetails(carId));
+    //dispatch(getCarDetails(carId));
   }, [dispatch]);
 
   return (
