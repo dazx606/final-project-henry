@@ -6,17 +6,21 @@ import CarDetail from "./pages/CarDetail/CarDetail";
 import NavBar from "./components/NavBar/NavBar";
 import CarsSelection from "./pages/CarsSelection/CarsSelection";
 import Contact from "./pages/Contact/Contact";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<NavBar />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/city/:locationId" element={<CarsSelection />} />
-        <Route path="/car/:carId" element={<CarDetail />} />
-      </Route>
-    </Routes>
+    <div className="app">
+      <Routes>
+        <Route path="/" element={<NavBar />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/city/:locationId" element={<CarsSelection />} />
+          <Route path="/car/:carId" element={<CarDetail />} />
+        </Route>
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 
