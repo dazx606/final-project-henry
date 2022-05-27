@@ -7,31 +7,15 @@ const { transporter } = require("../config/mailer");
 
 const router = Router();
 
-router.get("/cars/:locationId", async (req, res, next) => {
-  const { brand, category, order, orderType, date, page } = req.query;
+router.get('/cars/:locationId', async (req, res, next) => {
+  const { brand, category, order, orderType, startDate, endDate, page } = req.query
   //PENDIENTE: FILTRADO POR FECHA!
   //date(availableDate)
-  const { locationId } = req.params;
-  const carsPerPage = 8;
+  const { locationId } = req.params
+  const carsPerPage = 8
 
-  try {
-    let carLocation = await Location.findByPk(
-      locationId,
-      {
-        include: [
-          {
-            model: CarModel,
-            through: { attributes: [] },
-            include: [
-              { model: CarType },
-              { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
-              { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
-            ]
-          },
-        ]
-      }
-    )
-    carLocation = carLocation.carModels.map(c => {
+  const infoFormatter = (info) => {
+    return info.carModels.map(c => {
       return {
         ...c.dataValues,
         carType: c.carType.dataValues.name,
@@ -39,18 +23,115 @@ router.get("/cars/:locationId", async (req, res, next) => {
         optionalEquipments: c.optionalEquipments.map(e => e.dataValues.name),
       }
     });
+  }
 
-    if(brand) carLocation = carLocation.filter(c => c.brand === brand);
-    if(category) carLocation = carLocation.filter(c => c.carType === category);
+  try {
+  //   let carLocation = await Location.findByPk(
+  //     locationId,
+  //     {
+  //       include: [
+  //         {
+  //           model: CarModel,
+  //           through: { attributes: [] },
+  //           include: [
+  //             { model: CarType },
+  //             { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
+  //             { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
+  //           ]
+  //         },
+  //       ]
+  //     }
+  //   )
+  //   carLocation = carLocation.carModels.map(c => {
+  //     return {
+  //       ...c.dataValues,
+  //       carType: c.carType.dataValues.name,
+  //       includedEquipments: c.includedEquipments.map(e => e.dataValues.name),
+  //       optionalEquipments: c.optionalEquipments.map(e => e.dataValues.name),
+  //     }
+  //   });
 
-    if (orderType === "rating") {
-      carLocation.sort((a, b) => a.rating - b.rating);
-    } else {
-      carLocation.sort((a, b) => a.pricePerDay - b.pricePerDay);
+  //   if(brand) carLocation = carLocation.filter(c => c.brand === brand);
+  //   if(category) carLocation = carLocation.filter(c => c.carType === category);
+
+  //   if (orderType === "rating") {
+  //     carLocation.sort((a, b) => a.rating - b.rating);
+  //   } else {
+  //     carLocation.sort((a, b) => a.pricePerDay - b.pricePerDay);
+  //   }
+  //   if (order === "DESC") carLocation.reverse();
+
+  //   return res.json(carLocation);
+    if (brand && category) {
+
+      const locationCarModels = await Location.findByPk(
+        locationId,
+        {
+          order: [[{ model: CarModel }, orderType, order]],
+          include: [
+            {
+              model: CarModel, where: { brand: brand }, through: { attributes: [] },  include: [
+                { model: CarType, where: { name: category }, attributes: { exclude: ['id'] }},
+                { model: IncludedEquipment, attributes: ['name'], through: { attributes: [] } },
+                { model: OptionalEquipment, attributes: ['name'], through: { attributes: [] } }
+              ]
+            },
+          ]
+        }
+      )
+      return res.json(infoFormatter(locationCarModels));
     }
-    if (order === "DESC") carLocation.reverse();
-
-    return res.json(carLocation);
+    if (brand) {
+      const locationCarModels = await Location.findByPk(
+        locationId,
+        {
+          order: [[{ model: CarModel }, orderType, order]],
+          include: [
+            {
+              model: CarModel, where: { brand: brand }, include: [
+                { model: CarType, attributes: { exclude: ['id'] } },
+                { model: IncludedEquipment, attributes: ['name'], through: { attributes: [] } },
+                { model: OptionalEquipment, attributes: ['name'], through: { attributes: [] } }
+              ]
+            },
+          ]
+        }
+      )
+      return res.json(infoFormatter(locationCarModels));
+    }
+    if (category) {
+      const locationCarModels = await Location.findByPk(
+        locationId,
+        {
+          order: [[{ model: CarModel }, orderType, order]],
+          include: [
+            {
+              model: CarModel, include: [
+                { model: CarType, where: { name: category }, attributes: { exclude: ['id'] } },
+                { model: IncludedEquipment, attributes: ['name'], through: { attributes: [] } },
+                { model: OptionalEquipment, attributes: ['name'], through: { attributes: [] } }
+              ]
+            },
+          ]
+        }
+      )
+      return res.json(infoFormatter(locationCarModels));
+    }
+    // if (orderType) {
+    //   const onlyOrder = await CarModel.findAll({
+    //     where: { locationId: locationId },
+    //     limit: carsPerPage,
+    //     offset: page * carsPerPage,
+    //     order: [[orderType, order]],
+    //     include: [
+    //       { model: CarType },
+    //       { model: Location },
+    //       { model: IncludedEquipment, attributes: ["name"], through: { attributes: [] } },
+    //       { model: OptionalEquipment, attributes: ["name"], through: { attributes: [] } },
+    //     ],
+    //   });
+    //   return res.json(onlyOrder);
+    // }
   } catch (error) {
     next(error);
   }
