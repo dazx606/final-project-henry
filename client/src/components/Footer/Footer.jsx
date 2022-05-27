@@ -1,8 +1,29 @@
-import React from "react";
+
 import { NavLink } from "react-router-dom";
 import styles from "./footer.module.css";
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import React, { useMemo, useState, useEffect } from 'react';
+
+const apiKEY = process.env.REACT_APP_API_KEY;
+
+
+
+function Map() {
+    const center = useMemo(() => ({ lat: -34.81204911758577, lng: -58.53459236831713 }), []);
+    return (
+        <div>
+            <GoogleMap zoom={14} center={center} mapContainerClassName={styles.mapContainer}>
+                <Marker position={center} title='Aeropuerto Internacional Ezeiza' />
+            </GoogleMap>
+
+        </div>
+    )
+}
 
 export default function Footer() {
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: apiKEY,
+    });
     return (
         <div className={styles.footer}>
             <div className={styles.links}>
