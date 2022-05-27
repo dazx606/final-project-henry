@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import style from './Carousel.module.css'
-<<<<<<< HEAD
-// made by Fr
-=======
 //made by fr
->>>>>>> 19aeb7513ab14c0ed6823239a2a9d91e3e725d88
 
 
 function Carousel() {
