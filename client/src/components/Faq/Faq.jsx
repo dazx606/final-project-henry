@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import styles from './faq.module.css'
+import styles from './Faq.module.css'
 import { useState } from "react";
 
 
@@ -31,7 +31,7 @@ export default function Faq() {
 
 
                 </div>
-                <button onClick={e => handleClick(e)}> x</button>
+                <button onClick={e => handleClick(e)}>Holaaaaaa</button>
                 {!display ? <div></div> : <p>You can pay the rent in cash, credit or debit card; For the security deposit we ask for a credit card.</p>}
             </div>
             <div className={styles.content}>
