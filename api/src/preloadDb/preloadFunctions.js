@@ -65,17 +65,15 @@ const preloadCar = async () => {
                 }
             })
             const newIndividualCar = await IndividualCar.findOrCreate({
-                where: { license_plate: c.license_plate },
-                defaults: { license_plate: c.license_plate, year: c.year }
+                where: { id: c.id },
+                defaults: { id: c.id, license_plate: c.license_plate, year: c.year }
             })
             if (newIndividualCar[1]) {
-                // await newIndividualCar[0].addCarModel(newModel[0]);
                 await newModel[0].addIndividualCar(newIndividualCar[0]);
-
-                const newCarLocation = await Location.findOne({ where: { city: c.location }});
+                const newCarLocation = await Location.findOne({ where: { city: c.location } });
                 if (newCarLocation) {
                     await newCarLocation.addIndividualCar(newIndividualCar[0]);
-                    try {await newCarLocation.addCarModel(newModel[0])} catch (error) {}
+                    try { await newCarLocation.addCarModel(newModel[0]) } catch (error) { }
                 }
             }
             if (newModel[1]) {
