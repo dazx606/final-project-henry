@@ -10,6 +10,10 @@
     background-color: rgba(255, 255, 255, 0.885);
     z-index: 1000;
 }
+.all{
+  height: 100vh;
+  width: 100vw;
+}
 
 .tittle{
     margin-top: 1.5em;

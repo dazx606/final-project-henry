@@ -1,0 +1,31 @@
+.titles {
+  font-family: var(--font3);
+  font-size: 1rem;
+  color: var(--color3);
+  padding: 1em 0;
+  display:inline;
+}
+
+.background {
+  background-color: var(--color1);
+}
+.faq {
+  text-align: center;
+  color:var(--color3)
+}
+.navLink {
+  color: var(--color3);
+  font-family: var(--font2);
+}
+
+
+/* .content{
+    display:flex;
+} */
+
+.contentTitle{
+    display:inline;
+}
+/* .text{
+    color: var(--color3)
+} */

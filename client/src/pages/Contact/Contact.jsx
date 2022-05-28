@@ -39,7 +39,11 @@ function Contact() {
             </div>
           </div>
         </div>
+<<<<<<< HEAD
         <div className={styles.map}>
+=======
+        <div>
+>>>>>>> 373c377e2cfbaad117e130fecab0aed5fa4ed35f
           {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3275.639918433856!2d-58.53701708489385!3d-34.81499997621464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcd0f4e2dea557%3A0xf19b6f81d441cc3b!2sAeropuerto%20Internacional%20Ezeiza!5e0!3m2!1ses!2sar!4v1653610621032!5m2!1ses!2sar" width="400" height="300" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
           {
             !isLoaded ? (<div>Loading...</div>) : <Map />
