@@ -23,6 +23,7 @@ export default function rootReducer(state = initialState, { type, payload }) {
         locations: payload,
       };
     case GET_LOCATION_CARS:
+      console.log("🚀 ~ file: index.js ~ line 30 ~ rootReducer ~ payload", payload)
       return {
         ...state,
         locationCars: payload,
@@ -34,12 +35,12 @@ export default function rootReducer(state = initialState, { type, payload }) {
       for (let i = 0; i < payload.length; i++) {
         let array2 = [...array];
         let duplicate = false;
-        for (let j = 0; j < array2.length; j++) {   
+        for (let j = 0; j < array2.length; j++) {
           if (payload[i].model === array2[j].model) duplicate = true;
         }
         if (duplicate === false) array.push(payload[i]);
       }
-      
+
       return {
         ...state,
         filteredCars: array,
