@@ -12,13 +12,13 @@ const apiKEY = process.env.REACT_APP_API_KEY;
 
 function Map() {
     const locationCars = useSelector((state) => state.locationCars)
-    const locations = useSelector((state) => state.locations)
-    const location = locations.find((location) => location.id === Number(locationCars.locationId)) || { latitude: -34.81204911758577, longitude: -58.53459236831713 }
+
+    const location = locationCars.latitude ? locationCars : { latitude: -34.81204911758577, longitude: -58.53459236831713 }
     const center = useMemo(() => ({ lat: location.latitude, lng: location.longitude }), [location.latitude, location.longitude]);
 
     return (
         <div>
-            <GoogleMap zoom={14} center={center} mapContainerClassName={styles.mapContainer}>
+            <GoogleMap zoom={12} center={center} mapContainerClassName={styles.mapContainer}>
                 <Marker position={center} title='Aeropuerto Internacional Ezeiza' />
             </GoogleMap>
 
@@ -62,12 +62,9 @@ export default function Footer() {
 
             </div>
             <div className={styles.map}>
-
-
-
-
-
-
+                {
+                    !isLoaded ? (<div>Loading...</div>) : <Map />
+                }
             </div>
         </div>
     )

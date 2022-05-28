@@ -10,7 +10,7 @@ import Alert from '../../components/Alert/Alert'
 
 function Home() {
     const city = useSelector((state) => state.city);
-    const hide = useSelector((state)=>state.hideAlert)
+    const hide = useSelector((state) => state.hideAlert)
 
     return (
         <div className={styles.homeCont}>
@@ -20,9 +20,9 @@ function Home() {
                 <Link to={`/city/${city}`}>
                     <button className={styles.goBtn}>Go</button>
                 </Link>
-            </div>  
+            </div>
             <Carousel />
-           
+
             <Categories />
             <div className={styles.alert} hidden={hide}>
                 <Alert />
