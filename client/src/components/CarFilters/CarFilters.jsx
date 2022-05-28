@@ -8,8 +8,12 @@ import styles from "./CarFilters.module.css";
 function CarFilters({ locationId, selection, setSelection }) {
   const dispatch = useDispatch();
   const locationCars = useSelector((state) => state.locationCars);
+  const city = useSelector((state) => state.city)
 
   useEffect(() => {
+    if (!locationId) {
+      locationId = city;
+    }
     dispatch(getLocationCars(locationId));
   }, [dispatch, locationId]);
 
