@@ -14,7 +14,7 @@ const initialState = {
   locationCars: {},
   city: "",
   filteredCars: [],
-  carDetails: [],
+  carDetails: {},
   hideAlert: true,
   category:"",
 };
@@ -27,27 +27,25 @@ export default function rootReducer(state = initialState, { type, payload }) {
         locations: payload,
       };
     case GET_LOCATION_CARS:
-      console.log("🚀 ~ file: index.js ~ line 30 ~ rootReducer ~ payload", payload)
       return {
         ...state,
         locationCars: payload,
       };
 
     case GET_FILTERED_CARS:
-      let array = [];
-
-      for (let i = 0; i < payload.length; i++) {
-        let array2 = [...array];
-        let duplicate = false;
-        for (let j = 0; j < array2.length; j++) {
-          if (payload[i].model === array2[j].model) duplicate = true;
-        }
-        if (duplicate === false) array.push(payload[i]);
-      }
+      //let array = [];
+      // for (let i = 0; i < payload.length; i++) {
+      //   let array2 = [...array];
+      //   let duplicate = false;
+      //   for (let j = 0; j < array2.length; j++) {
+      //     if (payload[i].model === array2[j].model) duplicate = true;
+      //   }
+      //   if (duplicate === false) array.push(payload[i]);
+      // }
 
       return {
         ...state,
-        filteredCars: array,
+        filteredCars: payload,
       };
 
     case SET_CITY:
