@@ -1,23 +1,24 @@
 .selections {
   display: flex;
   justify-content: space-between;
-  background-color: rgb(255, 255, 255);
+  background-color: var(--color1);
   padding: 0.5rem 3rem;
-  border-bottom: 1px solid rgb(185, 185, 185);
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--color3Tr);
+  color: var(--color3);
 }
 
 .title {
   align-items: center;
+  font-family: var(--font2);
   font-size: 2rem;
   font-weight: 500;
+  color: var(--color4);
   padding-left: 3rem;
-  background-color: rgb(255, 255, 255);
-  padding: 0.5rem 3rem;
+  background-color: var(--color1);
+  padding: 0.5rem 3.5rem;
 }
 
 .cardsScreen {
-  background-color: var(--color3);
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;

@@ -14,14 +14,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+.app{
+  background-color: var(--color1);
+}
 :root{
-  --color1: rgb(43, 45, 66);
-  --color2: rgb(141, 153, 174);
-  --color3: rgb(237, 242, 244);
-  --color4: rgb(239, 35, 60);
-  --color5: rgb(217, 4, 41);
-  --color1Tr: rgba(43, 45, 66, 0.652);
+  --color1: rgb(53, 53, 53);
+  --color2: rgb(191, 192, 192);
+  --color3: rgb(255, 255, 255);
+  --color4: rgb(239, 131, 84);
+  --color5: rgb(79, 93, 117);
+  --color6: rgb(22, 22, 22);
+  --color7: rgb(116, 116, 116);
+  --color1Tr: rgba(53, 53, 53, 0.326);
+  --color3Tr:rgba(255, 255, 255, 0.652);
+  --color4Tr: rgb(239, 131, 84, 0.652);
   --font1: 'Space Grotesk', sans-serif;
   --font2: 'Montserrat', sans-serif;
   --font3: 'Verdana', sans-serif;
