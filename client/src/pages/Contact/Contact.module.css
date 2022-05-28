@@ -3,11 +3,11 @@
     height: 300px;
     border: 0;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 8px var(--color4);
 }
 
 .container {
-    background-color: var(--color3);
+    background-color: var(--color1);
     display: block;
 }
 
@@ -23,10 +23,12 @@
 h3 {
     font-family: var(--font3);
     margin-bottom: 1rem;
+    color: var(--color3)
 }
 
 p {
     font-family: var(--font2);
+    color: var(--color3);
 }
 
 .container2 {
@@ -61,7 +63,7 @@ p {
 
 .icon {
     display: inline-block;
-    color:black;
+    color: var(--color3);
     transition: 0.5s;
 }
 
@@ -91,7 +93,7 @@ p {
 }
 
 .buttonSend {
-    background-color: var(--color4);
+    background-color: var(--color4Tr);
     color: var(--color3);
     font-size: 0.8rem;
     padding: 0.5rem;
@@ -111,7 +113,7 @@ p {
 }
 
 .buttonSend:hover {
-    background-color: var(--color5);
+    background-color: var(--color4);
 }
 
 input {
@@ -130,14 +132,14 @@ textarea {
 
 .formContainer p {
     font-size: 11px;
-    color: var(--color5);
+    color: var(--color4);
     line-height: normal;
 }
 
 .form {
     border: 0;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 8px var(--color4);
     padding: 2rem;
 }
 
@@ -149,4 +151,6 @@ textarea {
 .form div,
 p {
     font-family: var(--font2);
+    font-size: 14px;
+    color: var(--color3);
 }
