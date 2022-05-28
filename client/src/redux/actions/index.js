@@ -7,6 +7,9 @@ export const SET_CITY = "SET_CITY";
 export const GET_FILTERED_CARS = 'GET_FILTERED_CARS';
 export const GET_CAR_DETAILS = "GET_CAR_DETAILS";
 export const SEND_MESSAGE = "SEND_MESSAGE";
+export const ALERT = "ALERT";
+export const SET_CATEGORY = "SET_CATEGORY";
+
 const URL = "http://localhost:3001/";
 
 export function getLocations() {
@@ -24,13 +27,9 @@ export function getLocationCars(locationId) {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URL}locationCars/${locationId}`);
-      let brands = response.data.map((car) => car.brand);
-      brands = [...new Set(brands)];
-      let categories = response.data.map((car) => car.carType.name);
-      categories = [...new Set(categories)];
       return dispatch({
         type: GET_LOCATION_CARS,
-        payload: { brands: brands, categories: categories },
+        payload: response.data,
       });
     } catch (error) {
       console.log(error);
@@ -87,4 +86,19 @@ export function sendMessage(payload) {
       console.log(error);
     }
   };
+
+};
+
+export function showAlert(payload){
+  return {
+    type: ALERT,
+    payload
+  }
+};
+
+export function setCategory(payload){
+  return{
+    type: SET_CATEGORY,
+    payload
+  }
 }

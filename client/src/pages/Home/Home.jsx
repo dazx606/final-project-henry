@@ -5,9 +5,12 @@ import LocationFilter from '../../components/LocationFilter/LocationFilter'
 import styles from './Home.module.css'
 import Footer from "../../components/Footer/Footer";
 import Carousel from "../../components/Carousel/Carousel";
+import Categories from '../../components/Categories/Categories'
+import Alert from '../../components/Alert/Alert'
 
 function Home() {
     const city = useSelector((state) => state.city);
+    const hide = useSelector((state)=>state.hideAlert)
 
     return (
         <div className={styles.homeCont}>
@@ -17,8 +20,14 @@ function Home() {
                 <Link to={`/city/${city}`}>
                     <button className={styles.goBtn}>Go</button>
                 </Link>
-            </div>
+            </div>  
             <Carousel />
+           
+            <Categories />
+            <div className={styles.alert} hidden={hide}>
+                <Alert />
+            </div>
+
         </div>
     )
 

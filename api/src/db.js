@@ -61,21 +61,25 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Car, CarType, Driver, IncludedEquipment, Location, OptionalEquipment, Payment, RentOrder, User } = sequelize.models;
+const { CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = sequelize.models;
 
+CarModel.belongsTo(CarType);
+CarType.hasMany(CarModel);
 
-// Aca vendrian las relaciones
-Car.belongsTo(CarType);
-CarType.hasMany(Car);
+CarModel.belongsToMany(Location, { through: "modelLocation" });
+Location.belongsToMany(CarModel, { through: "modelLocation" });
 
-Car.belongsTo(Location);
-Location.hasMany(Car);
+CarModel.belongsToMany(IncludedEquipment, { through: "carEquipment" });
+IncludedEquipment.belongsToMany(CarModel, { through: "carEquipment" });
 
-Car.belongsToMany( IncludedEquipment , {through:"carEquipment"});
-IncludedEquipment.belongsToMany( Car , {through:"carEquipment"});
+CarModel.belongsToMany(OptionalEquipment, { through: "carOptionalEquipment" });
+OptionalEquipment.belongsToMany(CarModel, { through: "carOptionalEquipment" });
 
-Car.belongsToMany( OptionalEquipment , {through:"carOptionalEquipment"});
-OptionalEquipment.belongsToMany( Car , {through:"carOptionalEquipment"});
+IndividualCar.belongsTo(CarModel);
+CarModel.hasMany(IndividualCar);
+
+IndividualCar.belongsTo(Location);
+Location.hasMany(IndividualCar);
 
 Payment.belongsTo(User);
 User.hasMany(Payment);
@@ -83,20 +87,20 @@ User.hasMany(Payment);
 Driver.belongsTo(User);
 User.hasMany(Driver);
 
-RentOrder.belongsTo(Car);
-Car.hasMany(RentOrder);
+RentOrder.belongsTo(IndividualCar);
+IndividualCar.hasMany(RentOrder);
 
 RentOrder.belongsTo(User);
 User.hasMany(RentOrder);
 
-RentOrder.belongsToMany( Driver , {through:"rentDriver"});
-Driver.belongsToMany( RentOrder , {through:"rentDriver"});
+RentOrder.belongsToMany(Driver, { through: "rentDriver" });
+Driver.belongsToMany(RentOrder, { through: "rentDriver" });
 
 RentOrder.belongsTo(Location);
 Location.hasMany(RentOrder);
 
-RentOrder.belongsToMany( OptionalEquipment , {through:"rentEquipment"});
-OptionalEquipment.belongsToMany( RentOrder , {through:"rentEquipment"});
+RentOrder.belongsToMany(OptionalEquipment, { through: "rentEquipment" });
+OptionalEquipment.belongsToMany(RentOrder, { through: "rentEquipment" });
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
