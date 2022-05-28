@@ -37,11 +37,11 @@ export function getLocationCars(locationId) {
   };
 }
 
-export function getFilteredCars({ brand, carType, order, startDate, endDate, orderType, page }, locationId) {
+export function getFilteredCars({ brand, carType, order, startingDate, endingDate, orderType, page }, locationId) {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `${URL}cars/${locationId}?brand=${brand}&category=${carType}&order=${order}&orderType=${orderType}&page=${page}`
+        `${URL}cars/${locationId}?brand=${brand}&category=${carType}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}`
       );
       const cars = response.data;
 
