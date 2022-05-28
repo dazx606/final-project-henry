@@ -7,6 +7,9 @@ export const SET_CITY = "SET_CITY";
 export const GET_FILTERED_CARS = 'GET_FILTERED_CARS';
 export const GET_CAR_DETAILS = "GET_CAR_DETAILS";
 export const SEND_MESSAGE = "SEND_MESSAGE";
+export const ALERT = "ALERT";
+export const SET_CATEGORY = "SET_CATEGORY";
+
 const URL = "http://localhost:3001/";
 
 export function getLocations() {
@@ -87,4 +90,19 @@ export function sendMessage(payload) {
       console.log(error);
     }
   };
+
+};
+
+export function showAlert(payload){
+  return {
+    type: ALERT,
+    payload
+  }
+};
+
+export function setCategory(payload){
+  return{
+    type: SET_CATEGORY,
+    payload
+  }
 }
