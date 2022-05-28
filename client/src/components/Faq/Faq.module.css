@@ -2,30 +2,33 @@
   font-family: var(--font3);
   font-size: 1rem;
   color: var(--color3);
-  padding: 1em 0;
-  display:inline;
+  padding: 0;
+  display: inline;
+  transition:0.2s;
 }
-
+.titles:hover {
+  color: var(--color4);
+}
 .background {
   background-color: var(--color1);
 }
 .faq {
   text-align: center;
-  color:var(--color3)
+  color: var(--color3);
 }
 .navLink {
   color: var(--color3);
   font-family: var(--font2);
 }
 
-
 /* .content{
     display:flex;
 } */
 
-.contentTitle{
-    display:inline;
+.contentTitle {
+  display: inline;
 }
-/* .text{
-    color: var(--color3)
-} */
+.text {
+  color: var(--color3);
+  padding: 0;
+}

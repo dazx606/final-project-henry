@@ -23,7 +23,6 @@ export default function rootReducer(state = initialState, { type, payload }) {
         locations: payload,
       };
     case GET_LOCATION_CARS:
-      console.log("🚀 ~ file: index.js ~ line 30 ~ rootReducer ~ payload", payload)
       return {
         ...state,
         locationCars: payload,
