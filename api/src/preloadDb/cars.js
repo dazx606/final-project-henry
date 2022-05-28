@@ -59,8 +59,6 @@ const generateCars = () => {
                 consumption,
                 engine,
                 images,
-                rating: Math.floor(Math.random() * (500 - 100) + 100) / 100,
-                ratingNum: Math.ceil(Math.random() * 100),
                 includedEquipment,
                 opcionalEquipment,
             })

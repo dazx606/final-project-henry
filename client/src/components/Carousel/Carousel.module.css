@@ -2,7 +2,7 @@
   max-width: 100%;
   position: relative;
   margin: auto;
-  background-color: #000000c0;
+  background-color: var(--color1);
   min-height: 70vh;
 }
 
