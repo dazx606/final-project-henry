@@ -1,0 +1,37 @@
+.alertContainer{
+    text-align: center;
+    align-items: center;
+    font: var(--font3);
+    position: fixed;
+    top: 30%;
+    left: 35vw;
+    height: 30vh;
+    width: 30vw;
+    background-color: rgba(255, 255, 255, 0.885);
+    z-index: 1000;
+}
+
+.tittle{
+    margin-top: 1.5em;
+}
+
+.homeBtn {
+    
+    font-size: 20px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    padding: 10px 35px 10px;
+    outline: 0;
+    border: 1px solid black;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+    transition: 0.5s;
+ 
+  }
+  
+  .homeBtn:hover {
+    top: 0px;
+    left: 0px;
+    background-color: rgba(145, 131, 131, 0.392);
+    
+  }
