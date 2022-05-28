@@ -5,6 +5,8 @@ import {
   SET_CITY,
   GET_CAR_DETAILS,
   SEND_MESSAGE,
+  ALERT,
+  SET_CATEGORY
 } from "../actions";
 
 const initialState = {
@@ -13,6 +15,8 @@ const initialState = {
   city: "",
   filteredCars: [],
   carDetails: [],
+  hideAlert: true,
+  category:"",
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -61,6 +65,18 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
       };
+
+    case ALERT:
+      return{
+        ...state,
+        hideAlert:payload
+      }
+    
+    case SET_CATEGORY:
+      return{
+        ...state,
+        category: payload
+      }
 
     default:
       return { ...state };
