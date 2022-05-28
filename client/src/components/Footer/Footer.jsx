@@ -2,7 +2,7 @@
 import { NavLink } from "react-router-dom";
 import styles from "./footer.module.css";
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import React, { useMemo} from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from "react-redux";
 
 const apiKEY = process.env.REACT_APP_API_KEY;
@@ -62,10 +62,14 @@ export default function Footer() {
 
             </div>
             <div className={styles.map}>
-                {
-                    !isLoaded ? (<div>Loading...</div>) : <Map />
-                }
+
+
+
+
+
+
             </div>
         </div>
-    );
+    )
 }
+;

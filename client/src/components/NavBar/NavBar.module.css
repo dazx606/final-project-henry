@@ -21,10 +21,10 @@ body {
 }
 
 .header {
-  position: absolute;
+  position: fixed;
   width: 100%;
   z-index: 10;
-  background: #fff;
+  background: var(--color6);
   height: 4rem;
 }
 
@@ -33,14 +33,14 @@ h1 {
 }
 
 .icon {
-  color: #000;
+  color: var(--color3);
   width: 15px;
   height: 15px;
   padding: 5px;
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
-  border: #000 1px solid;
+  border: var(--color3) 1px solid;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,7 +63,7 @@ h1 {
 .headerButton {
   width: 2rem;
   height: 0.2rem;
-  background: #000;
+  background: var(--color4);
   position: absolute;
   top: 1rem;
   transition: all 0.2s;
@@ -78,7 +78,7 @@ h1 {
   content: "";
   width: 2rem;
   height: 0.25rem;
-  background: #000;
+  background: var(--color3);
   position: absolute;
   top: -0.6rem;
   transition: all 0.2s;
@@ -120,8 +120,8 @@ li {
 .link a {
   letter-spacing: 2px;
   text-decoration: none;
-  color: #333;
-  font-size: 0.9rem;
+  color: var(--color3);
+  font-size: 1rem;
   position: relative;
 }
 
@@ -133,7 +133,7 @@ li {
   left: 0;
   height: 2px;
   width: 100%;
-  background: rgb(66, 66, 66);
+  background: var(--color4);
   /*animacion de derecha a izquierda*/
   transform-origin: right;
   transform: scaleX(0);
@@ -147,7 +147,7 @@ li {
 }
 
 .checkbox:checked ~ .menu {
-  background: #fff;
+  background: var(--color6);
   top: 0rem;
 }
 
@@ -168,5 +168,5 @@ li {
 
 .tittle{
   text-decoration: none;
-  color: black;
+  color: var(--color4);
 }

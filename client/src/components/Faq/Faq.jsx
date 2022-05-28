@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import styles from './faq.module.css'
+import styles from './Faq.module.css'
 import { useState } from "react";
 
 
