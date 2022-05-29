@@ -7,6 +7,7 @@ import styles from './Home.module.css'
 import Carousel from "../../components/Carousel/Carousel";
 import Categories from '../../components/Categories/Categories'
 import Alert from '../../components/Alert/Alert'
+import Benefits from '../../components/Benefits/Benefits'
 
 function Home() {
     const city = useSelector((state) => state.city);
@@ -27,7 +28,9 @@ function Home() {
             <div className={styles.alert} hidden={hide}>
                 <Alert />
             </div>
-
+            <div>
+                <Benefits /> 
+            </div>
         </div>
     )
 
