@@ -3,6 +3,36 @@
     padding-top: 3rem;
 }
 
+.cardContainer {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 3rem;
+}
+
+.topCard {
+    height: 50px;
+    width: 230px;
+    box-shadow: 0 0 8px var(--color4);
+    border-radius: 8px 8px 0 0;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: auto;
+    align-items: center;
+    text-align: center;
+}
+
+.bottomCard {
+    box-shadow: 0 0 8px var(--color4);
+    border-radius: 0 0 8px 8px; 
+    height: 200px;
+    width: 230px;
+    text-align: justify;
+    line-height: 2rem;
+    padding: 1rem;
+    margin: auto;
+}
+
 h3, h4 {
     font-family: var(--font3);
     color: var(--color3);
@@ -63,7 +93,7 @@ p {
     justify-content: center;
 }
 
-.benefits1 {
+/* .benefits1 {
     padding-top: 1rem;
     display: flex;
     justify-content: space-evenly;
@@ -73,13 +103,13 @@ p {
     width: 300px;
     line-height: 1.5rem;
     text-align: justify;
-}
+} */
 
 h4 {
     padding-bottom: 1rem;
 }
 
-.benefits2 {
+/* .benefits2 {
     padding-top: 1rem;
     display: flex;
     justify-content: space-evenly;
@@ -89,4 +119,16 @@ h4 {
     width: 300px;
     line-height: 1.5rem;
     text-align: justify;
+} */
+
+a, li {
+    text-decoration: none;
+    color: var(--color3);
 }
+
+li:hover {
+    color: var(--color4);
+}
+
+
+

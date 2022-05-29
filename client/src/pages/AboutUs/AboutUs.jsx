@@ -13,7 +13,7 @@ export default function AboutUs() {
                     <br />
                     <div className={styles.buttonContact}>
                         <NavLink to='/contact'>
-                            <button>OUR LOCATION</button>
+                            <button>FIND US</button>
                         </NavLink>
                     </div>
                 </div>
