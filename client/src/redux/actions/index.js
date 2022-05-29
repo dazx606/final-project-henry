@@ -1,5 +1,4 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
-
 import axios from "axios";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -8,7 +7,7 @@ export const GET_FILTERED_CARS = "GET_FILTERED_CARS";
 export const GET_CAR_DETAILS = "GET_CAR_DETAILS";
 export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ALERT = "ALERT";
-export const SET_CATEGORY = "SET_CATEGORY";
+export const SET_SELECTION = "SET_SELECTION";
 
 const URL = "http://localhost:3001/";
 
@@ -37,20 +36,23 @@ export function getLocationCars(locationId) {
   };
 }
 
-export function getFilteredCars({ brand, carType, order, startingDate, endingDate, orderType, page }, locationId) {
+export function getFilteredCars({ brand, category, order, startingDate, endingDate, orderType, page }, locationId) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `${URL}cars/${locationId}?brand=${brand}&category=${carType}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}`
+      var response = await axios.get(
+        `${URL}cars/${locationId}?brand=${brand}&category=${category}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}`
       );
-      const cars = response.data;
+      var cars = response.data;
 
       return dispatch({
         type: GET_FILTERED_CARS,
         payload: cars,
       });
     } catch (error) {
-      console.log(error);
+      return dispatch({
+        type: GET_FILTERED_CARS,
+        payload: [],
+      });
     }
   };
 }
@@ -61,6 +63,14 @@ export const setCity = (payload) => {
     payload,
   };
 };
+
+export const setSelection = (payload) => {
+  
+  return{
+    type: SET_SELECTION,
+    payload
+  }
+}
 
 export function getCarDetails(carId) {
   return async (dispatch) => {
@@ -95,9 +105,3 @@ export function showAlert(payload){
   }
 };
 
-export function setCategory(payload){
-  return{
-    type: SET_CATEGORY,
-    payload
-  }
-}

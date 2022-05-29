@@ -18,16 +18,16 @@ function CarCard({ carId, brand, model, pricePerDay, rating, image }) {
         <h5 className={styles.carPrice}>US$ {pricePerDay}/day</h5>
 
         <div className={styles.starsCont}>
-          {yellowStars && [...Array(yellowStars)].map((i) => {
+          {yellowStars && [...Array(yellowStars)].map((i, k) => {
             return (
-              <div className={styles.starY} key={i}><i className='fa-solid fa-star'></i></div>
+              <div className={styles.starY} key={k}><i className='fa-solid fa-star'></i></div>
             )
           })
           }
           {!halfStar && <div className={styles.starH}><i className="fa-regular fa-star-half-stroke"></i></div>}
-          {greyStars !== 0 && [...Array(greyStars)].map((i) => {
+          {greyStars !== 0 && [...Array(greyStars)].map((i,k) => {
             return (
-              <div className={styles.starG} key={i}><i className="fa-regular fa-star"></i></div>
+              <div className={styles.starG} key={k}><i className="fa-regular fa-star"></i></div>
             )
           })}
         </div>
