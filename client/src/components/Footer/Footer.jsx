@@ -62,13 +62,7 @@ export default function Footer() {
 
             </div>
             <div className={styles.map}>
-<<<<<<< HEAD
-                {
-                    !isLoaded ? (<div>Loading...</div>) : <Map />
-                }
-=======
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28341.47959312231!2d-56.005543470382676!3d-27.385552962079938!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9457bda9a39454b3%3A0xb113af93b0424633!2sAlamo%20Rent%20A%20Car!5e0!3m2!1ses-419!2sar!4v1653592124104!5m2!1ses-419!2sar" width="300" height="150" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
->>>>>>> 7b349bb70460d55d0a64ac84f5f6ddaa82fdf7e6
             </div>
         </div>
     );

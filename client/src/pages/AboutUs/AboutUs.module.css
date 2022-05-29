@@ -1,13 +1,15 @@
 .container {
-    background-color: var(--color3);
+    background-color: var(--color1);
 }
 
 h3, h5 {
     font-family: var(--font3);
+    color: var(--color3);
 }
 
 p {
     font-family: var(--font2);
+    color: var(--color3)
 }
 
 .container1 {
@@ -37,10 +39,11 @@ button {
     font-family: var(--font3);
     transition: 0.5s;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 button:hover {
-    background-color: var(--color5);
+    background-color: var(--color4Tr);
 }
 
 .subContainer1b {
