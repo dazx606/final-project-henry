@@ -8,15 +8,14 @@ function LocationFilter() {
   
   //react-redux
   const locations = useSelector((state) => state.locations);
-  const city = useSelector ((state) => state.city)
-  const [showCity, setShowCity] = useState('')
+  const city = useSelector ((state) => state.city);
   const navigate = useNavigate();
   const {locationId} = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getLocations());
-    
+    if (!locations.length) dispatch(getLocations());
+    if (locationId) dispatch(setCity(locationId));
   }, [dispatch]);
 
   function handleLocChange(e) {

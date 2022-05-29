@@ -63,7 +63,7 @@
 
 /*dark background */
 .cardCont {
-    margin: 2rem;
+    margin: 1.7rem;
     margin-top: 5rem;
     width: 20rem;
     height: 30rem;
@@ -91,7 +91,7 @@
 }
 .cardImg{
     object-fit: contain;
-    min-width: 22rem;
+    min-width: 24rem;
     min-height: 20rem;
 
 }

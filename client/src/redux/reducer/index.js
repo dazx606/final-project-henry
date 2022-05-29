@@ -6,8 +6,7 @@ import {
   GET_CAR_DETAILS,
   SEND_MESSAGE,
   ALERT,
-  SET_CATEGORY,
-  SEND_ERROR
+  SET_SELECTION,
 } from "../actions";
 
 const initialState = {
@@ -17,8 +16,15 @@ const initialState = {
   filteredCars: [],
   carDetails: {},
   hideAlert: true,
-  category:"",
-  error: "",
+  selection: {
+    brand: "",
+    category: "",
+    order: "ASC",
+    startingDate: "",
+    endingDate: "",
+    orderType: "pricePerDay",
+    page: 1
+  },
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -27,13 +33,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         locations: payload,
-        error: '',
       };
     case GET_LOCATION_CARS:
       return {
         ...state,
         locationCars: payload,
-        error: '',
       };
 
     case GET_FILTERED_CARS:
@@ -46,51 +50,39 @@ export default function rootReducer(state = initialState, { type, payload }) {
       //   }
       //   if (duplicate === false) array.push(payload[i]);
       // }
-
       return {
         ...state,
         filteredCars: payload,
-        error: '',
       };
 
     case SET_CITY:
       return {
         ...state,
         city: payload,
-        error: '',
       };
     case GET_CAR_DETAILS:
       return {
         ...state,
         carDetails: payload,
-        error: '',
       };
 
     case SEND_MESSAGE:
       return {
         ...state,
-        error: '',
       };
 
     case ALERT:
-      return{
+      return {
         ...state,
-        hideAlert:payload,
-        error: '',
+        hideAlert: payload,
       }
-    
-    case SET_CATEGORY:
-      return{
+
+    case SET_SELECTION:
+      
+      return {
         ...state,
-        category: payload,
-        error: '',
+        selection: payload
       }
-      case SEND_ERROR:
-        return{
-          ...state,
-          error: payload,
-          filteredCars:[]
-        }
 
     default:
       return { ...state };

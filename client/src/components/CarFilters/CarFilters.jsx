@@ -5,7 +5,7 @@ import { getLocationCars } from "../../redux/actions";
 
 import styles from "./CarFilters.module.css";
 
-function CarFilters({ locationId, selection, setSelection, handleFilters }) {
+function CarFilters({ locationId, selection, handleFilters }) {
   const dispatch = useDispatch();
   const locationCars = useSelector((state) => state.locationCars);
   const city = useSelector((state) => state.city)
@@ -23,6 +23,7 @@ function CarFilters({ locationId, selection, setSelection, handleFilters }) {
       <input
         type="date"
         name="startingDate"
+        value={selection.startingDate}
         className={styles.select}
         onChange={(e) =>
           handleFilters(e)}
@@ -31,6 +32,7 @@ function CarFilters({ locationId, selection, setSelection, handleFilters }) {
       <input
         type="date"
         name="endingDate"
+        value={selection.endingDate}
         className={styles.select}
         onChange={(e) =>
          handleFilters(e)}
@@ -40,6 +42,7 @@ function CarFilters({ locationId, selection, setSelection, handleFilters }) {
       <select
         className={styles.select}
         name="category"
+        value={selection.category}
         onChange={(e) =>
           handleFilters(e)}
       >
@@ -56,6 +59,7 @@ function CarFilters({ locationId, selection, setSelection, handleFilters }) {
       <select
         className={styles.select}
         name="brand"
+        value={selection.brand}
         onChange={(e) => handleFilters(e)}
       >
         <option value="" hidden>
@@ -72,7 +76,8 @@ function CarFilters({ locationId, selection, setSelection, handleFilters }) {
       <span>Order</span>
       <select
         className={styles.select}
-        name="order-type"
+        name="orderType"
+        value={selection.orderType}
         onChange={(e) =>
           handleFilters(e)}
       >
@@ -82,6 +87,7 @@ function CarFilters({ locationId, selection, setSelection, handleFilters }) {
       <select
         className={styles.select}
         name="order"
+        value={selection.order}
         onChange={(e) => handleFilters(e)}
       >
         <option value="ASC">Low to High</option>
