@@ -12,7 +12,6 @@ const apiKEY = process.env.REACT_APP_API_KEY;
 
 function Map() {
     const locationCars = useSelector((state) => state.locationCars)
-
     const location = locationCars.latitude ? locationCars : { latitude: -34.81204911758577, longitude: -58.53459236831713 }
     const center = useMemo(() => ({ lat: location.latitude, lng: location.longitude }), [location.latitude, location.longitude]);
 

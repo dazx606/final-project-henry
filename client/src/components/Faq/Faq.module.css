@@ -1,10 +1,10 @@
 .titles {
-  font-family: var(--font3);
+  font-family: var(--font2);
   font-size: 1rem;
   color: var(--color3);
   padding: 0;
   display: inline;
-  transition:0.2s;
+  transition: 0.2s;
 }
 .titles:hover {
   color: var(--color4);
@@ -13,17 +13,16 @@
   background-color: var(--color1);
 }
 .faq {
+  padding: 20px;
   text-align: center;
-  color: var(--color3);
+  color: var(--color4);
+  font-family:var(--font1)
 }
 .navLink {
   color: var(--color3);
   font-family: var(--font2);
+  text-align: center;
 }
-
-/* .content{
-    display:flex;
-} */
 
 .contentTitle {
   display: inline;
@@ -31,4 +30,20 @@
 .text {
   color: var(--color3);
   padding: 0;
+  font-family: var(--font1);
+}
+
+.content {
+  border: 1px groove var(--color3Tr);
+  border-radius: 5px;
+  padding: 10px 10px;
+  max-width: 50rem;
+  margin: auto;
+
+  
+}
+
+.arrow {
+  color: var(--color3);
+  padding-left: 10px;
 }
