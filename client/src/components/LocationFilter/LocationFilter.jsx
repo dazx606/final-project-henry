@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getLocations, setCity } from '../../redux/actions';
@@ -9,16 +9,19 @@ function LocationFilter() {
   //react-redux
   const locations = useSelector((state) => state.locations);
   const city = useSelector ((state) => state.city)
+  const [showCity, setShowCity] = useState('')
   const navigate = useNavigate();
   const {locationId} = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getLocations());
+    
   }, [dispatch]);
 
   function handleLocChange(e) {
     dispatch(setCity(e.target.value))
+    
     if (locationId) navigate(`/city/${e.target.value}`)
   };
 

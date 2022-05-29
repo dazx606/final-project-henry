@@ -11,16 +11,17 @@ import styles from "./CarsSelection.module.css";
 function CarsSelection() {
   const locations = useSelector((state) => state.locations);
   const filteredCars = useSelector((state) => state.filteredCars);
+  const error = useSelector((state) => state.error)
   const dispatch = useDispatch();
   const { locationId } = useParams();
-  const [selection, setSelection] = useState({
-    orderType: "pricePerDay",
-    order: "ASC",
-    startDate: "",
-    endDate: "",
-    carType: "", //category
+  const [selection, setSelection] = useState({ 
     brand: "",
-    page: 0
+    category: "",
+    order: "ASC",
+    startingDate: "",
+    endingDate: "",  
+    orderType: "pricePerDay",
+    page: 1
   });
 
   useEffect(() => {
@@ -36,6 +37,13 @@ function CarsSelection() {
       return location.city;
     }
   };
+  const handleFilters= (e) => {
+    let selected = selection;
+    selected = {...selection, [e.target.name]:e.target.value}
+    setSelection(selected);
+    dispatch(getFilteredCars(selected, locationId));
+    console.log(selected)
+  } 
 
   return (
     <div>
@@ -46,11 +54,13 @@ function CarsSelection() {
           <CarFilters
             locationId={locationId}
             selection={selection}
+            handleFilters={handleFilters}
             setSelection={setSelection}
           />
         </div>
       </div>
       <div className={styles.cardsScreen}>
+        {error && <div>{error.msg}</div>}
         {
           filteredCars && filteredCars.map((car) => {
             return (

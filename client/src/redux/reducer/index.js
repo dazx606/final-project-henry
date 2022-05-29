@@ -6,7 +6,8 @@ import {
   GET_CAR_DETAILS,
   SEND_MESSAGE,
   ALERT,
-  SET_CATEGORY
+  SET_CATEGORY,
+  SEND_ERROR
 } from "../actions";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   carDetails: {},
   hideAlert: true,
   category:"",
+  error: "",
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -25,11 +27,13 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         locations: payload,
+        error: '',
       };
     case GET_LOCATION_CARS:
       return {
         ...state,
         locationCars: payload,
+        error: '',
       };
 
     case GET_FILTERED_CARS:
@@ -46,35 +50,47 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         filteredCars: payload,
+        error: '',
       };
 
     case SET_CITY:
       return {
         ...state,
         city: payload,
+        error: '',
       };
     case GET_CAR_DETAILS:
       return {
         ...state,
         carDetails: payload,
+        error: '',
       };
 
     case SEND_MESSAGE:
       return {
         ...state,
+        error: '',
       };
 
     case ALERT:
       return{
         ...state,
-        hideAlert:payload
+        hideAlert:payload,
+        error: '',
       }
     
     case SET_CATEGORY:
       return{
         ...state,
-        category: payload
+        category: payload,
+        error: '',
       }
+      case SEND_ERROR:
+        return{
+          ...state,
+          error: payload,
+          filteredCars:[]
+        }
 
     default:
       return { ...state };

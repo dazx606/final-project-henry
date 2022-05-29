@@ -23,7 +23,7 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
-  /* align-content: space-around; */
+  align-content: space-around;
   min-height: 90vh;
   max-width: 99vw;
 }

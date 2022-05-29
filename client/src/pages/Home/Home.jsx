@@ -5,7 +5,7 @@ import LocationFilter from '../../components/LocationFilter/LocationFilter'
 import styles from './Home.module.css'
 
 import Carousel from "../../components/Carousel/Carousel";
-import Categories from '../../components/Categories/Categories'
+// import Categories from '../../components/Categories/Categories'
 import Alert from '../../components/Alert/Alert'
 
 function Home() {
@@ -23,7 +23,7 @@ function Home() {
             </div>  
             <Carousel />
            
-            <Categories />
+            {/* <Categories /> */}
             <div className={styles.alert} hidden={hide}>
                 <Alert />
             </div>

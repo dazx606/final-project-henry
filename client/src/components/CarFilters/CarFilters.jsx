@@ -5,7 +5,7 @@ import { getLocationCars } from "../../redux/actions";
 
 import styles from "./CarFilters.module.css";
 
-function CarFilters({ locationId, selection, setSelection }) {
+function CarFilters({ locationId, selection, setSelection, handleFilters }) {
   const dispatch = useDispatch();
   const locationCars = useSelector((state) => state.locationCars);
   const city = useSelector((state) => state.city)
@@ -22,29 +22,26 @@ function CarFilters({ locationId, selection, setSelection }) {
       <span>Check availability from:</span>
       <input
         type="date"
-        name="start-date"
+        name="startingDate"
         className={styles.select}
         onChange={(e) =>
-          setSelection({ ...selection, startDate: e.target.value })
-        }
+          handleFilters(e)}
       />
       <span className={styles.to}>to:</span>
       <input
         type="date"
-        name="end-date"
+        name="endingDate"
         className={styles.select}
         onChange={(e) =>
-          setSelection({ ...selection, endDate: e.target.value })
-        }
+         handleFilters(e)}
       />
       <div className={styles.divider}></div>
       <span>Filters</span>
       <select
         className={styles.select}
-        name="car-type"
+        name="category"
         onChange={(e) =>
-          setSelection({ ...selection, carType: e.target.value })
-        }
+          handleFilters(e)}
       >
         <option value="" hidden>
           Category...
@@ -54,11 +51,12 @@ function CarFilters({ locationId, selection, setSelection }) {
             {category}
           </option>
         ))}
+        <option value=''>All</option>
       </select>
       <select
         className={styles.select}
         name="brand"
-        onChange={(e) => setSelection({ ...selection, brand: e.target.value })}
+        onChange={(e) => handleFilters(e)}
       >
         <option value="" hidden>
           Brand...
@@ -68,6 +66,7 @@ function CarFilters({ locationId, selection, setSelection }) {
             {brand}
           </option>
         ))}
+        <option value=''>All</option>
       </select>
       <div className={styles.divider}></div>
       <span>Order</span>
@@ -75,8 +74,7 @@ function CarFilters({ locationId, selection, setSelection }) {
         className={styles.select}
         name="order-type"
         onChange={(e) =>
-          setSelection({ ...selection, orderType: e.target.value })
-        }
+          handleFilters(e)}
       >
         <option value="pricePerDay">Price</option>
         <option value="rating">Rating</option>
@@ -84,7 +82,7 @@ function CarFilters({ locationId, selection, setSelection }) {
       <select
         className={styles.select}
         name="order"
-        onChange={(e) => setSelection({ ...selection, order: e.target.value })}
+        onChange={(e) => handleFilters(e)}
       >
         <option value="ASC">Low to High</option>
         <option value="DESC">High to Low</option>

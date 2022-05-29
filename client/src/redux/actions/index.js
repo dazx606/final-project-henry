@@ -9,6 +9,7 @@ export const GET_CAR_DETAILS = "GET_CAR_DETAILS";
 export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ALERT = "ALERT";
 export const SET_CATEGORY = "SET_CATEGORY";
+export const SEND_ERROR= "SEND_ERROR";
 
 const URL = "http://localhost:3001/";
 
@@ -37,11 +38,11 @@ export function getLocationCars(locationId) {
   };
 }
 
-export function getFilteredCars({ brand, carType, order, startingDate, endingDate, orderType, page }, locationId) {
+export function getFilteredCars({ brand, category, order, startingDate, endingDate, orderType, page }, locationId) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `${URL}cars/${locationId}?brand=${brand}&category=${carType}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}`
+      var response = await axios.get(
+        `${URL}cars/${locationId}?brand=${brand}&category=${category}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}`
       );
       const cars = response.data;
 
@@ -50,7 +51,11 @@ export function getFilteredCars({ brand, carType, order, startingDate, endingDat
         payload: cars,
       });
     } catch (error) {
-      console.log(error);
+      console.log(response)
+      return dispatch({
+        type: SEND_ERROR,
+        payload: error.response.data
+      });
     }
   };
 }
