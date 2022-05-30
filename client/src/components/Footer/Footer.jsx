@@ -62,18 +62,6 @@ export default function Footer() {
 
         <i className={`fa-brands fa-instagram ${styles.icon}`}></i>
 
-<<<<<<< HEAD
-                <p>rent a car</p>
-
-            </div>
-            <div className={styles.map}>
-                {
-                    !isLoaded ? (<div>Loading...</div>) : <Map />
-                }
-            </div>
-        </div>
-    );
-=======
         <p>rent a car</p>
       </div>
       <div className={styles.map}>
@@ -81,5 +69,4 @@ export default function Footer() {
       </div>
     </div>
   );
->>>>>>> 7971c1d43cc5588ea47bc7fcf2e4987405ec81f1
 }
