@@ -6,7 +6,7 @@ import {
   GET_CAR_DETAILS,
   SEND_MESSAGE,
   ALERT,
-  SET_CATEGORY
+  SET_SELECTION,
 } from "../actions";
 
 const initialState = {
@@ -16,7 +16,15 @@ const initialState = {
   filteredCars: [],
   carDetails: {},
   hideAlert: true,
-  category:"",
+  selection: {
+    brand: "",
+    category: "",
+    order: "ASC",
+    startingDate: "",
+    endingDate: "",
+    orderType: "pricePerDay",
+    page: 1
+  },
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -42,7 +50,6 @@ export default function rootReducer(state = initialState, { type, payload }) {
       //   }
       //   if (duplicate === false) array.push(payload[i]);
       // }
-
       return {
         ...state,
         filteredCars: payload,
@@ -65,15 +72,16 @@ export default function rootReducer(state = initialState, { type, payload }) {
       };
 
     case ALERT:
-      return{
+      return {
         ...state,
-        hideAlert:payload
+        hideAlert: payload,
       }
-    
-    case SET_CATEGORY:
-      return{
+
+    case SET_SELECTION:
+      
+      return {
         ...state,
-        category: payload
+        selection: payload
       }
 
     default:
