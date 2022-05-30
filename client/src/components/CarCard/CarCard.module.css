@@ -63,9 +63,9 @@
 
 /*dark background */
 .cardCont {
-    margin: 1.5rem;
+    margin: 1.7rem;
     margin-top: 5rem;
-    width: 18rem;
+    width: 20rem;
     height: 30rem;
     display: flex;
     background-image:linear-gradient( var(--color1), var(--color5)70%, var(--color1));    
@@ -76,9 +76,6 @@
     justify-content: center;    
 }
 
-.cardCont:hover{
-    
-}
 
 .photoContent{
     display:flex;
@@ -91,7 +88,7 @@
 }
 .cardImg{
     object-fit: contain;
-    min-width: 22rem;
+    min-width: 24rem;
     min-height: 20rem;
 
 }

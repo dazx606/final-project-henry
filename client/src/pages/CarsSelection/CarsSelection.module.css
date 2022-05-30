@@ -2,9 +2,13 @@
   display: flex;
   justify-content: space-between;
   background-color: var(--color1);
-  padding: 0.5rem 3rem;
+  padding: 1rem 3rem;
   border-bottom: 1px solid var(--color3Tr);
   color: var(--color3);
+  height: 2rem;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 16px;
 }
 
 .title {
@@ -23,7 +27,18 @@
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
-  /* align-content: space-around; */
+  align-content: space-around;
   min-height: 90vh;
   max-width: 99vw;
+}
+
+.slctBar {
+  width: 90vw;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+
 }
