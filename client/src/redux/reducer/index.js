@@ -7,6 +7,7 @@ import {
   SEND_MESSAGE,
   ALERT,
   SET_SELECTION,
+  DELETE_CAR_DETAILS,
 } from "../actions";
 
 const initialState = {
@@ -23,7 +24,7 @@ const initialState = {
     startingDate: "",
     endingDate: "",
     orderType: "pricePerDay",
-    page: 1
+    page: 1,
   },
 };
 
@@ -65,6 +66,8 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         carDetails: payload,
       };
+    case DELETE_CAR_DETAILS:
+      return { ...state, carDetails: payload };
 
     case SEND_MESSAGE:
       return {
@@ -75,14 +78,13 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         hideAlert: payload,
-      }
+      };
 
     case SET_SELECTION:
-      
       return {
         ...state,
-        selection: payload
-      }
+        selection: payload,
+      };
 
     default:
       return { ...state };

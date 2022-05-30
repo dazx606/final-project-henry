@@ -17,9 +17,8 @@ function CarsSelection() {
 
   useEffect(() => {
     dispatch(getFilteredCars(selection, locationId));
-    
-    dispatch(setSelection(selection))
-    
+
+    dispatch(setSelection(selection));
   }, [dispatch, locationId, selection]);
 
   const findCityName = (array) => {
@@ -31,12 +30,11 @@ function CarsSelection() {
     }
   };
   const handleFilters = (e) => {
-    let selected = { ...selection, [e.target.name]: e.target.value };    
-    
-    dispatch(setSelection(selected))
+    let selected = { ...selection, [e.target.name]: e.target.value };
+
+    dispatch(setSelection(selected));
     dispatch(getFilteredCars(selection, locationId));
-    
-  }
+  };
 
   return (
     <div>
@@ -48,26 +46,30 @@ function CarsSelection() {
             locationId={locationId}
             selection={selection}
             handleFilters={handleFilters}
-            
           />
         </div>
       </div>
       <div className={styles.cardsScreen}>
-        {
-          filteredCars.length ? filteredCars.map((car) => {
+        {filteredCars.length ? (
+          filteredCars.map((car) => {
             return (
               <div key={car.model}>
-                <CarCard carId={car.license_plate} brand={car.brand} model={car.model} pricePerDay={car.pricePerDay} rating={car.rating}
-                  image={car.images[0]} />
+                <CarCard
+                  brand={car.brand}
+                  model={car.model}
+                  pricePerDay={car.pricePerDay}
+                  rating={car.rating}
+                  image={car.images[0]}
+                />
               </div>
-            )
+            );
           })
-            : <div>
-              <div>{`We are sorry! :(`}</div>
-              <div>Car selection unavailable </div>
-            </div>
-        }
-
+        ) : (
+          <div>
+            <div>{`We are sorry! :(`}</div>
+            <div>Car selection unavailable </div>
+          </div>
+        )}
       </div>
     </div>
   );
