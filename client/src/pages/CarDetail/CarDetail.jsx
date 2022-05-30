@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getCarDetails } from "../../redux/actions";
+import { getCarDetails, deleteCarDetails } from "../../redux/actions";
+import Accessories from "../../components/Accessories/Accessories";
 
 import styles from "./CarDetail.module.css";
 
@@ -10,8 +11,16 @@ function CarDetail() {
   const dispatch = useDispatch();
   const carDetails = useSelector((state) => state.carDetails);
 
+  const totalStars = 5;
+  const completeStar = Math.floor(carDetails.rating);
+  const emptyStar = Math.floor(totalStars - carDetails.rating);
+  const halfStar = Number.isInteger(carDetails.rating);
+
   useEffect(() => {
     dispatch(getCarDetails(carModel));
+    return () => {
+      dispatch(deleteCarDetails());
+    };
   }, [dispatch]);
 
   return (
@@ -36,8 +45,35 @@ function CarDetail() {
               </span>
             </div>
             <div className={styles.moreinfo}>
-              <div className={styles.accessories}>Accesorios para agregar</div>
-              <div className={styles.rating}>Calificacion</div>
+              <div className={styles.accessories}>
+                <Accessories carDetails={carDetails} />
+              </div>
+              <div className={styles.rating}>
+                <h2>Rating</h2>
+                <div className={styles.starsCont}>
+                  {completeStar &&
+                    [...Array(completeStar)].map((i, k) => {
+                      return (
+                        <div className={styles.starY} key={k}>
+                          <i className="fa-solid fa-star"></i>
+                        </div>
+                      );
+                    })}
+                  {!halfStar && (
+                    <div className={styles.starH}>
+                      <i className="fa-regular fa-star-half-stroke"></i>
+                    </div>
+                  )}
+                  {emptyStar !== 0 &&
+                    [...Array(emptyStar)].map((i, k) => {
+                      return (
+                        <div className={styles.starG} key={k}>
+                          <i className="fa-regular fa-star"></i>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
             </div>
             <div className={styles.caroptions}>
               <button className={styles.reserve}>Reserve</button>

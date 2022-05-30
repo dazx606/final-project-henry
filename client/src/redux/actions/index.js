@@ -8,6 +8,7 @@ export const GET_CAR_DETAILS = "GET_CAR_DETAILS";
 export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ALERT = "ALERT";
 export const SET_SELECTION = "SET_SELECTION";
+export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
 
 const URL = "http://localhost:3001/";
 
@@ -82,6 +83,13 @@ export function getCarDetails(carModel) {
     } catch (error) {
       console.log(error);
     }
+  };
+}
+
+export function deleteCarDetails() {
+  return {
+    type: DELETE_CAR_DETAILS,
+    payload: {},
   };
 }
 

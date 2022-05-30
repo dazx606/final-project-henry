@@ -1,0 +1,35 @@
+.container {
+  padding: 1rem;
+}
+
+.info {
+  display: flex;
+  padding: 0.2rem 3rem;
+  justify-content: space-around;
+  background-color: var(--color6);
+  margin: 1rem;
+  border-radius: 5px;
+  box-shadow: 1px 1px 71px -14px rgba(0, 0, 0, 0.85);
+}
+
+.optionsinfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color3Tr);
+  font-family: var(--font1);
+}
+
+.infoicon {
+  margin: 1rem;
+  font-size: 1.5rem;
+  color: var(--color3Tr);
+}
+
+.infonumber {
+  margin-left: 0.5rem;
+}
+
+.text {
+  color: var(--color3);
+}
