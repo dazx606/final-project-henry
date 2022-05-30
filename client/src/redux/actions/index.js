@@ -37,7 +37,10 @@ export function getLocationCars(locationId) {
   };
 }
 
-export function getFilteredCars({ brand, carType, order, startingDate, endingDate, orderType, page }, locationId) {
+export function getFilteredCars(
+  { brand, carType, order, startingDate, endingDate, orderType, page },
+  locationId
+) {
   return async (dispatch) => {
     try {
       const response = await axios.get(
@@ -62,10 +65,10 @@ export const setCity = (payload) => {
   };
 };
 
-export function getCarDetails(carId) {
+export function getCarDetails(carModel) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URL}car/${carId}`);
+      const response = await axios.get(`${URL}car/${carModel}`);
       return dispatch({ type: GET_CAR_DETAILS, payload: response.data });
     } catch (error) {
       console.log(error);
@@ -85,19 +88,18 @@ export function sendMessage(payload) {
       console.log(error);
     }
   };
+}
 
-};
-
-export function showAlert(payload){
+export function showAlert(payload) {
   return {
     type: ALERT,
-    payload
-  }
-};
+    payload,
+  };
+}
 
-export function setCategory(payload){
-  return{
+export function setCategory(payload) {
+  return {
     type: SET_CATEGORY,
-    payload
-  }
+    payload,
+  };
 }

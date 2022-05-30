@@ -5,7 +5,7 @@
 
 .mainimagecontainer {
   width: 100%;
-  height: 35rem;
+  height: 30rem;
   padding: 0 auto;
 }
 
@@ -13,15 +13,14 @@
   display: block;
   margin: auto;
   object-fit: cover;
-  object-position: 0 -340px;
   width: 100%;
   height: 100%;
 }
 
 .options {
   width: 100%;
-  height: 30rem;
   display: flex;
+  height: 20rem;
 }
 
 .carinfo {
