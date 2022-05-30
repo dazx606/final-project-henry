@@ -15,11 +15,11 @@
 .faq {
   padding: 20px;
   text-align: center;
-  color: var(--color4);
-  font-family:var(--font1)
+  color: var(--color3);
+  font-family: var(--font1);
 }
 .navLink {
-  color: var(--color3);
+  color: var(--color4);
   font-family: var(--font2);
   text-align: center;
 }
@@ -39,11 +39,15 @@
   padding: 10px 10px;
   max-width: 50rem;
   margin: auto;
-
-  
 }
 
 .arrow {
   color: var(--color3);
   padding-left: 10px;
+}
+
+.containerButton {
+  display: flex;
+  justify-content: center;
+  padding:10px;
 }

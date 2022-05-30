@@ -12,9 +12,6 @@ import Benefits from '../../components/Benefits/Benefits'
 
 function Home() {
     const city = useSelector((state) => state.city);
-<<<<<<< HEAD
-    const hide = useSelector((state) => state.hideAlert)
-=======
     const hide = useSelector((state) => state.hideAlert);
     const dispatch = useDispatch();
 
@@ -28,7 +25,6 @@ function Home() {
         orderType: "pricePerDay",
         page: 1}))
     }, [dispatch]);
->>>>>>> cc5d19f538924636e796f6fb8f109cbad697eac9
 
     return (
         <div className={styles.homeCont}>
