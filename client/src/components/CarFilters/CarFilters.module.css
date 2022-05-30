@@ -1,14 +1,18 @@
 .select {
-  border: none;
+  border: solid 1px var(--color4);
+  border-radius: 4px;
   outline: none;
-  padding: 0.6rem 0.5rem;
-  font-size: medium;
-  color: rgb(66, 66, 66);
+  padding: 0rem 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color3);
   margin-left: 0.5rem;
-  background-color: rgb(218, 235, 250);
+  background-color: var(--color1);
   width: 8rem;
+  height: 2rem;
 }
-
+.select:hover{
+  cursor: pointer;
+}
 .filters {
   display: flex;
   align-items: center;

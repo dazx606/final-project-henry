@@ -6,7 +6,8 @@ import {
   GET_CAR_DETAILS,
   SEND_MESSAGE,
   ALERT,
-  SET_CATEGORY
+  SET_SELECTION,
+  DELETE_CAR_DETAILS,
 } from "../actions";
 
 const initialState = {
@@ -14,9 +15,17 @@ const initialState = {
   locationCars: {},
   city: "",
   filteredCars: [],
-  carDetails: [],
+  carDetails: {},
   hideAlert: true,
-  category:"",
+  selection: {
+    brand: "",
+    category: "",
+    order: "ASC",
+    startingDate: "",
+    endingDate: "",
+    orderType: "pricePerDay",
+    page: 1,
+  },
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -27,27 +36,24 @@ export default function rootReducer(state = initialState, { type, payload }) {
         locations: payload,
       };
     case GET_LOCATION_CARS:
-      console.log("🚀 ~ file: index.js ~ line 30 ~ rootReducer ~ payload", payload)
       return {
         ...state,
         locationCars: payload,
       };
 
     case GET_FILTERED_CARS:
-      let array = [];
-
-      for (let i = 0; i < payload.length; i++) {
-        let array2 = [...array];
-        let duplicate = false;
-        for (let j = 0; j < array2.length; j++) {
-          if (payload[i].model === array2[j].model) duplicate = true;
-        }
-        if (duplicate === false) array.push(payload[i]);
-      }
-
+      //let array = [];
+      // for (let i = 0; i < payload.length; i++) {
+      //   let array2 = [...array];
+      //   let duplicate = false;
+      //   for (let j = 0; j < array2.length; j++) {
+      //     if (payload[i].model === array2[j].model) duplicate = true;
+      //   }
+      //   if (duplicate === false) array.push(payload[i]);
+      // }
       return {
         ...state,
-        filteredCars: array,
+        filteredCars: payload,
       };
 
     case SET_CITY:
@@ -60,6 +66,8 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         carDetails: payload,
       };
+    case DELETE_CAR_DETAILS:
+      return { ...state, carDetails: payload };
 
     case SEND_MESSAGE:
       return {
@@ -67,16 +75,16 @@ export default function rootReducer(state = initialState, { type, payload }) {
       };
 
     case ALERT:
-      return{
+      return {
         ...state,
-        hideAlert:payload
-      }
-    
-    case SET_CATEGORY:
-      return{
+        hideAlert: payload,
+      };
+
+    case SET_SELECTION:
+      return {
         ...state,
-        category: payload
-      }
+        selection: payload,
+      };
 
     default:
       return { ...state };

@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { setCategory, showAlert } from '../../redux/actions';
+import { setSelection, showAlert } from '../../redux/actions';
 import style from './CategoryCard.module.css';
 
 
 
 
 export default function CategotyCard(props) {
-
+    const selection= useSelector(state => state.selection);
     const city = useSelector(state => state.city);
     const dispatch = useDispatch();
 
@@ -15,10 +15,10 @@ export default function CategotyCard(props) {
     function handleClick() {
         if (city === "") {
             dispatch(showAlert(false))
-            dispatch(setCategory(props.card.value))
+            dispatch(setSelection({...selection, category:props.card.value}))
         }
         else {
-
+            dispatch(setSelection({...selection, category:props.card.value}))
         }
     }
 
