@@ -6,7 +6,6 @@
   padding: 10px;
   align-items: center;
   height: 16rem;
-  /* justify-content: space-evenly; */
 }
 
 .navLinks {
@@ -37,10 +36,9 @@
 }
 .map {
   border-left: 1px groove var(--color3);
-  padding: 3rem;
+  padding: 2rem;
   width: 25vw;
   padding-left: 1rem;
-
   margin-left: 15rem;
 }
 .mapContainer {

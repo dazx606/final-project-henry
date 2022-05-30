@@ -65,12 +65,11 @@ export const setCity = (payload) => {
 };
 
 export const setSelection = (payload) => {
-  
-  return{
+  return {
     type: SET_SELECTION,
-    payload
-  }
-}
+    payload,
+  };
+};
 
 export function getCarDetails(carId) {
   return async (dispatch) => {
@@ -95,13 +94,11 @@ export function sendMessage(payload) {
       console.log(error);
     }
   };
+}
 
-};
-
-export function showAlert(payload){
+export function showAlert(payload) {
   return {
     type: ALERT,
-    payload
-  }
-};
-
+    payload,
+  };
+}
