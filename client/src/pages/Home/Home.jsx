@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import LocationFilter from '../../components/LocationFilter/LocationFilter'
@@ -17,13 +17,15 @@ function Home() {
 
     useEffect(() => {
         dispatch(setCity(''))
-        dispatch(setSelection({brand: "",
-        category: "",
-        order: "ASC",
-        startingDate: "",
-        endingDate: "",
-        orderType: "pricePerDay",
-        page: 1}))
+        dispatch(setSelection({
+            brand: "",
+            category: "",
+            order: "ASC",
+            startingDate: "",
+            endingDate: "",
+            orderType: "pricePerDay",
+            page: 1
+        }))
     }, [dispatch]);
 
     return (
@@ -38,11 +40,13 @@ function Home() {
             <Carousel />
 
             <Categories />
-            <div className={styles.alert} hidden={hide}>
-                <Alert />
-            </div>
+            { !hide &&
+                <div className={styles.alert} >
+                    <Alert />
+                </div>
+            }
             <div>
-                <Benefits /> 
+                <Benefits />
             </div>
         </div>
     )
