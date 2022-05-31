@@ -158,4 +158,9 @@ router.post("/send-email", async (req, res, next) => {
   }
 });
 
+//rutas de auth0
+router.get('/', (req, res) => {
+  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+});
+
 module.exports = router;
