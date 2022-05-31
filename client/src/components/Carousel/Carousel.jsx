@@ -32,19 +32,17 @@ function Carousel() {
         <a className={style.prev} onClick={back}>&#10094;</a>
         <a className={style.next} onClick={next}>&#10095;</a>
         <div className={style.dotContainer}>
-        {images.length ?
-          images.map((e, k) =>
-            <span key={k + 1} className={img !== k ? style.dot : style.activeDot} onClick={() => setImg(k)}></span>
-          )
-          :
-          <p>Image not found</p>
-        }
-
-
-      </div>
+          {images.length ?
+            images.map((e, k) =>
+              <span key={k + 1} className={img !== k ? style.dot : style.activeDot} onClick={() => setImg(k)}></span>
+            )
+            :
+            <p>Image not found</p>
+          }
+        </div>
       </div>
 
-     
+
     </div>
   )
 }
