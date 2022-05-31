@@ -65,7 +65,7 @@
 .cardCont {
     margin: 1.7rem;
     margin-top: 5rem;
-    width: 20rem;
+    width: 18rem;
     height: 30rem;
     display: flex;
     background-image:linear-gradient( var(--color1), var(--color5)70%, var(--color1));    
@@ -79,7 +79,7 @@
 
 .photoContent{
     display:flex;
-    width: 20rem;
+    width: 18rem;
     height: 12rem;
     justify-content: center;
     /* margin-top: 26px; */    
@@ -88,14 +88,14 @@
 }
 .cardImg{
     object-fit: contain;
-    min-width: 24rem;
+    min-width: 22rem;
     min-height: 20rem;
 
 }
 
 .cardLink {
     text-decoration: none;
-    width: 20rem;
+    width: 18rem;
     height: 30rem;
     
 
