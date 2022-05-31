@@ -10,6 +10,7 @@ export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ALERT = "ALERT";
 export const SET_SELECTION = "SET_SELECTION";
 export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
+export const SAVE_USER = 'SAVE_USER';
 
 const URL = "http://localhost:3001/";
 
@@ -116,3 +117,19 @@ export function showAlert(payload) {
 }
 
 // authentication actions
+export function saveUser(email) {
+  console.log(email)
+  return async (dispatch) => {
+    try{
+      const response = await axios.post(`${URL}user`, {email});
+      console.log(response.data)
+      return dispatch({
+        type: SAVE_USER,
+        payload: [response.data.msg, response.data.data, response.data.complited]
+      })
+    }catch(e){
+      console.log(e)
+
+    }
+  }
+}

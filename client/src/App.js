@@ -9,7 +9,7 @@ import Contact from "./pages/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import Faq from "./components/Faq/Faq";
 import AboutUs from "./pages/AboutUs/AboutUs";
-import Login from "./pages/Login/Login";
+import Profile from "./pages/Login/Login";
 
 function App() {
  
@@ -23,7 +23,7 @@ function App() {
           <Route path="/car/:carModel" element={<CarDetail />} />
           <Route path="/faqs" element={<Faq />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/user/:userId" element={<Profile />} />
         </Route>
       </Routes>
       <Footer />

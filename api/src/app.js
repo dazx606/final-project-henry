@@ -1,17 +1,8 @@
-<<<<<<< HEAD
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const routes = require('./routes/index.js');
-require('dotenv').config();
-=======
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index.js");
->>>>>>> 10b6326172a9c23fedd772e40b2ea09895ccc947
 
 require("./db.js");
 
@@ -34,12 +25,7 @@ server.use((req, res, next) => {
   next();
 });
 
-<<<<<<< HEAD
-
-server.use('/', routes);
-=======
 server.use("/", routes);
->>>>>>> 10b6326172a9c23fedd772e40b2ea09895ccc947
 
 // Error catching endware.
 server.use((err, req, res, next) => {
