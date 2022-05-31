@@ -79,11 +79,7 @@
 
 .photoContent{
     display:flex;
-<<<<<<< HEAD
-    width: 22rem;
-=======
     width: 18rem;
->>>>>>> eaa0b87e62bb2c6d4c008c7e7f65121c1bb7067a
     height: 12rem;
     justify-content: center;
     /* margin-top: 26px; */    

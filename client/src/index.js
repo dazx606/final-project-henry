@@ -16,7 +16,7 @@ root.render(
   <Auth0Provider
     domain={domain}
     clientId={clientId}
-    redirectUri={`http://localhost:3000/login`}
+    redirectUri={window.location.href}
   >
     <Provider store={store} >
       <React.StrictMode>
@@ -25,7 +25,6 @@ root.render(
         </BrowserRouter>
       </React.StrictMode>
     </Provider>
-
   </Auth0Provider>
 
 

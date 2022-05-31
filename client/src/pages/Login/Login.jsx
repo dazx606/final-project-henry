@@ -7,14 +7,14 @@ import { useHref } from "react-router-dom";
 function Login() {
     const loginf = useSelector(state => state.login)
     const dispatch = useDispatch()
-    const { loginWithRedirect } = useAuth0();
+    const { loginWithPopup } = useAuth0();
     const { logout } = useAuth0();
     
 
     return (
         <div>
             <div>Login</div>
-            <button onClick={() => loginWithRedirect()}>Log In</button>
+            <button onClick={() => loginWithPopup( {screen_hint:'signup'} )}>Log In</button>
 
             <div>Logout</div>
             <button onClick={() => logout()}>Log Out</button>

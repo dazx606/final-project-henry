@@ -1,0 +1,7 @@
+.authBox{
+    display:flex;
+    position: fixed;
+    background-color: var(--color4);
+    top: 4rem;
+    left: 78rem;
+}
