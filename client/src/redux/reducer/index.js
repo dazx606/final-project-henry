@@ -8,6 +8,7 @@ import {
   ALERT,
   SET_SELECTION,
   DELETE_CAR_DETAILS,
+  LOGIN,
 } from "../actions";
 
 const initialState = {
@@ -17,15 +18,8 @@ const initialState = {
   filteredCars: [],
   carDetails: {},
   hideAlert: true,
-  selection: {
-    brand: "",
-    category: "",
-    order: "ASC",
-    startingDate: "",
-    endingDate: "",
-    orderType: "pricePerDay",
-    page: 1,
-  },
+  selection: {brand: "",category: "",order:"ASC",startingDate:"", endingDate:"", orderType:"pricePerDay",page:1},
+  login:{},
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -85,6 +79,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         selection: payload,
       };
+      case LOGIN: 
+      return{
+        ...state,
+        login: payload
+      }
 
     default:
       return { ...state };

@@ -79,7 +79,7 @@
 
 .photoContent{
     display:flex;
-    width: 20rem;
+    width: 22rem;
     height: 12rem;
     justify-content: center;
     /* margin-top: 26px; */    
@@ -88,7 +88,7 @@
 }
 .cardImg{
     object-fit: contain;
-    min-width: 24rem;
+    min-width: 22rem;
     min-height: 20rem;
 
 }
