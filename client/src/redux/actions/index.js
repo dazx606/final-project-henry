@@ -9,6 +9,7 @@ export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ALERT = "ALERT";
 export const SET_SELECTION = "SET_SELECTION";
 export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
+export const SET_USER = "SET_USER";
 
 const URL = "http://localhost:3001/";
 
@@ -111,5 +112,27 @@ export function showAlert(payload) {
   return {
     type: ALERT,
     payload,
+  };
+}
+
+export function getUserInfo(getToken, email) {
+  return async (dispatch) => {
+    try {
+      if (email) {
+        const token = await getToken();
+        const options = {
+          method: "GET",
+          mode: "cors",
+          headers: { authorization: `Bearer ${token}` },
+        };
+        const response = await axios(
+          `http://localhost:3001/user?email=${email}`,
+          options
+        );
+        return dispatch({ type: SET_USER, payload: response.data });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 }

@@ -8,6 +8,7 @@ import {
   ALERT,
   SET_SELECTION,
   DELETE_CAR_DETAILS,
+  SET_USER,
 } from "../actions";
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
     orderType: "pricePerDay",
     page: 1,
   },
+  user: {},
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -84,6 +86,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         selection: payload,
+      };
+    case SET_USER:
+      return {
+        ...state,
+        user: payload,
       };
 
     default:

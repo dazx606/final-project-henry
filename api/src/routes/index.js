@@ -21,7 +21,7 @@ const { transporter } = require("../config/mailer");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 
-const jwtCheck = jwt({
+const authMiddleWare = jwt({
   secret: jwks.expressJwtSecret({
     cache: true,
     rateLimit: true,
@@ -229,9 +229,8 @@ router.post("/send-email", async (req, res, next) => {
   }
 });
 
-//////////////////////////////////////// USER ROUTES
-
-router.get("/user", async (req, res, next) => {
+//================================================= USER ROUTES
+router.get("/user", authMiddleWare, async (req, res, next) => {
   const { email } = req.query;
   try {
     let completed;
@@ -265,7 +264,7 @@ router.post("/user", async (req, res, next) => {
   }
 });
 
-router.patch("/user/:id", async (req, res, next) => {
+router.patch("/user/:id", authMiddleWare, async (req, res, next) => {
   try {
     const { id } = req.params;
     const v4 = new RegExp(
@@ -295,5 +294,6 @@ router.patch("/user/:id", async (req, res, next) => {
     next(error);
   }
 });
+//================================================= /USER ROUTES
 
 module.exports = router;
