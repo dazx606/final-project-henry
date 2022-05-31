@@ -2,10 +2,13 @@ import { React, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocations } from "../../redux/actions";
+import { useAuth0 } from "@auth0/auth0-react";
+import styles from './profile.module.css';
 
 export default function Profile() {
     const [input, setInput] = useState({});
     const locations = useSelector((state) => state.locations);
+    // const { user } = useAuth0();
     const dispatch = useDispatch()
     useEffect(() => {
         if (!locations.length) dispatch(getLocations());
@@ -33,44 +36,44 @@ export default function Profile() {
     }
 
     return (
-        <div>
-            <h2>PROFILE FORM</h2>
+        <div className={styles.profile}>
+            {/* <h2>USER PROFILE:{user.email}</h2> */}
             <form onSubmit={(e) => handleSubmit(e)}>
-                <div>
-                    <div>First name: </div>
-                    <input type="text" value={input.name} name="name" onChange={(e) => handleChange(e)} />
+                <div >
+                    <div className={styles.titles}>First name: </div>
+                    <input className={styles.inputs} type="text" value={input.name} name="name" onChange={(e) => handleChange(e)} />
                 </div>
                 <div>
-                    <div>Last name: </div>
-                    <input type="text" value={input.lastName} name="lastName" onChange={(e) => handleChange(e)} />
+                    <div className={styles.titles}>Last name: </div>
+                    <input className={styles.inputs} type="text" value={input.lastName} name="lastName" onChange={(e) => handleChange(e)} />
                 </div>
                 <div>
-                    <div>Email: </div>
-                    < input type="placeholder" value={input.email} name="email" onChange={(e) => handleChange(e)} />
+                    <div className={styles.titles}>Email: </div>
+                    < input className={styles.inputs} type="placeholder" value={input.email} name="email" onChange={(e) => handleChange(e)} />
                 </div>
                 <div>
-                    <div>Phone: </div>
-                    <input type="text" value={input.phone} name="phone" onChange={(e) => handleChange(e)} />
+                    <div className={styles.titles}>Phone: </div>
+                    <input className={styles.inputs} type="text" value={input.phone} name="phone" onChange={(e) => handleChange(e)} />
                 </div>
                 <div>
-                    <div>Language: </div>
-                    <select value={input.language} name="language" onChange={(e) => handleChange(e)}>
+                    <div className={styles.titles}>Language: </div>
+                    <select className={styles.inputs} value={input.language} name="language" onChange={(e) => handleChange(e)}>
                         <option value="English">English</option>
                         <option value="Spanish">Spanish</option>
                     </select>
                 </div>
-                <div>
+                <div className={styles.titles}>
                     <div>Document Id: </div>
-                    <input type="text" value={input.DocumentId} name="DocumentId" onChange={(e) => handleChange(e)} />
+                    <input className={styles.inputs} type="text" value={input.DocumentId} name="DocumentId" onChange={(e) => handleChange(e)} />
                 </div>
-                <div>
+                <div className={styles.titles}>
                     <div>License: </div>
-                    <input type="text" value={input.license} name="license" onChange={(e) => handleChange(e)} />
+                    <input className={styles.select} type="text" value={input.license} name="license" onChange={(e) => handleChange(e)} />
                 </div>
-                <div>
-                    <div>City: </div>
+                <div >
+                    <div className={styles.titles}>City: </div>
 
-                    <select value={input.city} onChange={handleChange} >
+                    <select className={styles.select} value={input.city} onChange={handleChange} >
                         <option hidden>City</option>
                         {
                             locations?.map(l =>
@@ -79,7 +82,9 @@ export default function Profile() {
                         }
                     </select>
                 </div>
-                <button type="submit">Go</button>
+                <div className={styles.button}>
+                    <button  type="submit">Go</button>
+                </div>
             </form>
         </div>
     );
