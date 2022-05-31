@@ -1,5 +1,7 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import LoginButton from "../LoginButton/LoginButton";
+import LogoutButton from "../LogoutButton/LogoutButton";
 import styles from "./NavBar.module.css";
 
 function NavBar() {
@@ -12,10 +14,14 @@ function NavBar() {
             <label htmlFor="btn-nav" className={styles.btnLabel}>
               <div className={styles.headerButton}></div>
             </label>
-            <NavLink className={styles.tittle} to="/"><h1>RENT A CAR</h1></NavLink>
+            <NavLink className={styles.tittle} to="/">
+              <h1>RENT A CAR</h1>
+            </NavLink>
             <NavLink to="/login" className={styles.icon}>
               <i className="fa-solid fa-user"></i>
             </NavLink>
+            <LoginButton />
+            <LogoutButton />
           </div>
         </header>
         <nav className={styles.menu}>
