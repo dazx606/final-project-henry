@@ -133,18 +133,18 @@ function validations(input) {
     }
     if (!input.license) {
         errors.license = "License is required"
-    } else if (input.license.length !== 10) {
+    } else if (input.license !== 10) {
         errors.license = "License must be at least 10 characters between letters and numbers"
     }
     if (!input.documentId) {
         errors.documentId = "Document Id is required"
-    } else if (input.DocumentId.length !== 15) {
-        errors.documentId = "Document Id must be 9 characters letters o numbers"
+    } else if (input.DocumentId !== 8) {
+        errors.documentId = "Document Id must be 8 characters letters o numbers"
     }
     if (!input.phone) {
         errors.phone = "Phone is required"
-    } else if (input.phone.length !== 10) {
-        errors.phone = "Phone must be 10 characters"
+    } else if (input.phone && !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test) {
+        errors.phone = "Phone incorrect"
     }
     return errors
 }
