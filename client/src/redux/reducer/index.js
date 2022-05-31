@@ -9,6 +9,7 @@ import {
   SET_SELECTION,
   DELETE_CAR_DETAILS,
   SET_USER,
+  SAVE_USER,
 } from "../actions";
 
 const initialState = {
@@ -27,6 +28,7 @@ const initialState = {
     orderType: "pricePerDay",
     page: 1,
   },
+  savedUser: [],
   user: {},
 };
 
@@ -91,6 +93,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         user: payload,
+      };
+    case SAVE_USER:
+      return {
+        ...state,
+        savedUser: payload,
       };
 
     default:

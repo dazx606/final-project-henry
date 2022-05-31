@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
-import LoginButton from "../LoginButton/LoginButton";
-import LogoutButton from "../LogoutButton/LogoutButton";
+import Authentication from "../Authenti/Authentication";
 import styles from "./NavBar.module.css";
 
 function NavBar() {
+  const [display, setDisplay] = useState(false)
+
+  function handleLoginInfo() {
+    setDisplay(!display);
+  }
+
   return (
     <div>
       <div className={styles.navcontainer}>
@@ -14,14 +19,14 @@ function NavBar() {
             <label htmlFor="btn-nav" className={styles.btnLabel}>
               <div className={styles.headerButton}></div>
             </label>
-            <NavLink className={styles.tittle} to="/">
-              <h1>RENT A CAR</h1>
-            </NavLink>
-            <NavLink to="/login" className={styles.icon}>
+            <NavLink className={styles.tittle} to="/"><h1>RENT A CAR</h1></NavLink>
+            <div onClick={handleLoginInfo} className={styles.icon} >
               <i className="fa-solid fa-user"></i>
-            </NavLink>
-            <LoginButton />
-            <LogoutButton />
+            </div>
+            {display && <Authentication />}
+            {/* <NavLink to="/login" className={styles.icon}>
+              <i className="fa-solid fa-user"></i>
+            </NavLink> */}
           </div>
         </header>
         <nav className={styles.menu}>

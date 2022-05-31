@@ -253,11 +253,16 @@ router.post("/user", async (req, res, next) => {
         email: email,
       },
     });
+    let completed;
+    user.firstName && user.lastName && user.documentId && user.license
+      ? (completed = true)
+      : (completed = false);
     if (created)
-      return res.status(201).json({ msg: "User created", data: user });
+      return res.status(201).json({ msg: "User created", data: user.id, completed});
     return res.status(200).json({
       msg: "User found",
-      data: user,
+      data: user.id,      
+      completed
     });
   } catch (error) {
     next(error);
