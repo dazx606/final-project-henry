@@ -68,7 +68,7 @@ const generateCars = () => {
     }
     //---------------------el array de imagenes recibe [imagenTarjeta, imagenImponente, etc...]--------------------
     addNewCar(10, "Luxury", "Porsche", "Carrera 911", 2021, 600, 2, "small", 9.3, 3, ["Automatic Transmission", "Radio", "Airconditioning", "Electric Windows", "Bluetooth", "Power steering"], ["GPS"], [
-        "https://i.ibb.co/RNc93C9/911-T2.png", "https://i.ibb.co/80ycS4G/911-I.png", "https://i.ibb.co/sKyJFjm/911-5.jpg",
+        "https://i.ibb.co/RNc93C9/911-T2.png", "https://i.ibb.co/n6KsBxP/911-1.jpg", "https://i.ibb.co/sKyJFjm/911-5.jpg",
         "https://i.ibb.co/Ypd5Ndb/911-4.jpg", "https://i.ibb.co/9VcqyVb/911-3.jpg", "https://i.ibb.co/F3K31rM/911-2.png",
         "https://i.ibb.co/Wf5H2qg/911-1.png"
     ]);
@@ -97,7 +97,7 @@ const generateCars = () => {
         "https://i.ibb.co/HH57n2G/Fusion-2.jpg", "https://i.ibb.co/zP3BN7F/Fusion-1.jpg", ""
     ]);
     addNewCar(30, "Premium", "VW", "Jetta", 2021, 80, 5, "medium", 9.4, 2.5, ["Manual Transmission", "Radio", "Airconditioning", "Electric Windows", "Bluetooth", "Power steering"], ["GPS", "Child seat", "Baby seat"], [
-        "https://i.ibb.co/C1tgzJ6/JT-T.png", "https://i.ibb.co/r5MV4XT/JT-I.jpg", "https://i.ibb.co/TB8V2s5/JT-4.jpg",
+        "https://i.ibb.co/C1tgzJ6/JT-T.png", "https://i.ibb.co/6n77bRZ/jetta-1.jpg", "https://i.ibb.co/TB8V2s5/JT-4.jpg",
         "https://i.ibb.co/nRwk9JZ/JT-3.jpg", "https://i.ibb.co/sJJTbXW/JT-2.jpg", "https://ibb.co/SwFJd8C"
     ]);
     addNewCar(30, "Premium", "Ford", "Mustang", 2020, 95, 4, "small", 9.5, 5, ["Automatic Transmission", "Radio", "Airconditioning", "Electric Windows", "Bluetooth", "Power steering"], ["GPS", "Child seat", "Baby seat"], [
