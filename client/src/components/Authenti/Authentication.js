@@ -12,7 +12,6 @@ function Authentication({ handleLoginInfo }) {
   const completeUser = useSelector(state => state.user)
   useEffect(() => {
     if (isAuthenticated) {
-<<<<<<< HEAD
       dispatch(saveUser(user.email)) 
     }  
 
@@ -24,15 +23,6 @@ function Authentication({ handleLoginInfo }) {
     }
   },[dispatch, savedUser])
 
-=======
-      dispatch(saveUser(user.email))
-      dispatch(setUserInfo(getAccessTokenSilently, user?.email))
-    }
-
-    console.log(user)
-  }, [user])
-  
->>>>>>> 69ac9baf1195858c3689cf83005b50d6408afbb3
   return (
     <div className={style.authBox} >
       {isLoading ?
