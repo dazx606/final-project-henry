@@ -1,24 +1,20 @@
 const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
-  sequelize.define('car', {
-    license_plate: {
-      type: DataTypes.STRING,
-      primaryKey: true,
-    },
+  sequelize.define('carModel', {
     brand: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     model: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    year: {
-      type: DataTypes.SMALLINT,
+      primaryKey: true,
     },
     pricePerDay: {
       type: DataTypes.FLOAT,
       allowNull: false,
+    },
+    stripePriceId: {
+      type: DataTypes.STRING,
     },
     passengers: {
       type: DataTypes.SMALLINT,
