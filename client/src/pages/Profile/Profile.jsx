@@ -27,7 +27,7 @@ export default function Profile() {
       alert("complete with your correct information");
       return;
     }
-    if (!input.firstName || input.lastName || input.phone || input.license || input.documentId) {
+    if (!input.firstName || !input.lastName || !input.phone || !input.license || !input.documentId) {
       alert("Complete your information");
       return;
     } else if (!user.email_verified) {
