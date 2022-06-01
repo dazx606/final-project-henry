@@ -10,6 +10,7 @@ import {
   DELETE_CAR_DETAILS,
   SET_USER,
   SAVE_USER,
+  PATCH_USER,
 } from "../actions";
 
 const initialState = {
@@ -89,6 +90,10 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         savedUser: payload,
+      };
+    case PATCH_USER:
+      return {
+        ...state,
       };
 
     default:

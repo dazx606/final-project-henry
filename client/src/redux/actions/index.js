@@ -11,6 +11,7 @@ export const SET_SELECTION = "SET_SELECTION";
 export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
 export const SET_USER = "SET_USER";
 export const SAVE_USER = "SAVE_USER";
+export const PATCH_USER = "UPDATE_USER";
 
 const URL = "http://localhost:3001/";
 
@@ -39,10 +40,7 @@ export function getLocationCars(locationId) {
   };
 }
 
-export function getFilteredCars(
-  { brand, category, order, startingDate, endingDate, orderType, page },
-  locationId
-) {
+export function getFilteredCars({ brand, category, order, startingDate, endingDate, orderType, page }, locationId) {
   return async (dispatch) => {
     try {
       var response = await axios.get(
@@ -148,14 +146,25 @@ export function saveUser(email) {
       console.log(response.data);
       return dispatch({
         type: SAVE_USER,
-        payload: [
-          response.data.msg,
-          response.data.data,
-          response.data.complited,
-        ],
+        payload: [response.data.msg, response.data.data, response.data.complited],
       });
     } catch (e) {
       console.log(e);
+      
+    }
+  };
+}
+export function patchUser(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.patch(`${URL}user/${payload.userId}`, payload);
+
+      return dispatch({
+        type: PATCH_USER,
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 }

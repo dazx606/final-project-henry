@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import style from "./Authentication.module.css"
 import { getUserInfo, saveUser } from '../../redux/actions';
@@ -32,7 +32,7 @@ function Authentication({ handleLoginInfo }) {
           <button onClick={() => loginWithPopup({ screen_hint: 'signup' })}>Sign Up</button>
         </div>}
 
-      {isAuthenticated &&
+      {isAuthenticated && (
         <div>
 
           {!savedUser[2] ?
@@ -60,10 +60,9 @@ function Authentication({ handleLoginInfo }) {
           <div className={style.btnCont}><button className={style.logBtn} onClick={() => logout()}>Log out</button></div>
           </div>
         </div>
-      }
-
+      )}
     </div>
-  )
+  );
 }
 
-export default Authentication
+export default Authentication;
