@@ -78,6 +78,8 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
     brands = [...new Set(brands)];
     let categories = locationCarModels.carModels.map((car) => car.carType.name);
     categories = [...new Set(categories)];
+    let models = locationCarModels.carModels.map((car) => `${car.brand} ${car.model}`);
+    models = [...new Set(models)];
 
     return res.json({
       id: locationCarModels.dataValues.id,
@@ -85,7 +87,8 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
       latitude: locationCarModels.dataValues.latitude,
       longitude: locationCarModels.dataValues.longitude,
       brands,
-      categories
+      categories,
+      models
     });
   } catch (error) {
     next(error);
