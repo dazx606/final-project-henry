@@ -31,7 +31,7 @@ p {
     justify-content: center;
 }
 
-button {
+.goHomeb {
     background-color: var(--color4);
     color: var(--color3);
     font-size: 0.8rem;
@@ -42,7 +42,7 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.goHomeb:hover {
     background-color: var(--color4Tr);
 }
 

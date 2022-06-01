@@ -8,6 +8,7 @@ import {
   ALERT,
   SET_SELECTION,
   DELETE_CAR_DETAILS,
+  SET_USER,
   SAVE_USER,
   PATCH_USER,
 } from "../actions";
@@ -29,6 +30,7 @@ const initialState = {
     page: 1,
   },
   savedUser: [],
+  user: {},
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -45,15 +47,6 @@ export default function rootReducer(state = initialState, { type, payload }) {
       };
 
     case GET_FILTERED_CARS:
-      //let array = [];
-      // for (let i = 0; i < payload.length; i++) {
-      //   let array2 = [...array];
-      //   let duplicate = false;
-      //   for (let j = 0; j < array2.length; j++) {
-      //     if (payload[i].model === array2[j].model) duplicate = true;
-      //   }
-      //   if (duplicate === false) array.push(payload[i]);
-      // }
       return {
         ...state,
         filteredCars: payload,
@@ -87,6 +80,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         selection: payload,
+      };
+    case SET_USER:
+      return {
+        ...state,
+        user: payload,
       };
     case SAVE_USER:
       return {
