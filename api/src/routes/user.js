@@ -19,6 +19,8 @@ const authMiddleWare = jwt({
 
 const router = Router();
 
+
+
 // ============================ GET =============================================================//
 router.get("/", authMiddleWare, async (req, res, next) => {
   const { email } = req.query;
