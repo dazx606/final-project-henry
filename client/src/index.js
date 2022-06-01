@@ -18,7 +18,7 @@ root.render(
     domain={DOMAIN}
     clientId={CLIENT_ID}
     redirectUri={window.location.origin}
-    audience={AUDIENCE}
+    audience={AUDIENCE}    
   >
     <Provider store={store}>
       <React.StrictMode>
