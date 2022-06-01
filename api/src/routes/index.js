@@ -158,4 +158,19 @@ router.post("/send-email", async (req, res, next) => {
   }
 });
 
+router.patch("/user/:id", async (req, res)=>{
+  try {
+    const {id} = req.params;
+    const {firstName, lastNmae, documentId, license, phone, language } = req.body;
+    const user = await User.findOne({where:{id}});
+    if(!user) return res.status(404).send({msg:"User not found"});
+    let newUser = User.update({firstName, lastNmae, documentId, license, phone},
+      {where:{id}});
+    res.status(202).send({msg:"user updated", newUser})
+
+  } catch (error) {
+    
+  }
+})
+
 module.exports = router;
