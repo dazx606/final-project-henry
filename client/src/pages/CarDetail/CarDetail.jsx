@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { getCarDetails, deleteCarDetails } from "../../redux/actions";
 import Accessories from "../../components/Accessories/Accessories";
 
@@ -76,7 +76,7 @@ function CarDetail() {
               </div>
             </div>
             <div className={styles.caroptions}>
-              <button className={styles.reserve}>Reserve</button>
+              <NavLink to = "/booking"><button className={styles.reserve}>Reserve</button></NavLink>
             </div>
           </div>
           <div className={styles.extraimages}>

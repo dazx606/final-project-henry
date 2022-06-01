@@ -7,9 +7,9 @@ html {
   font-family: sans-serif;
 }
 
-body {
+/* body {
   background: #d1d1d1;
-}
+} */
 
 .navcontainer {
   height: 4rem;
@@ -28,9 +28,9 @@ body {
   height: 4rem;
 }
 
-h1 {
+/* h1 {
   font-size: 20px;
-}
+} */
 
 .icon {
   color: var(--color3);
@@ -103,13 +103,13 @@ h1 {
   transition: all 0.5s;
 }
 
-ul {
+/* ul {
   list-style: none;
-}
+} */
 
-li {
+/* li {
   margin: 0.5rem;
-}
+} */
 
 .link {
   margin: 2rem 1.5rem;
@@ -117,15 +117,15 @@ li {
   justify-content: space-evenly;
 }
 
-.link a {
+/* .link a {
   letter-spacing: 2px;
   text-decoration: none;
   color: var(--color3);
   font-size: 1rem;
   position: relative;
-}
+} */
 
-.link a:after {
+/* .link a:after {
   content: "";
   position: absolute;
   right: 0;
@@ -134,17 +134,15 @@ li {
   height: 2px;
   width: 100%;
   background: var(--color4);
-  /*animacion de derecha a izquierda*/
   transform-origin: right;
   transform: scaleX(0);
   transition: transform 0.2s ease-in-out;
-}
+} */
 
-.link a:hover:after {
-  /*animacion de derecha a izquierda*/
+/* .link a:hover:after {
   transform-origin: left;
   transform: scaleX(1);
-}
+} */
 
 .checkbox:checked ~ .menu {
   background: var(--color6);
