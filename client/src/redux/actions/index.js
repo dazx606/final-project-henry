@@ -116,7 +116,7 @@ export function showAlert(payload) {
 
 // authentication actions:
 
-export function getUserInfo(getToken, email) {
+export function setUserInfo(getToken, email) {
   return async (dispatch) => {
     try {
       if (email) {
