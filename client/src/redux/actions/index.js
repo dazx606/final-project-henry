@@ -1,5 +1,5 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
-import axios from "axios";
+import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
@@ -18,7 +18,7 @@ const URL = "http://localhost:3001/";
 export function getLocations() {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URL}locations`);
+      const response = await getAllLocations();
       return dispatch({ type: GET_LOCATIONS, payload: response.data });
     } catch (error) {
       console.log(error);
@@ -29,7 +29,7 @@ export function getLocations() {
 export function getLocationCars(locationId) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URL}locationCars/${locationId}`);
+      const response = await getCarsByLocation(locationId);
       return dispatch({
         type: GET_LOCATION_CARS,
         payload: response.data,
@@ -43,9 +43,7 @@ export function getLocationCars(locationId) {
 export function getFilteredCars({ brand, category, order, startingDate, endingDate, orderType, page }, locationId) {
   return async (dispatch) => {
     try {
-      var response = await axios.get(
-        `${URL}cars/${locationId}?brand=${brand}&category=${category}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}`
-      );
+      var response = await filterCars({ brand, category, order, startingDate, endingDate, orderType, page }, locationId)
       var cars = response.data;
 
       return dispatch({
@@ -78,7 +76,7 @@ export const setSelection = (payload) => {
 export function getCarDetails(carModel) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URL}car/${carModel}`);
+      const response = await getCarsDetails(carModel);
       return dispatch({ type: GET_CAR_DETAILS, payload: response.data });
     } catch (error) {
       console.log(error);
@@ -93,10 +91,10 @@ export function deleteCarDetails() {
   };
 }
 
-export function sendMessage(payload) {
+export function sendMessage(message) {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URL}send-email`, payload);
+      const response = await sendAMessage(message);
       return dispatch({
         type: SEND_MESSAGE,
         payload: response.data,
@@ -116,20 +114,12 @@ export function showAlert(payload) {
 
 // authentication actions:
 
-export function getUserInfo(getToken, email) {
+export function setUserInfo(getToken, email) {
   return async (dispatch) => {
     try {
       if (email) {
         const token = await getToken();
-        const options = {
-          method: "GET",
-          mode: "cors",
-          headers: { authorization: `Bearer ${token}` },
-        };
-        const response = await axios(
-          `http://localhost:3001/user?email=${email}`,
-          options
-        );
+        let response = await getUserInformation(token,email)
         return dispatch({ type: SET_USER, payload: response.data });
       }
     } catch (error) {
@@ -139,25 +129,23 @@ export function getUserInfo(getToken, email) {
 }
 
 export function saveUser(email) {
-  console.log(email);
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URL}user`, { email });
-      console.log(response.data);
+      const response = await addUser(email);
       return dispatch({
         type: SAVE_USER,
         payload: [response.data.msg, response.data.data, response.data.complited],
       });
     } catch (e) {
       console.log(e);
-      
     }
   };
 }
-export function patchUser(payload) {
+export function patchUser(getToken, payload) {
   return async (dispatch) => {
     try {
-      const response = await axios.patch(`${URL}user/${payload.userId}`, payload);
+      const token = await getToken();
+      await updateUser(payload, token);
 
       return dispatch({
         type: PATCH_USER,
