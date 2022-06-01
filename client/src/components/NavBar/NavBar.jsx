@@ -23,7 +23,7 @@ function NavBar() {
             <div onClick={handleLoginInfo} className={styles.icon} >
               <i className="fa-solid fa-user"></i>
             </div>
-            {display && <Authentication />}
+            {display && <Authentication handleLoginInfo={handleLoginInfo}/>}
             {/* <NavLink to="/login" className={styles.icon}>
               <i className="fa-solid fa-user"></i>
             </NavLink> */}

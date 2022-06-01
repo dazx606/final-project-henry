@@ -116,6 +116,8 @@ export function showAlert(payload) {
   };
 }
 
+// authentication actions:
+
 export function getUserInfo(getToken, email) {
   return async (dispatch) => {
     try {
@@ -137,7 +139,7 @@ export function getUserInfo(getToken, email) {
     }
   };
 }
-// authentication actions
+
 export function saveUser(email) {
   console.log(email);
   return async (dispatch) => {
