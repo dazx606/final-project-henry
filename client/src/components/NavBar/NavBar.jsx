@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import Authentication from "../Authenti/Authentication";
 import styles from "./NavBar.module.css";
 
 function NavBar() {
-  const [display, setDisplay] = useState(false)
+  const [display, setDisplay] = useState(false);
+  const { loginWithPopup, isAuthenticated, user } = useAuth0();
 
   function handleLoginInfo() {
-    setDisplay(!display);
+    if (isAuthenticated) setDisplay(!display);
+    if (!isAuthenticated) loginWithPopup()
   }
 
   return (
@@ -20,10 +23,17 @@ function NavBar() {
               <div className={styles.headerButton}></div>
             </label>
             <NavLink className={styles.tittle} to="/"><h1>RENT A CAR</h1></NavLink>
-            <div onClick={handleLoginInfo} className={styles.icon} >
-              <i className="fa-solid fa-user"></i>
-            </div>
-            {display && <Authentication handleLoginInfo={handleLoginInfo}/>}
+
+            {isAuthenticated ?
+              <div onClick={handleLoginInfo} className={styles.logIcon} >
+                <div >{user.given_name ? user.given_name[0] :  user.nickname[0]}</div>
+              </div>
+              :
+              <div onClick={handleLoginInfo} className={styles.icon} >
+                <i className="fa-solid fa-user"></i>
+              </div>
+            }
+            {display && <Authentication handleLoginInfo={handleLoginInfo} />}
             {/* <NavLink to="/login" className={styles.icon}>
               <i className="fa-solid fa-user"></i>
             </NavLink> */}

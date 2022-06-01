@@ -5,25 +5,28 @@
     background-color: var(--color1);
     top: 4.5rem;
     right: 1.5rem;
-    border: solid 2px var(--color4);
-    border-radius:  4px;
-    box-shadow: 0px 0px 8px 0px var(--color4Tr);
+    border: ridge 1px var(--color6);;
+    border-radius:  0px;
+    box-shadow: 0px 0px 8px 4px var(--color6Tr);
+}
+.authBox2{
+    width: 20rem;
 }
 
 .hello{
     color: var(--color4);
     font-family: var(--font2);
-    font-size: 2em;
-    font-weight: 500;
-    margin: 16px 0px 8px 0px;
+    font-size: 1.7em;
+    font-weight: 400;
+    margin: 24px 0px 8px 0px;
     text-align: center;
 }
 
 .welcome{
     color: var(--color3);
     font-family: var(--font2);
-    font-size: 1.5em;
-    font-weight: 500;
+    font-size: 1.3em;
+    font-weight: 200;
     margin: 8px 0px 16px 0px;
     text-align: center;
 }
@@ -32,7 +35,7 @@
     text-align: center;
     color: var(--color4);
     font-family: var(--font2);
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: 400;   
     margin: 8px 4px 8px 4px; 
 }
@@ -40,8 +43,8 @@
     text-align: center;
     color: var(--color3);
     font-family: var(--font2);
-    font-size: 1.1em;
-    font-weight: 400;
+    font-size: 1em;
+    font-weight: 300;
     padding: 0;
     margin: 8px 24px;
 }
@@ -60,16 +63,5 @@
     justify-content: center;
 }
 .logBtn{
-    margin: 0px 0px 16px 0px;
-    border: solid 2px;
-    border-color: var(--color1);
-    background-color: var(--color4);
-    border-radius: 4px;
-    font-family: var(--font2);
-    font-weight: 900;
-    font-size: 1.1em;
-    color: var(--color1);
-    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.309);
-    /* transition: 0.5s; */
-    
+    margin: 24px 0px 24px 0px;
 }
