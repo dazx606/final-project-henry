@@ -18,7 +18,7 @@ function Authentication({ handleLoginInfo }) {
 
     console.log(user)
   }, [user])
-
+  
   return (
     <div className={style.authBox} >
       {isLoading ?
