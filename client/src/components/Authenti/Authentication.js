@@ -33,7 +33,7 @@ function Authentication({ handleLoginInfo }) {
           {/* <h3>Hey! You are not Logged!</h3>
           <h3>Log in or Sig up to continue</h3> */}
           <button onClick={() => loginWithPopup()}>Log In</button>
-          <button onClick={() => loginWithPopup({ screen_hint: 'signup' })}>Sign Up</button>
+          <button onClick={() => loginWithPopup({ initialScreen: 'signup' })}>Sign Up</button>
         </div>}
 
       {isAuthenticated && (
