@@ -2,14 +2,17 @@ import { React, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getLocations } from "../../redux/actions";
-//import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import styles from './profile.module.css';
 
 export default function Profile() {
     const [input, setInput] = useState({});
     const [errors, setErrors] = useState({});
     const locations = useSelector((state) => state.locations);
-    // const { user } = useAuth0();
+
+    const { user } = useAuth0();
+
+
     const dispatch = useDispatch()
     useEffect(() => {
         if (!locations.length) dispatch(getLocations());
