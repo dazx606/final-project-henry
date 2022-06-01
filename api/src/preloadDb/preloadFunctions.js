@@ -8,6 +8,25 @@ const { drivers } = require("./drivers");
 const { users } = require("./users");
 const { rentOrders } = require("./rentOrders");
 
+require("dotenv").config();
+const { STRIPE_SECRET_KEY } = process.env;
+const stripe = require('stripe')(STRIPE_SECRET_KEY);
+
+const createStripeIdCarModel = async (car) => {
+    try {
+        if (car.stripePriceId) return;
+        const product = await stripe.products.create({ name: `${car.brand} ${car.model}` });
+        const price = await stripe.prices.create({
+            product: product.id,
+            unit_amount: car.pricePerDay * 100,
+            currency: 'usd',
+        });
+        console.log(`The product _____${car.brand} ${car.model}_____ was created succesfully StripeId:\n"${price.id}"`);
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 
 const preloadLocation = async () => {
     try {
@@ -38,14 +57,13 @@ const preloadIncludedEquipment = async () => {
 
 const preloadOptionalEquipment = async () => {
     try {
-        await Promise.all(optionalEquipments.map(e => OptionalEquipment.findOrCreate({ where: { name: e }, })))
+        await Promise.all(optionalEquipments.map(e => OptionalEquipment.findOrCreate({ where: { name: e.name }, defaults: { name: e.name, price: e.price, stripePriceId: e.stripePriceId } })))
     } catch (error) {
         throw new Error(error);
     }
 };
 
 const preloadCar = async () => {
-
     try {
         const cars = generateCars();
         await Promise.all(cars.map(async c => {
@@ -55,6 +73,7 @@ const preloadCar = async () => {
                     brand: c.brand,
                     model: c.model,
                     pricePerDay: c.pricePerDay,
+                    stripePriceId: c.stripePriceId,
                     passengers: c.passengers,
                     trunk: c.trunk,
                     consumption: c.consumption,
@@ -87,6 +106,7 @@ const preloadCar = async () => {
                     await Promise.all(c.opcionalEquipment.map((e) => OptionalEquipment.findOne({ where: { name: e } })))
                         .then(equipments => newModel[0].addOptionalEquipments(equipments))
                 }
+                createStripeIdCarModel(c)
             }
         }
         ))
@@ -152,6 +172,23 @@ const preloadRentOrder = async () => {
     }
 };
 
+const createStripeIdEquip = async () => {
+    try {
+        await Promise.all(optionalEquipments.map(async e => {
+            if (e.stripePriceId) return;
+            const product = await stripe.products.create({ name: e.name });
+            const price = await stripe.prices.create({
+                product: product.id,
+                unit_amount: e.price * 100,
+                currency: 'usd',
+            });
+            console.log(`The product _____${e.name}_____ was created succesfully StripeId:\n"${price.id}"`);
+        }))
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 module.exports = {
     preloadLocation,
     preloadCarType,
@@ -161,4 +198,5 @@ module.exports = {
     preloadDriver,
     preloadUser,
     preloadRentOrder,
+    createStripeIdEquip,
 }

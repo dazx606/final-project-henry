@@ -4,7 +4,6 @@ require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY } = process.env;
 const { filterDates } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
-const express = require('express');
 
 const router = Router();
 
@@ -79,7 +78,7 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
     brands = [...new Set(brands)];
     let categories = locationCarModels.carModels.map((car) => car.carType.name);
     categories = [...new Set(categories)];
-    
+
     return res.json({
       id: locationCarModels.dataValues.id,
       city: locationCarModels.dataValues.city,
@@ -153,97 +152,44 @@ router.post("/send-email", async (req, res, next) => {
       html: contentHTML,
       replyTo: email,
     });
-    return res.send("Message sent succesfully");
+    return res.json("Message sent succesfully");
   } catch (error) {
     next(error);
   }
 });
+//------------------------------------------------Stripe--------------------------------
 
-//--------------------------------------------Stripe-----------------------
+
 // This is a public sample test API key.
 // Don’t submit any personally identifiable information in requests made with this key.
 // Sign in to see your own test API key embedded in code samples.
-const stripe = require("stripe")(STRIPE_SECRET_KEY);
+const stripe = require('stripe')(STRIPE_SECRET_KEY);
 
-const calculateOrderAmount = (items) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 1400;
-};
+const YOUR_DOMAIN = 'http://localhost:3000/booking';
 
-router.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
-
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(items),
-    currency: "usd",
-    automatic_payment_methods: {
-      enabled: true,
-    },
-  });
-
-  res.send({
-    clientSecret: paymentIntent.client_secret,
-  });
-});
+router.post('/create-checkout-session', async (req, res, next) => {
+  try {
+    const { numberOfDays, carPriceId, optionalEquipment = [] } = req.body;   //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
+    if (!numberOfDays || !carPriceId) return res.status(400).json("Missing information!!!");
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: carPriceId,
+          quantity: numberOfDays,
+        },
+        ...optionalEquipment.map(id => ({ price: id, quantity: numberOfDays })),
+      ],
+      mode: 'payment',
+      success_url: `${YOUR_DOMAIN}?success=true`,
+      cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+    });
 
 
-
-
-
-
-const handlePaymentIntentSucceeded = (paymentIntent) => {
-  console.log(paymentIntent);
-}
-
-// If you are testing with the CLI, find the secret by running 'stripe listen'
-// If you are using an endpoint defined with the API or dashboard, look in your webhook settings
-// at https://dashboard.stripe.com/webhooks
-const endpointSecret = 'whsec_f7b05fa6764aea656657592e3cb885b166467970e77a593f147c238304afc9d2';
-
-
-router.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
-  let event = request.body;
-  // Only verify the event if you have an endpoint secret defined.
-  // Otherwise use the basic event deserialized with JSON.parse
-  // if (endpointSecret) {
-  //   // Get the signature sent by Stripe
-  //   const signature = request.headers['stripe-signature'];
-  //   try {
-  //     event = stripe.webhooks.constructEvent(
-  //       request.body,
-  //       signature,
-  //       endpointSecret
-  //     );
-  //   } catch (err) {
-  //     console.log(`⚠️  Webhook signature verification failed.`, err.message);
-  //     return response.sendStatus(400);
-  //   }
-  // }
-
-  // Handle the event
-  switch (event.type) {
-    case 'charge.succeeded':
-      const paymentIntent = event.data.object;
-      console.log(`PaymentIntent for ${paymentIntent.amount} was successful!`);
-      // Then define and call a method to handle the successful payment intent.
-      handlePaymentIntentSucceeded(paymentIntent);
-      break;
-    case 'payment_intent.created':
-      const paymentMethod = event.data.object;
-      console.log(event.data.object);
-      // Then define and call a method to handle the successful attachment of a PaymentMethod.
-      // handlePaymentMethodAttached(paymentMethod);
-      break;
-    default:
-      // Unexpected event type
-      console.log(`Unhandled event type ${event.type}.`);
+    
+    res.redirect(303, session.url);
+  } catch (error) {
+    next(error);
   }
-
-  // Return a 200 response to acknowledge receipt of the event
-  response.send();
 });
 
 module.exports = router;
