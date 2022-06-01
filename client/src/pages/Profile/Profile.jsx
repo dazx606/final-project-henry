@@ -6,11 +6,14 @@ import { useParams, Navigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Profile() {
-  const [input, setInput] = useState({});
   const [errors, setErrors] = useState({});
   const locations = useSelector((state) => state.locations);
   const { userId } = useParams();
   const { user } = useAuth0();
+  const [input, setInput] = useState({
+    firstName: user ? user.given_name : "",
+    lastName: user ? user.family_name : "",
+  });
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -18,22 +21,22 @@ export default function Profile() {
   }, [dispatch]);
 
   function handleSubmit(e) {
-    if (user.email_verified) {
-      alert("your email is not verified");
-    }
     e.preventDefault();
-    dispatch(patchUser({ ...input, userId }));
 
-    setInput({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      language: "",
-      documentId: "",
-      license: "",
-      city: "",
-    });
+    if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
+      alert("complete with your correct information");
+      return;
+    }
+    if (!input.firstName || input.lastName || input.phone || input.license || input.documentId) {
+      alert("Complete your information");
+      return;
+    } else if (!user.email_verified) {
+      alert("your email is not  verified");
+      return;
+    }
+
+    dispatch(patchUser({ ...input, userId }));
+    alert("you information is update");
   }
   function handleChange(e) {
     setInput({
@@ -62,11 +65,10 @@ export default function Profile() {
             className={styles.inputs}
             type="text"
             value={input.firstName}
-            defaultValue={user.given_name}
-            name="name"
+            name="firstName"
             onChange={(e) => handleChange(e)}
           />
-          {errors.name && <p>{errors.name}</p>}
+          {errors.firstName && <p>{errors.firstName}</p>}
         </div>
         <div>
           <div className={styles.titles}>Last name: </div>
@@ -74,7 +76,6 @@ export default function Profile() {
             className={styles.inputs}
             type="text"
             value={input.lastName}
-            defaultValue={user.family_name}
             name="lastName"
             onChange={(e) => handleChange(e)}
           />
@@ -143,27 +144,27 @@ export default function Profile() {
 function validations(input) {
   let errors = {};
 
-  if (!input.name) {
-    errors.name = " Name is required";
-  } else if (!/^[a-z A-Z]+$/.test(input.name)) {
-    errors.name = " Name must be letters only";
-  } else if (input.name.length > 15) {
-    errors.name = " Name must be less than 15 characters";
+  if (!input.firstName) {
+    errors.firstName = "First name is required";
+  } else if (!/^[a-z A-Z]+$/.test(input.firstName)) {
+    errors.firstName = "First name must be letters only";
+  } else if (input.firstName.length > 15) {
+    errors.firstName = "First name must be less than 15 characters";
   }
   if (!input.lastName) {
-    errors.lastName = " Last Name is required";
+    errors.lastName = "Last Name is required";
   } else if (!/^[a-z A-Z]+$/.test(input.lastName)) {
-    errors.lastName = " Last Name must be letters only";
+    errors.lastName = "Last Name must be letters only";
   }
   if (!input.license) {
     errors.license = "License is required";
-  } else if (input.license.length !== 6) {
-    errors.license = "License must be at least 6 characters between letters and numbers";
+  } else if (input.license.length < 6 || input.license.length > 7) {
+    errors.license = "License must be at least 6 characters";
   }
   if (!input.documentId) {
     errors.documentId = "Document Id is required";
-  } else if (input.documentId.length < 5 || input.documentId.length > 12) {
-    errors.documentId = "Document Id must be  at least 8 characters letters o numbers";
+  } else if (input.documentId.length < 5 || input.documentId.length > 15) {
+    errors.documentId = "Document Id must be  at least 8 characters";
   }
   if (!input.phone) {
     errors.phone = "Phone is required";
