@@ -9,6 +9,7 @@ import {
   SET_SELECTION,
   DELETE_CAR_DETAILS,
   SAVE_USER,
+  PATCH_USER,
 } from "../actions";
 
 const initialState = {
@@ -18,7 +19,15 @@ const initialState = {
   filteredCars: [],
   carDetails: {},
   hideAlert: true,
-  selection: { brand: "", category: "", order: "ASC", startingDate: "", endingDate: "", orderType: "pricePerDay", page: 1 },
+  selection: {
+    brand: "",
+    category: "",
+    order: "ASC",
+    startingDate: "",
+    endingDate: "",
+    orderType: "pricePerDay",
+    page: 1,
+  },
   savedUser: [],
 };
 
@@ -82,7 +91,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
     case SAVE_USER:
       return {
         ...state,
-        savedUser: payload
+        savedUser: payload,
+      };
+    case PATCH_USER:
+      return {
+        ...state,
       };
 
     default:

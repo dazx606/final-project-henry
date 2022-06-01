@@ -11,6 +11,7 @@ export const ALERT = "ALERT";
 export const SET_SELECTION = "SET_SELECTION";
 export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
 export const SAVE_USER = "SAVE_USER";
+export const PATCH_USER = "UPDATE_USER";
 
 const URL = "http://localhost:3001/";
 
@@ -129,5 +130,17 @@ export function saveUser(email) {
     }
   };
 }
+export function patchUser(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.patch(`${URL}user/${payload.userId}`, payload);
 
-
+      return dispatch({
+        type: PATCH_USER,
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
