@@ -18,16 +18,19 @@ export default function Profile() {
   }, [dispatch]);
 
   function handleSubmit(e) {
+    if (user.email_verified) {
+      alert("your email is not verified");
+    }
     e.preventDefault();
     dispatch(patchUser({ ...input, userId }));
 
     setInput({
-      name: "",
+      firstName: "",
       lastName: "",
       email: "",
       phone: "",
       language: "",
-      DocumentId: "",
+      documentId: "",
       license: "",
       city: "",
     });
@@ -76,17 +79,6 @@ export default function Profile() {
             onChange={(e) => handleChange(e)}
           />
           {errors.lastName && <p>{errors.lastName}</p>}
-        </div>
-        <div>
-          <div className={styles.titles}>Email: </div>
-          <input
-            className={styles.inputs}
-            type="placeholder"
-            value={user.email}
-            name="email"
-            onChange={(e) => handleChange(e)}
-          />
-          {errors.email && <p>{errors.email}</p>}
         </div>
         <div>
           <div className={styles.titles}>Phone: </div>
@@ -178,5 +170,6 @@ function validations(input) {
   } else if (input.phone && !/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(input.phone)) {
     errors.phone = "Phone incorrect";
   }
+
   return errors;
 }

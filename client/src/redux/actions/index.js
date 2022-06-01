@@ -127,6 +127,7 @@ export function saveUser(email) {
       });
     } catch (e) {
       console.log(e);
+      
     }
   };
 }
