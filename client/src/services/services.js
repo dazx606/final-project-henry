@@ -36,10 +36,16 @@ export function getUserInformation(token, email){
       );
 };
 
-export function insertUser(email){
+export function addUser(email){
     return axios.post(`${URL}user`, { email });
 };
 
-export function setUser(user){
-    return axios.patch(`${URL}user/${user.userId}`, user);
+export function updateUser(user, token){
+    console.log("service token: "+token);
+    const options = {
+        method: "PATCH",
+        mode: "cors",
+        headers: { authorization: `Bearer ${token}` },
+      };
+    return axios.patch(`${URL}user/${user.userId}`,user ,options);
 }

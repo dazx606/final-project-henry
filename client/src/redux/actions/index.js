@@ -1,5 +1,5 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
-import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, insertUser, setUser } from "../../services/services";
+import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
@@ -114,7 +114,7 @@ export function showAlert(payload) {
 
 // authentication actions:
 
-export function getUserInfo(getToken, email) {
+export function setUserInfo(getToken, email) {
   return async (dispatch) => {
     try {
       if (email) {
@@ -131,7 +131,7 @@ export function getUserInfo(getToken, email) {
 export function saveUser(email) {
   return async (dispatch) => {
     try {
-      const response = await insertUser(email);
+      const response = await addUser(email);
       return dispatch({
         type: SAVE_USER,
         payload: [response.data.msg, response.data.data, response.data.complited],
@@ -141,10 +141,11 @@ export function saveUser(email) {
     }
   };
 }
-export function patchUser(payload) {
+export function patchUser(getToken, payload) {
   return async (dispatch) => {
     try {
-      await setUser(payload);
+      const token = await getToken();
+      await updateUser(payload, token);
 
       return dispatch({
         type: PATCH_USER,

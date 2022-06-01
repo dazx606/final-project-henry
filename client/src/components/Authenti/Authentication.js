@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import style from "./Authentication.module.css"
-import { getUserInfo, saveUser } from '../../redux/actions';
+import { setUserInfo, saveUser } from '../../redux/actions';
 import { NavLink } from 'react-router-dom';
 
 function Authentication({ handleLoginInfo }) {
@@ -13,7 +13,7 @@ function Authentication({ handleLoginInfo }) {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(saveUser(user.email))
-      dispatch(getUserInfo(getAccessTokenSilently, user?.email))
+      dispatch(setUserInfo(getAccessTokenSilently, user?.email))
     }
 
     console.log(user)

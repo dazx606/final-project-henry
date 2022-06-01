@@ -9,7 +9,7 @@ export default function Profile() {
   const [errors, setErrors] = useState({});
   const locations = useSelector((state) => state.locations);
   const { userId } = useParams();
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [input, setInput] = useState({
     firstName: user ? user.given_name : "",
     lastName: user ? user.family_name : "",
@@ -27,7 +27,7 @@ export default function Profile() {
       alert("complete with your correct information");
       return;
     }
-    if (!input.firstName || input.lastName || input.phone || input.license || input.documentId) {
+    if (!input.firstName || !input.lastName || !input.phone || !input.license || !input.documentId) {
       alert("Complete your information");
       return;
     } else if (!user.email_verified) {
@@ -35,7 +35,7 @@ export default function Profile() {
       return;
     }
 
-    dispatch(patchUser({ ...input, userId }));
+    dispatch(patchUser(getAccessTokenSilently,{ ...input, userId }));
     alert("you information is update");
   }
   function handleChange(e) {
@@ -57,7 +57,7 @@ export default function Profile() {
 
   return (
     <div className={styles.profile}>
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form onSubmit={handleSubmit}>
         <h3> Hello {user.email}!</h3>
         <div>
           <div className={styles.titles}>First name: </div>
@@ -66,7 +66,7 @@ export default function Profile() {
             type="text"
             value={input.firstName}
             name="firstName"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
           {errors.firstName && <p>{errors.firstName}</p>}
         </div>
@@ -77,7 +77,7 @@ export default function Profile() {
             type="text"
             value={input.lastName}
             name="lastName"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
           {errors.lastName && <p>{errors.lastName}</p>}
         </div>
@@ -88,13 +88,13 @@ export default function Profile() {
             type="text"
             value={input.phone}
             name="phone"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
           {errors.phone && <p>{errors.phone}</p>}
         </div>
         <div>
           <div className={styles.titles}>Language: </div>
-          <select className={styles.inputs} value={input.language} name="language" onChange={(e) => handleChange(e)}>
+          <select className={styles.inputs} value={input.language} name="language" onChange={handleChange}>
             <option value="English">English</option>
             <option value="Spanish">Spanish</option>
           </select>
@@ -106,7 +106,7 @@ export default function Profile() {
             type="text"
             value={input.documentId}
             name="documentId"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
           {errors.documentId && <p>{errors.documentId}</p>}
         </div>
@@ -117,7 +117,7 @@ export default function Profile() {
             type="text"
             value={input.license}
             name="license"
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
           {errors.license && <p>{errors.license}</p>}
         </div>
@@ -158,7 +158,7 @@ function validations(input) {
   }
   if (!input.license) {
     errors.license = "License is required";
-  } else if (input.license.length < 6 || input.license.length > 7) {
+  } else if (input.license.length < 6 || input.license.length > 15) {
     errors.license = "License must be at least 6 characters";
   }
   if (!input.documentId) {
