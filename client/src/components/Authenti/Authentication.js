@@ -46,7 +46,7 @@ function Authentication({ handleLoginInfo }) {
               </div>
             ) : (
               <div>
-                <h2 className={style.hello}>{`Hello ${completeUser && completeUser.name}!`}</h2>
+                <h2 className={style.hello}>{`Hello ${completeUser && completeUser.data.firstName}!`}</h2>
                 <h3 className={style.welcome}>Welcome back</h3>
                 <div className={style.exclam}>GREAT! </div>
                 <div className={style.msg}>Everithing looks good with your information.</div>
