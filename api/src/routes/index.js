@@ -8,11 +8,12 @@ const { transporter } = require("../config/mailer");
 const router = Router();
 
 router.get('/cars/:locationId', async (req, res, next) => {
-  const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1 } = req.query
+  const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1, model, carsPerPage=8 } = req.query
   const { locationId } = req.params;
-  const carsPerPage = 8;
-  const brandFilter = brand ? { where: { brand: brand } } : { where: null };
+  const brandModelFilter = brand ? { where: { brand: brand } } : { where: null };
   const categoryFilter = category ? { where: { name: category } } : { where: null };
+  if(model) brandModelFilter.where.model = model
+  
   try {
     if (!startingDate && endingDate) return res.status(417).json({ msg: "Missing startingDate!" });
     if (new Date(startingDate) > new Date(endingDate)) return res.status(409).json({ msg: "StartingDate cannot be greater than endingDate!" });
@@ -21,7 +22,7 @@ router.get('/cars/:locationId', async (req, res, next) => {
         order: [[{ model: CarModel }, orderType, order]],
         include: [
           {
-            model: CarModel, ...brandFilter, through: { attributes: [] }, include: [
+            model: CarModel, ...brandModelFilter, through: { attributes: [] }, include: [
               { model: CarType, ...categoryFilter, attributes: { exclude: ['id'] } },
               { model: IncludedEquipment, attributes: ['name'], through: { attributes: [] } },
               { model: OptionalEquipment, attributes: ['name'], through: { attributes: [] } },
@@ -51,8 +52,8 @@ router.get('/cars/:locationId', async (req, res, next) => {
 
     if (!filterdCars.length) return res.status(404).json({ msg: "No corresponding car found!" });
 
-    filterdCars = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
-
+    if(parseInt(carsPerPage))filterdCars = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
+    
     return res.json(filterdCars);
   } catch (error) {
     next(error);
@@ -78,6 +79,8 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
     brands = [...new Set(brands)];
     let categories = locationCarModels.carModels.map((car) => car.carType.name);
     categories = [...new Set(categories)];
+    let models = locationCarModels.carModels.map((car) => `${car.brand} ${car.model}`);
+    models = [...new Set(models)];
 
     return res.json({
       id: locationCarModels.dataValues.id,
@@ -85,7 +88,8 @@ router.get("/locationCars/:locationId", async (req, res, next) => {
       latitude: locationCarModels.dataValues.latitude,
       longitude: locationCarModels.dataValues.longitude,
       brands,
-      categories
+      categories,
+      models
     });
   } catch (error) {
     next(error);
@@ -120,7 +124,7 @@ router.get("/car/:modelId", async (req, res, next) => {
         {
           model: OptionalEquipment,
           as: "optionalEquipments",
-          attributes: ["name"],
+          attributes: ["name", "price"],
           through: { attributes: [] },
         },
       ],

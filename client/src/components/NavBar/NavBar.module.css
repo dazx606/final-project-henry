@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .navcontainer {
   height: 4rem;
   border-bottom: 1px solid black;
@@ -17,7 +22,7 @@
 
 .logo {
   font-size: 20px;
-}
+} */
 
 .icon {
   color: var(--color3);
@@ -92,11 +97,11 @@
 
 .link {
   list-style: none;
-}
+} */
 
 .list {
   margin: 0.5rem;
-}
+} */
 
 .link {
   margin: 2rem 1.5rem;
@@ -121,14 +126,12 @@
   height: 2px;
   width: 100%;
   background: var(--color4);
-  /*animacion de derecha a izquierda*/
   transform-origin: right;
   transform: scaleX(0);
   transition: transform 0.2s ease-in-out;
 }
 
 .link a:hover:after {
-  /*animacion de derecha a izquierda*/
   transform-origin: left;
   transform: scaleX(1);
 }
