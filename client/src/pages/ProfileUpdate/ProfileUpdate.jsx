@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLocations, patchUser } from "../../redux/actions";
+import { getLocations, patchUser, setUserInfo } from "../../redux/actions";
 import styles from "./profileUpdate.module.css";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -9,7 +9,7 @@ export default function Profile() {
   const [errors, setErrors] = useState({});
   const locations = useSelector((state) => state.locations);
   const { userId } = useParams();
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [input, setInput] = useState({ firstName: "", lastName: "", phone: "", license: "", documentId: "" });
   const [alert, setAlert] = useState("");
 
@@ -25,7 +25,7 @@ export default function Profile() {
       firstName: user.given_name,
       lastName: user.family_name,
     });
-  }, [user]);
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -44,6 +44,7 @@ export default function Profile() {
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
+    dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information is update");
   }
   function handleChange(e) {
@@ -139,13 +140,7 @@ export default function Profile() {
             </select>
           </div>
           <div className={styles.button}>
-            {user.email_verified ? (
-              <button type="submit">Submit</button>
-            ) : (
-              <button disabled="true" type="submit">
-                Submit
-              </button>
-            )}
+            <button type="submit">Submit</button>
           </div>
           <p>{alert}</p>
         </form>
