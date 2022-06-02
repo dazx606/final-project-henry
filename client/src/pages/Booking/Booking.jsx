@@ -48,7 +48,6 @@ const calcMaxAvailableDate = (firstDay, unavailableDays) => {
     unavailableDays.forEach((el, k) => {
         if (k % 2 === 0) formattedUnavailableDates.push(el.toDateString())
     })
-    console.log(formattedUnavailableDates)
     while (i < possibleDays.length) {
         if (formattedUnavailableDates.includes(possibleDays[i].toDateString())) return datePlus(possibleDays[i], -1)
         i++
@@ -56,28 +55,20 @@ const calcMaxAvailableDate = (firstDay, unavailableDays) => {
     return lastDay
 }
 
-const formData = {
-    location: "",
-    carModel: "",
-    optionalEquipments: [],
-    startingDate: "",
-    endingDate: "",
-    totalPrice: "",
-    totalDays: ""
-}
-
 export default function Booking() {
     const [message, setMessage] = useState("");
     const [startingDate, setStartingDate] = useState(new Date());
     const [endingDate, setEndingDate] = useState(datePlus(new Date(), 1));
     const location = useSelector(state => state.city)
+    const allLocation = useSelector(state => state.locations)
+    const [endLocation, setEndLocation] = useState(location)
     const locationCarsModels = useSelector(state => state.locationCars.models)
     const [didRent, setDidRent] = useState(false)
     const carRenting = useSelector(state => state.carRenting)
     const [selectedLocationModel, setSelectedLocationModel] = useState(false)
     const [initialDisableDay, setInitialDisableDay] = useState([])
     const [maxEndingDisableDate, setMaxEndingDisableDate] = useState([])
-    const [dataToSend, setDataToSend] = useState(formData)
+    const [optionalEquipments, setOptionalEquipments] = useState([])
     const [drivers, setDrivers] = useState([])
     const filteredCars = useSelector(state => state.filteredCars[0])
     const dispatch = useDispatch()
@@ -94,6 +85,9 @@ export default function Booking() {
 
     useEffect(() => {
         if (filteredCars) setInitialDisableDay(calcUnavailableInitialDays(filteredCars.individualCars, filteredCars.existingRents))
+        setStartingDate(new Date())
+        setEndingDate(datePlus(new Date(), 1))
+        setOptionalEquipments([]);
     }, [filteredCars])
 
     useEffect(() => {
@@ -132,24 +126,22 @@ export default function Booking() {
         dispatch(getFilteredCars({ brand: brand, carsPerPage: 0, model: model }, location))
     }
 
+    const handleSelectEndLocation = (e) => {
+        setEndLocation(e.target.value)
+    }
+
     const handleCheck = (e) => {
         if (e.target.checked) {
-            setDataToSend({
-                ...dataToSend,
-                optionalEquipments: [...dataToSend.optionalEquipments, e.target.name]
-            })
+            setOptionalEquipments([...optionalEquipments, e.target.name])
         }
         else {
-            setDataToSend({
-                ...dataToSend,
-                optionalEquipments: [...dataToSend.optionalEquipments.filter(el => el !== e.target.name)]
-            })
+            setOptionalEquipments(optionalEquipments.filter(el => el !== e.target.name))
         }
     }
 
     const sumOfOptionalPrices = () => {
         return carRenting.optionalEquipments?.filter(
-            el => dataToSend.optionalEquipments.find(
+            el => optionalEquipments.find(
                 ele => ele === el.name)).reduce(
                     (prev, current) => prev + current.price, 0)
     }
@@ -180,7 +172,7 @@ export default function Booking() {
                         carRenting.optionalEquipments?.map((el, k) =>
                             <label key={k}>
                                 <input disabled={!selectedLocationModel}
-                                    checked={dataToSend.optionalEquipments.includes(el.name)}
+                                    checked={optionalEquipments.includes(el.name)}
                                     onChange={handleCheck}
                                     type="checkbox" name={el.name} key={(k)}
                                 />
@@ -197,6 +189,7 @@ export default function Booking() {
                         onChange={handleStartingDateChange}
                         value={startingDate}
                         disabled={!selectedLocationModel}
+                        format="dd/MM/yyyy"
                         tileDisabled={({ date, view }) =>
                             (view === 'month') &&
                             initialDisableDay.some(disabledDate =>
@@ -216,12 +209,18 @@ export default function Booking() {
                             onChange={setEndingDate}
                             value={endingDate}
                             disabled={!selectedLocationModel}
+                            format="dd/MM/yyyy"
                             maxDate={maxEndingDisableDate.length ? maxEndingDisableDate[0] : null}
                         />
                     </div>
                 }
+                <Drivers drivers={drivers} setDrivers={setDrivers} />
                 <div>
-                    <Drivers drivers={drivers} setDrivers={setDrivers} />
+                    <label>Return location</label>
+                    <select name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
+                        <option value="placeholder" hidden>location...</option>
+                        {allLocation.map((el, k) => <option key={k} value={el.id}>{el.city}</option>)}
+                    </select>
                 </div>
                 <div>
                     <input type="checkbox" name="Terms" id="" />
@@ -232,7 +231,6 @@ export default function Booking() {
                         Rent
                     </button>
                 </div>
-
             </form>
             <div>
                 <label>Price Per Day: </label>
