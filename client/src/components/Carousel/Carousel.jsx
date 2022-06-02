@@ -5,7 +5,12 @@ import style from './Carousel.module.css'
 
 function Carousel() {
 
-  const images = ["https://i.ibb.co/80ycS4G/911-I.png", "https://i.ibb.co/C15xMBD/MZD6-I.jpg", "https://i.ibb.co/6RnT5HT/M4-I.png", "https://i.ibb.co/fqjMFsf/Fusion-I.jpg"]
+  const images = [
+    "https://i.ibb.co/n6KsBxP/911-1.jpg",
+    "https://i.ibb.co/HVf1n1K/pexels-hyundai-motor-group-11158760-2-1-1.jpg",
+   "https://i.ibb.co/85jswKW/pexels-sourav-mishra-2710043-2.jpg", 
+   "https://i.ibb.co/cvdLnCv/pexels-brett-sayles-1592261-2-1.jpg",
+   ]
   const [img, setImg] = useState(0)
 
   function next() {

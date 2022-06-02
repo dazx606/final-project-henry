@@ -49,7 +49,7 @@ export default function Categories() {
         "SUV",
     ]
     const categories = [
-        { category: "Luxury", image: "https://i.ibb.co/pWHfSD2/Luxury.jpg", aditional: "", value:"Luxury" },
+        { category: "Luxury", image: "https://i.ibb.co/9VcqyVb/911-3.jpg", aditional: "", value:"Luxury" },
         { category: "Pick Up", image: "https://i.ibb.co/fnLj2zW/RP-I.jpg", aditional: "", value:"Pick-up" },
         { category: "SUV's", image: "https://i.ibb.co/xgb9MMs/MC-I.jpg", aditional: "", value: "SUV" },
         { category: "Full Size", image: "https://i.ibb.co/zJvW1Pt/LG-I.jpgg", aditional: "", value: "SUV Full-Size" },
