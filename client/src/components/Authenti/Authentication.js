@@ -46,10 +46,10 @@ function Authentication({ handleLoginInfo }) {
               </div>
             ) : (
               <div>
-                <h2 className={style.hello}>{`Hello ${completeUser && completeUser.name}!`}</h2>
+                <h2 className={style.hello}>{`Hello ${completeUser && completeUser.data.firstName}!`}</h2>
                 <h3 className={style.welcome}>Welcome back</h3>
                 <div className={style.exclam}>GREAT! </div>
-                <div className={style.msg}>Everithing looks good with your information.</div>
+                <div className={style.msg}>Everything looks good with your information.</div>
                 <div className={style.msg}>You can rent a car now</div>
                 <NavLink to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
                   <div className={style.link}>Visit Profile</div>
