@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getCarDetails, deleteCarDetails } from "../../redux/actions";
+import { NavLink, useParams } from "react-router-dom";
+import { getCarDetails, deleteCarDetails, getRentingCar } from "../../redux/actions";
 import Accessories from "../../components/Accessories/Accessories";
 
 import styles from "./CarDetail.module.css";
@@ -22,6 +22,10 @@ function CarDetail() {
       dispatch(deleteCarDetails());
     };
   }, [dispatch]);
+
+  const handleClick = () => {
+    dispatch(getRentingCar(carModel))
+  }
 
   return (
     <>
@@ -76,7 +80,7 @@ function CarDetail() {
               </div>
             </div>
             <div className={styles.caroptions}>
-              <button className={styles.reserve}>Reserve</button>
+              <NavLink to = "/booking"><button onClick={handleClick} className={styles.reserve}>Reserve</button></NavLink>
             </div>
           </div>
           <div className={styles.extraimages}>
