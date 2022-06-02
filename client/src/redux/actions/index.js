@@ -13,7 +13,7 @@ export const SET_USER = "SET_USER";
 export const SAVE_USER = "SAVE_USER";
 export const PATCH_USER = "UPDATE_USER";
 
-const URL = "http://localhost:3001/";
+export const URL = "http://localhost:3001/";
 
 export function getLocations() {
   return async (dispatch) => {

@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import LocationFilter from '../../components/LocationFilter/LocationFilter';
 import Authentication from '../../components/Authenti/Authentication';
+=======
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import LocationFilter from '../../components/LocationFilter/LocationFilter'
+>>>>>>> a847be73f4047c365a87c9b1496ef1ddb353e087
 import styles from './Home.module.css';
 import { setCity, setSelection } from '../../redux/actions';
 import Carousel from "../../components/Carousel/Carousel";
@@ -17,7 +24,6 @@ function Home() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-
         dispatch(setSelection({
             brand: "",
             category: "",
@@ -41,9 +47,11 @@ function Home() {
             <Carousel />
 
             <Categories />
-            <div className={styles.alert} hidden={hide}>
-                <Alert />
-            </div>
+            { !hide &&
+                <div className={styles.alert} >
+                    <Alert />
+                </div>
+            }
             <div>
                 <Benefits />
             </div>

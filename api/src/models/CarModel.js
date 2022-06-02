@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: false,
     },
+    stripePriceId: {
+      type: DataTypes.STRING,
+    },
     passengers: {
       type: DataTypes.SMALLINT,
     },

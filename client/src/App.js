@@ -10,7 +10,7 @@ import Footer from "./components/Footer/Footer";
 import Faq from "./components/Faq/Faq";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import ProfileUpdate from "./pages/ProfileUpdate/ProfileUpdate";
-
+import Booking from "./pages/Booking/Booking";
 
 function App() {
  
@@ -25,6 +25,7 @@ function App() {
           <Route path="/faqs" element={<Faq />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/user/:userId" element={<ProfileUpdate />} />
+          <Route path="/booking" element={<Booking />} />
         </Route>
       </Routes>
       <Footer />
