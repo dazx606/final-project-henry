@@ -12,7 +12,14 @@ function Authentication({ handleLoginInfo }) {
   const completeUser = useSelector((state) => state.user);
   useEffect(() => {
     if (isAuthenticated) {
-      dispatch(saveUser(user.email));
+      dispatch(saveUser(user.email)) 
+    }  
+   
+  }, [user, dispatch])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(setUserInfo(getAccessTokenSilently, user.email))
     }
   }, [user, dispatch]);
 
