@@ -26,6 +26,7 @@
 }
 
 .options {
+  color: var(--color1);
   padding: 0;
   border: none;
   box-shadow: none;
@@ -40,13 +41,16 @@
 }
 
 .options:hover {
+  padding: 0;
+  border: none;
+  box-shadow: none;
   color: var(--color3);
 }
 
 .profileinfo {
-  width: 30rem;
+  width: auto;
   background-color: var(--color1);
-  margin: 2rem auto;
+  margin: 2rem 7rem;
   padding: 0.3rem;
   border-radius: 0.4rem;
   color: var(--color3Tr);
@@ -67,5 +71,18 @@
 .infocontent {
   text-align: center;
   width: 100%;
+  color: var(--color3);
+}
+
+.edit {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.edit:hover {
+  padding: 0;
+  border: none;
+  box-shadow: none;
   color: var(--color3);
 }

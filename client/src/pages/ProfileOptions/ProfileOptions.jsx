@@ -61,7 +61,9 @@ function ProfileInfo() {
               PROFILE INFORMATION
             </span>
             <NavLink to={`/user/${userInfo.id}`}>
-              <i className="fa-solid fa-pen-to-square"></i>
+              <button className={styles.edit}>
+                <i className="fa-solid fa-pen-to-square"></i>
+              </button>
             </NavLink>
           </div>
           <div

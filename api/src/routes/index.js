@@ -17,9 +17,11 @@ const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY } = process.env;
 const { filterDates } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 const userRouter = require("./user");
+const adminRentRouter = require("./adminRent");
 
 const router = Router();
 router.use("/user", userRouter);
+router.use("/admin/rent", adminRentRouter);
 
 router.get("/cars/:locationId", async (req, res, next) => {
   const {
@@ -215,33 +217,34 @@ router.post("/send-email", async (req, res, next) => {
 });
 //------------------------------------------------Stripe--------------------------------
 
-
 // This is a public sample test API key.
 // Don’t submit any personally identifiable information in requests made with this key.
 // Sign in to see your own test API key embedded in code samples.
-const stripe = require('stripe')(STRIPE_SECRET_KEY);
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
 
-const YOUR_DOMAIN = 'http://localhost:3000/booking';
+const YOUR_DOMAIN = "http://localhost:3000/booking";
 
-router.post('/create-checkout-session', async (req, res, next) => {
+router.post("/create-checkout-session", async (req, res, next) => {
   try {
-    const { numberOfDays, carPriceId, optionalEquipment = [] } = req.body;   //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
-    if (!numberOfDays || !carPriceId) return res.status(400).json("Missing information!!!");
+    const { numberOfDays, carPriceId, optionalEquipment = [] } = req.body; //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
+    if (!numberOfDays || !carPriceId)
+      return res.status(400).json("Missing information!!!");
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           price: carPriceId,
           quantity: numberOfDays,
         },
-        ...optionalEquipment.map(id => ({ price: id, quantity: numberOfDays })),
+        ...optionalEquipment.map((id) => ({
+          price: id,
+          quantity: numberOfDays,
+        })),
       ],
-      mode: 'payment',
+      mode: "payment",
       success_url: `${YOUR_DOMAIN}?success=true`,
       cancel_url: `${YOUR_DOMAIN}?canceled=true`,
     });
 
-
-    
     res.redirect(303, session.url);
   } catch (error) {
     next(error);
