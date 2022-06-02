@@ -42,16 +42,16 @@ function NavBar() {
         <nav className={styles.menu}>
           <ul className={styles.link}>
             <NavLink to="/">
-              <li>HOME</li>
+              <li className={styles.list}>HOME</li>
             </NavLink>
             <NavLink to="/about">
-              <li>ABOUT US</li>
+              <li className={styles.list}>ABOUT US</li>
             </NavLink>
             <NavLink to="/contact">
-              <li>CONTACT US</li>
+              <li className={styles.list}>CONTACT US</li>
             </NavLink>
             <NavLink to="/booking">
-              <li>BOOKING</li>
+              <li className={styles.list}>BOOKING</li>
             </NavLink>
           </ul>
         </nav>

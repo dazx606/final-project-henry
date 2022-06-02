@@ -40,9 +40,10 @@
     margin: auto;  
 }
 
-h3, h4 {
+.titleh {
     font-family: var(--font3);
     color: var(--color3);
+    padding-bottom: 1rem;
 }
 
 .container1 {
@@ -86,8 +87,9 @@ h3, h4 {
     text-align: justify;
 }
 
-p {
+.paragraph {
     font-family: var(--font2);
+    color: var(--color3);
 }
 
 .container3 {
@@ -112,9 +114,7 @@ p {
     text-align: justify;
 } */
 
-h4 {
-    padding-bottom: 1rem;
-}
+
 
 /* .benefits2 {
     padding-top: 1rem;
@@ -128,12 +128,12 @@ h4 {
     text-align: justify;
 } */
 
-a, li {
+.links {
     text-decoration: none;
     color: var(--color3);
 }
 
-li:hover {
+.links:hover {
     color: var(--color4);
 }
 

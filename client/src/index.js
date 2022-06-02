@@ -21,11 +21,11 @@ root.render(
     audience={AUDIENCE}    
   >
     <Provider store={store}>
-      <React.StrictMode>
+      {/* <React.StrictMode> */}
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </React.StrictMode>
+      {/* </React.StrictMode> */}
     </Provider>
   </Auth0Provider>
 );
