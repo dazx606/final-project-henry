@@ -9,6 +9,8 @@ export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ALERT = "ALERT";
 export const SET_SELECTION = "SET_SELECTION";
 export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
+export const GET_RENTING_CAR = "GET_RENTING_CAR";
+export const DELETE_RENTING_CAR = "DELETE_RENTING_CAR"
 
 export const URL = "http://localhost:3001/";
 
@@ -37,14 +39,25 @@ export function getLocationCars(locationId) {
   };
 }
 
+export function getRentingCar(carModel) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URL}car/${carModel}`);
+      return dispatch({ type: GET_RENTING_CAR, payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function getFilteredCars(
-  { brand, category, order, startingDate, endingDate, orderType, page },
+  { brand="", category="", order="ASC", startingDate = "", endingDate="", orderType="pricePerDay", page=1, model="", carsPerPage=8 },
   locationId
 ) {
   return async (dispatch) => {
     try {
       var response = await axios.get(
-        `${URL}cars/${locationId}?brand=${brand}&category=${category}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}`
+        `${URL}cars/${locationId}?brand=${brand}&category=${category}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}&model=${model}&carsPerPage=${carsPerPage}`
       );
       var cars = response.data;
 
@@ -91,6 +104,10 @@ export function deleteCarDetails() {
     type: DELETE_CAR_DETAILS,
     payload: {},
   };
+}
+
+export function deleteRentingCar() {
+  return {type: DELETE_RENTING_CAR};
 }
 
 export function sendMessage(payload) {

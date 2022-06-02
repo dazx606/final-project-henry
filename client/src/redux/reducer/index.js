@@ -8,6 +8,8 @@ import {
   ALERT,
   SET_SELECTION,
   DELETE_CAR_DETAILS,
+  GET_RENTING_CAR,
+  DELETE_RENTING_CAR
 } from "../actions";
 
 const initialState = {
@@ -16,6 +18,7 @@ const initialState = {
   city: "",
   filteredCars: [],
   carDetails: {},
+  carRenting: {},
   hideAlert: true,
   selection: {
     brand: "",
@@ -66,9 +69,21 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         carDetails: payload,
       };
+    case GET_RENTING_CAR:
+      return {
+        ...state,
+        carRenting: payload,
+      }
     case DELETE_CAR_DETAILS:
-      return { ...state, carDetails: payload };
-
+      return { 
+        ...state, 
+        carDetails: payload 
+      };
+    case DELETE_RENTING_CAR: 
+    return {
+      ...state,
+      carRenting: {}
+    }
     case SEND_MESSAGE:
       return {
         ...state,

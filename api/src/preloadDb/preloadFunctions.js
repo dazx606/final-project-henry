@@ -119,7 +119,7 @@ const preloadDriver = async () => {
     try {
         await Promise.all(drivers.map(d => Driver.findOrCreate({
             where: { firstName: d.firstName },
-            defaults: { firstName: d.firstName, lastName: d.lastName }
+            defaults: { firstName: d.firstName, lastName: d.lastName, licenseNumber: d.licenseNumber, documentId:d.documentId }
         })))
     } catch (error) {
         throw new Error(error);
