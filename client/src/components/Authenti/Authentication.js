@@ -6,20 +6,33 @@ import { setUserInfo, saveUser } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 
 function Authentication({ handleLoginInfo }) {
-  const { loginWithPopup, isAuthenticated, logout, user, isLoading, getAccessTokenSilently } = useAuth0();
+  const {
+    loginWithPopup,
+    isAuthenticated,
+    logout,
+    user,
+    isLoading,
+    getAccessTokenSilently,
+  } = useAuth0();
   const dispatch = useDispatch();
   const savedUser = useSelector((state) => state.savedUser);
   const completeUser = useSelector((state) => state.user);
   useEffect(() => {
     if (isAuthenticated) {
+<<<<<<< HEAD
       dispatch(saveUser(user.email))
     }
 
   }, [user, dispatch])
+=======
+      dispatch(saveUser(user.email));
+    }
+  }, [user, dispatch]);
+>>>>>>> fa4f53ed82fbf18035427ed874ae883eed9d7e8f
 
   useEffect(() => {
     if (isAuthenticated) {
-      dispatch(setUserInfo(getAccessTokenSilently, user.email))
+      dispatch(saveUser(user.email));
     }
   }, [user, dispatch]);
 

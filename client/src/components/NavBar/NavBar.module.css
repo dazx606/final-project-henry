@@ -1,6 +1,7 @@
 .navcontainer {
   height: 4rem;
   border-bottom: 1px solid black;
+  width: 100vw;
 }
 
 .checkbox {
@@ -32,7 +33,7 @@
   justify-content: center;
   align-items: center;
 }
-.logIcon{
+.logIcon {
   color: var(--color4);
   width: 20px;
   height: 20px;
@@ -49,10 +50,10 @@
   font-weight: 700;
   /* background-color: var(--color4); */
 }
-.icon:hover{
+.icon:hover {
   cursor: pointer;
 }
-.logIcon:hover{
+.logIcon:hover {
   cursor: pointer;
 }
 
@@ -175,8 +176,7 @@
   top: 0;
 }
 
-
-.tittle{
+.tittle {
   text-decoration: none;
   color: var(--color4);
 }
