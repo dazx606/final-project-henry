@@ -1,7 +1,8 @@
 const { Router } = require("express");
+const express = require('express');
 const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
-const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY } = process.env;
+const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } = process.env;
 const { filterDates } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 
@@ -169,8 +170,9 @@ const YOUR_DOMAIN = 'http://localhost:3000/booking';
 
 router.post('/create-checkout-session', async (req, res, next) => {
   try {
-    const { numberOfDays, carPriceId, optionalEquipment = [] } = req.body;   //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
-    if (!numberOfDays || !carPriceId) return res.status(400).json("Missing information!!!");
+    const { email = "unemaildetest@gmail.com", rentOrderId = 25, numberOfDays = 5, carPriceId = "price_1L5fSdDNuL2bCfdELZ2jLRoI", optionalEquipment = [] } = req.body;   //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
+    if (!numberOfDays || !carPriceId || !email || !rentOrderId) return res.status(400).json("Missing information!!!");
+
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
@@ -179,17 +181,44 @@ router.post('/create-checkout-session', async (req, res, next) => {
         },
         ...optionalEquipment.map(id => ({ price: id, quantity: numberOfDays })),
       ],
+      customer_email: email,
+      client_reference_id: rentOrderId,
       mode: 'payment',
       success_url: `${YOUR_DOMAIN}?success=true`,
       cancel_url: `${YOUR_DOMAIN}?canceled=true`,
     });
-
-
-    
     res.redirect(303, session.url);
   } catch (error) {
     next(error);
   }
+});
+
+
+const fulfillOrder = (session) => {
+  // TODO: fill me in
+  console.log("Fulfilling order", session);
+}
+
+const endpointSecret = STRIPE_SECRET_WEBHOOK_KEY;
+
+router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const payload = req.body;
+
+  const sig = req.headers['stripe-signature'];
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+  } catch (err) {
+    console.log(`❌ Error message: ${err.message}`);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    fulfillOrder(event.data.object);
+  }
+
+  res.json({ received: true });
 });
 
 module.exports = router;
