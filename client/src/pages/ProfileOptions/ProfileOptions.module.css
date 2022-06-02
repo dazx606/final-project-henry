@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  font-family: var(--font2);
+}
+
+.selection {
+  width: 25%;
+  height: 90vh;
+  background-color: var(--color1);
+}
+
+.render {
+  width: 75%;
+  height: 90vh;
+  background-color: var(--color7);
+}
+
+.selectionbox {
+  background-color: var(--color4);
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.2rem;
+}
+
+.options {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background-color: rgba(252, 192, 72, 0);
+  font-weight: 500;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.options:hover {
+  color: var(--color3);
+}
+
+.profileinfo {
+  width: 30rem;
+  background-color: var(--color1);
+  margin: 2rem auto;
+  padding: 0.3rem;
+  border-radius: 0.4rem;
+  color: var(--color3Tr);
+}
+.firstinfo {
+  width: 100%;
+}
+
+.info {
+  display: flex;
+  margin: 3rem 0;
+}
+
+.infotitle {
+  width: 100%;
+}
+
+.infocontent {
+  text-align: center;
+  width: 100%;
+  color: var(--color3);
+}

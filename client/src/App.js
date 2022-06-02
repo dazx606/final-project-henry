@@ -10,10 +10,10 @@ import Footer from "./components/Footer/Footer";
 import Faq from "./components/Faq/Faq";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import Profile from "./pages/Profile/Profile";
-
+import ProfileOptions from "./pages/ProfileOptions/ProfileOptions";
+import ProtectedRoutes from "./ProtectedRoutes";
 
 function App() {
- 
   return (
     <div className="app">
       <Routes>
@@ -24,7 +24,10 @@ function App() {
           <Route path="/car/:carModel" element={<CarDetail />} />
           <Route path="/faqs" element={<Faq />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/user/:userId" element={<Profile />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/user/:userId" element={<Profile />} />
+            <Route path="/profile/:userId" element={<ProfileOptions />} />
+          </Route>
         </Route>
       </Routes>
       <Footer />
