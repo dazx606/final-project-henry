@@ -10,10 +10,10 @@
 
 
 .slCityT {
-    margin-left: 5rem;
+    margin-left: 3rem;
     height: 100%;
-    color: var(--color4);
-    font-family: var(--font2);
+    color: var(--color3);
+    font-family: var(--font1);
     font-size: 1.3rem;
     font-weight: 300;
     align-content: center;
@@ -24,30 +24,9 @@
     width: 40px;
     height: 33px;
     margin-left: 4px;
-    border: solid 2px;
-    border-color: var(--color4);
-    background-color: var(--color1);
-    border-radius: 4px;
-    font-family: var(--font3);
-    font-weight: 600;
-    font-size: 1.1em;
-    color: var(--color4);
-    box-shadow: 0px 0px 8px 0px var(--color4Tr);
-    transition: 0.5s;
     padding: 0;
 }
-.goBtn:hover{
-    cursor: pointer;
-    width: 2.8rem;
-    height: 2.1rem;
-    border: solid 2.5px;
-    border-color: var(--color1);
-    background-color: var(--color4);
-    color: var(--color1);
-    box-shadow: 0px 0px 8px 0px var(--color4Tr);
-    
 
-}
 .slctBar {
     width: 90vw;
     height: 2rem;

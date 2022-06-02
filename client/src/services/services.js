@@ -41,7 +41,7 @@ export function addUser(email){
 };
 
 export function updateUser(user, token){
-    console.log("service token: "+token);
+   // console.log("service token: "+token);
     const options = {
         method: "PATCH",
         mode: "cors",

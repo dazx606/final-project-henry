@@ -58,29 +58,29 @@ export default function Benefits() {
             <dir>
                 <div className={styles.cardContainer}>
                     <div className={styles.card}>
-                        <div className={styles.topCard}><h4>1 - Vehicles To Meet The Demands</h4></div>
+                        <div className={styles.topCard}><h4>Vehicles To Meet The Demands</h4></div>
                         <div className={styles.bottomCard}><p>Save time and money. We offer a wide selection of vehicles to cover all your needs; wether you are coming to Miami for business or fun, we have the car for you.</p></div>
                     </div>
-                    <div className={styles.cardBenefits}>
-                        <div className={styles.topCard}><h4>2 - Great Daily Rates</h4></div>
+                    <div className={styles.card}>
+                        <div className={styles.topCard}><h4>Great Daily Rates</h4></div>
                         <div className={styles.bottomCard}><p>We offer unbeatable rates. Don't let your car rental experience be an unpleasant one. We give you the best final deal upfront.</p></div>
                     </div>
                     <div className={styles.card}>
-                        <div className={styles.topCard}><h4>3 - No Hidden Charges, No Dirty Bills</h4></div>
+                        <div className={styles.topCard}><h4>No Hidden Charges, No Dirty Bills</h4></div>
                         <div className={styles.bottomCard}><p>Tired of having a reservation for pennies just to discover that they wait you with expensive fees at the front desk? We in Rent A Car give you a full disclosure before you come.</p></div>
                     </div>
                 </div>
                 <div className={styles.cardContainer}>
                     <div className={styles.card}>
-                        <div className={styles.topCard}><h4>4 - Real Time Online Booking</h4></div>
+                        <div className={styles.topCard}><h4>Real Time Online Booking</h4></div>
                         <div className={styles.bottomCard}><p>Using our online booking system has never been easier. We make daily adjustments to our website. Florida Premium offers you fast online bookings and low price guarantee!</p></div>
                     </div>
                     <div className={styles.card}>
-                        <div className={styles.topCard}><h4>5 - Only Clean And Reliable Vehicles</h4></div>
+                        <div className={styles.topCard}><h4>Only Clean And Reliable Vehicles</h4></div>
                         <div className={styles.bottomCard}><p>We in Rent A Car take care of our fleet, so you always drive a reliable car, cleaned and well maintained.</p></div>
                     </div>
                     <div className={styles.card}>
-                        <div className={styles.topCard}><h4>6 - Face-to-Face Customer Service</h4></div>
+                        <div className={styles.topCard}><h4>Face-to-Face Customer Service</h4></div>
                         <div className={styles.bottomCard}><p>Have your car delivered to the Airport, Port, Hotel or your residence, in Miami and Orlando. Ask for our delivery fees.</p></div>
                     </div>
                 </div>
