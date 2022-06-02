@@ -11,7 +11,12 @@ const server = express();
 server.name = 'API';
 
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-server.use(bodyParser.json({ limit: '50mb' }));
+
+// Use JSON parser for all non - webhook 
+server.use((req, res, next) => { if (req.originalUrl === '/webhook') { next(); } else { express.json()(req, res, next); } });
+
+
+// server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
 server.use((req, res, next) => {

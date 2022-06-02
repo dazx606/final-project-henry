@@ -12,6 +12,10 @@ module.exports = (sequelize) => {
         endingDate: {
             type: DataTypes.STRING,
             allowNull: false
-        }
+        },
+        payed: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
     })
 }
