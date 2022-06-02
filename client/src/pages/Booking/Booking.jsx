@@ -4,7 +4,7 @@ import DatePicker from 'react-date-picker'
 import { useDispatch, useSelector } from "react-redux";
 import LocationFilter from "../../components/LocationFilter/LocationFilter";
 import Drivers from "../../components/Drivers/Drivers";
-import { URL } from "../../redux/actions";
+//import { URL } from "../../redux/actions";
 import TermsConditions from "../../components/Terms & coditions/TermsConditions";
 // import styles from "./Booking.module.css";
 
@@ -82,6 +82,8 @@ export default function Booking() {
     const [dataToSend, setDataToSend] = useState(formData)
     const [drivers, setDrivers] = useState([])
     const filteredCars = useSelector(state => state.filteredCars[0])
+    const [show, setShow] = useState(false);
+    const [agree, setAgree] = useState(false);
     const dispatch = useDispatch()
 
     useEffect(() => {
