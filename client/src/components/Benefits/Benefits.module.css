@@ -8,29 +8,36 @@
     justify-content: space-evenly;
     margin: 3rem;
 }
+.card{
+    width: 25rem;
+    box-shadow: 0 0 14px 2px var(--color6);
+    border: ridge 1px var(--color4);
+}
 
 .topCard {
-    height: 50px;
-    width: 230px;
-    box-shadow: 0 0 8px var(--color4);
-    border-radius: 8px 8px 0 0;
-    padding-top: 1rem;
+    height: 3rem;
+    width: 20rem;
+    /* box-shadow: 0 0 8px var(--color4); */
+    /* border-radius: 8px 8px 0 0; */
+    padding-top: 1.5rem;
     padding-left: 1rem;
     padding-right: 1rem;
     margin: auto;
     align-items: center;
     text-align: center;
+    
+    
 }
 
 .bottomCard {
-    box-shadow: 0 0 8px var(--color4);
-    border-radius: 0 0 8px 8px; 
-    height: 200px;
-    width: 230px;
-    text-align: justify;
+    /* box-shadow: 0 0 8px var(--color4); */
+    /* border-radius: 0 0 8px 8px;  */
+    height: 10rem;
+    width: 20rem;
+    text-align: center;
     line-height: 2rem;
     padding: 1rem;
-    margin: auto;
+    margin: auto;  
 }
 
 h3, h4 {

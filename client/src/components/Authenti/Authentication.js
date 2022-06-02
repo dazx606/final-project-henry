@@ -12,14 +12,8 @@ function Authentication({ handleLoginInfo }) {
   const completeUser = useSelector(state => state.user)
   useEffect(() => {
     if (isAuthenticated) {
-<<<<<<< HEAD
       dispatch(saveUser(user.email))
     }
-=======
-      dispatch(saveUser(user.email)) 
-    }  
-
->>>>>>> 702f5a946a6fbadccba4e63a0c3c106b17436e8e
   }, [user, dispatch])
 
   useEffect(() => {

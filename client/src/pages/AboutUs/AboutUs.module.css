@@ -31,7 +31,7 @@ p {
     justify-content: center;
 }
 
-.goHomeb {
+/* .goHomeb {
     background-color: var(--color4);
     color: var(--color3);
     font-size: 0.8rem;
@@ -44,7 +44,7 @@ p {
 
 .goHomeb:hover {
     background-color: var(--color4Tr);
-}
+} */
 
 .subContainer1b {
     width: 50%;

@@ -26,7 +26,7 @@ function NavBar() {
 
             {isAuthenticated ?
               <div onClick={handleLoginInfo} className={styles.logIcon} >
-                <div >{user.given_name ? user.given_name[0] :  user.nickname[0]}</div>
+                <div >{user.given_name ? user.given_name[0].toLocaleUpperCase() :  user.nickname[0].toLocaleUpperCase()}</div>
               </div>
               :
               <div onClick={handleLoginInfo} className={styles.icon} >

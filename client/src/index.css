@@ -43,6 +43,51 @@ button {
   font-size: 1em;
   color: var(--color4);
   box-shadow: 0px 0px 8px 2px var(--color6Tr);
-  transition: 0.3s;
+  transition: 0.1s;
   padding: 10px;
+}
+
+button:hover{
+  cursor: pointer;
+  box-shadow: 0px 0px 8px 6px var(--color6Tr);
+  font-weight: 500;
+  border: outset 2px var(--color4);
+}
+
+select{
+  border: outset 1px var(--color4);
+  outline: none;
+  padding:4px;
+  background-color: var(--color1);
+  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  font-family: var(--font2);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color3);
+}
+
+select:hover{
+  cursor: pointer;
+  box-shadow: 0px 0px 8px 6px var(--color6Tr);
+  font-weight: 500;
+  border: outset 2px var(--color4);
+}
+
+input{
+  border: outset 1px var(--color4);
+  outline: none;
+  padding:4px;
+  background-color: var(--color1);
+  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  font-family: var(--font2);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color3);
+}
+
+input:hover{
+  cursor: pointer;
+  box-shadow: 0px 0px 8px 6px var(--color6Tr);
+  font-weight: 500;
+  border: outset 2px var(--color4);
 }
