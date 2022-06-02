@@ -29,7 +29,7 @@ function Authentication({ handleLoginInfo }) {
         <div className={style.authBox2}>
           {user.email_verified ?
 
-            !savedUser[2] ?
+            !completeUser.completed ?
               <div>
                 <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname}!`}</h2>
                 <h3 className={style.welcome}>Welcome to RentACar</h3>
