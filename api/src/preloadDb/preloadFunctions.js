@@ -189,9 +189,6 @@ const preloadUser = async () => {
           where: { email: u.email },
           defaults: {
             email: u.email,
-            phone: u.phone,
-            language: u.language,
-            admin: u.admin,
           },
         });
         if (newUser[1] && u.drivers?.length) {

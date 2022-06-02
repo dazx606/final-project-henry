@@ -1,7 +1,7 @@
 .authBox{
     display:flex;
     position: fixed;
-    width: 20rem;
+    width: 21rem;
     background-color: var(--color1);
     top: 4.5rem;
     right: 1.5rem;
@@ -12,55 +12,92 @@
 .authBox2{
     width: 20rem;
 }
+.head{
+    display:flex;
+    align-items: center;
+    margin-top: 24px;
+}
+.imgIcon{
+    color: var(--color4);
+    width: 3.2rem;
+    height: 3.2rem;
+    margin: 0px 0px 0px 24px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    /* border: var(--color4) 2px solid; */
+    display: flex;
+    font-size: 1.2em;
+    font-weight: 700;
+   
+}
 
 .hello{
     color: var(--color4);
     font-family: var(--font2);
-    font-size: 1.7em;
+    font-size: 1.5em;
     font-weight: 400;
-    margin: 24px 0px 8px 0px;
-    text-align: center;
+    margin: 0px 0px 0px 16px;
+    
+}
+
+.email{
+    color: var(--color3);
+    font-family: var(--font2);
+    font-size: 0.9em;
+    font-weight: 200;
+    margin: 4px 0px 0px 16px;
+    
+}
+.line{
+    margin: 1rem 5rem 0 5rem;
+    height: 8px;
+    width: 11rem;
+    border-top: groove 1px var(--color4Tr);
 }
 
 .welcome{
+    
     color: var(--color3);
     font-family: var(--font2);
-    font-size: 1.3em;
-    font-weight: 200;
-    margin: 8px 0px 16px 0px;
-    text-align: center;
+    font-size: 1.2em;
+    font-weight: 300;   
+    margin: 16px 0px 0px 24px;
 }
 
 .exclam{
-    text-align: center;
+    
     color: var(--color4);
     font-family: var(--font2);
     font-size: 1.2em;
     font-weight: 400;   
-    margin: 8px 4px 8px 4px; 
+    margin: 24px 0px 0px 24px;
 }
 .msg{
-    text-align: center;
+    
     color: var(--color3);
     font-family: var(--font2);
     font-size: 1em;
     font-weight: 300;
     padding: 0;
-    margin: 8px 24px;
+    margin: 8px 12px 0px 24px;
 }
 
 .link{
     display: flex;
-    /* text-decoration:underline; */
+    text-decoration:none;
     font-family: var(--font2);
     color: var(--color4);
-    margin: 24px 0px;
-    justify-content: center;
+    margin: 16px  0px 0px 24px;
+}
+.link a:visited{
+    text-decoration:none;
 }
 
 .btnCont{
     display:flex;
     justify-content: center;
+    height: 6rem;
 }
 .logBtn{
     margin: 24px 0px 24px 0px;

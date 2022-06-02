@@ -12,9 +12,9 @@ function Authentication({ handleLoginInfo }) {
   const completeUser = useSelector((state) => state.user);
   useEffect(() => {
     if (isAuthenticated) {
-      dispatch(saveUser(user.email)) 
-    }  
-   
+      dispatch(saveUser(user.email))
+    }
+
   }, [user, dispatch])
 
   useEffect(() => {
@@ -27,6 +27,7 @@ function Authentication({ handleLoginInfo }) {
     if (isAuthenticated) {
       dispatch(setUserInfo(getAccessTokenSilently, user.email));
     }
+    console.log(user)
   }, [dispatch, savedUser]);
 
   return (
@@ -36,29 +37,56 @@ function Authentication({ handleLoginInfo }) {
           {user.email_verified ? (
             !completeUser.completed ? (
               <div>
-                <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname}!`}</h2>
-                <h3 className={style.welcome}>Welcome to RentACar</h3>
+                <div className={style.head}>
+                  {user.picture ? <img className={style.imgIcon} src={user.picture} />
+                    : <div className={style.imgIcon}>{user.given_name ? user.given_name[0].toLocaleUpperCase() : user.nickname[0].toLocaleUpperCase()}</div>}
+                  <div>
+                    <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname}!`}</h2>
+                    <h3 className={style.email}>{user?.email}</h3>
+                  </div>
+                </div>
+                <div className={style.line}></div>
+
                 <div className={style.exclam}>UPS! </div>
-                <div className={style.msg}>Looks like your Profile is incomplete.</div>
-                <NavLink to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
-                  <div className={style.link}>Complete Profile</div>
+                <div className={style.msg}>Your Profile is incomplete.</div>
+                <NavLink className={style.link} to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
+                  <div >Complete Profile</div>
                 </NavLink>
               </div>
             ) : (
               <div>
-                <h2 className={style.hello}>{`Hello ${completeUser && completeUser.data.firstName}!`}</h2>
-                <h3 className={style.welcome}>Welcome back</h3>
-                <div className={style.exclam}>GREAT! </div>
-                <div className={style.msg}>Everithing looks good with your information.</div>
-                <div className={style.msg}>You can rent a car now</div>
-                <NavLink to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
-                  <div className={style.link}>Visit Profile</div>
+                <div className={style.head}>
+                  {user.picture ? <img className={style.imgIcon} src={user.picture} />
+                    : <div>{completeUser.data.firstName[0].toUpperCase()}</div>}
+                  <div >
+                    <h2 className={style.hello}>{`Hello ${completeUser && completeUser.data.firstName}!`}</h2>
+                    <h3 className={style.email}>{user?.email}</h3>
+                  </div>
+                </div>
+                <div className={style.line}></div>
+                <div className={style.welcome}>Welcome Back! </div>
+                {/* <div className={style.exclam}>GREAT! </div>
+                <div className={style.msg}>Everithing looks good with your information.</div> */}
+                {/* <div className={style.msg}>You can rent a car now</div> */}
+                <NavLink className={style.link} to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
+                  <div >Visit Profile</div>
+                </NavLink>
+                <NavLink className={style.link} to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
+                  <div >My reservations</div>
                 </NavLink>
               </div>
             )
           ) : (
             <div>
-              <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname}!`}</h2>
+              <div className={style.head}>
+                {user.picture ? <img className={style.imgIcon} src={user.picture} />
+                  : <div className={style.imgIcon}>{user.given_name ? user.given_name[0].toLocaleUpperCase() : user.nickname[0].toLocaleUpperCase()}</div>}
+                <div>
+                  <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname}!`}</h2>
+                  <h3 className={style.email}>{user?.email}</h3>
+                </div>
+              </div>
+              <div className={style.line}></div>
               <h3 className={style.welcome}>Welcome to RentACar</h3>
               <div className={style.exclam}>UPS! </div>
               <div className={style.msg}>Verify your email to continue</div>
