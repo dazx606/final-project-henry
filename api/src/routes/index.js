@@ -17,19 +17,11 @@ const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY } = process.env;
 const { filterDates } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 const userRouter = require("./user");
-<<<<<<< HEAD
-const adminRentRouter = require("./adminRent");
-
-const router = Router();
-router.use("/user", userRouter);
-router.use("/admin/rent", adminRentRouter);
-=======
 const adminRouter = require("./admin");
 
 const router = Router();
 router.use("/user", userRouter);
 router.use("/admin", adminRouter);
->>>>>>> 32c4bc7474ff06126df0b19c2605010da27c2a89
 
 router.get("/cars/:locationId", async (req, res, next) => {
   const {
