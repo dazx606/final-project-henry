@@ -9,9 +9,10 @@ import Contact from "./pages/Contact/Contact";
 import Footer from "./components/Footer/Footer";
 import Faq from "./components/Faq/Faq";
 import AboutUs from "./pages/AboutUs/AboutUs";
-import Profile from "./pages/Profile/Profile";
 import ProfileOptions from "./pages/ProfileOptions/ProfileOptions";
 import ProtectedRoutes from "./ProtectedRoutes";
+import ProfileUpdate from "./pages/ProfileUpdate/ProfileUpdate";
+import Booking from "./pages/Booking/Booking";
 
 function App() {
   return (
@@ -25,8 +26,9 @@ function App() {
           <Route path="/faqs" element={<Faq />} />
           <Route path="/about" element={<AboutUs />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="/user/:userId" element={<Profile />} />
-            <Route path="/profile/:userId" element={<ProfileOptions />} />
+            <Route path="/user/:userId" element={<ProfileUpdate />} />
+            <Route path="/profile/:userId" element={<ProfileOptions />} />+
+            <Route path="/booking" element={<Booking />} />
           </Route>
         </Route>
       </Routes>

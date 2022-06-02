@@ -13,9 +13,9 @@ const {
   User,
 } = require("../db.js");
 require("dotenv").config();
-const { EMAIL, MIDDLE_EMAIL } = process.env;
-const { transporter } = require("../config/mailer");
+const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY } = process.env;
 const { filterDates } = require("./controllers.js");
+const { transporter } = require("../config/mailer");
 const userRouter = require("./user");
 
 const router = Router();
@@ -187,7 +187,7 @@ router.get("/car/:modelId", async (req, res, next) => {
     next(error);
   }
 });
-
+//-------------------------------------------------Node-mailer----------------------
 router.post("/send-email", async (req, res, next) => {
   const { name, email, phone, message, subject } = req.body;
   try {
@@ -208,12 +208,44 @@ router.post("/send-email", async (req, res, next) => {
       html: contentHTML,
       replyTo: email,
     });
-    return res.send("Message sent succesfully");
+    return res.json("Message sent succesfully");
   } catch (error) {
     next(error);
   }
 });
+//------------------------------------------------Stripe--------------------------------
 
 
+// This is a public sample test API key.
+// Don’t submit any personally identifiable information in requests made with this key.
+// Sign in to see your own test API key embedded in code samples.
+const stripe = require('stripe')(STRIPE_SECRET_KEY);
+
+const YOUR_DOMAIN = 'http://localhost:3000/booking';
+
+router.post('/create-checkout-session', async (req, res, next) => {
+  try {
+    const { numberOfDays, carPriceId, optionalEquipment = [] } = req.body;   //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
+    if (!numberOfDays || !carPriceId) return res.status(400).json("Missing information!!!");
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: carPriceId,
+          quantity: numberOfDays,
+        },
+        ...optionalEquipment.map(id => ({ price: id, quantity: numberOfDays })),
+      ],
+      mode: 'payment',
+      success_url: `${YOUR_DOMAIN}?success=true`,
+      cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+    });
+
+
+    
+    res.redirect(303, session.url);
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

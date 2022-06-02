@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -8,18 +8,36 @@ import styles from "./ProfileOptions.module.css";
 function ProfileOptions() {
   const { isAuthenticated, loginWithPopup, isLoading } = useAuth0();
   const userInfo = useSelector((state) => state.user);
+  const [profileInformation, setProfileInformation] = useState(true);
+  const [profileOrders, setProfileOrders] = useState(false);
 
   return (
     <div className={styles.container}>
       <div className={styles.selection}>
         <div className={styles.selectionbox}>
-          <button className={styles.options}>Profile Information</button>
-          <button className={styles.options}>Orders</button>
-          <button className={styles.options}>Otra opcion</button>
+          <button
+            className={styles.options}
+            onClick={() => {
+              setProfileInformation(true);
+              setProfileOrders(false);
+            }}
+          >
+            Profile Information
+          </button>
+          <button
+            className={styles.options}
+            onClick={() => {
+              setProfileInformation(false);
+              setProfileOrders(true);
+            }}
+          >
+            My Orders
+          </button>
         </div>
       </div>
       <div className={styles.render}>
-        <ProfileInfo />
+        {profileInformation && <ProfileInfo />}
+        {profileOrders && <ProfileOrders />}
       </div>
     </div>
   );
@@ -105,6 +123,33 @@ function ProfileInfo() {
               </div>
             </div>
           </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function ProfileOrders() {
+  const userInfo = useSelector((state) => state.user);
+  console.log(userInfo);
+  return (
+    <div className={styles.profileinfo}>
+      {userInfo.data && (
+        <>
+          <div
+            style={{
+              padding: "0 0.5rem",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <span style={{ fontSize: ".8rem", fontWeight: "700" }}>
+              MY ORDERS
+            </span>
+          </div>
+          <div
+            style={{ display: "flex", fontSize: ".8rem", padding: "1rem 1rem" }}
+          ></div>
         </>
       )}
     </div>

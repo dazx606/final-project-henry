@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import Authentication from "../Authenti/Authentication";
 import styles from "./NavBar.module.css";
 
 function NavBar() {
-  const [display, setDisplay] = useState(false)
+  const [display, setDisplay] = useState(false);
+  const { loginWithPopup, isAuthenticated, user } = useAuth0();
 
   function handleLoginInfo() {
-    setDisplay(!display);
+    if (isAuthenticated) setDisplay(!display);
+    if (!isAuthenticated) loginWithPopup()
   }
 
   return (
@@ -20,10 +23,17 @@ function NavBar() {
               <div className={styles.headerButton}></div>
             </label>
             <NavLink className={styles.tittle} to="/"><h1>RENT A CAR</h1></NavLink>
-            <div onClick={handleLoginInfo} className={styles.icon} >
-              <i className="fa-solid fa-user"></i>
-            </div>
-            {display && <Authentication handleLoginInfo={handleLoginInfo}/>}
+
+            {isAuthenticated ?
+              <div onClick={handleLoginInfo} className={styles.logIcon} >
+                <div >{user.given_name ? user.given_name[0].toLocaleUpperCase() :  user.nickname[0].toLocaleUpperCase()}</div>
+              </div>
+              :
+              <div onClick={handleLoginInfo} className={styles.icon} >
+                <i className="fa-solid fa-user"></i>
+              </div>
+            }
+            {display && <Authentication handleLoginInfo={handleLoginInfo} />}
             {/* <NavLink to="/login" className={styles.icon}>
               <i className="fa-solid fa-user"></i>
             </NavLink> */}
@@ -32,16 +42,16 @@ function NavBar() {
         <nav className={styles.menu}>
           <ul className={styles.link}>
             <NavLink to="/">
-              <li>HOME</li>
+              <li className={styles.list}>HOME</li>
             </NavLink>
             <NavLink to="/about">
-              <li>ABOUT US</li>
+              <li className={styles.list}>ABOUT US</li>
             </NavLink>
             <NavLink to="/contact">
-              <li>CONTACT US</li>
+              <li className={styles.list}>CONTACT US</li>
             </NavLink>
             <NavLink to="/booking">
-              <li>BOOKING</li>
+              <li className={styles.list}>BOOKING</li>
             </NavLink>
           </ul>
         </nav>

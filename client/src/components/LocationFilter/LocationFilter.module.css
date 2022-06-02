@@ -1,15 +1,9 @@
 .citySelect {
-  border: 1px solid var(--color4);
-  /* outline: none; */
-  padding: 0px 8px;
   margin: 16px 8px;
-  font-family: var(--font2);
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--color7);
   width: 20rem;
-  height: 100%;
-  background-color: var(--color3);
-  border-radius: 4px;
+  height: 33px;
+  
 }
+
+
 
