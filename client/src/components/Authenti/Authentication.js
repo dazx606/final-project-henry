@@ -62,7 +62,7 @@ function Authentication({ handleLoginInfo }) {
                 <h3 className={style.welcome}>Welcome back</h3>
                 <div className={style.exclam}>GREAT! </div>
                 <div className={style.msg}>
-                  Everithing looks good with your information.
+                  Everything looks good with your information.
                 </div>
                 <div className={style.msg}>You can rent a car now</div>
                 <NavLink to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
