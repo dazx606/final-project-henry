@@ -12,6 +12,7 @@ export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
 export const SET_USER = "SET_USER";
 export const SAVE_USER = "SAVE_USER";
 export const PATCH_USER = "UPDATE_USER";
+export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 
 export const URL = "http://localhost:3001/";
 
@@ -156,4 +157,12 @@ export function patchUser(getToken, payload) {
       console.log(error);
     }
   };
+}
+
+export function setProfileOptions(payload){
+  return{
+    type: SET_PROFILE_OPTIONS,
+    payload
+  }
+
 }

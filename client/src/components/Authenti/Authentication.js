@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import style from "./Authentication.module.css";
-import { setUserInfo, saveUser } from "../../redux/actions";
+import { setUserInfo, saveUser, setProfileOptions } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 
-function Authentication({ handleLoginInfo }) {
+function Authentication({ setDisplay, display, handleLoginInfo }) {
   const {
     loginWithPopup,
     isAuthenticated,
@@ -17,11 +17,6 @@ function Authentication({ handleLoginInfo }) {
   const dispatch = useDispatch();
   const savedUser = useSelector((state) => state.savedUser);
   const completeUser = useSelector((state) => state.user);
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(saveUser(user.email));
-    }
-  }, [user, dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -33,8 +28,13 @@ function Authentication({ handleLoginInfo }) {
     if (isAuthenticated) {
       dispatch(setUserInfo(getAccessTokenSilently, user.email));
     }
-    console.log(user)
   }, [dispatch, savedUser]);
+
+  function handleProfileInfo(e) {
+    setDisplay(!display)
+    dispatch(setProfileOptions(e));
+   
+  }
 
   return (
     <div className={style.authBox}>
@@ -74,11 +74,11 @@ function Authentication({ handleLoginInfo }) {
                 {/* <div className={style.exclam}>GREAT! </div>
                 <div className={style.msg}>Everithing looks good with your information.</div> */}
                 {/* <div className={style.msg}>You can rent a car now</div> */}
-                <NavLink className={style.link} to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
-                  <div >Visit Profile</div>
+                <NavLink className={style.link} to={`/profile/${savedUser[1]}`} onClick={(e) => handleProfileInfo(e='information')}>
+                  <div   >Visit Profile</div>
                 </NavLink>
-                <NavLink className={style.link} to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
-                  <div >My reservations</div>
+                <NavLink className={style.link} to={`/profile/${savedUser[1]}`} onClick={(e) => handleProfileInfo(e='reservations')} >
+                  <div  >My reservations</div>
                 </NavLink>
               </div>
             )
@@ -109,8 +109,9 @@ function Authentication({ handleLoginInfo }) {
             </button>
           </div>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
 

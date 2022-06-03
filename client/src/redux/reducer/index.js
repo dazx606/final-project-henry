@@ -11,6 +11,7 @@ import {
   SET_USER,
   SAVE_USER,
   PATCH_USER,
+  SET_PROFILE_OPTIONS,
 } from "../actions";
 
 const initialState = {
@@ -31,6 +32,7 @@ const initialState = {
   },
   savedUser: [],
   user: {},
+  profileOptions: "information",
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -95,6 +97,12 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
       };
+      case SET_PROFILE_OPTIONS:{
+        return{
+          ...state,
+          profileOptions: payload
+        }
+      }
 
     default:
       return { ...state };

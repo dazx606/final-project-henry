@@ -72,7 +72,10 @@ export default function Profile() {
           <Link to="/">
             <button>Home</button>
           </Link>
-          <button> See profile</button>
+          <Link to={`/profile/${userId}`}>
+            <button> See profile</button>
+          </Link>
+
         </div>
       ) : (
         <form onSubmit={handleSubmit}>

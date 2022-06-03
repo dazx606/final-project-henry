@@ -1,7 +1,7 @@
 .navcontainer {
   height: 4rem;
   border-bottom: 1px solid black;
-  width: 100vw;
+  /* width: 100vw; */
 }
 
 .checkbox {

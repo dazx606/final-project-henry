@@ -1,43 +1,51 @@
 import React, { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 import styles from "./ProfileOptions.module.css";
+import { setProfileOptions } from "../../redux/actions";
 
 function ProfileOptions() {
   const { isAuthenticated, loginWithPopup, isLoading } = useAuth0();
   const userInfo = useSelector((state) => state.user);
-  const [profileInformation, setProfileInformation] = useState(true);
-  const [profileOrders, setProfileOrders] = useState(false);
+  // const [profileInformation, setProfileInformation] = useState(true);
+  // const [profileOrders, setProfileOrders] = useState(false);
+  const profileOptions = useSelector((state) => state.profileOptions);
+  const dispatch = useDispatch()
 
+  
   return (
     <div className={styles.container}>
       <div className={styles.selection}>
         <div className={styles.selectionbox}>
           <button
+            value='information'
             className={styles.options}
-            onClick={() => {
-              setProfileInformation(true);
-              setProfileOrders(false);
+            onClick={(e) => {
+              dispatch(setProfileOptions(e.target.value));
+              // setProfileInformation(true);
+              // setProfileOrders(false);
             }}
           >
             Profile Information
           </button>
           <button
+            value='reservations'
             className={styles.options}
-            onClick={() => {
-              setProfileInformation(false);
-              setProfileOrders(true);
+            onClick={(e) => {
+              dispatch(setProfileOptions(e.target.value));
+              // setProfileInformation(false);
+              // setProfileOrders(true);
             }}
           >
-            My Orders
+            My Reservations
           </button>
         </div>
       </div>
       <div className={styles.render}>
-        {profileInformation && <ProfileInfo />}
-        {profileOrders && <ProfileOrders />}
+        {profileOptions === 'information' && <ProfileInfo />}
+        {profileOptions === 'reservations' && <ProfileOrders />}
       </div>
     </div>
   );
@@ -45,7 +53,7 @@ function ProfileOptions() {
 
 function ProfileInfo() {
   const userInfo = useSelector((state) => state.user);
-  console.log(userInfo);
+  
   return (
     <div className={styles.profileinfo}>
       {userInfo.data && (
@@ -60,7 +68,7 @@ function ProfileInfo() {
             <span style={{ fontSize: ".8rem", fontWeight: "700" }}>
               PROFILE INFORMATION
             </span>
-            <NavLink to={`/user/${userInfo.id}`}>
+            <NavLink to={`/user/${userInfo.data.id}`}>
               <button className={styles.edit}>
                 <i className="fa-solid fa-pen-to-square"></i>
               </button>
@@ -133,7 +141,7 @@ function ProfileInfo() {
 
 function ProfileOrders() {
   const userInfo = useSelector((state) => state.user);
-  console.log(userInfo);
+ 
   return (
     <div className={styles.profileinfo}>
       {userInfo.data && (
@@ -146,7 +154,7 @@ function ProfileOrders() {
             }}
           >
             <span style={{ fontSize: ".8rem", fontWeight: "700" }}>
-              MY ORDERS
+              MY RESERVATIONS
             </span>
           </div>
           <div
