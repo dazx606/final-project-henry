@@ -94,6 +94,7 @@ export default function rootReducer(state = initialState, { type, payload }) {
     case PATCH_USER:
       return {
         ...state,
+        user:{data: {...state.user.data, ...payload}},
       };
 
     default:

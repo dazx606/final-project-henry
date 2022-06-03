@@ -44,7 +44,7 @@ export default function Profile() {
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    // dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information is update");
   }
   function handleChange(e) {
@@ -72,7 +72,7 @@ export default function Profile() {
          <div> <Link to="/">
             <button >Home</button>
           </Link>
-         <Link to='/profile/:userId'><button className={styles.btnProfile}> See your profile</button></Link> 
+         <Link to={`/profile/${userId}`}><button className={styles.btnProfile}> See your profile</button></Link> 
         </div>
         </div>
       ) : (
