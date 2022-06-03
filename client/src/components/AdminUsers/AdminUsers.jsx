@@ -27,32 +27,32 @@ function UserCard({ user }) {
     <div className={styles.userContainer}>
       {/* <div>
           <span>Picture</span>
-          <span>{userInformation.data.picture ? userInformation.data.picture : "N/A"}</span>
+          <span>{user.data.picture ? user.data.picture : "N/A"}</span>
         </div> */}
 
       <div>
         <span className={styles.infoUser}>firstName:</span>
-        <span className={styles.infoUser}>{user.firstName}</span>
+        <span className={styles.infoData}>{user.firstName}</span>
       </div>
       <div>
         <span className={styles.infoUser}>LastName:</span>
-        <span className={styles.infoUser}>{user.lastName}</span>
+        <span className={styles.infoData}>{user.lastName}</span>
       </div>
       <div>
         <span className={styles.infoUser}>Email:</span>
-        <span className={styles.infoUser}>{user.email}</span>
+        <span className={styles.infoData}>{user.email}</span>
       </div>
       <div>
         <span className={styles.infoUser}>License:</span>
-        <span className={styles.infoUser}>{user.license}</span>
+        <span className={styles.infoData}>{user.license}</span>
       </div>
       <div>
         <span className={styles.infoUser}>DocumentId:</span>
-        <span className={styles.infoUser}>{user.documentId}</span>
+        <span className={styles.infoData}>{user.documentId}</span>
       </div>
       <div>
         <span className={styles.infoUser}>Phone:</span>
-        <span className={styles.infoUser}>{user.phone}</span>
+        <span className={styles.infoData}>{user.phone}</span>
       </div>
       {/* <div>
           <span>Drivers</span>

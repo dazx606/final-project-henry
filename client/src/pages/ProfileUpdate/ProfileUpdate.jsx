@@ -75,7 +75,7 @@ export default function Profile() {
               <button>Home</button>
             </Link>
             <Link to={`/profile/${userId}`}>
-              <button className={styles.btnProfile}> See your profile</button>
+              <button className={styles.btnProfile}> Profile</button>
             </Link>
           </div>
         </div>

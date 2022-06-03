@@ -1,13 +1,18 @@
 .userContainer {
   border: 2px solid var(--color4);
-  border-radius: 5px;
+  border-radius: 8px;
   width: 50rem;
   color: var(--color3);
-  margin-left: 400px;
-  font-family:var(--font3);
+  margin-left: 600px;
+  font-family: var(--font2);
 }
 
-.infoUsers {
-  text-align: center;
-  padding: 10px 10px 10px 10px;
+.infoUser {
+  padding:3px;
+  margin:3px;
+  display:inline-block;
+}
+.infoData{
+    min-width:50rem;
+    margin-left:20px;
 }
