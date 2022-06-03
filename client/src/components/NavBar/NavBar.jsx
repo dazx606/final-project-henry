@@ -33,7 +33,7 @@ function NavBar() {
                 <i className="fa-solid fa-user"></i>
               </div>
             }
-            {display && <Authentication handleLoginInfo={handleLoginInfo} />}
+            {display && <Authentication setDisplay={setDisplay} display={display} handleLoginInfo={handleLoginInfo} />}
             {/* <NavLink to="/login" className={styles.icon}>
               <i className="fa-solid fa-user"></i>
             </NavLink> */}

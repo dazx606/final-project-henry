@@ -72,15 +72,18 @@ export default function Profile() {
           <Link to="/">
             <button>Home</button>
           </Link>
-          <button> See profile</button>
+          <Link to={`/profile/${userId}`}>
+            <button>Profile</button>
+          </Link>
+
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
-          <h3> Hello {user.email}!</h3>
+          <h3 className={styles.helloP}> Hello {user.email}!</h3>
           <div>
             <div className={styles.titles}>First name: </div>
             <input
-              className={styles.inputs}
+              className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
               value={input.firstName}
               name="firstName"
@@ -91,7 +94,7 @@ export default function Profile() {
           <div>
             <div className={styles.titles}>Last name: </div>
             <input
-              className={styles.inputs}
+              className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
               value={input.lastName}
               name="lastName"
@@ -101,7 +104,7 @@ export default function Profile() {
           </div>
           <div>
             <div className={styles.titles}>Phone: </div>
-            <input className={styles.inputs} type="text" value={input.phone} name="phone" onChange={handleChange} />
+            <input className={`${styles.inputGlobal} ${styles.inputs}`} type="text" value={input.phone} name="phone" onChange={handleChange} />
             {errors.phone && <p>{errors.phone}</p>}
           </div>
           <div>
@@ -114,7 +117,7 @@ export default function Profile() {
           <div className={styles.titles}>
             <div>Document Id: </div>
             <input
-              className={styles.inputs}
+              className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
               value={input.documentId}
               name="documentId"
@@ -124,7 +127,7 @@ export default function Profile() {
           </div>
           <div className={styles.titles}>
             <div>License: </div>
-            <input className={styles.select} type="text" value={input.license} name="license" onChange={handleChange} />
+            <input className={`${styles.inputGlobal} ${styles.select}`} type="text" value={input.license} name="license" onChange={handleChange} />
             {errors.license && <p>{errors.license}</p>}
           </div>
           <div>
@@ -139,7 +142,7 @@ export default function Profile() {
               ))}
             </select>
           </div>
-          <div className={styles.button}>
+          <div className={styles.buttonCont}>
             <button type="submit">Submit</button>
           </div>
           <p>{alert}</p>

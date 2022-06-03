@@ -165,31 +165,6 @@ const preloadCar = async () => {
           }
           createStripeIdCarModel(c);
         }
-        // }
-        // if (newModel[1]) {
-        //   const newCarType = await CarType.findOne({
-        //     where: { name: c.carType },
-        //   });
-        //   if (newCarType) await newCarType.addCarModel(newModel[0]);
-        //   if (c.includedEquipment.length) {
-        //     await Promise.all(
-        //       c.includedEquipment.map((e) =>
-        //         IncludedEquipment.findOne({ where: { name: e } })
-        //       )
-        //     ).then((equipments) =>
-        //       newModel[0].addIncludedEquipments(equipments)
-        //     );
-        //   }
-        //   if (c.opcionalEquipment.length) {
-        //     await Promise.all(
-        //       c.opcionalEquipment.map((e) =>
-        //         OptionalEquipment.findOne({ where: { name: e } })
-        //       )
-        //     ).then((equipments) =>
-        //       newModel[0].addOptionalEquipments(equipments)
-        //     );
-        //   }
-        // }
       })
     );
   } catch (error) {
@@ -198,18 +173,14 @@ const preloadCar = async () => {
 };
 
 const preloadDriver = async () => {
-  try {
-    await Promise.all(
-      drivers.map((d) =>
-        Driver.findOrCreate({
-          where: { firstName: d.firstName },
-          defaults: { firstName: d.firstName, lastName: d.lastName },
-        })
-      )
-    );
-  } catch (error) {
-    throw new Error(error);
-  }
+    try {
+        await Promise.all(drivers.map(d => Driver.findOrCreate({
+            where: { firstName: d.firstName },
+            defaults: { firstName: d.firstName, lastName: d.lastName, licenseNumber: d.licenseNumber, documentId:d.documentId }
+        })))
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 const preloadUser = async () => {

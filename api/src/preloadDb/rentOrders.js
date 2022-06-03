@@ -1,7 +1,7 @@
 const rentOrders = [
     {
-        startingDate: "2022-08-08",
-        endingDate: "2022-08-20",
+        startingDate: "2022/08/8",
+        endingDate: "2022/08/20",
         user: "unemail1@gmail.com",
         car: "500",
         drivers: ["persona1", "persona2"],
@@ -9,8 +9,8 @@ const rentOrders = [
         endLocation: "Buenos Aires"
     },
     {
-        startingDate: "2022-10-08",
-        endingDate: "2023-02-03",
+        startingDate: "2022/10/8",
+        endingDate: "2023/02/3",
         user: "unemail2@gmail.com",
         car: "500",
         drivers: ["persona3"],
@@ -18,8 +18,8 @@ const rentOrders = [
         endLocation: "Rosario"
     },
     {
-        startingDate: "2022-07-07",
-        endingDate: "2022-07-08",
+        startingDate: "2022/07/7",
+        endingDate: "2022/07/8",
         user: "unemail3@gmail.com",
         car: "500",
         drivers: ["persona5"],
@@ -27,8 +27,8 @@ const rentOrders = [
         endLocation: "Cali"
     },
     {
-        startingDate: "2022-08-02",
-        endingDate: "2022-08-11",
+        startingDate: "2022/08/2",
+        endingDate: "2022/08/11",
         user: "unemail3@gmail.com",
         car: "486",
         drivers: ["persona5"],

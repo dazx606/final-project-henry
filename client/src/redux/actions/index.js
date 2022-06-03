@@ -1,4 +1,5 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
+import axios from "axios";
 import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -9,9 +10,13 @@ export const SEND_MESSAGE = "SEND_MESSAGE";
 export const ALERT = "ALERT";
 export const SET_SELECTION = "SET_SELECTION";
 export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
+export const GET_RENTING_CAR = "GET_RENTING_CAR";
+export const DELETE_RENTING_CAR = "DELETE_RENTING_CAR";
+export const RENT_ID = "RENT_ID";
 export const SET_USER = "SET_USER";
 export const SAVE_USER = "SAVE_USER";
 export const PATCH_USER = "UPDATE_USER";
+export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 
 export const URL = "http://localhost:3001/";
 
@@ -40,10 +45,27 @@ export function getLocationCars(locationId) {
   };
 }
 
-export function getFilteredCars({ brand, category, order, startingDate, endingDate, orderType, page }, locationId) {
+export function getRentingCar(carModel) {
   return async (dispatch) => {
     try {
-      var response = await filterCars({ brand, category, order, startingDate, endingDate, orderType, page }, locationId)
+      const response = await axios.get(`${URL}car/${carModel}`);
+      return dispatch({ type: GET_RENTING_CAR, payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getFilteredCars(
+  { brand = "", category = "", order = "ASC", startingDate = "", endingDate = "", orderType = "pricePerDay", page = 1, model = "", carsPerPage = 8 },
+  locationId
+) {
+  return async (dispatch) => {
+    try {
+      /////////////FALTA MODULARIZAR EN SERVICES
+      var response = await axios.get(
+        `${URL}cars/${locationId}?brand=${brand}&category=${category}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}&model=${model}&carsPerPage=${carsPerPage}`
+      );
       var cars = response.data;
 
       return dispatch({
@@ -91,6 +113,10 @@ export function deleteCarDetails() {
   };
 }
 
+export function deleteRentingCar() {
+  return { type: DELETE_RENTING_CAR };
+}
+
 export function sendMessage(message) {
   return async (dispatch) => {
     try {
@@ -112,6 +138,19 @@ export function showAlert(payload) {
   };
 }
 
+export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URL}rent/car`, { location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation });
+      return dispatch({
+        type: RENT_ID,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -119,8 +158,8 @@ export function setUserInfo(getToken, email) {
     try {
       if (email) {
         const token = await getToken();
-        let response = await getUserInformation(token,email)
-        
+        let response = await getUserInformation(token, email)
+
         return dispatch({ type: SET_USER, payload: response.data });
       }
     } catch (error) {
@@ -156,4 +195,12 @@ export function patchUser(getToken, payload) {
       console.log(error);
     }
   };
+}
+
+export function setProfileOptions(payload) {
+  return {
+    type: SET_PROFILE_OPTIONS,
+    payload
+  }
+
 }
