@@ -11,7 +11,7 @@ export const SET_SELECTION = "SET_SELECTION";
 export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
 export const GET_RENTING_CAR = "GET_RENTING_CAR";
 export const DELETE_RENTING_CAR = "DELETE_RENTING_CAR";
-export const RENT_INTENT = "RENT_INTENT";
+export const RENT_ID = "RENT_ID";
 
 export const URL = "http://localhost:3001/";
 
@@ -137,7 +137,7 @@ export function rentCar(location, model, startingDate, endingDate, optionalEquip
     try {
       const response = await axios.post(`${URL}rent/car`, {location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation});
       return dispatch({
-        type: RENT_INTENT,
+        type: RENT_ID,
         payload: response.data,
       });
     } catch (error) {

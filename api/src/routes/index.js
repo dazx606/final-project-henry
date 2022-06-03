@@ -228,7 +228,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =>
 
 
 router.post("/rent/car", async (req, res, next) => {
-  const { location, model, startingDate, endingDate, optionalEquipments = [], drivers, endLocation, user } = req.body;
+  const { location, model, startingDate, endingDate, optionalEquipments = [], drivers, endLocation, user = 1 } = req.body;
   try {
     if (!location || !model || !startingDate || !endingDate || !drivers.length || !endLocation || !user) return res.status(417).json({ msg: "Missing info!" });
     if (new Date(startingDate) > new Date(endingDate)) return res.status(409).json({ msg: "StartingDate cannot be greater than endingDate!" });

@@ -232,6 +232,7 @@ export default function Booking() {
                                 <div>
                                     <label>End Date: </label>
                                     <DatePicker
+                                        className={styles.date}
                                         clearIcon={null}
                                         minDate={datePlus(startingDate, 1)}
                                         onChange={setEndingDate}
