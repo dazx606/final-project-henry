@@ -1,8 +1,9 @@
-import React from "react";
-import adminUsers from "./adminUsers.module.css";
+import React from 'react'
 
-
-export default function AdminUsers(){
-
-
+function AdminUsers() {
+  return (
+    <div>AdminUsers</div>
+  )
 }
+
+export default AdminUsers

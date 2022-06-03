@@ -7,11 +7,9 @@ import { NavLink } from "react-router-dom";
 
 function Authentication({ setDisplay, display, handleLoginInfo }) {
   const {
-    loginWithPopup,
     isAuthenticated,
     logout,
     user,
-    isLoading,
     getAccessTokenSilently,
   } = useAuth0();
   const dispatch = useDispatch();
@@ -56,6 +54,7 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
 
                 <div className={style.exclam}>UPS! </div>
                 <div className={style.msg}>Your Profile is incomplete.</div>
+                <div className={style.msg}>{`Let us know you better before we rent you a car :)`}</div>
                 <NavLink className={style.link} to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
                   <div >Complete Profile</div>
                 </NavLink>
@@ -72,15 +71,17 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                 </div>
                 <div className={style.line}></div>
                 <div className={style.welcome}>Welcome Back! </div>
-                {/* <div className={style.exclam}>GREAT! </div>
-                <div className={style.msg}>Everithing looks good with your information.</div> */}
-                {/* <div className={style.msg}>You can rent a car now</div> */}
                 <NavLink className={style.link} to={`/profile/${savedUser[1]}`} onClick={(e) => handleProfileInfo(e='information')}>
                   <div   >Profile</div>
                 </NavLink>
                 <NavLink className={style.link} to={`/profile/${savedUser[1]}`} onClick={(e) => handleProfileInfo(e='reservations')} >
                   <div  >My reservations</div>
                 </NavLink>
+                {completeUser.data.admin &&
+                <NavLink className={style.link} to='/adminOptions' onClick={(e) => handleProfileInfo(e='reservations')} >
+                <div >Manager Options</div>
+              </NavLink>
+                }
               </div>
             )
           ) : (
@@ -100,10 +101,6 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
             </div>
           )}
 
-          {/* <NavLink to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
-            {savedUser[2] ? <div className={style.link}>Visit Profile</div>
-              : <div className={style.link}>Complete Profile</div>}
-          </NavLink> */}
           <div className={style.btnCont}>
             <button className={style.logBtn} onClick={() => logout()}>
               Log out

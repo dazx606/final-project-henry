@@ -15,6 +15,7 @@ import {
   SAVE_USER,
   PATCH_USER,
   SET_PROFILE_OPTIONS,
+  SET_ADMIN_OPTIONS,
 } from "../actions";
 
 const initialState = {
@@ -38,6 +39,7 @@ const initialState = {
   savedUser: [],
   user: {},
   profileOptions: "information",
+  adminOptions: "users",
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -124,6 +126,12 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         profileOptions: payload
+      }
+    }
+    case SET_ADMIN_OPTIONS: {
+      return{
+        ...state,
+        adminOptions: payload
       }
     }
 

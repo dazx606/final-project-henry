@@ -13,6 +13,8 @@ import ProfileOptions from "./pages/ProfileOptions/ProfileOptions";
 import ProtectedRoutes from "./ProtectedRoutes";
 import ProfileUpdate from "./pages/ProfileUpdate/ProfileUpdate";
 import Booking from "./pages/Booking/Booking";
+import AdminRoutes from "./AdminRoutes";
+import AdminOptions from "./pages/AdminOptions/AdminOptions";
 
 function App() {
   return (
@@ -30,7 +32,9 @@ function App() {
             <Route path="/profile/:userId" element={<ProfileOptions />} />+
             <Route path="/booking" element={<Booking />} />
           </Route>
-          
+          <Route element={<AdminRoutes />}>
+            < Route path="/adminOptions" element={<AdminOptions/>} />
+          </Route>
         </Route>
       </Routes>
       <Footer />

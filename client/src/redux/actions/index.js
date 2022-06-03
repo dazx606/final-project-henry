@@ -17,6 +17,7 @@ export const SET_USER = "SET_USER";
 export const SAVE_USER = "SAVE_USER";
 export const PATCH_USER = "UPDATE_USER";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
+export const SET_ADMIN_OPTIONS = "SET_ADMIN_OPTIONS";
 
 export const URL = "http://localhost:3001/";
 
@@ -201,5 +202,11 @@ export function setProfileOptions(payload) {
     type: SET_PROFILE_OPTIONS,
     payload
   }
+}
 
+export function setAdminOptions(payload) {
+  return{
+    type: SET_ADMIN_OPTIONS,
+    payload
+  }
 }
