@@ -37,8 +37,8 @@ export function getUserInformation(token, email){
       );
 };
 
-export function addUser(email){
-    return axios.post(`${URL}user`, { email });
+export function addUser(email, picture){
+    return axios.post(`${URL}user`, { email , picture} );
 };
 
 export function updateUser(user, token){

@@ -18,7 +18,7 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      dispatch(saveUser(user.email));
+      dispatch(saveUser(user.email, user.picture));
     }
   }, [user, dispatch]);
 

@@ -16,7 +16,8 @@ const users = [
   },
   {
     email: "bea7san@gmail.com",
-    admin: true
+    admin: true,
+    picture: 'https://lh3.googleusercontent.com/a/AATXAJxb4VcfsKKtL3AnvYCzjq6YgLPdhFzYOFDnvN1M=s96-c',
   }
 ];
 

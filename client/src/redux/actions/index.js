@@ -168,10 +168,10 @@ export function setUserInfo(getToken, email) {
   };
 }
 
-export function saveUser(email) {
+export function saveUser(email, picture) {
   return async (dispatch) => {
     try {
-      const response = await addUser(email);
+      const response = await addUser(email, picture);
       return dispatch({
         type: SAVE_USER,
         payload: [response.data.msg, response.data.data, response.data.complited],
