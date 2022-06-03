@@ -2,7 +2,8 @@ const { Router } = require("express");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 const jwtScope = require('express-jwt-scope');
-
+require("dotenv").config();
+const router = Router();
 
 const {
   User,
@@ -14,9 +15,8 @@ const {
   CarModel,
   Payment,
 } = require("../db.js");
-const { expressjwt: jwt } = require("express-jwt");
-const jwks = require("jwks-rsa");
-require("dotenv").config();
+
+
 
 
 // ===================================== AUTHORIZATION MIDDLEWARE ==================================//
@@ -31,19 +31,13 @@ const authMiddleWare = jwt({
   issuer: process.env.AUTH_ISSUER,
   algorithms: ["RS256"],
 });
+const checkScopes = (permissions)=> jwtScope(permissions, { scopeKey : 'permissions', requireAll: true });
 
 router.use(authMiddleWare);
+router.use(checkScopes("read:user"));
+  
 
-  const checkScopes = (permissions)=> jwtScope(permissions, { scopeKey : 'permissions', requireAll: true });
-const router = Router();
-
-// ============================ GET =============================================================//
-router.get("/", (req, res, next) => {
-  try {
-    res.send("si");
-  } catch (error) { }
-});
-// ============ USERS
+// ===================================GET== USERS
 router.get("/users", async (req, res, next) => {
   try {
     const users = await User.findAll({
@@ -63,28 +57,6 @@ router.get("/users", async (req, res, next) => {
   }
 });
 
-// =================================================================================================//
-router.get("/cool", authMiddleWare, checkScopes("read:user"), (req, res, next) => {
-  try {
-    res.send("permission")
-  } catch (error) {
-    next(error)
-  }
-});
-
-router.get("/a", authMiddleWare, (req, res, next) => {
-  try {
-    res.send("token")
-  } catch (error) {
-    next(error)
-  }
-});
-
-router.get("/b", (req, res, next) => {
-  try {
-    res.send("any")
-  } catch (error) {
-    next(error)}})
 
 
 router.delete("/users/:id", async (req, res, next) => {
@@ -163,6 +135,17 @@ router.get("/allCars", async (req, res, next) => {
 
   } catch (e) {
     next(e)
+  }
+});
+
+router.delete("/delete/:license_plate", async (req,res,next)=>{
+  const {license_plate} = req.params;
+  try {
+    let car = await IndividualCar.destroy({where:{license_plate}});
+    if (car === 1) res.send({msg:"Deleted",license: license_plate});
+    else if (car === 0) res.status(404).send({msg:"Car not found, check and try again",license: license_plate});
+  } catch (error) {
+    next(error)
   }
 })
 
