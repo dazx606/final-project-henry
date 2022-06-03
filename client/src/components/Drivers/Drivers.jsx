@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import styles from "./Drivers.module.css";
 
 const driverData = {
     firstName: "",
@@ -14,7 +15,7 @@ export default function Drivers({ drivers, setDrivers }) {
 
     useEffect(() => {
         setError("")
-        if(drivers.find(el => el.documentId === driver.documentId)) setError("Document ID already added")
+        if (drivers.find(el => el.documentId === driver.documentId)) setError("Document ID already added")
     }, [drivers, driver.documentId])
 
     const handleDelete = (e) => {
@@ -32,38 +33,42 @@ export default function Drivers({ drivers, setDrivers }) {
     }
 
     const handleInput = (e) => {
-        setDriver({...driver, [e.target.name]: e.target.value}) 
+        setDriver({ ...driver, [e.target.name]: e.target.value })
     }
 
     return (
-        <div>
-            <input type="button" onClick={handleShowAddDriver} value="Add Driver" />
-            <div hidden={showAddDriver}>
-                <div>
-                    <label>First Name </label>
-                    <input onChange={handleInput} value={driver.firstName} type="text" name="firstName" />
+        <div className={styles.container}>
+            <div className={styles.subContainer}>
+                <input className={styles.button} type="button" onClick={handleShowAddDriver} value="Add Driver" />
+            </div>
+            <div className={styles.subContainer2} hidden={showAddDriver}>
+                <div className={styles.container3}>
+                    <div className={styles.labels}><label>First Name: </label></div>
+                    
+                    <input className={styles.inputs} onChange={handleInput} value={driver.firstName} type="text" name="firstName" />
                 </div>
-                <div>
-                    <label>Last Name </label>
-                    <input onChange={handleInput} value={driver.lastName}  type="text" name="lastName" />
+                <div className={styles.container3}>
+                    <label className={styles.labels}>Last Name: </label>
+                    <input className={styles.inputs} onChange={handleInput} value={driver.lastName} type="text" name="lastName" />
                 </div>
-                <div>
-                    <label>License Number </label>
-                    <input onChange={handleInput} value={driver.licenseNumber} type="text" name="licenseNumber" />
+                <div className={styles.container3}>
+                    <label className={styles.labels}>License Number: </label>
+                    <input className={styles.inputs} onChange={handleInput} value={driver.licenseNumber} type="text" name="licenseNumber" />
                 </div>
-                <div>
-                    <label>Document ID </label>
-                    <input onChange={handleInput} value={driver.documentId} type="text" name="documentId" />
+                <div className={styles.container3}>
+                    <label className={styles.labels}>Document ID: </label>
+                    <input className={styles.inputs} onChange={handleInput} value={driver.documentId} type="text" name="documentId" />
                 </div>
                 {
-                    error && <span>{error}</span>
+                    error ? <span>{error}</span> :
+                    <div className={styles.buttonAdd}><input className={styles.button} type="button" disabled={error} value="Add" onClick={handleAddDriver} /></div>
                 }
-                <div><input type="button" disabled={error} value="Add" onClick={handleAddDriver} /></div>
             </div>
             {drivers.map((el, k) =>
-                <div key={k}>
+                <div className={styles.buttonX} key={k}>
                     <p>{`${k + 1}.- ${el.firstName} ${el.lastName}`}</p>
-                    <input type="button" onClick={handleDelete} value="X" name={el.documentId} />
+                    <input className={styles.delete} type="button" onClick={handleDelete} value='X' name={el.documentId} />
+                    
                 </div>
             )}
         </div>
