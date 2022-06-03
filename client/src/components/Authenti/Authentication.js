@@ -75,7 +75,7 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                 <div className={style.msg}>Everithing looks good with your information.</div> */}
                 {/* <div className={style.msg}>You can rent a car now</div> */}
                 <NavLink className={style.link} to={`/profile/${savedUser[1]}`} onClick={(e) => handleProfileInfo(e='information')}>
-                  <div   >Visit Profile</div>
+                  <div   >Profile</div>
                 </NavLink>
                 <NavLink className={style.link} to={`/profile/${savedUser[1]}`} onClick={(e) => handleProfileInfo(e='reservations')} >
                   <div  >My reservations</div>

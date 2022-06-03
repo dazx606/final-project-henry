@@ -79,7 +79,7 @@ export default function Profile() {
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
-          <h3> Hello {user.email}!</h3>
+          <h3 className={styles.helloP}> Hello {user.email}!</h3>
           <div>
             <div className={styles.titles}>First name: </div>
             <input
@@ -142,7 +142,7 @@ export default function Profile() {
               ))}
             </select>
           </div>
-          <div className={styles.button}>
+          <div className={styles.buttonCont}>
             <button type="submit">Submit</button>
           </div>
           <p>{alert}</p>
