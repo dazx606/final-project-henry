@@ -73,7 +73,7 @@ export default function Profile() {
             <button>Home</button>
           </Link>
           <Link to={`/profile/${userId}`}>
-            <button> See profile</button>
+            <button>Profile</button>
           </Link>
 
         </div>
