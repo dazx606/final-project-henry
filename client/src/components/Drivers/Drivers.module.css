@@ -1,0 +1,96 @@
+.container {
+    padding: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    background-color: var(--color1);
+    box-shadow: 0px 0px 8px 2px var(--color6Tr);
+    font-family: var(--font2);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color3);
+    border: outset 1px var(--color4);
+    outline: none;
+    width: 26rem;
+    line-height: 3rem;
+}
+
+.subContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    border: outset 1px var(--color4);
+    background-color: var(--color1);
+    border-radius: 0px;
+    font-family: var(--font2);
+    font-weight: 400;
+    font-size: 1em;
+    color: var(--color4);
+    box-shadow: 0px 0px 8px 2px var(--color6Tr);
+    transition: 0.1s;
+    padding: 10px;
+}
+
+.button:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 8px 6px var(--color6Tr);
+    font-weight: 500;
+    border: outset 2px var(--color4);
+}
+
+.container3 {
+    display: flex;
+    align-items: center;
+}
+
+.subContainer2 {
+    margin: 1rem;
+    width: 24rem;
+}
+
+.inputs {
+    width: 60%;
+    height: 1rem;
+}
+
+.labels {
+    width: 40%;
+}
+
+.buttonAdd {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.buttonX {
+    display: flex;
+    justify-content: start;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.delete {
+    border: outset 1px var(--color4);
+    background-color: var(--color1);
+    border-radius: 0px;
+    font-family: var(--font2);
+    font-weight: 400;
+    font-size: 1em;
+    color: var(--color4);
+    box-shadow: 0px 0px 8px 2px var(--color6Tr);
+    transition: 0.1s;
+    padding: 5px;
+    padding-top:0;
+    padding-bottom: 0;
+    height: 1.5rem;
+    margin-left: 1rem;
+}
+
+.delete:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 8px 6px var(--color6Tr);
+    font-weight: 500;
+    border: outset 2px var(--color4);
+}

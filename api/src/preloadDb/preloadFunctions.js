@@ -22,23 +22,26 @@ const { rentOrders } = require("./rentOrders");
 
 require("dotenv").config();
 const { STRIPE_SECRET_KEY } = process.env;
-const stripe = require('stripe')(STRIPE_SECRET_KEY);
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
 
 const createStripeIdCarModel = async (car) => {
-    try {
-        if (car.stripePriceId) return;
-        const product = await stripe.products.create({ name: `${car.brand} ${car.model}` });
-        const price = await stripe.prices.create({
-            product: product.id,
-            unit_amount: car.pricePerDay * 100,
-            currency: 'usd',
-        });
-        console.log(`The product _____${car.brand} ${car.model}_____ was created succesfully StripeId:\n"${price.id}"`);
-    } catch (error) {
-        throw new Error(error);
-    }
+  try {
+    if (car.stripePriceId) return;
+    const product = await stripe.products.create({
+      name: `${car.brand} ${car.model}`,
+    });
+    const price = await stripe.prices.create({
+      product: product.id,
+      unit_amount: car.pricePerDay * 100,
+      currency: "usd",
+    });
+    console.log(
+      `The product _____${car.brand} ${car.model}_____ was created succesfully StripeId:\n"${price.id}"`
+    );
+  } catch (error) {
+    throw new Error(error);
+  }
 };
-
 
 const preloadLocation = async () => {
   try {
@@ -82,83 +85,86 @@ const preloadIncludedEquipment = async () => {
 };
 
 const preloadOptionalEquipment = async () => {
-    try {
-        await Promise.all(optionalEquipments.map(e => OptionalEquipment.findOrCreate({ where: { name: e.name }, defaults: { name: e.name, price: e.price, stripePriceId: e.stripePriceId } })))
-    } catch (error) {
-        throw new Error(error);
-    }
+  try {
+    await Promise.all(
+      optionalEquipments.map((e) =>
+        OptionalEquipment.findOrCreate({
+          where: { name: e.name },
+          defaults: {
+            name: e.name,
+            price: e.price,
+            stripePriceId: e.stripePriceId,
+          },
+        })
+      )
+    );
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 const preloadCar = async () => {
-    try {
-        const cars = generateCars();
-        await Promise.all(cars.map(async c => {
-            const newModel = await CarModel.findOrCreate({
-                where: { model: c.model },
-                defaults: {
-                    brand: c.brand,
-                    model: c.model,
-                    pricePerDay: c.pricePerDay,
-                    stripePriceId: c.stripePriceId,
-                    passengers: c.passengers,
-                    trunk: c.trunk,
-                    consumption: c.consumption,
-                    engine: c.engine,
-                    images: c.images,
-                    rating: Math.floor(Math.random() * (500 - 100) + 100) / 100,
-                    ratingNum: Math.ceil(Math.random() * 100),
-                }
-            })
-            const newIndividualCar = await IndividualCar.findOrCreate({
-                where: { id: c.id },
-                defaults: { id: c.id, license_plate: c.license_plate, year: c.year }
-            })
-            if (newIndividualCar[1]) {
-                await newModel[0].addIndividualCar(newIndividualCar[0]);
-                const newCarLocation = await Location.findOne({ where: { city: c.location } });
-                if (newCarLocation) {
-                    await newCarLocation.addIndividualCar(newIndividualCar[0]);
-                    try { await newCarLocation.addCarModel(newModel[0]) } catch (error) { }
-                }
-            }
-            if (newModel[1]) {
-                const newCarType = await CarType.findOne({ where: { name: c.carType } });
-                if (newCarType) await newCarType.addCarModel(newModel[0]);
-                if (c.includedEquipment.length) {
-                    await Promise.all(c.includedEquipment.map((e) => IncludedEquipment.findOne({ where: { name: e } })))
-                        .then(equipments => newModel[0].addIncludedEquipments(equipments))
-                }
-                if (c.opcionalEquipment.length) {
-                    await Promise.all(c.opcionalEquipment.map((e) => OptionalEquipment.findOne({ where: { name: e } })))
-                        .then(equipments => newModel[0].addOptionalEquipments(equipments))
-                }
-                createStripeIdCarModel(c)
-            }
-        // }
-        // if (newModel[1]) {
-        //   const newCarType = await CarType.findOne({
-        //     where: { name: c.carType },
-        //   });
-        //   if (newCarType) await newCarType.addCarModel(newModel[0]);
-        //   if (c.includedEquipment.length) {
-        //     await Promise.all(
-        //       c.includedEquipment.map((e) =>
-        //         IncludedEquipment.findOne({ where: { name: e } })
-        //       )
-        //     ).then((equipments) =>
-        //       newModel[0].addIncludedEquipments(equipments)
-        //     );
-        //   }
-        //   if (c.opcionalEquipment.length) {
-        //     await Promise.all(
-        //       c.opcionalEquipment.map((e) =>
-        //         OptionalEquipment.findOne({ where: { name: e } })
-        //       )
-        //     ).then((equipments) =>
-        //       newModel[0].addOptionalEquipments(equipments)
-        //     );
-        //   }
-        // }
+  try {
+    const cars = generateCars();
+    await Promise.all(
+      cars.map(async (c) => {
+        const newModel = await CarModel.findOrCreate({
+          where: { model: c.model },
+          defaults: {
+            brand: c.brand,
+            model: c.model,
+            pricePerDay: c.pricePerDay,
+            stripePriceId: c.stripePriceId,
+            passengers: c.passengers,
+            trunk: c.trunk,
+            consumption: c.consumption,
+            engine: c.engine,
+            images: c.images,
+            rating: Math.floor(Math.random() * (500 - 100) + 100) / 100,
+            ratingNum: Math.ceil(Math.random() * 100),
+          },
+        });
+        const newIndividualCar = await IndividualCar.findOrCreate({
+          where: { id: c.id },
+          defaults: { id: c.id, license_plate: c.license_plate, year: c.year },
+        });
+        if (newIndividualCar[1]) {
+          await newModel[0].addIndividualCar(newIndividualCar[0]);
+          const newCarLocation = await Location.findOne({
+            where: { city: c.location },
+          });
+          if (newCarLocation) {
+            await newCarLocation.addIndividualCar(newIndividualCar[0]);
+            try {
+              await newCarLocation.addCarModel(newModel[0]);
+            } catch (error) {}
+          }
+        }
+        if (newModel[1]) {
+          const newCarType = await CarType.findOne({
+            where: { name: c.carType },
+          });
+          if (newCarType) await newCarType.addCarModel(newModel[0]);
+          if (c.includedEquipment.length) {
+            await Promise.all(
+              c.includedEquipment.map((e) =>
+                IncludedEquipment.findOne({ where: { name: e } })
+              )
+            ).then((equipments) =>
+              newModel[0].addIncludedEquipments(equipments)
+            );
+          }
+          if (c.opcionalEquipment.length) {
+            await Promise.all(
+              c.opcionalEquipment.map((e) =>
+                OptionalEquipment.findOne({ where: { name: e } })
+              )
+            ).then((equipments) =>
+              newModel[0].addOptionalEquipments(equipments)
+            );
+          }
+          createStripeIdCarModel(c);
+        }
       })
     );
   } catch (error) {
@@ -167,18 +173,14 @@ const preloadCar = async () => {
 };
 
 const preloadDriver = async () => {
-  try {
-    await Promise.all(
-      drivers.map((d) =>
-        Driver.findOrCreate({
-          where: { firstName: d.firstName },
-          defaults: { firstName: d.firstName, lastName: d.lastName },
-        })
-      )
-    );
-  } catch (error) {
-    throw new Error(error);
-  }
+    try {
+        await Promise.all(drivers.map(d => Driver.findOrCreate({
+            where: { firstName: d.firstName },
+            defaults: { firstName: d.firstName, lastName: d.lastName, licenseNumber: d.licenseNumber, documentId:d.documentId }
+        })))
+    } catch (error) {
+        throw new Error(error);
+    }
 };
 
 const preloadUser = async () => {
@@ -189,9 +191,6 @@ const preloadUser = async () => {
           where: { email: u.email },
           defaults: {
             email: u.email,
-            phone: u.phone,
-            language: u.language,
-            admin: u.admin,
           },
         });
         if (newUser[1] && u.drivers?.length) {
@@ -216,6 +215,7 @@ const preloadRentOrder = async () => {
         });
         if (newRentOrder[1]) {
           const user = await User.findOne({ where: { email: r.user } });
+
           await user.addRentOrder(newRentOrder[0]);
           if (r.drivers?.length) {
             await Promise.all(
@@ -244,30 +244,34 @@ const preloadRentOrder = async () => {
 };
 
 const createStripeIdEquip = async () => {
-    try {
-        await Promise.all(optionalEquipments.map(async e => {
-            if (e.stripePriceId) return;
-            const product = await stripe.products.create({ name: e.name });
-            const price = await stripe.prices.create({
-                product: product.id,
-                unit_amount: e.price * 100,
-                currency: 'usd',
-            });
-            console.log(`The product _____${e.name}_____ was created succesfully StripeId:\n"${price.id}"`);
-        }))
-    } catch (error) {
-        throw new Error(error);
-    }
+  try {
+    await Promise.all(
+      optionalEquipments.map(async (e) => {
+        if (e.stripePriceId) return;
+        const product = await stripe.products.create({ name: e.name });
+        const price = await stripe.prices.create({
+          product: product.id,
+          unit_amount: e.price * 100,
+          currency: "usd",
+        });
+        console.log(
+          `The product _____${e.name}_____ was created succesfully StripeId:\n"${price.id}"`
+        );
+      })
+    );
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 module.exports = {
-    preloadLocation,
-    preloadCarType,
-    preloadIncludedEquipment,
-    preloadOptionalEquipment,
-    preloadCar,
-    preloadDriver,
-    preloadUser,
-    preloadRentOrder,
-    createStripeIdEquip,
-}
+  preloadLocation,
+  preloadCarType,
+  preloadIncludedEquipment,
+  preloadOptionalEquipment,
+  preloadCar,
+  preloadDriver,
+  preloadUser,
+  preloadRentOrder,
+  createStripeIdEquip,
+};

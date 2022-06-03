@@ -102,7 +102,7 @@
     justify-content: center;
 }
 
-/* .benefits1 {
+.benefits1 {
     padding-top: 1rem;
     display: flex;
     justify-content: space-evenly;
@@ -112,11 +112,10 @@
     width: 300px;
     line-height: 1.5rem;
     text-align: justify;
-} */
+}
 
 
-
-/* .benefits2 {
+.benefits2 {
     padding-top: 1rem;
     display: flex;
     justify-content: space-evenly;
@@ -126,12 +125,12 @@
     width: 300px;
     line-height: 1.5rem;
     text-align: justify;
-} */
+} 
 
 .links {
     text-decoration: none;
     color: var(--color3);
-}
+} 
 
 .links:hover {
     color: var(--color4);
