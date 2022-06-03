@@ -11,6 +11,8 @@ import {
   SET_USER,
   SAVE_USER,
   PATCH_USER,
+  GET_ALL_USERS_INFO,
+  DELETE_USER_INFO,
 } from "../actions";
 
 const initialState = {
@@ -31,6 +33,7 @@ const initialState = {
   },
   savedUser: [],
   user: {},
+  users: [],
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -94,7 +97,17 @@ export default function rootReducer(state = initialState, { type, payload }) {
     case PATCH_USER:
       return {
         ...state,
-        user:{data: {...state.user.data, ...payload}},
+        user: { data: { ...state.user.data, ...payload } },
+      };
+    case GET_ALL_USERS_INFO:
+      return {
+        ...state,
+        users: payload,
+      };
+    case DELETE_USER_INFO:
+      return {
+        ...state,
+        users: payload,
       };
 
     default:
