@@ -10,7 +10,8 @@ export const ALERT = "ALERT";
 export const SET_SELECTION = "SET_SELECTION";
 export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
 export const GET_RENTING_CAR = "GET_RENTING_CAR";
-export const DELETE_RENTING_CAR = "DELETE_RENTING_CAR"
+export const DELETE_RENTING_CAR = "DELETE_RENTING_CAR";
+export const RENT_INTENT = "RENT_INTENT";
 
 export const URL = "http://localhost:3001/";
 
@@ -128,5 +129,19 @@ export function showAlert(payload) {
   return {
     type: ALERT,
     payload,
+  };
+}
+
+export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URL}rent/car`, {location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation});
+      return dispatch({
+        type: RENT_INTENT,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }

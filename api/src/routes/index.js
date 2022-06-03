@@ -3,18 +3,18 @@ const express = require('express');
 const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } = process.env;
-const { filterDates } = require("./controllers.js");
+const { filterDates, datePlus, filterRentDates } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 
 const router = Router();
 
 router.get('/cars/:locationId', async (req, res, next) => {
-  const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1, model, carsPerPage=8 } = req.query
+  const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1, model, carsPerPage = 8 } = req.query
   const { locationId } = req.params;
   const brandModelFilter = brand ? { where: { brand: brand } } : { where: null };
   const categoryFilter = category ? { where: { name: category } } : { where: null };
-  if(model) brandModelFilter.where.model = model
-  
+  if (model) brandModelFilter.where.model = model
+
   try {
     if (!startingDate && endingDate) return res.status(417).json({ msg: "Missing startingDate!" });
     if (new Date(startingDate) > new Date(endingDate)) return res.status(409).json({ msg: "StartingDate cannot be greater than endingDate!" });
@@ -53,8 +53,8 @@ router.get('/cars/:locationId', async (req, res, next) => {
 
     if (!filterdCars.length) return res.status(404).json({ msg: "No corresponding car found!" });
 
-    if(parseInt(carsPerPage))filterdCars = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
-    
+    if (parseInt(carsPerPage)) filterdCars = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
+
     return res.json(filterdCars);
   } catch (error) {
     next(error);
@@ -223,6 +223,50 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =>
   }
 
   res.json({ received: true });
+});
+
+
+
+router.post("/rent/car", async (req, res, next) => {
+  const { location, model, startingDate, endingDate, optionalEquipments = [], drivers, endLocation, user } = req.body;
+  try {
+    if (!location || !model || !startingDate || !endingDate || !drivers.length || !endLocation || !user) return res.status(417).json({ msg: "Missing info!" });
+    if (new Date(startingDate) > new Date(endingDate)) return res.status(409).json({ msg: "StartingDate cannot be greater than endingDate!" });
+    const endingDateWithExtra2Days = datePlus(new Date(endingDate), 2)
+    let locationCarModels = await Location.findByPk(location,
+      {
+        include: [
+          {
+            model: CarModel, where: { model }, through: { attributes: [] }, include: [
+              { model: IndividualCar, where: { locationId: location }, attributes: ['id'], include: [{ model: RentOrder, attributes: ['startingDate', 'endingDate'] }] }
+            ]
+          },
+        ]
+      }
+    )
+
+    locationCarModels = locationCarModels.toJSON();
+
+    const availableCars = filterRentDates(locationCarModels, startingDate, endingDateWithExtra2Days);
+
+    if (!availableCars.carModels[0].individualCars.length) return res.status(404).json({ msg: "No corresponding car found!" });
+    let car = availableCars.carModels[0].individualCars[0];
+    availableCars.carModels[0].individualCars.forEach(c => c.rentOrders.length < car.rentOrders.length ? car = c : null);
+
+    let newDrivers = [];
+    // const dbUser = await User.findOne({ where: { id: user } });
+    await Promise.all(drivers.map(d => Driver.findOrCreate({ where: { firstName: d.firstName, lastName: d.lastName, licenseNumber: d.licenseNumber, documentId: d.documentId, userId: user } }))).then(d => newDrivers = d)
+
+    const newRentOrder = await RentOrder.create({ startingDate, endingDate: endingDateWithExtra2Days.toDateString(), individualCarId: car.id, userId: user, locationId: location })
+
+    await newRentOrder.addDrivers(newDrivers.map(d => d[0].toJSON().id));
+    await Promise.all(optionalEquipments.map((e) => OptionalEquipment.findOne({ where: { name: e } })))
+      .then(equip => newRentOrder.addOptionalEquipments(equip))
+
+    return res.json(newRentOrder.toJSON().id);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;

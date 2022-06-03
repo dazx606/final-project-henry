@@ -14,7 +14,7 @@ export default function Drivers({ drivers, setDrivers }) {
 
     useEffect(() => {
         setError("")
-        if(drivers.find(el => el.documentId === driver.documentId)) setError("Document ID already added")
+        if (drivers.find(el => el.documentId === driver.documentId)) setError("Document ID already added")
     }, [drivers, driver.documentId])
 
     const handleDelete = (e) => {
@@ -32,7 +32,7 @@ export default function Drivers({ drivers, setDrivers }) {
     }
 
     const handleInput = (e) => {
-        setDriver({...driver, [e.target.name]: e.target.value}) 
+        setDriver({ ...driver, [e.target.name]: e.target.value })
     }
 
     return (
@@ -45,7 +45,7 @@ export default function Drivers({ drivers, setDrivers }) {
                 </div>
                 <div>
                     <label>Last Name </label>
-                    <input onChange={handleInput} value={driver.lastName}  type="text" name="lastName" />
+                    <input onChange={handleInput} value={driver.lastName} type="text" name="lastName" />
                 </div>
                 <div>
                     <label>License Number </label>
@@ -58,7 +58,7 @@ export default function Drivers({ drivers, setDrivers }) {
                 {
                     error && <span>{error}</span>
                 }
-                <div><input type="button" disabled={error} value="Add" onClick={handleAddDriver} /></div>
+                <div><input type="button" disabled={error || !driver.documentId || !driver.firstName || !driver.lastName || !driver.licenseNumber} value="Add" onClick={handleAddDriver} /></div>
             </div>
             {drivers.map((el, k) =>
                 <div key={k}>

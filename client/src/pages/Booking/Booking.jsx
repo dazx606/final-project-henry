@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { deleteRentingCar, getLocationCars, getRentingCar, URL, getFilteredCars } from "../../redux/actions";
+import { deleteRentingCar, getLocationCars, getRentingCar, URL, getFilteredCars, rentCar } from "../../redux/actions";
 import DatePicker from 'react-date-picker'
 import { useDispatch, useSelector } from "react-redux";
 import LocationFilter from "../../components/LocationFilter/LocationFilter";
@@ -21,7 +21,8 @@ const getDatesInRange = (startDate, endDate) => {
 }
 
 const calcUnavailableInitialDays = (carNum, rents) => {
-    if (carNum > rents.length) return []
+    if (carNum > rents.length) return [[], []]
+    let unavailableDaysPlusExtra = []
     let unavailableDays = []
     let days = {}
     rents.forEach(car => {
@@ -32,12 +33,15 @@ const calcUnavailableInitialDays = (carNum, rents) => {
             })
         })
     })
+
     for (let key in days) {
         if (days[key] === carNum) {
-            unavailableDays.push(new Date(key), datePlus(new Date(key), -1))
+            const unavailableForAll = [new Date(key), datePlus(new Date(key), -1), datePlus(new Date(key), -2)]
+            unavailableDaysPlusExtra.push(...unavailableForAll, datePlus(new Date(key), -3))
+            unavailableDays.push(...unavailableForAll);
         }
     }
-    return [...unavailableDays]
+    return [unavailableDaysPlusExtra, unavailableDays]
 }
 
 const calcMaxAvailableDate = (firstDay, unavailableDays) => {
@@ -45,8 +49,8 @@ const calcMaxAvailableDate = (firstDay, unavailableDays) => {
     const possibleDays = getDatesInRange(new Date(firstDay), lastDay)
     let i = 0
     const formattedUnavailableDates = []
-    unavailableDays.forEach((el, k) => {
-        if (k % 2 === 0) formattedUnavailableDates.push(el.toDateString())
+    unavailableDays.forEach(el => {
+        formattedUnavailableDates.push(el.toDateString())
     })
     while (i < possibleDays.length) {
         if (formattedUnavailableDates.includes(possibleDays[i].toDateString())) return datePlus(possibleDays[i], -1)
@@ -59,6 +63,7 @@ export default function Booking() {
     const [message, setMessage] = useState("");
     const [startingDate, setStartingDate] = useState(new Date());
     const [endingDate, setEndingDate] = useState(datePlus(new Date(), 1));
+    const [unavailableDay, setUnavailableDay] = useState([])
     const location = useSelector(state => state.city)
     const allLocation = useSelector(state => state.locations)
     const [endLocation, setEndLocation] = useState(location)
@@ -84,15 +89,19 @@ export default function Booking() {
     }, [location, carRenting])
 
     useEffect(() => {
-        if (filteredCars) setInitialDisableDay(calcUnavailableInitialDays(filteredCars.individualCars, filteredCars.existingRents))
+        if (filteredCars) {
+            const unailebleDays = calcUnavailableInitialDays(filteredCars.individualCars, filteredCars.existingRents)
+            setInitialDisableDay(unailebleDays[0])
+            setUnavailableDay(unailebleDays[1])
+        }
         setStartingDate(new Date())
         setEndingDate(datePlus(new Date(), 1))
         setOptionalEquipments([]);
     }, [filteredCars])
 
     useEffect(() => {
-        setMaxEndingDisableDate([calcMaxAvailableDate(startingDate, initialDisableDay)])
-    }, [startingDate, initialDisableDay])
+        setMaxEndingDisableDate([calcMaxAvailableDate(startingDate, unavailableDay)])
+    }, [startingDate, unavailableDay])
 
     const handleStartingDateChange = (value) => {
         setStartingDate(value)
@@ -115,8 +124,9 @@ export default function Booking() {
     }, []);
 
     const handleRentForm = (e) => {
-        e.preventDefault()
-        setDidRent(true)
+        e.preventDefault();
+        setDidRent(true);
+        dispatch(rentCar(location, carRenting.model, startingDate.toDateString(), endingDate.toDateString(), optionalEquipments, drivers, endLocation))
     }
 
     const handleSelectModel = (e) => {
@@ -210,7 +220,7 @@ export default function Booking() {
                             value={endingDate}
                             disabled={!selectedLocationModel}
                             format="dd/MM/yyyy"
-                            maxDate={maxEndingDisableDate.length ? maxEndingDisableDate[0] : null}
+                            maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
                         />
                     </div>
                 }
@@ -227,9 +237,8 @@ export default function Booking() {
                     <label>I have read and accept the <b>terms and conditions</b></label>
                 </div>
                 <div>
-                    <button type="submit">
-                        Rent
-                    </button>
+                    {/* FALTA HACER QUE EL DISABLED CONSIDERE LOS TERMINOS Y CONDICIONS!!!!!!! */}
+                    <button type="submit" disabled={!location || !carRenting.model || !drivers.length || !endLocation}>Rent</button>
                 </div>
             </form>
             <div>

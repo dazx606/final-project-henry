@@ -9,7 +9,8 @@ import {
   SET_SELECTION,
   DELETE_CAR_DETAILS,
   GET_RENTING_CAR,
-  DELETE_RENTING_CAR
+  DELETE_RENTING_CAR,
+  RENT_INTENT
 } from "../actions";
 
 const initialState = {
@@ -29,6 +30,7 @@ const initialState = {
     orderType: "pricePerDay",
     page: 1,
   },
+  rentIntentMsg:"",
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -75,15 +77,15 @@ export default function rootReducer(state = initialState, { type, payload }) {
         carRenting: payload,
       }
     case DELETE_CAR_DETAILS:
-      return { 
-        ...state, 
-        carDetails: payload 
+      return {
+        ...state,
+        carDetails: payload
       };
-    case DELETE_RENTING_CAR: 
-    return {
-      ...state,
-      carRenting: {}
-    }
+    case DELETE_RENTING_CAR:
+      return {
+        ...state,
+        carRenting: {}
+      }
     case SEND_MESSAGE:
       return {
         ...state,
@@ -99,6 +101,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         selection: payload,
+      };
+    case RENT_INTENT:
+      return {
+        ...state,
+        rentIntentMsg: payload,
       };
 
     default:
