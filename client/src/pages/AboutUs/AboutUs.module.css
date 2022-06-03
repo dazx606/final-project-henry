@@ -2,15 +2,15 @@
     background-color: var(--color1);
 }
 
-/* h3, h5 {
+.titleh {
     font-family: var(--font3);
     color: var(--color3);
-} */
+}
 
-/* p {
+.paragraph {
     font-family: var(--font2);
     color: var(--color3)
-} */
+}
 
 .container1 {
     padding-top: 3rem;

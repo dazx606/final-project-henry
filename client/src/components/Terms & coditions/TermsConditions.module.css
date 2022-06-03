@@ -1,0 +1,56 @@
+.overlay {
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0.5rem;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(var(--color2), var(--color5));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.overlayInner {
+    background: var(--color1);
+    width: 700px;
+    height: auto;
+    padding: 1.5rem;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 0 8px var(--color4);
+}
+
+.close {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    outline: none;
+    border: none;
+    font-size: 24px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.description {
+    top:0;
+    color: var(--color3);
+    text-align: justify;
+    font-size: 13px;
+}
+
+.description h2 {
+    padding-top: 0;
+    margin-top: -1rem;
+}
+
+.scrollBox{
+    margin-top: 40px;
+    padding: 2rem;
+    height: 17rem;            
+    overflow-y: scroll;     
+} 

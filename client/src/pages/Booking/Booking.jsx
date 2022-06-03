@@ -4,7 +4,9 @@ import DatePicker from 'react-date-picker'
 import { useDispatch, useSelector } from "react-redux";
 import LocationFilter from "../../components/LocationFilter/LocationFilter";
 import Drivers from "../../components/Drivers/Drivers";
-// import styles from "./Booking.module.css";
+//import { URL } from "../../redux/actions";
+import TermsConditions from "../../components/Terms & coditions/TermsConditions";
+import styles from "./Booking.module.css";
 
 const datePlus = (date, num) => {
     return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num))
@@ -76,6 +78,8 @@ export default function Booking() {
     const [optionalEquipments, setOptionalEquipments] = useState([])
     const [drivers, setDrivers] = useState([])
     const filteredCars = useSelector(state => state.filteredCars[0])
+    const [show, setShow] = useState(false);
+    const [agree, setAgree] = useState(false);
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -107,6 +111,11 @@ export default function Booking() {
         setStartingDate(value)
         setEndingDate(datePlus(value, 1))
     }
+
+    const checkboxHandler = () => {
+        setAgree(!agree);
+    }
+
 
     useEffect(() => {
         // Check to see if this is a redirect back from Checkout
@@ -160,113 +169,149 @@ export default function Booking() {
         <section>
             <p>{message}</p>
         </section>
-        : <section>
-            <form hidden={didRent} onSubmit={handleRentForm}>
-                <div>
-                    <label>Location</label>
-                    <LocationFilter />
-                </div>
-                {
-                    !location && <div>Select a Location first</div>
-                }
-                <div>
-                    <label>Car Model</label>
-                    <select name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
-                        <option value="placeholder" hidden>Car Model</option>
-                        {locationCarsModels && locationCarsModels.map((el, k) => <option key={k} value={el}>{el}</option>)}
-                    </select>
-                </div>
-                <div>
-                    <label>Optional Equipment</label>
-                    {carRenting &&
-                        carRenting.optionalEquipments?.map((el, k) =>
-                            <label key={k}>
-                                <input disabled={!selectedLocationModel}
-                                    checked={optionalEquipments.includes(el.name)}
-                                    onChange={handleCheck}
-                                    type="checkbox" name={el.name} key={(k)}
-                                />
-                                {el.name} ({`$ ${el.price}`})
-                            </label>
-                        )
-                    }
-                </div>
-                <div>
-                    <label>Start Date: </label>
-                    <DatePicker
-                        clearIcon={null}
-                        minDate={new Date()}
-                        onChange={handleStartingDateChange}
-                        value={startingDate}
-                        disabled={!selectedLocationModel}
-                        format="dd/MM/yyyy"
-                        tileDisabled={({ date, view }) =>
-                            (view === 'month') &&
-                            initialDisableDay.some(disabledDate =>
-                                date.getFullYear() === disabledDate.getFullYear() &&
-                                date.getMonth() === disabledDate.getMonth() &&
-                                date.getDate() === disabledDate.getDate()
-                            )
-                        }
-                    />
-                </div>
-                {
-                    <div>
-                        <label>End Date: </label>
-                        <DatePicker
-                            clearIcon={null}
-                            minDate={datePlus(startingDate, 1)}
-                            onChange={setEndingDate}
-                            value={endingDate}
-                            disabled={!selectedLocationModel}
-                            format="dd/MM/yyyy"
-                            maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
-                        />
-                    </div>
-                }
-                <Drivers drivers={drivers} setDrivers={setDrivers} />
-                <div>
-                    <label>Return location</label>
-                    <select name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
-                        <option value="placeholder" hidden>location...</option>
-                        {allLocation.map((el, k) => <option key={k} value={el.id}>{el.city}</option>)}
-                    </select>
-                </div>
-                <div>
-                    <input type="checkbox" name="Terms" id="" />
-                    <label>I have read and accept the <b>terms and conditions</b></label>
-                </div>
-                <div>
-                    {/* FALTA HACER QUE EL DISABLED CONSIDERE LOS TERMINOS Y CONDICIONS!!!!!!! */}
-                    <button type="submit" disabled={!location || !carRenting.model || !drivers.length || !endLocation}>Rent</button>
-                </div>
-            </form>
-            <div>
-                <label>Price Per Day: </label>
-                <span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span>
-            </div>
-            <div>
-                <label>Total Days: </label>
-                <span>{endingDate.getDate() - startingDate.getDate()}</span>
-            </div>
-            <div>
-                <label>Total Price: </label>
-                <span>{carRenting.pricePerDay && `$ ${((endingDate.getDate() - startingDate.getDate()) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span>
-            </div>
-            {didRent &&
-                <div>
-                    <div>
-                        <button type="submit">
-                            Pay at Office
-                        </button>
-                    </div>
-                    <form action={`${URL}create-checkout-session`} method="POST">
+        : <div className={styles.container}>
+            <section className={styles.containerForm}>
+                <div className={styles.container1}>
+                    <form hidden={didRent} onSubmit={handleRentForm} className={styles.rentForm}>
+                        <div className={styles.title}>
+                            <h3>RENTAL FORM</h3>
+                        </div>
                         <div>
-                            <button type="submit">
-                                Pay Now
+                            <label>Location: </label>
+                            <LocationFilter />
+                        </div>
+                        {
+                            !location && <div>Select a Location first</div>
+                        }
+                        <div>
+                            <label>Car Model: </label>
+                            <select name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
+                                <option value="placeholder" hidden>Car Model</option>
+                                {locationCarsModels && locationCarsModels.map((el, k) => <option key={k} value={el}>{el}</option>)}
+                            </select>
+                        </div>
+                        <div className={styles.subContainerEquipment}>
+                            <label>Optional Equipment:</label>
+                            <div>
+                                {carRenting &&
+                                    carRenting.optionalEquipments?.map((el, k) =>
+                                        <p key={k}>
+                                            <input disabled={!selectedLocationModel}
+                                                checked={optionalEquipments.includes(el.name)}
+                                                onChange={handleCheck}
+                                                type="checkbox" name={el.name} key={(k)}
+                                            />
+                                            {el.name} ({`$ ${el.price} /day`})
+                                        </p>
+                                    )
+                                }
+                            </div>
+                        </div>
+                        <div className={styles.calendar}>
+                            <div>
+                                <label>Start Date: </label>
+                                <DatePicker
+                                    className={styles.date}
+                                    clearIcon={null}
+                                    minDate={new Date()}
+                                    onChange={handleStartingDateChange}
+                                    value={startingDate}
+                                    disabled={!selectedLocationModel}
+                                    format="dd/MM/yyyy"
+                                    tileDisabled={({ date, view }) =>
+                                        (view === 'month') &&
+                                        initialDisableDay.some(disabledDate =>
+                                            date.getFullYear() === disabledDate.getFullYear() &&
+                                            date.getMonth() === disabledDate.getMonth() &&
+                                            date.getDate() === disabledDate.getDate()
+                                        )
+                                    }
+                                />
+                            </div>
+                            {
+                                <div>
+                                    <label>End Date: </label>
+                                    <DatePicker
+                                        clearIcon={null}
+                                        minDate={datePlus(startingDate, 1)}
+                                        onChange={setEndingDate}
+                                        value={endingDate}
+                                        disabled={!selectedLocationModel}
+                                        format="dd/MM/yyyy"
+                                        maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
+                                    />
+                                </div>
+                            }
+                        </div>
+                        <Drivers drivers={drivers} setDrivers={setDrivers} />
+                        <div>
+                            <label>Return location: </label>
+                            <select name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
+                                <option value="placeholder" hidden>location...</option>
+                                {allLocation.map((el, k) => <option key={k} value={el.id}>{el.city}</option>)}
+                            </select>
+                        </div>
+                        <div className={styles.container2}>
+                            <table>
+                                <tr>
+                                    <td className={styles.colum1}><label>Price Per Day: </label></td>
+                                    <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
+                                </tr>
+                                <tr>
+                                    <td className={styles.colum1}><label>Total Days: </label></td>
+                                    <td className={styles.colum2}><span>{endingDate.getDate() - startingDate.getDate()}</span></td>
+                                </tr>
+                                <tr>
+                                    <td className={styles.colum1}><label>Total Price: </label></td>
+                                    <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((endingDate.getDate() - startingDate.getDate()) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div className={styles.termsConditions}>
+                            <input type="checkbox" onChange={checkboxHandler} />
+                            <label htmlFor="agree"> I agree to <a className={styles.terms} href={TermsConditions} onClick={() => { setShow(true) }}>terms and conditions</a></label>
+                        </div>
+                        <div className={styles.buttonRent}>
+                            <button disabled={!agree || !location || !carRenting.model || !drivers.length || !endLocation} type="submit">
+                                Rent
                             </button>
                         </div>
                     </form>
-                </div>}
-        </section>
+                </div>
+                {didRent &&
+                    <div>
+                        <div className={styles.total2}>
+                            <table>
+                                <tr>
+                                    <td className={styles.colum1}><label>Price Per Day: </label></td>
+                                    <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
+                                </tr>
+                                <tr>
+                                    <td className={styles.colum1}><label>Total Days: </label></td>
+                                    <td className={styles.colum2}><span>{endingDate.getDate() - startingDate.getDate()}</span></td>
+                                </tr>
+                                <tr>
+                                    <td className={styles.colum1}><label>Total Price: </label></td>
+                                    <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((endingDate.getDate() - startingDate.getDate()) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div className={styles.buttons}>
+                            <div>
+                                <button type="submit">
+                                    Pay at Office
+                                </button>
+                            </div>
+                            <form action={`${URL}create-checkout-session`} method="POST">
+                                <div>
+                                    <button type="submit">
+                                        Pay Now
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>}
+                <TermsConditions show={show} onClose={() => setShow(false)} />
+            </section>
+        </div>
 }

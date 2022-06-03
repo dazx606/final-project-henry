@@ -33,10 +33,11 @@
     margin: auto;
 }
 
-/* h3, h4 {
+.titleh {
     font-family: var(--font3);
     color: var(--color3);
-} */
+    padding-bottom: 1rem;
+}
 
 .container1 {
     display: flex;
@@ -79,9 +80,10 @@
     text-align: justify;
 }
 
-/* p {
+.paragraph {
     font-family: var(--font2);
-} */
+    color: var(--color3);
+}
 
 .container3 {
     padding-top: 3rem;
@@ -93,7 +95,7 @@
     justify-content: center;
 }
 
-/* .benefits1 {
+.benefits1 {
     padding-top: 1rem;
     display: flex;
     justify-content: space-evenly;
@@ -103,13 +105,10 @@
     width: 300px;
     line-height: 1.5rem;
     text-align: justify;
-} */
+}
 
-/* h4 {
-    padding-bottom: 1rem;
-} */
 
-/* .benefits2 {
+.benefits2 {
     padding-top: 1rem;
     display: flex;
     justify-content: space-evenly;
@@ -119,16 +118,16 @@
     width: 300px;
     line-height: 1.5rem;
     text-align: justify;
-} */
+} 
 
-/* a, li {
+.links {
     text-decoration: none;
     color: var(--color3);
-} */
+} 
 
-/* li:hover {
+.links:hover {
     color: var(--color4);
-} */
+}
 
 
 
