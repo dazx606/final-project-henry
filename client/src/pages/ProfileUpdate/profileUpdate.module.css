@@ -41,15 +41,14 @@
   margin-top: 5px;
 }
 
-.button {
-  border: outset 2px var(--color4);
-}
-.buttonContainer {
+.buttonCont{
+  height: 4rem;
   text-align: center;
+  justify-content: center;
   padding: 20px;
 
 }
-.hello {
+.helloP {
   font-family: var(--font2);
   color: var(--color4);
   font-size: 20px;

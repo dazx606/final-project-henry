@@ -8,11 +8,16 @@ import {
   ALERT,
   SET_SELECTION,
   DELETE_CAR_DETAILS,
+  GET_RENTING_CAR,
+  DELETE_RENTING_CAR,
+  RENT_ID,
   SET_USER,
   SAVE_USER,
   PATCH_USER,
   GET_ALL_USERS_INFO,
   DELETE_USER_INFO,
+  SET_PROFILE_OPTIONS,
+  SET_ADMIN_OPTIONS,
 } from "../actions";
 
 const initialState = {
@@ -21,6 +26,7 @@ const initialState = {
   city: "",
   filteredCars: [],
   carDetails: {},
+  carRenting: {},
   hideAlert: true,
   selection: {
     brand: "",
@@ -31,9 +37,12 @@ const initialState = {
     orderType: "pricePerDay",
     page: 1,
   },
+  rentId: "",
   savedUser: [],
   user: {},
   users: [],
+  profileOptions: "information",
+  adminOptions: "users",
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -65,9 +74,21 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         carDetails: payload,
       };
+    case GET_RENTING_CAR:
+      return {
+        ...state,
+        carRenting: payload,
+      }
     case DELETE_CAR_DETAILS:
-      return { ...state, carDetails: payload };
-
+      return {
+        ...state,
+        carDetails: payload
+      };
+    case DELETE_RENTING_CAR:
+      return {
+        ...state,
+        carRenting: {}
+      }
     case SEND_MESSAGE:
       return {
         ...state,
@@ -83,6 +104,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         selection: payload,
+      };
+    case RENT_ID:
+      return {
+        ...state,
+        rentId: payload,
       };
     case SET_USER:
       return {
@@ -109,6 +135,18 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         users: payload,
       };
+    case SET_PROFILE_OPTIONS: {
+      return {
+        ...state,
+        profileOptions: payload
+      }
+    }
+    case SET_ADMIN_OPTIONS: {
+      return{
+        ...state,
+        adminOptions: payload
+      }
+    }
 
     default:
       return { ...state };

@@ -44,7 +44,7 @@ export default function Profile() {
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    // dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information is update");
   }
   function handleChange(e) {
@@ -81,33 +81,33 @@ export default function Profile() {
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
-          <h3 className={styles.hello}> Hello {user.email}!</h3>
+          <h3 className={styles.helloP}> Hello {user.email}!</h3>
           <div>
             <div className={styles.titles}>First name: </div>
             <input
-              className={styles.inputs}
+              className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
               value={input.firstName}
               name="firstName"
               onChange={handleChange}
             />
-            {errors.firstName && <p className={styles.validations}>{errors.firstName}</p>}
+            {errors.firstName && <p>{errors.firstName}</p>}
           </div>
           <div>
             <div className={styles.titles}>Last name: </div>
             <input
-              className={styles.inputs}
+              className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
               value={input.lastName}
               name="lastName"
               onChange={handleChange}
             />
-            {errors.lastName && <p className={styles.validations}>{errors.lastName}</p>}
+            {errors.lastName && <p>{errors.lastName}</p>}
           </div>
           <div>
             <div className={styles.titles}>Phone: </div>
-            <input className={styles.inputs} type="text" value={input.phone} name="phone" onChange={handleChange} />
-            {errors.phone && <p className={styles.validations}>{errors.phone}</p>}
+            <input className={`${styles.inputGlobal} ${styles.inputs}`} type="text" value={input.phone} name="phone" onChange={handleChange} />
+            {errors.phone && <p>{errors.phone}</p>}
           </div>
           <div>
             <div className={styles.titles}>Language: </div>
@@ -119,18 +119,18 @@ export default function Profile() {
           <div className={styles.titles}>
             <div>Document Id: </div>
             <input
-              className={styles.inputs}
+              className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
               value={input.documentId}
               name="documentId"
               onChange={handleChange}
             />
-            {errors.documentId && <p className={styles.validations}>{errors.documentId}</p>}
+            {errors.documentId && <p>{errors.documentId}</p>}
           </div>
           <div className={styles.titles}>
             <div>License: </div>
-            <input className={styles.select} type="text" value={input.license} name="license" onChange={handleChange} />
-            {errors.license && <p className={styles.validations}>{errors.license}</p>}
+            <input className={`${styles.inputGlobal} ${styles.select}`} type="text" value={input.license} name="license" onChange={handleChange} />
+            {errors.license && <p>{errors.license}</p>}
           </div>
           <div>
             <div className={styles.titles}>City: </div>
@@ -149,7 +149,7 @@ export default function Profile() {
               Submit
             </button>
           </div>
-          <p className={styles.alert}>{alert}</p>
+          <p>{alert}</p>
         </form>
       )}
     </div>

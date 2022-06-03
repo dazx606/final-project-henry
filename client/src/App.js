@@ -14,6 +14,8 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import ProfileUpdate from "./pages/ProfileUpdate/ProfileUpdate";
 import Booking from "./pages/Booking/Booking";
 import AdminUsers from "./components/AdminUsers/AdminUsers";
+import AdminRoutes from "./AdminRoutes";
+import AdminOptions from "./pages/AdminOptions/AdminOptions";
 
 function App() {
   return (
@@ -31,6 +33,9 @@ function App() {
             <Route path="/profile/:userId" element={<ProfileOptions />} />+
             <Route path="/booking" element={<Booking />} />
             <Route path='/admin/users' element={<AdminUsers/>}/>
+          </Route>
+          <Route element={<AdminRoutes />}>
+            < Route path="/adminOptions" element={<AdminOptions/>} />
           </Route>
         </Route>
       </Routes>
