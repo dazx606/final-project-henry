@@ -54,16 +54,6 @@ function UserCard({ user }) {
         <span className={styles.infoUser}>Phone:</span>
         <span className={styles.infoData}>{user.phone}</span>
       </div>
-      {/* <div>
-          <span>Drivers</span>
-          <span></span>
-          <span>lastName</span>
-        </div>
-        <div>
-          <span>Payment</span>
-          <span>firstName</span>
-          <span>lastName</span>
-        </div> */}
       <div>
         <button onClick={handleClick}>x</button>
       </div>
