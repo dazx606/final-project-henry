@@ -30,6 +30,7 @@ function App() {
             <Route path="/profile/:userId" element={<ProfileOptions />} />+
             <Route path="/booking" element={<Booking />} />
           </Route>
+          
         </Route>
       </Routes>
       <Footer />

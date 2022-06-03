@@ -159,7 +159,6 @@ export function setUserInfo(getToken, email) {
       if (email) {
         const token = await getToken();
         let response = await getUserInformation(token, email)
-
         return dispatch({ type: SET_USER, payload: response.data });
       }
     } catch (error) {

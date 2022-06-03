@@ -25,6 +25,7 @@ export function sendAMessage(message){
 };
 
 export function getUserInformation(token, email){
+    
     const options = {
         method: "GET",
         mode: "cors",

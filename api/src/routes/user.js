@@ -59,6 +59,7 @@ router.post("/", async (req, res, next) => {
       data: user.id,
       completed,
     });
+  
   } catch (error) {
     next(error);
   }

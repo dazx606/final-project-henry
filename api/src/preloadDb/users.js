@@ -14,6 +14,10 @@ const users = [
   {
     email: "unemail4@gmail.com",
   },
+  {
+    email: "bea7san@gmail.com",
+    admin: true
+  }
 ];
 
 module.exports = { users };

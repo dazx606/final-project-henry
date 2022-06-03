@@ -27,6 +27,7 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(setUserInfo(getAccessTokenSilently, user.email));
+      
     }
   }, [dispatch, savedUser]);
 
