@@ -14,6 +14,8 @@ import {
   SET_USER,
   SAVE_USER,
   PATCH_USER,
+  GET_ALL_USERS_INFO,
+  DELETE_USER_INFO,
   SET_PROFILE_OPTIONS,
   SET_ADMIN_OPTIONS,
 } from "../actions";
@@ -38,6 +40,7 @@ const initialState = {
   rentId: "",
   savedUser: [],
   user: {},
+  users: [],
   profileOptions: "information",
   adminOptions: "users",
 };
@@ -121,6 +124,16 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         user: { data: { ...state.user.data, ...payload } },
+      };
+    case GET_ALL_USERS_INFO:
+      return {
+        ...state,
+        users: payload,
+      };
+    case DELETE_USER_INFO:
+      return {
+        ...state,
+        users: payload,
       };
     case SET_PROFILE_OPTIONS: {
       return {

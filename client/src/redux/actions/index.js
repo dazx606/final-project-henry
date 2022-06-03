@@ -1,6 +1,7 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 import axios from "axios";
-import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser } from "../../services/services";
+import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser,   getAllUsersInfo,
+  deleteUserInfo, } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
@@ -16,6 +17,8 @@ export const RENT_ID = "RENT_ID";
 export const SET_USER = "SET_USER";
 export const SAVE_USER = "SAVE_USER";
 export const PATCH_USER = "UPDATE_USER";
+export const GET_ALL_USERS_INFO = "GET_ALL_USERS_INFO";
+export const DELETE_USER_INFO = "DELETE_USERS_INFO";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 export const SET_ADMIN_OPTIONS = "SET_ADMIN_OPTIONS";
 
@@ -190,6 +193,35 @@ export function patchUser(getToken, payload) {
       return dispatch({
         type: PATCH_USER,
         payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function getAdminUsers(getToken) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      let response = await getAllUsersInfo(token);
+      return dispatch({
+        type: GET_ALL_USERS_INFO,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function deleteUser(getToken, payload) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      await deleteUserInfo(payload, token);
+      let response = await getAllUsersInfo(token);
+      return dispatch({
+        type: DELETE_USER_INFO,
+        payload: response.data,
       });
     } catch (error) {
       console.log(error);
