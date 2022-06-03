@@ -1,4 +1,5 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
+import axios from "axios";
 import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
