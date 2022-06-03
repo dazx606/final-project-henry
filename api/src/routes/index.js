@@ -5,8 +5,12 @@ require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } = process.env;
 const { filterDates, datePlus, filterRentDates } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
+const userRouter = require("./user");
+const adminRouter = require("./admin");
 
 const router = Router();
+router.use("/user", userRouter);
+router.use("/admin", adminRouter);
 
 router.get('/cars/:locationId', async (req, res, next) => {
   const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1, model, carsPerPage = 8 } = req.query
@@ -34,24 +38,29 @@ router.get('/cars/:locationId', async (req, res, next) => {
       }
     )
 
-    if (!locationCarModels?.carModels.length) return res.status(404).json({ msg: "No corresponding car found!" });
+    if (!locationCarModels?.carModels.length)
+      return res.status(404).json({ msg: "No corresponding car found!" });
 
-    let filterdCars = locationCarModels.carModels.map(c => {
+    let filterdCars = locationCarModels.carModels.map((c) => {
       const existingRents = [];
-      c.individualCars.forEach(r => { if (r.rentOrders.length) existingRents.push(r.rentOrders) });
+      c.individualCars.forEach((r) => {
+        if (r.rentOrders.length) existingRents.push(r.rentOrders);
+      });
       return {
         ...c.dataValues,
         carType: c.carType.dataValues.name,
-        includedEquipments: c.includedEquipments.map(e => e.dataValues.name),
-        optionalEquipments: c.optionalEquipments.map(e => e.dataValues.name),
+        includedEquipments: c.includedEquipments.map((e) => e.dataValues.name),
+        optionalEquipments: c.optionalEquipments.map((e) => e.dataValues.name),
         individualCars: c.individualCars.length,
         existingRents,
-      }
-    })
+      };
+    });
 
-    if (startingDate) filterdCars = filterDates(filterdCars, startingDate, endingDate);
+    if (startingDate)
+      filterdCars = filterDates(filterdCars, startingDate, endingDate);
 
-    if (!filterdCars.length) return res.status(404).json({ msg: "No corresponding car found!" });
+    if (!filterdCars.length)
+      return res.status(404).json({ msg: "No corresponding car found!" });
 
     if (parseInt(carsPerPage)) filterdCars = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
 
@@ -64,18 +73,15 @@ router.get('/cars/:locationId', async (req, res, next) => {
 router.get("/locationCars/:locationId", async (req, res, next) => {
   const { locationId } = req.params;
   try {
-    const locationCarModels = await Location.findByPk(
-      locationId,
-      {
-        include: [
-          {
-            model: CarModel,
-            through: { attributes: [] },
-            include: [{ model: CarType }]
-          },
-        ]
-      }
-    )
+    const locationCarModels = await Location.findByPk(locationId, {
+      include: [
+        {
+          model: CarModel,
+          through: { attributes: [] },
+          include: [{ model: CarType }],
+        },
+      ],
+    });
     let brands = locationCarModels.carModels.map((car) => car.brand);
     brands = [...new Set(brands)];
     let categories = locationCarModels.carModels.map((car) => car.carType.name);
@@ -164,15 +170,14 @@ router.post("/send-email", async (req, res, next) => {
 });
 //------------------------------------------------Stripe--------------------------------
 
-
 // This is a public sample test API key.
 // Don’t submit any personally identifiable information in requests made with this key.
 // Sign in to see your own test API key embedded in code samples.
-const stripe = require('stripe')(STRIPE_SECRET_KEY);
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
 
-const YOUR_DOMAIN = 'http://localhost:3000/booking';
+const YOUR_DOMAIN = "http://localhost:3000/booking";
 
-router.post('/create-checkout-session', async (req, res, next) => {
+router.post("/create-checkout-session", async (req, res, next) => {
   try {
     const { email = "unemaildetest@gmail.com", rentOrderId = 25, numberOfDays = 5, carPriceId = "price_1L5fSdDNuL2bCfdELZ2jLRoI", optionalEquipment = [] } = req.body;   //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
     if (!numberOfDays || !carPriceId || !email || !rentOrderId) return res.status(400).json("Missing information!!!");
@@ -183,7 +188,10 @@ router.post('/create-checkout-session', async (req, res, next) => {
           price: carPriceId,
           quantity: numberOfDays,
         },
-        ...optionalEquipment.map(id => ({ price: id, quantity: numberOfDays })),
+        ...optionalEquipment.map((id) => ({
+          price: id,
+          quantity: numberOfDays,
+        })),
       ],
       customer_email: email,
       client_reference_id: rentOrderId,

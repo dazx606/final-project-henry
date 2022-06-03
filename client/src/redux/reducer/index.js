@@ -10,7 +10,11 @@ import {
   DELETE_CAR_DETAILS,
   GET_RENTING_CAR,
   DELETE_RENTING_CAR,
-  RENT_ID
+  RENT_ID,
+  SET_USER,
+  SAVE_USER,
+  PATCH_USER,
+  SET_PROFILE_OPTIONS,
 } from "../actions";
 
 const initialState = {
@@ -30,7 +34,10 @@ const initialState = {
     orderType: "pricePerDay",
     page: 1,
   },
-  rentId:"",
+  rentId: "",
+  savedUser: [],
+  user: {},
+  profileOptions: "information",
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -47,15 +54,6 @@ export default function rootReducer(state = initialState, { type, payload }) {
       };
 
     case GET_FILTERED_CARS:
-      //let array = [];
-      // for (let i = 0; i < payload.length; i++) {
-      //   let array2 = [...array];
-      //   let duplicate = false;
-      //   for (let j = 0; j < array2.length; j++) {
-      //     if (payload[i].model === array2[j].model) duplicate = true;
-      //   }
-      //   if (duplicate === false) array.push(payload[i]);
-      // }
       return {
         ...state,
         filteredCars: payload,
@@ -107,6 +105,27 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         rentId: payload,
       };
+    case SET_USER:
+      return {
+        ...state,
+        user: payload,
+      };
+    case SAVE_USER:
+      return {
+        ...state,
+        savedUser: payload,
+      };
+    case PATCH_USER:
+      return {
+        ...state,
+        user: { data: { ...state.user.data, ...payload } },
+      };
+    case SET_PROFILE_OPTIONS: {
+      return {
+        ...state,
+        profileOptions: payload
+      }
+    }
 
     default:
       return { ...state };

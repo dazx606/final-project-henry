@@ -1,5 +1,5 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
-import axios from "axios";
+import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
@@ -12,13 +12,17 @@ export const DELETE_CAR_DETAILS = "DELETE_CAR_DETAILS";
 export const GET_RENTING_CAR = "GET_RENTING_CAR";
 export const DELETE_RENTING_CAR = "DELETE_RENTING_CAR";
 export const RENT_ID = "RENT_ID";
+export const SET_USER = "SET_USER";
+export const SAVE_USER = "SAVE_USER";
+export const PATCH_USER = "UPDATE_USER";
+export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 
 export const URL = "http://localhost:3001/";
 
 export function getLocations() {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URL}locations`);
+      const response = await getAllLocations();
       return dispatch({ type: GET_LOCATIONS, payload: response.data });
     } catch (error) {
       console.log(error);
@@ -29,7 +33,7 @@ export function getLocations() {
 export function getLocationCars(locationId) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URL}locationCars/${locationId}`);
+      const response = await getCarsByLocation(locationId);
       return dispatch({
         type: GET_LOCATION_CARS,
         payload: response.data,
@@ -52,11 +56,12 @@ export function getRentingCar(carModel) {
 }
 
 export function getFilteredCars(
-  { brand="", category="", order="ASC", startingDate = "", endingDate="", orderType="pricePerDay", page=1, model="", carsPerPage=8 },
+  { brand = "", category = "", order = "ASC", startingDate = "", endingDate = "", orderType = "pricePerDay", page = 1, model = "", carsPerPage = 8 },
   locationId
 ) {
   return async (dispatch) => {
     try {
+      /////////////FALTA MODULARIZAR EN SERVICES
       var response = await axios.get(
         `${URL}cars/${locationId}?brand=${brand}&category=${category}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}&model=${model}&carsPerPage=${carsPerPage}`
       );
@@ -92,7 +97,7 @@ export const setSelection = (payload) => {
 export function getCarDetails(carModel) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URL}car/${carModel}`);
+      const response = await getCarsDetails(carModel);
       return dispatch({ type: GET_CAR_DETAILS, payload: response.data });
     } catch (error) {
       console.log(error);
@@ -108,13 +113,13 @@ export function deleteCarDetails() {
 }
 
 export function deleteRentingCar() {
-  return {type: DELETE_RENTING_CAR};
+  return { type: DELETE_RENTING_CAR };
 }
 
-export function sendMessage(payload) {
+export function sendMessage(message) {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URL}send-email`, payload);
+      const response = await sendAMessage(message);
       return dispatch({
         type: SEND_MESSAGE,
         payload: response.data,
@@ -135,7 +140,7 @@ export function showAlert(payload) {
 export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation) {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URL}rent/car`, {location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation});
+      const response = await axios.post(`${URL}rent/car`, { location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation });
       return dispatch({
         type: RENT_ID,
         payload: response.data,
@@ -143,5 +148,58 @@ export function rentCar(location, model, startingDate, endingDate, optionalEquip
     } catch (error) {
       console.log(error);
     }
+  }
+};
+// authentication actions:
+
+export function setUserInfo(getToken, email) {
+  return async (dispatch) => {
+    try {
+      if (email) {
+        const token = await getToken();
+        let response = await getUserInformation(token, email)
+
+        return dispatch({ type: SET_USER, payload: response.data });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+}
+
+export function saveUser(email) {
+  return async (dispatch) => {
+    try {
+      const response = await addUser(email);
+      return dispatch({
+        type: SAVE_USER,
+        payload: [response.data.msg, response.data.data, response.data.complited],
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+export function patchUser(getToken, payload) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      await updateUser(payload, token);
+
+      return dispatch({
+        type: PATCH_USER,
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function setProfileOptions(payload) {
+  return {
+    type: SET_PROFILE_OPTIONS,
+    payload
+  }
+
 }

@@ -34,7 +34,7 @@ export default function AboutUs() {
             </div>
             <div className={styles.button2}>
                 <NavLink to='/'>
-                    <button>GO HOME</button>
+                    <button className={styles.goHomeb}>HOME</button>
                 </NavLink>
             </div>
         </div>

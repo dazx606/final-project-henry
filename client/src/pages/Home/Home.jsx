@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import LocationFilter from '../../components/LocationFilter/LocationFilter'
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import LocationFilter from '../../components/LocationFilter/LocationFilter';
 import styles from './Home.module.css';
 import { setCity, setSelection } from '../../redux/actions';
-
 import Carousel from "../../components/Carousel/Carousel";
-import Categories from '../../components/Categories/Categories'
-import Alert from '../../components/Alert/Alert'
-import Benefits from '../../components/Benefits/Benefits'
+import Categories from '../../components/Categories/Categories';
+import Alert from '../../components/Alert/Alert';
+import Benefits from '../../components/Benefits/Benefits';
 
 function Home() {
     const city = useSelector((state) => state.city);
@@ -16,7 +15,6 @@ function Home() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setCity(''))
         dispatch(setSelection({
             brand: "",
             category: "",

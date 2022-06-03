@@ -24,7 +24,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
         type="date"
         name="startingDate"
         value={selection.startingDate}
-        className={styles.select}
+        className={`${styles.inputGlobal} ${styles.select}`}
         onChange={(e) =>
           handleFilters(e)}
       />
@@ -33,7 +33,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
         type="date"
         name="endingDate"
         value={selection.endingDate}
-        className={styles.select}
+        className={`${styles.inputGlobal} ${styles.select}`}
         onChange={(e) =>
          handleFilters(e)}
       />
