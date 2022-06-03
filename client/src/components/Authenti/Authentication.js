@@ -13,6 +13,7 @@ function Authentication({ handleLoginInfo }) {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(saveUser(user.email)) 
+      console.log(user);
     }  
    
   }, [user, dispatch])
