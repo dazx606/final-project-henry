@@ -78,7 +78,7 @@ select:hover{
   border: outset 2px var(--color4);
 }
 
-input{
+.inputGlobal{
   border: outset 1px var(--color4);
   outline: none;
   padding:4px;
