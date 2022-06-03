@@ -47,6 +47,7 @@
 .buttonContainer {
   text-align: center;
   padding: 20px;
+
 }
 .hello {
   font-family: var(--font2);
@@ -60,9 +61,33 @@
   color: var(--color4);
   font-size: 10px;
 }
-.alert{
+.alert {
   font-family: var(--font2);
   color: var(--color4);
   font-size: 20px;
-  text-align:center;
+  text-align: center;
 }
+
+.message {
+  text-align: center;
+  margin-top:20px;
+  margin-bottom:20px;
+  color: var(--color3);
+  font-size: 20px;
+  font-family: var(--font2);
+}
+.btnProfile{
+  border: outset 1px var(--color4);
+  background-color: var(--color1);
+  border-radius: 0px;
+  font-family: var(--font2);
+  font-weight: 400;
+  font-size: 1em;
+  color: var(--color4);
+  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  transition: 0.1s;
+  padding: 10px;
+  margin-left:20px;
+}
+
+
