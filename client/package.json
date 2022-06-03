@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@auth0/auth0-react": "^1.10.1",
     "@react-google-maps/api": "^2.11.8",
     "@redux-devtools/extension": "^3.2.2",
     "@reduxjs/toolkit": "^1.8.1",
@@ -12,6 +13,7 @@
     "axios": "^0.27.0",
     "dotenv": "^16.0.1",
     "react": "^18.1.0",
+    "react-date-picker": "^8.4.0",
     "react-dom": "^18.1.0",
     "react-multi-carousel": "^2.8.0",
     "react-redux": "^8.0.1",

@@ -1,18 +1,24 @@
 const { Router } = require("express");
+const express = require('express');
 const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
-const { EMAIL, MIDDLE_EMAIL } = process.env;
-const { filterDates } = require("./controllers.js");
+const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } = process.env;
+const { filterDates, datePlus, filterRentDates } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
+const userRouter = require("./user");
+const adminRouter = require("./admin");
 
 const router = Router();
+router.use("/user", userRouter);
+router.use("/admin", adminRouter);
 
 router.get('/cars/:locationId', async (req, res, next) => {
-  const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1 } = req.query
+  const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1, model, carsPerPage = 8 } = req.query
   const { locationId } = req.params;
-  const carsPerPage = 8;
-  const brandFilter = brand ? { where: { brand: brand } } : { where: null };
+  const brandModelFilter = brand ? { where: { brand: brand } } : { where: null };
   const categoryFilter = category ? { where: { name: category } } : { where: null };
+  if (model) brandModelFilter.where.model = model
+
   try {
     if (!startingDate && endingDate) return res.status(417).json({ msg: "Missing startingDate!" });
     if (new Date(startingDate) > new Date(endingDate)) return res.status(409).json({ msg: "StartingDate cannot be greater than endingDate!" });
@@ -21,7 +27,7 @@ router.get('/cars/:locationId', async (req, res, next) => {
         order: [[{ model: CarModel }, orderType, order]],
         include: [
           {
-            model: CarModel, ...brandFilter, through: { attributes: [] }, include: [
+            model: CarModel, ...brandModelFilter, through: { attributes: [] }, include: [
               { model: CarType, ...categoryFilter, attributes: { exclude: ['id'] } },
               { model: IncludedEquipment, attributes: ['name'], through: { attributes: [] } },
               { model: OptionalEquipment, attributes: ['name'], through: { attributes: [] } },
@@ -32,26 +38,31 @@ router.get('/cars/:locationId', async (req, res, next) => {
       }
     )
 
-    if (!locationCarModels?.carModels.length) return res.status(404).json({ msg: "No corresponding car found!" });
+    if (!locationCarModels?.carModels.length)
+      return res.status(404).json({ msg: "No corresponding car found!" });
 
-    let filterdCars = locationCarModels.carModels.map(c => {
+    let filterdCars = locationCarModels.carModels.map((c) => {
       const existingRents = [];
-      c.individualCars.forEach(r => { if (r.rentOrders.length) existingRents.push(r.rentOrders) });
+      c.individualCars.forEach((r) => {
+        if (r.rentOrders.length) existingRents.push(r.rentOrders);
+      });
       return {
         ...c.dataValues,
         carType: c.carType.dataValues.name,
-        includedEquipments: c.includedEquipments.map(e => e.dataValues.name),
-        optionalEquipments: c.optionalEquipments.map(e => e.dataValues.name),
+        includedEquipments: c.includedEquipments.map((e) => e.dataValues.name),
+        optionalEquipments: c.optionalEquipments.map((e) => e.dataValues.name),
         individualCars: c.individualCars.length,
         existingRents,
-      }
-    })
+      };
+    });
 
-    if (startingDate) filterdCars = filterDates(filterdCars, startingDate, endingDate);
+    if (startingDate)
+      filterdCars = filterDates(filterdCars, startingDate, endingDate);
 
-    if (!filterdCars.length) return res.status(404).json({ msg: "No corresponding car found!" });
+    if (!filterdCars.length)
+      return res.status(404).json({ msg: "No corresponding car found!" });
 
-    filterdCars = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
+    if (parseInt(carsPerPage)) filterdCars = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
 
     return res.json(filterdCars);
   } catch (error) {
@@ -62,30 +73,30 @@ router.get('/cars/:locationId', async (req, res, next) => {
 router.get("/locationCars/:locationId", async (req, res, next) => {
   const { locationId } = req.params;
   try {
-    const locationCarModels = await Location.findByPk(
-      locationId,
-      {
-        include: [
-          {
-            model: CarModel,
-            through: { attributes: [] },
-            include: [{ model: CarType }]
-          },
-        ]
-      }
-    )
+    const locationCarModels = await Location.findByPk(locationId, {
+      include: [
+        {
+          model: CarModel,
+          through: { attributes: [] },
+          include: [{ model: CarType }],
+        },
+      ],
+    });
     let brands = locationCarModels.carModels.map((car) => car.brand);
     brands = [...new Set(brands)];
     let categories = locationCarModels.carModels.map((car) => car.carType.name);
     categories = [...new Set(categories)];
-    
+    let models = locationCarModels.carModels.map((car) => `${car.brand} ${car.model}`);
+    models = [...new Set(models)];
+
     return res.json({
       id: locationCarModels.dataValues.id,
       city: locationCarModels.dataValues.city,
       latitude: locationCarModels.dataValues.latitude,
       longitude: locationCarModels.dataValues.longitude,
       brands,
-      categories
+      categories,
+      models
     });
   } catch (error) {
     next(error);
@@ -120,7 +131,7 @@ router.get("/car/:modelId", async (req, res, next) => {
         {
           model: OptionalEquipment,
           as: "optionalEquipments",
-          attributes: ["name"],
+          attributes: ["name", "price"],
           through: { attributes: [] },
         },
       ],
@@ -131,7 +142,7 @@ router.get("/car/:modelId", async (req, res, next) => {
     next(error);
   }
 });
-
+//-------------------------------------------------Node-mailer----------------------
 router.post("/send-email", async (req, res, next) => {
   const { name, email, phone, message, subject } = req.body;
   try {
@@ -152,7 +163,115 @@ router.post("/send-email", async (req, res, next) => {
       html: contentHTML,
       replyTo: email,
     });
-    return res.send("Message sent succesfully");
+    return res.json("Message sent succesfully");
+  } catch (error) {
+    next(error);
+  }
+});
+//------------------------------------------------Stripe--------------------------------
+
+// This is a public sample test API key.
+// Don’t submit any personally identifiable information in requests made with this key.
+// Sign in to see your own test API key embedded in code samples.
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
+
+const YOUR_DOMAIN = "http://localhost:3000/booking";
+
+router.post("/create-checkout-session", async (req, res, next) => {
+  try {
+    const { email = "unemaildetest@gmail.com", rentOrderId = 25, numberOfDays = 5, carPriceId = "price_1L5fSdDNuL2bCfdELZ2jLRoI", optionalEquipment = [] } = req.body;   //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
+    if (!numberOfDays || !carPriceId || !email || !rentOrderId) return res.status(400).json("Missing information!!!");
+
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: carPriceId,
+          quantity: numberOfDays,
+        },
+        ...optionalEquipment.map((id) => ({
+          price: id,
+          quantity: numberOfDays,
+        })),
+      ],
+      customer_email: email,
+      client_reference_id: rentOrderId,
+      mode: 'payment',
+      success_url: `${YOUR_DOMAIN}?success=true`,
+      cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+    });
+    res.redirect(303, session.url);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+const fulfillOrder = (session) => {
+  // TODO: fill me in
+  console.log("Fulfilling order", session);
+}
+
+const endpointSecret = STRIPE_SECRET_WEBHOOK_KEY;
+
+router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const payload = req.body;
+
+  const sig = req.headers['stripe-signature'];
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+  } catch (err) {
+    console.log(`❌ Error message: ${err.message}`);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    fulfillOrder(event.data.object);
+  }
+
+  res.json({ received: true });
+});
+
+
+
+router.post("/rent/car", async (req, res, next) => {
+  const { location, model, startingDate, endingDate, optionalEquipments = [], drivers, endLocation, user = 1 } = req.body;
+  try {
+    if (!location || !model || !startingDate || !endingDate || !drivers.length || !endLocation || !user) return res.status(417).json({ msg: "Missing info!" });
+    if (new Date(startingDate) > new Date(endingDate)) return res.status(409).json({ msg: "StartingDate cannot be greater than endingDate!" });
+    const endingDateWithExtra2Days = datePlus(new Date(endingDate), 2)
+    let locationCarModels = await Location.findByPk(location,
+      {
+        include: [
+          {
+            model: CarModel, where: { model }, through: { attributes: [] }, include: [
+              { model: IndividualCar, where: { locationId: location }, attributes: ['id'], include: [{ model: RentOrder, attributes: ['startingDate', 'endingDate'] }] }
+            ]
+          },
+        ]
+      }
+    )
+
+    locationCarModels = locationCarModels.toJSON();
+
+    const availableCars = filterRentDates(locationCarModels, startingDate, endingDateWithExtra2Days);
+
+    if (!availableCars.carModels[0].individualCars.length) return res.status(404).json({ msg: "No corresponding car found!" });
+    let car = availableCars.carModels[0].individualCars[0];
+    availableCars.carModels[0].individualCars.forEach(c => c.rentOrders.length < car.rentOrders.length ? car = c : null);
+
+    let newDrivers = [];
+    // const dbUser = await User.findOne({ where: { id: user } });
+    await Promise.all(drivers.map(d => Driver.findOrCreate({ where: { firstName: d.firstName, lastName: d.lastName, licenseNumber: d.licenseNumber, documentId: d.documentId, userId: user } }))).then(d => newDrivers = d)
+
+    const newRentOrder = await RentOrder.create({ startingDate, endingDate: endingDateWithExtra2Days.toDateString(), individualCarId: car.id, userId: user, locationId: location })
+
+    await newRentOrder.addDrivers(newDrivers.map(d => d[0].toJSON().id));
+    await Promise.all(optionalEquipments.map((e) => OptionalEquipment.findOne({ where: { name: e } })))
+      .then(equip => newRentOrder.addOptionalEquipments(equip))
+
+    return res.json(newRentOrder.toJSON().id);
   } catch (error) {
     next(error);
   }

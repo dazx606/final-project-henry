@@ -1,0 +1,141 @@
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.containerForm {
+    margin: 3rem;
+    padding: 2rem;
+    background-color: var(--color1);
+    box-shadow: 0px 0px 8px 2px var(--color6Tr);
+    font-family: var(--font2);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color3);
+    border: outset 1px var(--color4);
+    outline: none;
+    width: 30rem;
+    line-height: 2rem;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+}
+
+.container1 {
+    display: flex;
+    justify-content: center;
+}
+
+.formContainer {
+    display: block;
+}
+
+.container2 {
+    justify-content: left;
+    margin-top: 2rem;
+}
+
+.terms {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.subContainerEquipment {
+    padding: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    background-color: var(--color1);
+    box-shadow: 0px 0px 8px 2px var(--color6Tr);
+    font-family: var(--font2);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color3);
+    border: outset 1px var(--color4);
+    outline: none;
+    width: 26rem;
+    line-height: 3rem;
+}
+
+.date:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 0px 0px var(--color6Tr);
+    font-weight: 500;
+    border: outset 2px var(--color4);
+}
+
+.colum1 {
+    width: 8rem;
+}
+
+.colum2 {
+    width: 4rem;
+    text-align: end;
+}
+
+.calendar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.termsConditions {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.buttonRent {
+    margin: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.total2 {
+    display: flex;
+    justify-content: center;
+}
+
+.buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
+
+/* .date button {
+    border: outset 1px var(--color4);
+    background-color: var(--color1);
+    border-radius: 0px;
+    font-family: var(--font2);
+    font-weight: 400;
+    font-size: 1em;
+    color: var(--color4);
+    box-shadow: none;
+    transition: 0.1s;
+    padding: 10px;
+}
+
+.date button:hover {
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.date input {
+    border: outset 1px var(--color4);
+    outline: none;
+    padding: 4px;
+    background-color: var(--color1);
+    box-shadow: none;
+    font-family: var(--font2);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--color3);
+}
+
+.date input:hover {
+    cursor: pointer;
+    box-shadow: none;
+    font-weight: 500;
+    border: outset 2px var(--color4);
+} */

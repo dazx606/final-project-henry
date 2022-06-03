@@ -1,7 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,400;1,500;1,600&family=Radio+Canada:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+*{
+  margin:0;
+  padding:0;
+
+}
 
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -11,10 +17,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-.app{
+
+.app {
   background-color: var(--color1);
 }
-:root{
+
+:root {
   --color1: rgb(53, 53, 53);
   --color2: rgb(191, 192, 192);
   --color3: rgb(255, 255, 255);
@@ -23,9 +31,68 @@ code {
   --color6: rgb(22, 22, 22);
   --color7: rgb(116, 116, 116);
   --color1Tr: rgba(53, 53, 53, 0.326);
-  --color3Tr:rgba(255, 255, 255, 0.652);
+  --color3Tr: rgba(255, 255, 255, 0.652);
   --color4Tr: rgb(239, 131, 84, 0.652);
+  --color6Tr: rgba(22, 22, 22, 0.599);
   --font1: 'Space Grotesk', sans-serif;
   --font2: 'Montserrat', sans-serif;
   --font3: 'Verdana', sans-serif;
+}
+
+button {
+  border: outset 1px var(--color4);
+  background-color: var(--color1);
+  border-radius: 0px;
+  font-family: var(--font2);
+  font-weight: 400;
+  font-size: 1em;
+  color: var(--color4);
+  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  transition: 0.1s;
+  padding: 10px;
+}
+
+button:hover{
+  cursor: pointer;
+  box-shadow: 0px 0px 8px 6px var(--color6Tr);
+  font-weight: 500;
+  border: outset 2px var(--color4);
+}
+
+select{
+  border: outset 1px var(--color4);
+  outline: none;
+  padding:4px;
+  background-color: var(--color1);
+  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  font-family: var(--font2);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color3);
+}
+
+select:hover{
+  cursor: pointer;
+  box-shadow: 0px 0px 8px 6px var(--color6Tr);
+  font-weight: 500;
+  border: outset 2px var(--color4);
+}
+
+.inputGlobal{
+  border: outset 1px var(--color4);
+  outline: none;
+  padding:4px;
+  background-color: var(--color1);
+  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  font-family: var(--font2);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color3);
+}
+
+input:hover{
+  cursor: pointer;
+  box-shadow: 0px 0px 8px 6px var(--color6Tr);
+  font-weight: 500;
+  border: outset 2px var(--color4);
 }
