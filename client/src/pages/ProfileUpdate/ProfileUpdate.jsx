@@ -25,7 +25,7 @@ export default function Profile() {
       firstName: user.given_name,
       lastName: user.family_name,
     });
-  }, [input, user]);
+  }, [user]);
 
   function handleSubmit(e) {
     e.preventDefault();
