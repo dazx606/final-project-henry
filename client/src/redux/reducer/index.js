@@ -78,17 +78,17 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         carRenting: payload,
-      }
+      };
     case DELETE_CAR_DETAILS:
       return {
         ...state,
-        carDetails: payload
+        carDetails: payload,
       };
     case DELETE_RENTING_CAR:
       return {
         ...state,
-        carRenting: {}
-      }
+        carRenting: {},
+      };
     case SEND_MESSAGE:
       return {
         ...state,
@@ -138,14 +138,14 @@ export default function rootReducer(state = initialState, { type, payload }) {
     case SET_PROFILE_OPTIONS: {
       return {
         ...state,
-        profileOptions: payload
-      }
+        profileOptions: payload,
+      };
     }
     case SET_ADMIN_OPTIONS: {
-      return{
+      return {
         ...state,
-        adminOptions: payload
-      }
+        adminOptions: payload,
+      };
     }
 
     default:

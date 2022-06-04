@@ -42,11 +42,9 @@
 }
 
 .buttonCont{
-  height: 4rem;
+  height: 3rem;
   text-align: center;
-  justify-content: center;
-  padding: 20px;
-
+  padding: 30px;
 }
 .helloP {
   font-family: var(--font2);
@@ -60,23 +58,23 @@
   color: var(--color4);
   font-size: 10px;
 }
-.alert {
+.alertMessages {
   font-family: var(--font2);
   color: var(--color4);
   font-size: 20px;
   text-align: center;
 }
 
-.message {
+.Messages {
   text-align: center;
   margin-top:20px;
   margin-bottom:20px;
-  color: var(--color3);
+  color: var(--color4);
   font-size: 20px;
   font-family: var(--font2);
 }
 .btnProfile{
-  border: outset 1px var(--color4);
+  border: outset 2px var(--color4);
   background-color: var(--color1);
   border-radius: 0px;
   font-family: var(--font2);

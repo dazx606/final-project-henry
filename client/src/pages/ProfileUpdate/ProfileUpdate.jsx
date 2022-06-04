@@ -36,16 +36,16 @@ export default function Profile() {
       return;
     }
     if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
-      setAlert("Complete with your correct information");
+      setAlert(" Please complete with your correct information");
       return;
     }
     if (!input.firstName || !input.lastName || !input.license || !input.documentId) {
-      setAlert("Complete your information");
+      setAlert(" Please Complete your information");
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    dispatch(setUserInfo(getAccessTokenSilently, user.email));
-    setAlert("Your information is update");
+    // dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    setAlert("Your information is update! :)");
   }
   function handleChange(e) {
     setInput({
@@ -68,14 +68,14 @@ export default function Profile() {
     <div className={styles.profile}>
       {alert && alert.split(" ")[3] === "update" ? (
         <div className={styles.buttonContainer}>
-          <div className={styles.message}>{alert}</div>
+          <div>{alert}</div>
           <div>
             {" "}
             <Link to="/">
-              <button>Home</button>
+              <button className={styles.btnProfile}>Home</button>
             </Link>
             <Link to={`/profile/${userId}`}>
-              <button className={styles.btnProfile}> Profile</button>
+              <button className={styles.btnProfile}>Profile</button>
             </Link>
           </div>
         </div>
@@ -144,12 +144,12 @@ export default function Profile() {
               ))}
             </select>
           </div>
-          <div className={styles.buttonContainer}>
+          <div className={styles.buttonCont}>
             <button className={styles.button} type="submit">
               Submit
             </button>
           </div>
-          <p>{alert}</p>
+          <p className={styles.alertMessages}>{alert}</p>
         </form>
       )}
     </div>
