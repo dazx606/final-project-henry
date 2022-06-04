@@ -140,7 +140,7 @@ router.get("/allCars", async (req, res, next) => {
   }
 });
 
-router.delete("/delete/:license_plate", async (req,res,next)=>{
+router.delete("/cars/delete/:license_plate", async (req,res,next)=>{
   const {license_plate} = req.params;
   try {
     let car = await IndividualCar.destroy({where:{license_plate}});
@@ -149,6 +149,40 @@ router.delete("/delete/:license_plate", async (req,res,next)=>{
   } catch (error) {
     next(error)
   }
-})
+});
+
+//===================================================RESERVATIONS==================================
+
+router.get("/reservations", async (req,res,next)=>{
+    
+  const {userId, orderId} = req.query;
+
+  try {
+    if(userId){
+      let orders = await RentOrder.findAll({where:{userId}});
+      return orders.length ?  res.send({orders}) : res.status(404).send({msg:"There are no orders for the user"})
+    }
+    if(orderId){
+      let order = await RentOrder.findOne({where:{id:orderId}});
+      return order !==null ?  res.send({order}) : res.status(404).send({msg:"order not found"});
+    }
+    let orders = await RentOrder.findAll();
+    orders.length ?  res.send({orders}) : res.status(404).send({msg:"There are no orders"})
+
+  } catch (error) {
+    next(error)
+  }
+});
+
+router.delete("/reservations/delete/:id", async (req,res,next)=>{
+  const {id} = req.params;
+  try {
+    let order = await RentOrder.destroy({where:{id}});
+    if (order === 1) res.send({msg:"Deleted", id});
+    else if (order === 0) res.status(404).send({msg:"Order not found, check and try again", id});
+  } catch (error) {
+    next(error)
+  }
+});
 
 module.exports = router;
