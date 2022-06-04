@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import styles from "./ProfileOptions.module.css";
 import { setProfileOptions } from "../../redux/actions";
 
-function ProfileOptions() {  
+function ProfileOptions() {
   const profileOptions = useSelector((state) => state.profileOptions);
   const dispatch = useDispatch()
 
@@ -44,7 +44,7 @@ function ProfileOptions() {
 
 function ProfileInfo() {
   const userInfo = useSelector((state) => state.user);
-  
+
   return (
     <div className={styles.profileinfo}>
       {userInfo.data && (
@@ -132,7 +132,7 @@ function ProfileInfo() {
 
 function ProfileOrders() {
   const userInfo = useSelector((state) => state.user);
- 
+
   return (
     <div className={styles.profileinfo}>
       {userInfo.data && (
@@ -150,7 +150,34 @@ function ProfileOrders() {
           </div>
           <div
             style={{ display: "flex", fontSize: ".8rem", padding: "1rem 1rem" }}
-          ></div>
+          >
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <p>Startin Date</p>
+                  </td>
+                  <td>
+                    <p>Ending Date</p>
+                  </td>
+                  <td>
+                    <p>Status</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p>Startin Date</p>
+                  </td>
+                  <td>
+                    <p>Ending Date</p>
+                  </td>
+                  <td>
+                    <p>Status</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>
