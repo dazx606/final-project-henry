@@ -3,21 +3,26 @@ const express = require('express');
 const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } = process.env;
-const { filterDates, datePlus, filterRentDates } = require("./controllers.js");
+const { filterDates } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 const userRouter = require("./user");
 const adminRouter = require("./admin");
+const rentRouter = require("./rent");
+
+const endpointSecret = STRIPE_SECRET_WEBHOOK_KEY;
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
 
 const router = Router();
 router.use("/user", userRouter);
 router.use("/admin", adminRouter);
+router.use("/rent", rentRouter);
 
 router.get('/cars/:locationId', async (req, res, next) => {
   const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1, model, carsPerPage = 8 } = req.query
   const { locationId } = req.params;
   const brandModelFilter = brand ? { where: { brand: brand } } : { where: null };
   const categoryFilter = category ? { where: { name: category } } : { where: null };
-  if (model) brandModelFilter.where.model = model
+  if (model) brandModelFilter.where.model = model;
 
   try {
     if (!startingDate && endingDate) return res.status(417).json({ msg: "Missing startingDate!" });
@@ -168,52 +173,8 @@ router.post("/send-email", async (req, res, next) => {
     next(error);
   }
 });
-//------------------------------------------------Stripe--------------------------------
 
-// This is a public sample test API key.
-// Don’t submit any personally identifiable information in requests made with this key.
-// Sign in to see your own test API key embedded in code samples.
-const stripe = require("stripe")(STRIPE_SECRET_KEY);
-
-const YOUR_DOMAIN = "http://localhost:3000/booking";
-
-router.post("/create-checkout-session", async (req, res, next) => {
-  try {
-    const { email = "unemaildetest@gmail.com", rentOrderId = 25, numberOfDays = 5, carPriceId = "price_1L5fSdDNuL2bCfdELZ2jLRoI", optionalEquipment = [] } = req.body;   //{numberOfDays, carPriceId, optionalEquipment:[GPSPriceId,childSeatPriceId,etc]}
-    if (!numberOfDays || !carPriceId || !email || !rentOrderId) return res.status(400).json("Missing information!!!");
-
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price: carPriceId,
-          quantity: numberOfDays,
-        },
-        ...optionalEquipment.map((id) => ({
-          price: id,
-          quantity: numberOfDays,
-        })),
-      ],
-      customer_email: email,
-      client_reference_id: rentOrderId,
-      mode: 'payment',
-      success_url: `${YOUR_DOMAIN}?success=true`,
-      cancel_url: `${YOUR_DOMAIN}?canceled=true`,
-    });
-    res.redirect(303, session.url);
-  } catch (error) {
-    next(error);
-  }
-});
-
-
-const fulfillOrder = (session) => {
-  // TODO: fill me in
-  console.log("Fulfilling order", session);
-}
-
-const endpointSecret = STRIPE_SECRET_WEBHOOK_KEY;
-
-router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+router.post('/webhook', express.raw({ type: 'application/json' }), (req, res, next) => {
   const payload = req.body;
 
   const sig = req.headers['stripe-signature'];
@@ -226,52 +187,11 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res) =>
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  if (event.type === 'checkout.session.completed') {
-    fulfillOrder(event.data.object);
-  }
-
-  res.json({ received: true });
-});
-
-
-
-router.post("/rent/car", async (req, res, next) => {
-  const { location, model, startingDate, endingDate, optionalEquipments = [], drivers, endLocation, user = 1 } = req.body;
   try {
-    if (!location || !model || !startingDate || !endingDate || !drivers.length || !endLocation || !user) return res.status(417).json({ msg: "Missing info!" });
-    if (new Date(startingDate) > new Date(endingDate)) return res.status(409).json({ msg: "StartingDate cannot be greater than endingDate!" });
-    const endingDateWithExtra2Days = datePlus(new Date(endingDate), 2)
-    let locationCarModels = await Location.findByPk(location,
-      {
-        include: [
-          {
-            model: CarModel, where: { model }, through: { attributes: [] }, include: [
-              { model: IndividualCar, where: { locationId: location }, attributes: ['id'], include: [{ model: RentOrder, attributes: ['startingDate', 'endingDate'] }] }
-            ]
-          },
-        ]
-      }
-    )
-
-    locationCarModels = locationCarModels.toJSON();
-
-    const availableCars = filterRentDates(locationCarModels, startingDate, endingDateWithExtra2Days);
-
-    if (!availableCars.carModels[0].individualCars.length) return res.status(404).json({ msg: "No corresponding car found!" });
-    let car = availableCars.carModels[0].individualCars[0];
-    availableCars.carModels[0].individualCars.forEach(c => c.rentOrders.length < car.rentOrders.length ? car = c : null);
-
-    let newDrivers = [];
-    // const dbUser = await User.findOne({ where: { id: user } });
-    await Promise.all(drivers.map(d => Driver.findOrCreate({ where: { firstName: d.firstName, lastName: d.lastName, licenseNumber: d.licenseNumber, documentId: d.documentId, userId: user } }))).then(d => newDrivers = d)
-
-    const newRentOrder = await RentOrder.create({ startingDate, endingDate: endingDateWithExtra2Days.toDateString(), individualCarId: car.id, userId: user, locationId: location })
-
-    await newRentOrder.addDrivers(newDrivers.map(d => d[0].toJSON().id));
-    await Promise.all(optionalEquipments.map((e) => OptionalEquipment.findOne({ where: { name: e } })))
-      .then(equip => newRentOrder.addOptionalEquipments(equip))
-
-    return res.json(newRentOrder.toJSON().id);
+    if (event.type === 'checkout.session.completed') {
+      RentOrder.update({ payed: true }, { where: { id: event.data.object.client_reference_id } });
+    }
+    return res.json({ received: true });
   } catch (error) {
     next(error);
   }

@@ -27,7 +27,7 @@ conn.sync({ force: true }).then(async () => {
     await preloadDriver();
     await preloadUser();
     await preloadRentOrder();
-    // await createStripeIdEquip();
+    await createStripeIdEquip();
     console.log("Preload done");
   } catch (error) {
     console.log(error);
