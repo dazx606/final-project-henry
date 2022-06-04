@@ -10,7 +10,6 @@ import {
   DELETE_CAR_DETAILS,
   GET_RENTING_CAR,
   DELETE_RENTING_CAR,
-  RENT_ID,
   SET_USER,
   SAVE_USER,
   PATCH_USER,
@@ -34,7 +33,6 @@ const initialState = {
     orderType: "pricePerDay",
     page: 1,
   },
-  rentId: "",
   savedUser: [],
   user: {},
   profileOptions: "information",
@@ -99,11 +97,6 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         selection: payload,
-      };
-    case RENT_ID:
-      return {
-        ...state,
-        rentId: payload,
       };
     case SET_USER:
       return {
