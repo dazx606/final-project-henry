@@ -40,12 +40,13 @@ const initialState = {
   rentId: "",
   savedUser: [],
   user: {},
+  token:"",
   users: [],
   profileOptions: "information",
   adminOptions: "users",
 };
 
-export default function rootReducer(state = initialState, { type, payload }) {
+export default function rootReducer(state = initialState, { type, payload, token }) {
   switch (type) {
     case GET_LOCATIONS:
       return {
@@ -114,6 +115,7 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         user: payload,
+        token
       };
     case SAVE_USER:
       return {
