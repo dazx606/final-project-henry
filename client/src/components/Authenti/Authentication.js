@@ -15,12 +15,20 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
   const dispatch = useDispatch();
   const savedUser = useSelector((state) => state.savedUser);
   const completeUser = useSelector((state) => state.user);
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(saveUser(user.email)) 
+      console.log(user);
+    }  
+   
+  }, [user, dispatch])
 
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(saveUser(user.email, user.picture));
       console.log(user.picture)
     }
+    console.log(user);
   }, [user, dispatch]);
 
   useEffect(() => {
