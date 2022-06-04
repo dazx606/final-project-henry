@@ -67,15 +67,17 @@ export default function Profile() {
   return (
     <div className={styles.profile}>
       {alert && alert.split(" ")[3] === "update" ? (
-        <div>
-          <div>{alert}</div>
-          <Link to="/">
-            <button>Home</button>
-          </Link>
-          <Link to={`/profile/${userId}`}>
-            <button>Profile</button>
-          </Link>
-
+        <div className={styles.buttonContainer}>
+          <div className={styles.message}>{alert}</div>
+          <div>
+            {" "}
+            <Link to="/">
+              <button>Home</button>
+            </Link>
+            <Link to={`/profile/${userId}`}>
+              <button className={styles.btnProfile}> Profile</button>
+            </Link>
+          </div>
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
@@ -142,8 +144,10 @@ export default function Profile() {
               ))}
             </select>
           </div>
-          <div className={styles.buttonCont}>
-            <button type="submit">Submit</button>
+          <div className={styles.buttonContainer}>
+            <button className={styles.button} type="submit">
+              Submit
+            </button>
           </div>
           <p>{alert}</p>
         </form>

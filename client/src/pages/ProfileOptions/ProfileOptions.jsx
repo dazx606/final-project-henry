@@ -6,15 +6,10 @@ import { NavLink } from "react-router-dom";
 import styles from "./ProfileOptions.module.css";
 import { setProfileOptions } from "../../redux/actions";
 
-function ProfileOptions() {
-  const { isAuthenticated, loginWithPopup, isLoading } = useAuth0();
-  const userInfo = useSelector((state) => state.user);
-  // const [profileInformation, setProfileInformation] = useState(true);
-  // const [profileOrders, setProfileOrders] = useState(false);
+function ProfileOptions() {  
   const profileOptions = useSelector((state) => state.profileOptions);
   const dispatch = useDispatch()
 
-  
   return (
     <div className={styles.container}>
       <div className={styles.selection}>
@@ -24,8 +19,6 @@ function ProfileOptions() {
             className={styles.options}
             onClick={(e) => {
               dispatch(setProfileOptions(e.target.value));
-              // setProfileInformation(true);
-              // setProfileOrders(false);
             }}
           >
             Profile Information
@@ -35,8 +28,6 @@ function ProfileOptions() {
             className={styles.options}
             onClick={(e) => {
               dispatch(setProfileOptions(e.target.value));
-              // setProfileInformation(false);
-              // setProfileOrders(true);
             }}
           >
             My Reservations
@@ -65,7 +56,7 @@ function ProfileInfo() {
               justifyContent: "space-between",
             }}
           >
-            <span style={{ fontSize: ".8rem", fontWeight: "700" }}>
+            <span className={styles.proInfotle} >
               PROFILE INFORMATION
             </span>
             <NavLink to={`/user/${userInfo.data.id}`}>

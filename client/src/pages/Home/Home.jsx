@@ -9,6 +9,7 @@ import Categories from '../../components/Categories/Categories';
 import Alert from '../../components/Alert/Alert';
 import Benefits from '../../components/Benefits/Benefits';
 
+
 function Home() {
     const city = useSelector((state) => state.city);
     const hide = useSelector((state) => state.hideAlert);
@@ -25,6 +26,7 @@ function Home() {
             page: 1
         }))
     }, [dispatch]);
+
 
     return (
         <div className={styles.homeCont}>
@@ -46,6 +48,7 @@ function Home() {
             <div>
                 <Benefits />
             </div>
+
         </div>
     )
 
