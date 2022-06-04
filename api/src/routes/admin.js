@@ -37,16 +37,18 @@ router.get("/", (req, res, next) => {
 // ============ USERS
 router.get("/users", async (req, res, next) => {
   try {
-    const users = await User.findAll({
-      include: [
-        { model: RentOrder, attributes: ["startingDate", "endingDate"] },
-        {
-          model: Driver,
-          attributes: ["firstName", "lastName"],
-        },
-        { model: Payment, attributes: ["firstName", "lastName"] },
-      ],
-    });
+    const users = await User.findAll(
+    //   {
+    //   include: [
+    //     { model: RentOrder, attributes: ["startingDate", "endingDate"] },
+    //     {
+    //       model: Driver,
+    //       attributes: ["firstName", "lastName"],
+    //     },
+    //     { model: Payment, attributes: ["firstName", "lastName"] },
+    //   ],
+    // }
+    );
     return res.json(users);
   } catch (error) {
     console.log(error);

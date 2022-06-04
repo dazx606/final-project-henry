@@ -39,12 +39,15 @@ router.get("/", authMiddleWare, async (req, res, next) => {
 
 // ============================ POST =============================================================//
 router.post("/", async (req, res, next) => {
-  const { email } = req.body;
+  const { email, picture } = req.body;
   try {
     const [user, created] = await User.findOrCreate({
       where: {
         email: email,
       },
+      defaults:{
+        picture: picture
+      }
     });
     let completed;
     user.firstName && user.lastName && user.documentId && user.license
@@ -53,7 +56,7 @@ router.post("/", async (req, res, next) => {
     if (created)
       return res
         .status(201)
-        .json({ msg: "User created", data: user.id, completed });
+        .json({ msg: "User created", data: user.id, completed});
     return res.status(200).json({
       msg: "User found",
       data: user.id,

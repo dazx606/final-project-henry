@@ -191,7 +191,8 @@ const preloadUser = async () => {
           where: { email: u.email },
           defaults: {
             email: u.email,
-            admin: u.admin ? u.admin : null
+            admin: u.admin ? u.admin : null,
+            picture: u.picture? u.picture : null
           },
         });
         if (newUser[1] && u.drivers?.length) {

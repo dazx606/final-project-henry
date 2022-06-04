@@ -171,10 +171,10 @@ export function setUserInfo(getToken, email) {
   };
 }
 
-export function saveUser(email) {
+export function saveUser(email, picture) {
   return async (dispatch) => {
     try {
-      const response = await addUser(email);
+      const response = await addUser(email, picture);
       return dispatch({
         type: SAVE_USER,
         payload: [response.data.msg, response.data.data, response.data.complited],
@@ -199,11 +199,12 @@ export function patchUser(getToken, payload) {
     }
   };
 }
-export function getAdminUsers(getToken) {
+export function getAdminUsers(token) {
   return async (dispatch) => {
     try {
-      const token = await getToken();
+      
       let response = await getAllUsersInfo(token);
+      console.log(response.data)
       return dispatch({
         type: GET_ALL_USERS_INFO,
         payload: response.data,
