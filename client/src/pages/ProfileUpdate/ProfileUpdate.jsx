@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLocations, patchUser } from "../../redux/actions";
+import { getLocations, patchUser,setUserInfo } from "../../redux/actions";
 import styles from "./profileUpdate.module.css";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -32,7 +32,6 @@ export default function Profile() {
 
     if (!user.email_verified) {
       setAlert("Your email is not  verified");
-
       return;
     }
     if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
@@ -44,7 +43,7 @@ export default function Profile() {
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    // dispatch(setUserInfo(getAccessTokenSilently, user.email));
+     dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information is update! :)");
   }
   function handleChange(e) {
@@ -68,14 +67,14 @@ export default function Profile() {
     <div className={styles.profile}>
       {alert && alert.split(" ")[3] === "update" ? (
         <div className={styles.buttonContainer}>
-          <div>{alert}</div>
+          <div className={styles.message}>{alert}</div>
           <div>
             {" "}
             <Link to="/">
-              <button className={styles.btnProfile}>Home</button>
+              <button>Home</button>
             </Link>
             <Link to={`/profile/${userId}`}>
-              <button className={styles.btnProfile}>Profile</button>
+              <button className={styles.btnProfile}> Profile</button>
             </Link>
           </div>
         </div>
