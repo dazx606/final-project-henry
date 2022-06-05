@@ -17,6 +17,7 @@ import {
   DELETE_USER_INFO,
   SET_PROFILE_OPTIONS,
   SET_ADMIN_OPTIONS,
+  GET_USER_RESERVATIONS
 } from "../actions";
 
 const initialState = {
@@ -38,6 +39,7 @@ const initialState = {
   },
   savedUser: [],
   user: {},
+  userReservations: [],
   token:"",
   users: [],
   profileOptions: "information",
@@ -140,6 +142,12 @@ export default function rootReducer(state = initialState, { type, payload, token
       return{
         ...state,
         adminOptions: payload
+      }
+    }
+    case GET_USER_RESERVATIONS: {
+      return {
+        ...state,
+        userReservations: payload
       }
     }
 

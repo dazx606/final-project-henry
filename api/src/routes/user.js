@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { User } = require("../db.js");
+const { User, RentOrder, IndividualCar, CarModel, Location } = require("../db.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
@@ -34,6 +34,20 @@ router.get("/", authMiddleWare, async (req, res, next) => {
     res.status(200).send({ data: user, completed });
   } catch (error) {
     next(error);
+  }
+});
+
+router.get("/reservations", async (req,res,next)=>{
+    
+  const {userId} = req.query;
+
+  try {
+    if(userId){
+      let orders = await RentOrder.findAll({where:{userId}, include:[{model:IndividualCar, include:[CarModel, Location]}]});
+      return orders.length ?  res.send(orders) : res.status(404).send({msg:"There are no orders for the user"})
+    }
+  } catch (error) {
+    next(error)
   }
 });
 
