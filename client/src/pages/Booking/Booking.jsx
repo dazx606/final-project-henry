@@ -13,7 +13,7 @@ const datePlus = (date, num) => {
 }
 
 const getDatesInRange = (startDate, endDate) => {
-    const date = new Date(startDate.getTime());
+    const date = new Date(startDate.toDateString());
     const dates = [];
     while (date <= endDate) {
         dates.push(new Date(date));
@@ -61,6 +61,11 @@ const calcMaxAvailableDate = (firstDay, unavailableDays) => {
     return lastDay
 }
 
+const checkInvalidDate = (day, array) => {
+    day = day.toDateString();
+    return array.some(d => d.toDateString() === day);
+}
+
 export default function Booking() {
     const [message, setMessage] = useState("");
     const [startingDate, setStartingDate] = useState(new Date());
@@ -70,7 +75,6 @@ export default function Booking() {
     const allLocation = useSelector(state => state.locations)
     const [endLocation, setEndLocation] = useState(location)
     const locationCarsModels = useSelector(state => state.locationCars.models)
-    const [didRent, setDidRent] = useState(false)
     const carRenting = useSelector(state => state.carRenting)
     const [selectedLocationModel, setSelectedLocationModel] = useState(false)
     const [initialDisableDay, setInitialDisableDay] = useState([])
@@ -80,6 +84,10 @@ export default function Booking() {
     const filteredCars = useSelector(state => state.filteredCars[0])
     const [show, setShow] = useState(false);
     const [agree, setAgree] = useState(false);
+    const userId = useSelector(state => state.user.data?.id)
+    const [validDays, setValidDays] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const userDriver = useSelector(state => state.user)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -93,23 +101,35 @@ export default function Booking() {
     }, [location, carRenting])
 
     useEffect(() => {
+        setStartingDate(new Date());
+        setEndingDate(datePlus(new Date(), 1));
         if (filteredCars) {
             const unailebleDays = calcUnavailableInitialDays(filteredCars.individualCars, filteredCars.existingRents)
-            setInitialDisableDay(unailebleDays[0])
-            setUnavailableDay(unailebleDays[1])
+            setInitialDisableDay(unailebleDays[0]);
+            setUnavailableDay(unailebleDays[1]);
+            if (checkInvalidDate(new Date(), unailebleDays[0]) || checkInvalidDate(datePlus(new Date(), 1), unailebleDays[1])) {
+                setValidDays(false);
+            } else setValidDays(true);
         }
-        setStartingDate(new Date())
-        setEndingDate(datePlus(new Date(), 1))
         setOptionalEquipments([]);
     }, [filteredCars])
 
     useEffect(() => {
-        setMaxEndingDisableDate([calcMaxAvailableDate(startingDate, unavailableDay)])
+        setMaxEndingDisableDate([calcMaxAvailableDate(startingDate, unavailableDay)]);
     }, [startingDate, unavailableDay])
 
+    useEffect(() => {
+        if (filteredCars) {
+            const unailebleDays = calcUnavailableInitialDays(filteredCars.individualCars, filteredCars.existingRents);
+            if (checkInvalidDate(startingDate, unailebleDays[0]) || checkInvalidDate(endingDate, unailebleDays[1])) {
+                setValidDays(false);
+            } else setValidDays(true);
+        }
+    }, [startingDate, endingDate])
+
     const handleStartingDateChange = (value) => {
-        setStartingDate(value)
-        setEndingDate(datePlus(value, 1))
+        setStartingDate(value);
+        setEndingDate(datePlus(value, 1));
     }
 
     const checkboxHandler = () => {
@@ -132,10 +152,21 @@ export default function Booking() {
         }
     }, []);
 
+    useEffect(() => {
+        if (userDriver.data && userDriver.data.firstName && userDriver.data.lastName && userDriver.data.license && userDriver.data.documentId) {
+            setDrivers([{
+                firstName: userDriver.data.firstName,
+                lastName: userDriver.data.lastName,
+                licenseNumber: userDriver.data.license,
+                documentId: userDriver.data.documentId
+            }])
+        }
+    }, [setDrivers, userDriver])
+
     const handleRentForm = (e) => {
         e.preventDefault();
-        setDidRent(true);
-        dispatch(rentCar(location, carRenting.model, startingDate.toDateString(), endingDate.toDateString(), optionalEquipments, drivers, endLocation))
+        setLoading(true);
+        dispatch(rentCar(location, carRenting.model, startingDate.toDateString(), endingDate.toDateString(), optionalEquipments, drivers, endLocation, userId))
     }
 
     const handleSelectModel = (e) => {
@@ -172,7 +203,7 @@ export default function Booking() {
         : <div className={styles.container}>
             <section className={styles.containerForm}>
                 <div className={styles.container1}>
-                    <form hidden={didRent} onSubmit={handleRentForm} className={styles.rentForm}>
+                    <form onSubmit={handleRentForm} className={styles.rentForm}>
                         <div className={styles.title}>
                             <h3>RENTAL FORM</h3>
                         </div>
@@ -244,6 +275,7 @@ export default function Booking() {
                                 </div>
                             }
                         </div>
+                        {!validDays && <p>Invalid dates</p>}
                         <Drivers drivers={drivers} setDrivers={setDrivers} />
                         <div>
                             <label>Return location: </label>
@@ -254,64 +286,71 @@ export default function Booking() {
                         </div>
                         <div className={styles.container2}>
                             <table>
-                                <tr>
-                                    <td className={styles.colum1}><label>Price Per Day: </label></td>
-                                    <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
-                                </tr>
-                                <tr>
-                                    <td className={styles.colum1}><label>Total Days: </label></td>
-                                    <td className={styles.colum2}><span>{endingDate.getDate() - startingDate.getDate()}</span></td>
-                                </tr>
-                                <tr>
-                                    <td className={styles.colum1}><label>Total Price: </label></td>
-                                    <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((endingDate.getDate() - startingDate.getDate()) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
-                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td className={styles.colum1}><label>Price Per Day: </label></td>
+                                        <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.colum1}><label>Total Days: </label></td>
+                                        <td className={styles.colum2}><span>{getDatesInRange(startingDate, endingDate).length - 1}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.colum1}><label>Total Price: </label></td>
+                                        <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((getDatesInRange(startingDate, endingDate).length - 1) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div className={styles.termsConditions}>
                             <input type="checkbox" onChange={checkboxHandler} />
-                            <label htmlFor="agree"> I agree to <a className={styles.terms} href={TermsConditions} onClick={() => { setShow(true) }}>terms and conditions</a></label>
+                            <label htmlFor="agree"> I agree to <a className={styles.terms} onClick={() => { setShow(true) }}>terms and conditions</a></label>
                         </div>
-                        <div className={styles.buttonRent}>
-                            <button disabled={!agree || !location || !carRenting.model || !drivers.length || !endLocation} type="submit">
-                                Rent
-                            </button>
-                        </div>
+                        {!loading ?
+                            <div className={styles.buttonRent}>
+                                <button disabled={!agree || !location || !carRenting.model || !drivers.length || !endLocation || !validDays} type="submit">
+                                    Rent
+                                </button>
+                            </div>
+                            : <p>Loading...</p>
+                        }
+
                     </form>
                 </div>
-                {didRent &&
+                {/* {didRent &&
                     <div>
                         <div className={styles.total2}>
                             <table>
-                                <tr>
-                                    <td className={styles.colum1}><label>Price Per Day: </label></td>
-                                    <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
-                                </tr>
-                                <tr>
-                                    <td className={styles.colum1}><label>Total Days: </label></td>
-                                    <td className={styles.colum2}><span>{endingDate.getDate() - startingDate.getDate()}</span></td>
-                                </tr>
-                                <tr>
-                                    <td className={styles.colum1}><label>Total Price: </label></td>
-                                    <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((endingDate.getDate() - startingDate.getDate()) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
-                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <td className={styles.colum1}><label>Price Per Day: </label></td>
+                                        <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.colum1}><label>Total Days: </label></td>
+                                        <td className={styles.colum2}><span>{getDatesInRange(startingDate, endingDate).length - 1}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td className={styles.colum1}><label>Total Price: </label></td>
+                                        <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((getDatesInRange(startingDate, endingDate).length - 1) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
-                        <div className={styles.buttons}>
-                            <div>
-                                <button type="submit">
-                                    Pay at Office
-                                </button>
-                            </div>
-                            <form action={`${URL}create-checkout-session`} method="POST">
-                                <div>
-                                    <button type="submit">
-                                        Pay Now
-                                    </button>
+                        {
+                            rentId ?
+                                <div className={styles.buttons}>
+                                    <form action={`${URL}rent/create-checkout-session/${rentId}`} method="POST">
+                                        <div>
+                                            <button type="submit">
+                                                Pay Now
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
-                        </div>
-                    </div>}
+                                : <p>Loading...</p>
+                        }
+                    </div>} */}
                 <TermsConditions show={show} onClose={() => setShow(false)} />
             </section>
         </div>

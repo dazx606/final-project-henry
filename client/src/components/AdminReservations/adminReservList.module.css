@@ -1,0 +1,60 @@
+.usersBox {
+  width: auto;
+  height: auto;
+  background-color: var(--color6Tr);
+  border: groove 1px var(--color4Tr);
+  box-shadow: 0px 0px 8px 4px var(--color6Tr);
+  margin: 2rem 7rem;
+  padding: 0.5rem;
+  color: var(--color3Tr);
+}
+
+.listTitle {
+  display: flex;
+}
+
+.userListItem {
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+}
+
+.name {
+  width: 12rem;
+  display: flex;
+  justify-content: center;
+}
+.email {
+  width: 20rem;
+  display: flex;
+  justify-content: center;
+}
+.trashIcon {
+  width: 10rem;
+  display: flex;
+  justify-content: center;
+}
+.imgIcon {
+  color: var(--color4);
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0px 0px 0px 24px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  display: flex;
+  font-size: 1.2em;
+  font-weight: 700;
+}
+.reservation {
+  width: 20rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.startingDate {
+  width: 20rem;
+  display: flex;
+  justify-content: center;
+  
+}
