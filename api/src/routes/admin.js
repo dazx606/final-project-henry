@@ -166,7 +166,10 @@ router.get("/reservations", async (req,res,next)=>{
       let order = await RentOrder.findOne({where:{id:orderId}});
       return order !==null ?  res.send({order}) : res.status(404).send({msg:"order not found"});
     }
-    let orders = await RentOrder.findAll();
+    let orders = await RentOrder.findAll({ include:{
+      model:User,
+      attributes: ['firstName','lastName','email'],
+    }});
     orders.length ?  res.send({orders}) : res.status(404).send({msg:"There are no orders"})
 
   } catch (error) {

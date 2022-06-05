@@ -1,7 +1,19 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 import axios from "axios";
-import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser,   getAllUsersInfo,
-  deleteUserInfo, } from "../../services/services";
+import {
+  getAllLocations,
+  getCarsByLocation,
+  filterCars,
+  getCarsDetails,
+  sendAMessage,
+  getUserInformation,
+  addUser,
+  updateUser,
+  getAllUsersInfo,
+  deleteUserInfo,
+  getAllReservs,
+  deleteReserv,
+} from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
@@ -21,6 +33,8 @@ export const GET_ALL_USERS_INFO = "GET_ALL_USERS_INFO";
 export const DELETE_USER_INFO = "DELETE_USERS_INFO";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 export const SET_ADMIN_OPTIONS = "SET_ADMIN_OPTIONS";
+export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
+export const DELETE_RESERVATION = "DELETE_RESERVATION";
 
 export const URL = "http://localhost:3001/";
 
@@ -61,7 +75,17 @@ export function getRentingCar(carModel) {
 }
 
 export function getFilteredCars(
-  { brand = "", category = "", order = "ASC", startingDate = "", endingDate = "", orderType = "pricePerDay", page = 1, model = "", carsPerPage = 8 },
+  {
+    brand = "",
+    category = "",
+    order = "ASC",
+    startingDate = "",
+    endingDate = "",
+    orderType = "pricePerDay",
+    page = 1,
+    model = "",
+    carsPerPage = 8,
+  },
   locationId
 ) {
   return async (dispatch) => {
@@ -145,13 +169,22 @@ export function showAlert(payload) {
 export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation, userId) {
   return async (dispatch) => {
     try {
-      const res = await axios.post(`${URL}rent/car`, { location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation, userId });
+      const res = await axios.post(`${URL}rent/car`, {
+        location,
+        model,
+        startingDate,
+        endingDate,
+        optionalEquipments,
+        drivers,
+        endLocation,
+        userId,
+      });
       window.location.href = res.data.url;
     } catch (error) {
       console.log(error);
     }
-  }
-};
+  };
+}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -159,7 +192,7 @@ export function setUserInfo(getToken, email) {
     try {
       if (email) {
         const token = await getToken();
-        let response = await getUserInformation(token, email)
+        let response = await getUserInformation(token, email);
         return dispatch({ type: SET_USER, payload: response.data });
       }
     } catch (error) {
@@ -199,9 +232,8 @@ export function patchUser(getToken, payload) {
 export function getAdminUsers(token) {
   return async (dispatch) => {
     try {
-      
       let response = await getAllUsersInfo(token);
-      console.log(response.data)
+      console.log(response.data);
       return dispatch({
         type: GET_ALL_USERS_INFO,
         payload: response.data,
@@ -230,13 +262,47 @@ export function deleteUser(getToken, payload) {
 export function setProfileOptions(payload) {
   return {
     type: SET_PROFILE_OPTIONS,
-    payload
-  }
+    payload,
+  };
 }
 
 export function setAdminOptions(payload) {
-  return{
+  return {
     type: SET_ADMIN_OPTIONS,
-    payload
-  }
+    payload,
+  };
+}
+export function getAllReservations(getToken) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      let response = await getAllReservs(token);
+      return dispatch({
+        type: GET_ALL_RESERVATIONS,
+        payload: response.data.orders,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function deleteReservation(getToken, payload) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      await deleteReserv(payload, token);
+      let response = await getAllReservs(token);
+      return dispatch({
+        type: DELETE_RESERVATION,
+        payload: response.data.orders,
+      });
+    } catch (error) {
+      if(error?.response?.data?.msg==="There are no orders"){
+        return dispatch({
+          type: DELETE_RESERVATION,
+          payload:[],
+        });
+      }
+    }
+  };
 }

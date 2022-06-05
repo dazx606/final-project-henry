@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getLocations, patchUser,setUserInfo } from "../../redux/actions";
+import { getLocations, patchUser, setUserInfo } from "../../redux/actions";
 import styles from "./profileUpdate.module.css";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -8,6 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 export default function Profile() {
   const [errors, setErrors] = useState({});
   const locations = useSelector((state) => state.locations);
+  const userInfo = useSelector((state) => state.user);
   const { userId } = useParams();
   const { user, getAccessTokenSilently } = useAuth0();
   const [input, setInput] = useState({ firstName: "", lastName: "", phone: "", license: "", documentId: "" });
@@ -16,35 +17,41 @@ export default function Profile() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (!locations.length) dispatch(getLocations());
-  }, [dispatch]);
+    if (user) {
+      dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!user) return;
     setInput({
       ...input,
-      firstName: user.given_name,
-      lastName: user.family_name,
+      firstName: userInfo.data?.firstName || user.given_name || "",
+      lastName: userInfo.data?.lastName || user.family_name || "",
+      phone: userInfo.data?.phone || "",
+      license: userInfo.data?.license || "",
+      documentId: userInfo.data?.documentId || "",
     });
-  }, [user]);
+  }, [userInfo]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!user.email_verified) {
-      setAlert("Your email is not  verified");
+      setAlert("Your email is not verified");
+
       return;
     }
     if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
-      setAlert(" Please complete with your correct information");
+      setAlert("Complete with your correct information");
       return;
     }
     if (!input.firstName || !input.lastName || !input.license || !input.documentId) {
-      setAlert(" Please Complete your information");
+      setAlert("Complete your information");
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-     dispatch(setUserInfo(getAccessTokenSilently, user.email));
-    setAlert("Your information is update! :)");
+    setAlert("Your information is update");
   }
   function handleChange(e) {
     setInput({
@@ -69,7 +76,6 @@ export default function Profile() {
         <div className={styles.buttonContainer}>
           <div className={styles.message}>{alert}</div>
           <div>
-            {" "}
             <Link to="/">
               <button>Home</button>
             </Link>
@@ -117,8 +123,7 @@ export default function Profile() {
           <div>
             <div className={styles.titles}>Language: </div>
             <select className={styles.inputs} value={input.language} name="language" onChange={handleChange}>
-              <option value="English">English</option>
-              <option value="Spanish">Spanish</option>
+              <option value="English">English</option> <option value="Spanish">Spanish</option>
             </select>
           </div>
           <div className={styles.titles}>
@@ -145,7 +150,6 @@ export default function Profile() {
           </div>
           <div>
             <div className={styles.titles}>City: </div>
-
             <select className={styles.select} value={input.city} name="city" onChange={handleChange}>
               <option>City</option>
               {locations?.map((l) => (
@@ -155,12 +159,12 @@ export default function Profile() {
               ))}
             </select>
           </div>
-          <div className={styles.buttonCont}>
+          <div className={styles.buttonContainer}>
             <button className={styles.button} type="submit">
               Submit
             </button>
           </div>
-          <p className={styles.alertMessages}>{alert}</p>
+          <p>{alert}</p>
         </form>
       )}
     </div>

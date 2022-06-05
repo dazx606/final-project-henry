@@ -17,6 +17,8 @@ import {
   DELETE_USER_INFO,
   SET_PROFILE_OPTIONS,
   SET_ADMIN_OPTIONS,
+  GET_ALL_RESERVATIONS,
+  DELETE_RESERVATION
 } from "../actions";
 
 const initialState = {
@@ -41,6 +43,7 @@ const initialState = {
   users: [],
   profileOptions: "information",
   adminOptions: "users",
+  Orders: [],
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -140,6 +143,18 @@ export default function rootReducer(state = initialState, { type, payload }) {
         adminOptions: payload,
       };
     }
+     case GET_ALL_RESERVATIONS:{
+       return{
+         ...state,
+         orders:payload,
+       }
+     }
+     case DELETE_RESERVATION:{
+       return{
+         ...state,
+         orders:payload
+       }
+     }
 
     default:
       return { ...state };
