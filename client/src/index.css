@@ -40,7 +40,7 @@ code {
   --font3: 'Verdana', sans-serif;
 }
 
-button {
+.buttonGlobal {
   border: outset 1px var(--color4);
   background-color: var(--color1);
   border-radius: 0px;
@@ -53,14 +53,14 @@ button {
   padding: 10px;
 }
 
-button:hover{
+.buttonGlobal:hover{
   cursor: pointer;
   box-shadow: 0px 0px 8px 6px var(--color6Tr);
   font-weight: 500;
   border: outset 2px var(--color4);
 }
 
-select{
+.selectGlobal{
   border: outset 1px var(--color4);
   outline: none;
   padding:4px;
@@ -72,7 +72,7 @@ select{
   color: var(--color3);
 }
 
-select:hover{
+.selectGlobal:hover{
   cursor: pointer;
   box-shadow: 0px 0px 8px 6px var(--color6Tr);
   font-weight: 500;
@@ -91,7 +91,7 @@ select:hover{
   color: var(--color3);
 }
 
-input:hover{
+.inputGlobal:hover{
   cursor: pointer;
   box-shadow: 0px 0px 8px 6px var(--color6Tr);
   font-weight: 400;

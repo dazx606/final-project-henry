@@ -82,7 +82,10 @@ export function getFilteredCars(
     } catch (error) {
       return dispatch({
         type: GET_FILTERED_CARS,
-        payload: [],
+        payload: {
+          pagination: {},
+          models:[]
+        },
       });
     }
   };

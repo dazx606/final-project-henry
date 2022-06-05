@@ -61,15 +61,23 @@ router.get('/cars/:locationId', async (req, res, next) => {
       };
     });
 
-    if (startingDate)
-      filterdCars = filterDates(filterdCars, startingDate, endingDate);
+    if (startingDate) filterdCars = filterDates(filterdCars, startingDate, endingDate);
 
-    if (!filterdCars.length)
-      return res.status(404).json({ msg: "No corresponding car found!" });
+    if (!filterdCars.length) return res.status(404).json({ msg: "No corresponding car found!" });
 
-    if (parseInt(carsPerPage)) filterdCars = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
+    let result = {
+      pagination: {
+        page,
+        pageNum: 1
+      },
+      models: filterdCars
+    } 
+    if (parseInt(carsPerPage)){
+      result.models = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
+      result.pagination.pageNum = Math.ceil(filterdCars.length/carsPerPage) 
+    } 
 
-    return res.json(filterdCars);
+    return res.json(result);
   } catch (error) {
     next(error);
   }
