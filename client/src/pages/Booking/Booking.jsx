@@ -87,6 +87,7 @@ export default function Booking() {
     const userId = useSelector(state => state.user.data?.id)
     const [validDays, setValidDays] = useState(true)
     const [loading, setLoading] = useState(false)
+    const userDriver = useSelector(state => state.user)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -150,6 +151,15 @@ export default function Booking() {
             );
         }
     }, []);
+
+    useEffect(() => {
+        if(userDriver.data)setDrivers([{
+            firstName: userDriver.data.firstName,
+            lastName: userDriver.data.lastName,
+            licenseNumber: userDriver.data.license,
+            documentId: userDriver.data.documentId
+        }])
+    }, [setDrivers, userDriver])
 
     const handleRentForm = (e) => {
         e.preventDefault();

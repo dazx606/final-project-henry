@@ -18,6 +18,7 @@ export default function Drivers({ drivers, setDrivers }) {
         if (drivers.find(el => el.documentId === driver.documentId)) setError("Document ID already added")
     }, [drivers, driver.documentId])
 
+
     const handleDelete = (e) => {
         setDrivers(drivers.filter(el => el.documentId !== e.target.name))
     }
