@@ -23,6 +23,11 @@ const users = [
     email: "bea7san@gmail.com",
     admin: true,
     picture: 'https://lh3.googleusercontent.com/a/AATXAJxb4VcfsKKtL3AnvYCzjq6YgLPdhFzYOFDnvN1M=s96-c',
+  },
+  {
+    email: "cristian.achetoni@gmail.com",
+    admin: true,
+    picture: 'https://lh3.googleusercontent.com/a-/AOh14GiSpc2K2nqllAU_T4s1ABFe1xMTGSLqY8WqOL8NyQ=s96-c',
   }
 ];
 

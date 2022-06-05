@@ -10,7 +10,6 @@ import {
   DELETE_CAR_DETAILS,
   GET_RENTING_CAR,
   DELETE_RENTING_CAR,
-  RENT_ID,
   SET_USER,
   SAVE_USER,
   PATCH_USER,
@@ -19,6 +18,7 @@ import {
   GET_USER_FOR_ADMIN,
   SET_PROFILE_OPTIONS,
   SET_ADMIN_OPTIONS,
+  GET_USER_RESERVATIONS
 } from "../actions";
 
 const initialState = {
@@ -38,9 +38,10 @@ const initialState = {
     orderType: "pricePerDay",
     page: 1,
   },
-  rentId: "",
   savedUser: [],
   user: {},
+  userReservations: [],
+  token:"",
   users: [],
   userForAdmin:{},
   profileOptions: "information",
@@ -48,7 +49,7 @@ const initialState = {
   allCars:[],
 };
 
-export default function rootReducer(state = initialState, { type, payload }) {
+export default function rootReducer(state = initialState, { type, payload, token }) {
   switch (type) {
     case GET_LOCATIONS:
       return {
@@ -108,15 +109,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         selection: payload,
       };
-    case RENT_ID:
-      return {
-        ...state,
-        rentId: payload,
-      };
     case SET_USER:
       return {
         ...state,
         user: payload,
+        token
       };
     case SAVE_USER:
       return {
@@ -153,6 +150,12 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         adminOptions: payload
+      }
+    }
+    case GET_USER_RESERVATIONS: {
+      return {
+        ...state,
+        userReservations: payload
       }
     }
 

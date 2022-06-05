@@ -1,4 +1,10 @@
 const { Router } = require("express");
+const { expressjwt: jwt } = require("express-jwt");
+const jwks = require("jwks-rsa");
+const jwtScope = require('express-jwt-scope');
+require("dotenv").config();
+const router = Router();
+
 const {
   User,
   RentOrder,
@@ -9,9 +15,9 @@ const {
   CarModel,
   Payment,
 } = require("../db.js");
-const { expressjwt: jwt } = require("express-jwt");
-const jwks = require("jwks-rsa");
-require("dotenv").config();
+
+
+
 
 // ===================================== AUTHORIZATION MIDDLEWARE ==================================//
 const authMiddleWare = jwt({
@@ -25,16 +31,13 @@ const authMiddleWare = jwt({
   issuer: process.env.AUTH_ISSUER,
   algorithms: ["RS256"],
 });
+const checkScopes = (permissions)=> jwtScope(permissions, { scopeKey : 'permissions', requireAll: true });
 
-const router = Router();
+// router.use(authMiddleWare);
+// router.use(checkScopes("read:user"));
+  
 
-// ============================ GET =============================================================//
-router.get("/", (req, res, next) => {
-  try {
-    res.send("si");
-  } catch (error) { }
-});
-// ============ USERS
+// ===================================GET== USERS
 router.get("/users", async (req, res, next) => {
   const {email} = req.query
   console.log(email)
@@ -65,6 +68,8 @@ router.get("/users", async (req, res, next) => {
     next(error);
   }
 });
+
+
 
 router.delete("/users/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -144,6 +149,51 @@ router.get("/allCars", async (req, res, next) => {
   } catch (e) {
     next(e)
   }
-})
+});
+
+router.delete("/cars/delete/:license_plate", async (req,res,next)=>{
+  const {license_plate} = req.params;
+  try {
+    let car = await IndividualCar.destroy({where:{license_plate}});
+    if (car === 1) res.send({msg:"Deleted",license: license_plate});
+    else if (car === 0) res.status(404).send({msg:"Car not found, check and try again",license: license_plate});
+  } catch (error) {
+    next(error)
+  }
+});
+
+//===================================================RESERVATIONS==================================
+
+router.get("/reservations", async (req,res,next)=>{
+    
+  const {userId, orderId} = req.query;
+
+  try {
+    if(userId){
+      let orders = await RentOrder.findAll({where:{userId}, include:[{model:IndividualCar, include:[CarModel, Location]}]});
+      return orders.length ?  res.send({orders}) : res.status(404).send({msg:"There are no orders for the user"})
+    }
+    if(orderId){
+      let order = await RentOrder.findOne({where:{id:orderId}, include:[{model:IndividualCar, include:[CarModel, Location]}]});
+      return order !==null ?  res.send({order}) : res.status(404).send({msg:"order not found"});
+    }
+    let orders = await RentOrder.findAll({include:[{model:IndividualCar, include:[CarModel, Location]}]});
+    orders.length ?  res.send({orders}) : res.status(404).send({msg:"There are no orders"})
+
+  } catch (error) {
+    next(error)
+  }
+});
+
+router.delete("/reservations/delete/:id", async (req,res,next)=>{
+  const {id} = req.params;
+  try {
+    let order = await RentOrder.destroy({where:{id}});
+    if (order === 1) res.send({msg:"Deleted", id});
+    else if (order === 0) res.status(404).send({msg:"Order not found, check and try again", id});
+  } catch (error) {
+    next(error)
+  }
+});
 
 module.exports = router;

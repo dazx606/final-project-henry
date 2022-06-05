@@ -23,21 +23,33 @@ export function sendAMessage(message) {
   return axios.post(`${URL}send-email`, message);
 }
 
-export function getUserInformation(token, email){
-    
-    const options = {
-        method: "GET",
-        mode: "cors",
-        headers: { authorization: `Bearer ${token}` },
-      };
-      return axios(
-        `http://localhost:3001/user?email=${email}`,
-        options
-      );
+export function getUserInformation(token, email) {
+  console.log("token: " + token);
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios(
+    `http://localhost:3001/user?email=${email}`,
+    options
+  );
 };
 
-export function addUser(email, picture){
-    return axios.post(`${URL}user`, { email , picture} );
+export function getUserReservations(token, userId) {
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  }
+  return axios(
+    `${URL}user/reservations?userId=${userId}`,
+    options
+  )
+}
+
+export function addUser(email, picture) {
+  return axios.post(`${URL}user`, { email, picture });
 };
 
 export function updateUser(user, token) {

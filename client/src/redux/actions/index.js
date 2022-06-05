@@ -1,7 +1,8 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 import axios from "axios";
 import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser,   getAllUsersInfo,
-  deleteUserInfo, } from "../../services/services";
+  deleteUserInfo,
+  getUserReservations, } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
@@ -22,6 +23,7 @@ export const DELETE_USER_INFO = "DELETE_USERS_INFO";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 export const SET_ADMIN_OPTIONS = "SET_ADMIN_OPTIONS";
 export const GET_USER_FOR_ADMIN = "GET_USER_FOR_ADMIN";
+export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 
 export const URL = "http://localhost:3001/";
 
@@ -143,14 +145,11 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation) {
+export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation, userId) {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URL}rent/car`, { location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation });
-      return dispatch({
-        type: RENT_ID,
-        payload: response.data,
-      });
+      const res = await axios.post(`${URL}rent/car`, { location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation, userId });
+      window.location.href = res.data.url;
     } catch (error) {
       console.log(error);
     }
@@ -164,12 +163,25 @@ export function setUserInfo(getToken, email) {
       if (email) {
         const token = await getToken();
         let response = await getUserInformation(token, email)
-        return dispatch({ type: SET_USER, payload: response.data });
+        return dispatch({ type: SET_USER, payload: response.data, token });
       }
     } catch (error) {
       console.log(error);
     }
   };
+}
+
+export function userReservations(token, userId) {
+  return async (dispatch) => {
+    try {
+      if (userId) {
+        let response = await getUserReservations(token, userId);
+        return dispatch({ type: GET_USER_RESERVATIONS, payload: response.data, token });
+      }
+    } catch (error) {
+      return dispatch({ type: GET_USER_RESERVATIONS, payload: undefined, token })
+    }
+  }
 }
 
 export function saveUser(email, picture) {
