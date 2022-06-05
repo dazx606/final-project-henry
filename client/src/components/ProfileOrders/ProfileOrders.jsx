@@ -2,17 +2,18 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "../../pages/ProfileOptions/ProfileOptions.module.css";
 import { userReservations } from "../../redux/actions";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ProfileOrders() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
-  const token = useSelector(state => state.token)
   const reservations = useSelector((state) => state.userReservations)
+  const { getAccessTokenSilently}= useAuth0()
 
   useEffect(() => {
-    dispatch(userReservations(token, userInfo.data.id))
+    dispatch(userReservations(getAccessTokenSilently, userInfo.data.id))
 
-  }, [dispatch, token, userInfo.data.id]);
+  }, [dispatch, userInfo.data.id]);
 
   console.log(reservations)
 

@@ -8,30 +8,37 @@ import { useAuth0 } from "@auth0/auth0-react";
 export default function Profile() {
   const [errors, setErrors] = useState({});
   const locations = useSelector((state) => state.locations);
+  const userInfo = useSelector((state) => state.user);
   const { userId } = useParams();
-  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const [input, setInput] = useState({ firstName: "", lastName: "", phone: "", license: "", documentId: "" });
   const [alert, setAlert] = useState("");
 
   const dispatch = useDispatch();
   useEffect(() => {
     if (!locations.length) dispatch(getLocations());
-  }, [dispatch]);
+    if (user) {
+      dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!user) return;
     setInput({
       ...input,
-      firstName: user.given_name,
-      lastName: user.family_name,
+      firstName: userInfo.data?.firstName || user.given_name || "",
+      lastName: userInfo.data?.lastName || user.family_name || "",
+      phone: userInfo.data?.phone || "",
+      license: userInfo.data?.license || "",
+      documentId: userInfo.data?.documentId || "",
     });
-  }, []);
+  }, [userInfo]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!user.email_verified) {
-      setAlert("Your email is not  verified");
+      setAlert("Your email is not verified");
 
       return;
     }
@@ -44,7 +51,6 @@ export default function Profile() {
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information is update");
   }
   function handleChange(e) {
@@ -67,10 +73,9 @@ export default function Profile() {
   return (
     <div className={styles.profile}>
       {alert && alert.split(" ")[3] === "update" ? (
-        <div className={styles.buttonContainer}>
-          <div className={styles.message}>{alert}</div>
-          <div>
-            {" "}
+        <div>
+          <div className={styles.messages}>{alert}</div>
+          <div className={styles.buttonContainer}>
             <Link to="/">
               <button>Home</button>
             </Link>
@@ -91,7 +96,7 @@ export default function Profile() {
               name="firstName"
               onChange={handleChange}
             />
-            {errors.firstName && <p>{errors.firstName}</p>}
+            {errors.firstName && <p className={styles.validations}>{errors.firstName}</p>}
           </div>
           <div>
             <div className={styles.titles}>Last name: </div>
@@ -102,22 +107,27 @@ export default function Profile() {
               name="lastName"
               onChange={handleChange}
             />
-            {errors.lastName && <p>{errors.lastName}</p>}
+            {errors.lastName && <p className={styles.validations}>{errors.lastName}</p>}
           </div>
           <div>
             <div className={styles.titles}>Phone: </div>
-            <input className={`${styles.inputGlobal} ${styles.inputs}`} type="text" value={input.phone} name="phone" onChange={handleChange} />
-            {errors.phone && <p>{errors.phone}</p>}
+            <input
+              className={`${styles.inputGlobal} ${styles.inputs}`}
+              type="text"
+              value={input.phone}
+              name="phone"
+              onChange={handleChange}
+            />
+            {errors.phone && <p className={styles.validations}>{errors.phone}</p>}
           </div>
           <div>
             <div className={styles.titles}>Language: </div>
-            <select className={styles.inputs} value={input.language} name="language" onChange={handleChange}>
-              <option value="English">English</option>
-              <option value="Spanish">Spanish</option>
+            <select className={`${styles.inputGlobal} ${styles.inputs}`} value={input.language} name="language" onChange={handleChange}>
+              <option value="English">English</option> <option value="Spanish">Spanish</option>
             </select>
           </div>
-          <div className={styles.titles}>
-            <div>Document Id: </div>
+          <div>
+            <div className={styles.titles}>Document Id: </div>
             <input
               className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
@@ -125,17 +135,22 @@ export default function Profile() {
               name="documentId"
               onChange={handleChange}
             />
-            {errors.documentId && <p>{errors.documentId}</p>}
+            {errors.documentId && <p className={styles.validations}>{errors.documentId}</p>}
           </div>
-          <div className={styles.titles}>
-            <div>License: </div>
-            <input className={`${styles.inputGlobal} ${styles.select}`} type="text" value={input.license} name="license" onChange={handleChange} />
-            {errors.license && <p>{errors.license}</p>}
+          <div>
+            <div className={styles.titles}>License: </div>
+            <input
+              className={`${styles.inputGlobal} ${styles.inputs}`}
+              type="text"
+              value={input.license}
+              name="license"
+              onChange={handleChange}
+            />
+            {errors.license && <p className={styles.validations}>{errors.license}</p>}
           </div>
           <div>
             <div className={styles.titles}>City: </div>
-
-            <select className={styles.select} value={input.city} name="city" onChange={handleChange}>
+            <select className={`${styles.inputGlobal} ${styles.inputs}`} value={input.city} name="city" onChange={handleChange}>
               <option>City</option>
               {locations?.map((l) => (
                 <option key={l.city} value={l.id}>
@@ -149,7 +164,7 @@ export default function Profile() {
               Submit
             </button>
           </div>
-          <p>{alert}</p>
+          <p className={styles.messages}>{alert}</p>
         </form>
       )}
     </div>

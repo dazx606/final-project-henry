@@ -18,7 +18,9 @@ import {
   GET_USER_FOR_ADMIN,
   SET_PROFILE_OPTIONS,
   SET_ADMIN_OPTIONS,
-  GET_USER_RESERVATIONS
+  GET_USER_RESERVATIONS,
+  GET_ALL_RESERVATIONS,
+  DELETE_RESERVATION
 } from "../actions";
 
 const initialState = {
@@ -47,7 +49,8 @@ const initialState = {
   profileOptions: "information",
   adminOptions: "users",
   allCars:[],
-  pagination: {page: 1, pageNum: 1}
+  pagination: {page: 1, pageNum: 1},
+  Orders: [],
 };
 
 export default function rootReducer(state = initialState, { type, payload, token }) {
@@ -84,17 +87,17 @@ export default function rootReducer(state = initialState, { type, payload, token
       return {
         ...state,
         carRenting: payload,
-      }
+      };
     case DELETE_CAR_DETAILS:
       return {
         ...state,
-        carDetails: payload
+        carDetails: payload,
       };
     case DELETE_RENTING_CAR:
       return {
         ...state,
-        carRenting: {}
-      }
+        carRenting: {},
+      };
     case SEND_MESSAGE:
       return {
         ...state,
@@ -145,14 +148,14 @@ export default function rootReducer(state = initialState, { type, payload, token
     case SET_PROFILE_OPTIONS: {
       return {
         ...state,
-        profileOptions: payload
-      }
+        profileOptions: payload,
+      };
     }
     case SET_ADMIN_OPTIONS: {
       return {
         ...state,
-        adminOptions: payload
-      }
+        adminOptions: payload,
+      };
     }
     case GET_USER_RESERVATIONS: {
       return {
@@ -160,6 +163,18 @@ export default function rootReducer(state = initialState, { type, payload, token
         userReservations: payload
       }
     }
+     case GET_ALL_RESERVATIONS:{
+       return{
+         ...state,
+         orders:payload,
+       }
+     }
+     case DELETE_RESERVATION:{
+       return{
+         ...state,
+         orders:payload
+       }
+     }
 
     default:
       return { ...state };
