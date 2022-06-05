@@ -36,6 +36,7 @@ const initialState = {
   savedUser: [],
   user: {},
   profileOptions: "information",
+  pagination: {page: 1, pageNum: 1}
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -54,7 +55,8 @@ export default function rootReducer(state = initialState, { type, payload }) {
     case GET_FILTERED_CARS:
       return {
         ...state,
-        filteredCars: payload,
+        filteredCars: payload.models,
+        pagination: payload.pagination
       };
 
     case SET_CITY:
