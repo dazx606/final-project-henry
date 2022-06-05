@@ -1,3 +1,14 @@
+.searchUser{
+  display: flex;
+  justify-content: left;
+  margin: 2rem 7rem;
+}
+.inputSearch{
+  background-color: var(--color6Tr);  
+}
+.inputSearch:hover{
+  cursor:text;
+}
 .usersBox{
   width: auto;
   height: auto;
@@ -11,12 +22,18 @@
 
 .listTitle{
   display: flex;
+  align-items: center;
+  margin: 1rem;
+  justify-content: space-evenly;
+  color: var(--color4);
+  font-size: 1em;
 }
 
 .userListItem {
   display: flex;
   align-items: center;
   margin: 1rem;
+  justify-content: space-evenly;
   
 }
 
@@ -24,6 +41,7 @@
   width: 12rem;
   display:flex;
   justify-content: center;
+  
 }
 .email{
   width: 20rem;
@@ -34,6 +52,11 @@
   width: 10rem;
   display:flex;
   justify-content: center;
+ 
+}
+.trashIcon:hover{
+  font-size: 1.3em;
+  cursor: pointer;
 }
 .imgIcon{
   color: var(--color4);

@@ -49,13 +49,13 @@ export function updateUser(user, token) {
   };
   return axios.patch(`${URL}user/${user.userId}`, user, options);
 }
-export function getAllUsersInfo(token) {
+export function getAllUsersInfo(token, email) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.get(`http://localhost:3001/admin/users`, options);
+  return axios.get(`http://localhost:3001/admin/users?email=${email}`, options);
 }
 
 export function deleteUserInfo(userId, token) {

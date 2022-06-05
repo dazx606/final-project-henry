@@ -21,6 +21,7 @@ export const GET_ALL_USERS_INFO = "GET_ALL_USERS_INFO";
 export const DELETE_USER_INFO = "DELETE_USERS_INFO";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 export const SET_ADMIN_OPTIONS = "SET_ADMIN_OPTIONS";
+export const GET_USER_FOR_ADMIN = "GET_USER_FOR_ADMIN";
 
 export const URL = "http://localhost:3001/";
 
@@ -199,12 +200,11 @@ export function patchUser(getToken, payload) {
     }
   };
 }
-export function getAdminUsers(token) {
+export function getAdminUsers(token, email) {
   return async (dispatch) => {
     try {
       
-      let response = await getAllUsersInfo(token);
-      console.log(response.data)
+      let response = await getAllUsersInfo(token, email);
       return dispatch({
         type: GET_ALL_USERS_INFO,
         payload: response.data,
@@ -214,16 +214,30 @@ export function getAdminUsers(token) {
     }
   };
 }
-export function deleteUser(getToken, payload) {
+export function deleteUser(token, payload) {
   return async (dispatch) => {
     try {
-      const token = await getToken();
-      await deleteUserInfo(payload, token);
-      let response = await getAllUsersInfo(token);
+      
+      const response = await deleteUserInfo(payload, token);
+      
       return dispatch({
         type: DELETE_USER_INFO,
         payload: response.data,
       });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export function getUserForadmin(getToken, email) {
+  return async (dispatch) => {
+    try {
+      if (email) {
+        const token = await getToken();
+        let response = await getUserInformation(token, email)
+        return dispatch({ type: GET_USER_FOR_ADMIN, payload: response.data });
+      }
     } catch (error) {
       console.log(error);
     }

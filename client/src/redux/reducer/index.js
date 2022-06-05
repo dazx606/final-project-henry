@@ -16,6 +16,7 @@ import {
   PATCH_USER,
   GET_ALL_USERS_INFO,
   DELETE_USER_INFO,
+  GET_USER_FOR_ADMIN,
   SET_PROFILE_OPTIONS,
   SET_ADMIN_OPTIONS,
 } from "../actions";
@@ -41,8 +42,10 @@ const initialState = {
   savedUser: [],
   user: {},
   users: [],
+  userForAdmin:{},
   profileOptions: "information",
   adminOptions: "users",
+  allCars:[],
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -135,6 +138,11 @@ export default function rootReducer(state = initialState, { type, payload }) {
         ...state,
         users: payload,
       };
+    case GET_USER_FOR_ADMIN:
+      return {
+        ...state,
+        userForAdmin: payload,
+      }
     case SET_PROFILE_OPTIONS: {
       return {
         ...state,
@@ -142,7 +150,7 @@ export default function rootReducer(state = initialState, { type, payload }) {
       }
     }
     case SET_ADMIN_OPTIONS: {
-      return{
+      return {
         ...state,
         adminOptions: payload
       }

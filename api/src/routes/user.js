@@ -45,7 +45,7 @@ router.post("/", async (req, res, next) => {
       where: {
         email: email,
       },
-      defaults:{
+      defaults: {
         picture: picture
       }
     });
@@ -56,13 +56,13 @@ router.post("/", async (req, res, next) => {
     if (created)
       return res
         .status(201)
-        .json({ msg: "User created", data: user.id, completed});
+        .json({ msg: "User created", data: user.id, completed });
     return res.status(200).json({
       msg: "User found",
       data: user.id,
       completed,
     });
-  
+
   } catch (error) {
     next(error);
   }

@@ -36,8 +36,10 @@ router.get("/", (req, res, next) => {
 });
 // ============ USERS
 router.get("/users", async (req, res, next) => {
+  const {email} = req.query
+  console.log(email)
   try {
-    const users = await User.findAll(
+    let users = await User.findAll(
     //   {
     //   include: [
     //     { model: RentOrder, attributes: ["startingDate", "endingDate"] },
@@ -48,8 +50,16 @@ router.get("/users", async (req, res, next) => {
     //     { model: Payment, attributes: ["firstName", "lastName"] },
     //   ],
     // }
-    );
-    return res.json(users);
+    );    
+    if (email) {
+      users = users.filter(u => u.email.includes(email))
+      if(!users) return res.status(404).json({msg: 'user not found'})
+      return res.status(200).json(users)
+    }
+    if(!email){
+      return res.status(200).json(users);
+    }
+    
   } catch (error) {
     console.log(error);
     next(error);
@@ -64,7 +74,8 @@ router.delete("/users/:id", async (req, res, next) => {
       return res.status(404).send("User not found");
     }
     await user.destroy();
-    return res.json({ message: "User deleted" });
+    const users = await User.findAll()
+    return res.json(users);
   } catch (error) {
     console.log(error);
     next(error);
