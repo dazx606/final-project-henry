@@ -34,7 +34,7 @@ const authMiddleWare = jwt({
 const checkScopes = (permissions)=> jwtScope(permissions, { scopeKey : 'permissions', requireAll: true });
 
 router.use(authMiddleWare);
-router.use(checkScopes("read:user"));
+// router.use(checkScopes("read:user"));
   
 
 // ===================================GET== USERS
