@@ -153,12 +153,14 @@ export default function Booking() {
     }, []);
 
     useEffect(() => {
-        if(userDriver.data)setDrivers([{
-            firstName: userDriver.data.firstName,
-            lastName: userDriver.data.lastName,
-            licenseNumber: userDriver.data.license,
-            documentId: userDriver.data.documentId
-        }])
+        if (userDriver.data && userDriver.data.firstName && userDriver.data.lastName && userDriver.data.license && userDriver.data.documentId) {
+            setDrivers([{
+                firstName: userDriver.data.firstName,
+                lastName: userDriver.data.lastName,
+                licenseNumber: userDriver.data.license,
+                documentId: userDriver.data.documentId
+            }])
+        }
     }, [setDrivers, userDriver])
 
     const handleRentForm = (e) => {
