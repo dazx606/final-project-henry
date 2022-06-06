@@ -23,21 +23,33 @@ export function sendAMessage(message) {
   return axios.post(`${URL}send-email`, message);
 }
 
-export function getUserInformation(token, email){
-    console.log("token: "+token);
-    const options = {
-        method: "GET",
-        mode: "cors",
-        headers: { authorization: `Bearer ${token}` },
-      };
-      return axios(
-        `http://localhost:3001/user?email=${email}`,
-        options
-      );
+export function getUserInformation(token, email) {
+  console.log("token: " + token);
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios(
+    `http://localhost:3001/user?email=${email}`,
+    options
+  );
 };
 
-export function addUser(email, picture){
-    return axios.post(`${URL}user`, { email , picture} );
+export function getUserReservations(token, userId) {
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  }
+  return axios(
+    `${URL}user/reservations?userId=${userId}`,
+    options
+  )
+}
+
+export function addUser(email, picture) {
+  return axios.post(`${URL}user`, { email, picture });
 };
 
 export function updateUser(user, token) {
@@ -49,13 +61,13 @@ export function updateUser(user, token) {
   };
   return axios.patch(`${URL}user/${user.userId}`, user, options);
 }
-export function getAllUsersInfo(token) {
+export function getAllUsersInfo(token, email) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.get(`http://localhost:3001/admin/users`, options);
+  return axios.get(`http://localhost:3001/admin/users?email=${email}`, options);
 }
 
 export function deleteUserInfo(userId, token) {
@@ -65,4 +77,22 @@ export function deleteUserInfo(userId, token) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.delete(`http://localhost:3001/admin/users/${userId}`, options);
+}
+
+export function getAllReservs(token) {
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.get(`http://localhost:3001/admin/reservations`, options);
+}
+
+export function deleteReserv(reservId, token) {
+  const options = {
+    method: "DELETE",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.delete(`http://localhost:3001/admin/reservations/delete/${reservId}`, options);
 }

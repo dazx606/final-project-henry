@@ -45,6 +45,28 @@
     height: 5rem;
     border-bottom: 1px groove var(--color4);
   }
+  .activeOpt{
+    color: var(--color4);
+    padding: 0px;
+    border:none;
+    box-shadow: none;
+    background-color: rgba(252, 192, 72, 0);
+    font-weight: 550;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 14rem;
+    height: 5rem;  
+    border-bottom: 1px double var(--color4);    
+  }
+  .activeOpt:hover{
+    font-weight: 550;
+    border:none;
+    box-shadow: none;
+    border-bottom: 1px groove var(--color4);
+  }
   
   .options:hover {
     font-weight: 550;

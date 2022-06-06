@@ -4,7 +4,7 @@ import styles from "./ProfileOptions.module.css";
 import { setProfileOptions } from "../../redux/actions";
 import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 
-function ProfileOptions() {  
+function ProfileOptions() {
   const profileOptions = useSelector((state) => state.profileOptions);
   const dispatch = useDispatch()
 
@@ -39,9 +39,5 @@ function ProfileOptions() {
     </div>
   );
 }
-
-
-
-
 
 export default ProfileOptions;

@@ -1,7 +1,20 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 import axios from "axios";
-import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser,   getAllUsersInfo,
-  deleteUserInfo, } from "../../services/services";
+import {
+  getAllLocations,
+  getCarsByLocation,
+  filterCars,
+  getCarsDetails,
+  sendAMessage,
+  getUserInformation,
+  addUser,
+  updateUser,
+  getAllUsersInfo,
+  deleteUserInfo,
+  getUserReservations,
+  getAllReservs,
+  deleteReserv,
+} from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
@@ -21,6 +34,10 @@ export const GET_ALL_USERS_INFO = "GET_ALL_USERS_INFO";
 export const DELETE_USER_INFO = "DELETE_USERS_INFO";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 export const SET_ADMIN_OPTIONS = "SET_ADMIN_OPTIONS";
+export const GET_USER_FOR_ADMIN = "GET_USER_FOR_ADMIN";
+export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
+export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
+export const DELETE_RESERVATION = "DELETE_RESERVATION";
 
 export const URL = "http://localhost:3001/";
 
@@ -61,7 +78,17 @@ export function getRentingCar(carModel) {
 }
 
 export function getFilteredCars(
-  { brand = "", category = "", order = "ASC", startingDate = "", endingDate = "", orderType = "pricePerDay", page = 1, model = "", carsPerPage = 8 },
+  {
+    brand = "",
+    category = "",
+    order = "ASC",
+    startingDate = "",
+    endingDate = "",
+    orderType = "pricePerDay",
+    page = 1,
+    model = "",
+    carsPerPage = 8,
+  },
   locationId
 ) {
   return async (dispatch) => {
@@ -79,7 +106,10 @@ export function getFilteredCars(
     } catch (error) {
       return dispatch({
         type: GET_FILTERED_CARS,
-        payload: [],
+        payload: {
+          pagination: {},
+          models:[]
+        },
       });
     }
   };
@@ -142,19 +172,25 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation) {
+export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation, userId) {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URL}rent/car`, { location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation });
-      return dispatch({
-        type: RENT_ID,
-        payload: response.data,
+      const res = await axios.post(`${URL}rent/car`, {
+        location,
+        model,
+        startingDate,
+        endingDate,
+        optionalEquipments,
+        drivers,
+        endLocation,
+        userId,
       });
+      window.location.href = res.data.url;
     } catch (error) {
       console.log(error);
     }
-  }
-};
+  };
+}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -162,13 +198,26 @@ export function setUserInfo(getToken, email) {
     try {
       if (email) {
         const token = await getToken();
-        let response = await getUserInformation(token, email)
-        return dispatch({ type: SET_USER, payload: response.data, token });
+        let response = await getUserInformation(token, email);
+        return dispatch({ type: SET_USER, payload: response.data });
       }
     } catch (error) {
       console.log(error);
     }
   };
+}
+
+export function userReservations(token, userId) {
+  return async (dispatch) => {
+    try {
+      if (userId) {
+        let response = await getUserReservations(token, userId);
+        return dispatch({ type: GET_USER_RESERVATIONS, payload: response.data, token });
+      }
+    } catch (error) {
+      return dispatch({ type: GET_USER_RESERVATIONS, payload: undefined, token })
+    }
+  }
 }
 
 export function saveUser(email, picture) {
@@ -199,12 +248,11 @@ export function patchUser(getToken, payload) {
     }
   };
 }
-export function getAdminUsers(token) {
+export function getAdminUsers(token, email) {
   return async (dispatch) => {
     try {
       
-      let response = await getAllUsersInfo(token);
-      console.log(response.data)
+      let response = await getAllUsersInfo(token, email);
       return dispatch({
         type: GET_ALL_USERS_INFO,
         payload: response.data,
@@ -214,16 +262,30 @@ export function getAdminUsers(token) {
     }
   };
 }
-export function deleteUser(getToken, payload) {
+export function deleteUser(token, payload) {
   return async (dispatch) => {
     try {
-      const token = await getToken();
-      await deleteUserInfo(payload, token);
-      let response = await getAllUsersInfo(token);
+      
+      const response = await deleteUserInfo(payload, token);
+      
       return dispatch({
         type: DELETE_USER_INFO,
         payload: response.data,
       });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export function getUserForadmin(getToken, email) {
+  return async (dispatch) => {
+    try {
+      if (email) {
+        const token = await getToken();
+        let response = await getUserInformation(token, email)
+        return dispatch({ type: GET_USER_FOR_ADMIN, payload: response.data });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -233,13 +295,47 @@ export function deleteUser(getToken, payload) {
 export function setProfileOptions(payload) {
   return {
     type: SET_PROFILE_OPTIONS,
-    payload
-  }
+    payload,
+  };
 }
 
 export function setAdminOptions(payload) {
-  return{
+  return {
     type: SET_ADMIN_OPTIONS,
-    payload
-  }
+    payload,
+  };
+}
+export function getAllReservations(getToken) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      let response = await getAllReservs(token);
+      return dispatch({
+        type: GET_ALL_RESERVATIONS,
+        payload: response.data.orders,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function deleteReservation(getToken, payload) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      await deleteReserv(payload, token);
+      let response = await getAllReservs(token);
+      return dispatch({
+        type: DELETE_RESERVATION,
+        payload: response.data.orders,
+      });
+    } catch (error) {
+      if(error?.response?.data?.msg==="There are no orders"){
+        return dispatch({
+          type: DELETE_RESERVATION,
+          payload:[],
+        });
+      }
+    }
+  };
 }

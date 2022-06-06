@@ -10,14 +10,17 @@ import {
   DELETE_CAR_DETAILS,
   GET_RENTING_CAR,
   DELETE_RENTING_CAR,
-  RENT_ID,
   SET_USER,
   SAVE_USER,
   PATCH_USER,
   GET_ALL_USERS_INFO,
   DELETE_USER_INFO,
+  GET_USER_FOR_ADMIN,
   SET_PROFILE_OPTIONS,
   SET_ADMIN_OPTIONS,
+  GET_USER_RESERVATIONS,
+  GET_ALL_RESERVATIONS,
+  DELETE_RESERVATION
 } from "../actions";
 
 const initialState = {
@@ -37,13 +40,17 @@ const initialState = {
     orderType: "pricePerDay",
     page: 1,
   },
-  rentId: "",
   savedUser: [],
   user: {},
+  userReservations: [],
   token:"",
   users: [],
+  userForAdmin:{},
   profileOptions: "information",
   adminOptions: "users",
+  allCars:[],
+  pagination: {page: 1, pageNum: 1},
+  Orders: [],
 };
 
 export default function rootReducer(state = initialState, { type, payload, token }) {
@@ -62,7 +69,8 @@ export default function rootReducer(state = initialState, { type, payload, token
     case GET_FILTERED_CARS:
       return {
         ...state,
-        filteredCars: payload,
+        filteredCars: payload.models,
+        pagination: payload.pagination
       };
 
     case SET_CITY:
@@ -79,17 +87,17 @@ export default function rootReducer(state = initialState, { type, payload, token
       return {
         ...state,
         carRenting: payload,
-      }
+      };
     case DELETE_CAR_DETAILS:
       return {
         ...state,
-        carDetails: payload
+        carDetails: payload,
       };
     case DELETE_RENTING_CAR:
       return {
         ...state,
-        carRenting: {}
-      }
+        carRenting: {},
+      };
     case SEND_MESSAGE:
       return {
         ...state,
@@ -105,11 +113,6 @@ export default function rootReducer(state = initialState, { type, payload, token
       return {
         ...state,
         selection: payload,
-      };
-    case RENT_ID:
-      return {
-        ...state,
-        rentId: payload,
       };
     case SET_USER:
       return {
@@ -137,18 +140,41 @@ export default function rootReducer(state = initialState, { type, payload, token
         ...state,
         users: payload,
       };
+    case GET_USER_FOR_ADMIN:
+      return {
+        ...state,
+        userForAdmin: payload,
+      }
     case SET_PROFILE_OPTIONS: {
       return {
         ...state,
-        profileOptions: payload
-      }
+        profileOptions: payload,
+      };
     }
     case SET_ADMIN_OPTIONS: {
-      return{
+      return {
         ...state,
-        adminOptions: payload
+        adminOptions: payload,
+      };
+    }
+    case GET_USER_RESERVATIONS: {
+      return {
+        ...state,
+        userReservations: payload
       }
     }
+     case GET_ALL_RESERVATIONS:{
+       return{
+         ...state,
+         orders:payload,
+       }
+     }
+     case DELETE_RESERVATION:{
+       return{
+         ...state,
+         orders:payload
+       }
+     }
 
     default:
       return { ...state };

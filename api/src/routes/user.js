@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { User } = require("../db.js");
+const { User, RentOrder, IndividualCar, CarModel, Location } = require("../db.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
@@ -37,6 +37,20 @@ router.get("/", authMiddleWare, async (req, res, next) => {
   }
 });
 
+router.get("/reservations", async (req,res,next)=>{
+    
+  const {userId} = req.query;
+
+  try {
+    if(userId){
+      let orders = await RentOrder.findAll({where:{userId}, include:[{model:IndividualCar, include:[CarModel, Location]}]});
+      return orders.length ?  res.send(orders) : res.status(404).send({msg:"There are no orders for the user"})
+    }
+  } catch (error) {
+    next(error)
+  }
+});
+
 // ============================ POST =============================================================//
 router.post("/", async (req, res, next) => {
   const { email, picture } = req.body;
@@ -45,7 +59,7 @@ router.post("/", async (req, res, next) => {
       where: {
         email: email,
       },
-      defaults:{
+      defaults: {
         picture: picture
       }
     });
@@ -56,13 +70,13 @@ router.post("/", async (req, res, next) => {
     if (created)
       return res
         .status(201)
-        .json({ msg: "User created", data: user.id, completed});
+        .json({ msg: "User created", data: user.id, completed });
     return res.status(200).json({
       msg: "User found",
       data: user.id,
       completed,
     });
-  
+
   } catch (error) {
     next(error);
   }

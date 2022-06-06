@@ -30,6 +30,7 @@
   align-content: space-around;
   min-height: 90vh;
   max-width: 99vw;
+  margin: 0px 30px;
 }
 
 .slctBar {

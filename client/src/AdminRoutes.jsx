@@ -15,7 +15,7 @@ function AdminRoutes() {
         dispatch(setUserInfo(getAccessTokenSilently, user?.email));
     }, [dispatch, user]);
 
-    return isAuthenticated && dbUser.data.admin ?(
+    return isAuthenticated && dbUser.data?.admin ?(
         <Outlet />
   ) : isLoading ? (
     <div>Loading...</div>

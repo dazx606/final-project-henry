@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+.navSuperContainer {
+  transition: all 0.5s;
+}
+
 .navcontainer {
   height: 4rem;
   
@@ -182,4 +186,14 @@
 .tittle {
   text-decoration: none;
   color: var(--color4);
+}
+
+.alert{
+  position: fixed;
+  background-color: #00000094;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
 }
