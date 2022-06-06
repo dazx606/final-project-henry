@@ -20,7 +20,6 @@ function LocationFilter() {
 
   function handleLocChange(e) {
     dispatch(setCity(e.target.value))
-    
     if (locationId) navigate(`/city/${e.target.value}`)
   };
 

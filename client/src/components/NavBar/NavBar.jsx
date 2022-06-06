@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 import { useAuth0 } from "@auth0/auth0-react";
+import { showAlert } from '../../redux/actions';
 import Authentication from "../Authenti/Authentication";
 import styles from "./NavBar.module.css";
+import Alert from "../Alert/Alert";
 
 function NavBar() {
   const [display, setDisplay] = useState(false);
   const [showLinks, setShowLinks] = useState(false);
+  const hide = useSelector((state) => state.hideAlert);
   const { loginWithPopup, isAuthenticated, user } = useAuth0();
+
+  const dispatch = useDispatch();
 
   function handleLoginInfo() {
     if (isAuthenticated) setDisplay(!display);
@@ -15,6 +21,11 @@ function NavBar() {
   }
 
   const showAllLinks = () => {
+    setShowLinks(!showLinks);
+  }
+
+  const handleFleet = () => {
+    if (window.location.pathname.split("/")[1] !== "city") dispatch(showAlert(false));
     setShowLinks(!showLinks);
   }
 
@@ -49,6 +60,9 @@ function NavBar() {
             <NavLink to="/">
               <li className={styles.list} onClick={showAllLinks}>HOME</li>
             </NavLink>
+            <NavLink to={window.location.pathname}>
+              <li className={styles.list} onClick={handleFleet}>FLEET</li>
+            </NavLink>
             <NavLink to="/about">
               <li className={styles.list} onClick={showAllLinks}>ABOUT US</li>
             </NavLink>
@@ -60,6 +74,11 @@ function NavBar() {
             </NavLink>
           </ul>
         </nav>
+        {!hide &&
+          <div className={styles.alert} >
+            <Alert />
+          </div>
+        }
       </div>
       <Outlet />
     </div>
