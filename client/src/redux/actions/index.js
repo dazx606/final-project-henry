@@ -327,7 +327,7 @@ export function setAdminOptions(payload) {
   };
 }
 
-export function getAllReservations(getToken) {
+export function getAllReservations(getToken, userId) {
   return async (dispatch) => {
     try {
       const token = await getToken();

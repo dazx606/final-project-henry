@@ -90,7 +90,6 @@
   width: 30vw;
   background-color: var(--color1);
   color: var(--color4);
-<<<<<<< HEAD
     width: 2.5rem;
     height: 2.5rem;
     margin: 0px 0px 0px 24px;
@@ -107,7 +106,6 @@
   justify-content: left;
   margin: 2rem 7rem;
  
-=======
   z-index: 10;
   border: groove 1px var(--color4Tr);
   border-radius: 0px;
@@ -136,5 +134,4 @@
   font-size: 1.2em;
   font-weight: 400;
   margin: 0 2em 0 2em;
->>>>>>> 0646d14dd2f7ce0de0e8e4a261395da8b592b797
 }
