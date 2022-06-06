@@ -43,15 +43,15 @@ export default function Profile() {
       return;
     }
     if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
-      setAlert("Complete with your correct information");
+      setAlert(" Please complete with your correct information");
       return;
     }
     if (!input.firstName || !input.lastName || !input.license || !input.documentId) {
-      setAlert("Complete your information");
+      setAlert(" Please complete your information");
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    setAlert("Your information is update");
+    setAlert("Your information is update!");
   }
   function handleChange(e) {
     setInput({
@@ -72,7 +72,7 @@ export default function Profile() {
 
   return (
     <div className={styles.profile}>
-      {alert && alert.split(" ")[3] === "update" ? (
+      {alert === "Your information is update!" ? (
         <div>
           <div className={styles.messages}>{alert}</div>
           <div className={styles.buttonContainer}>

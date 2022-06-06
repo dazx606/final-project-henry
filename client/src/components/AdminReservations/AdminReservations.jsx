@@ -9,7 +9,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 function AdminReservations() {
   const { getAccessTokenSilently } = useAuth0();
   const allOrders = useSelector((state) => state.orders);
-  console.log("🚀 ~ file: AdminReservations.jsx ~ line 12 ~ AdminReservations ~ allOrders", allOrders)
   const [userId, setUserId] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
@@ -34,9 +33,9 @@ function AdminReservations() {
         />
       </div>
       <div className={styles.usersBox}>
-        <div className={styles.userListItem}>
-          {allOrders.length ? (
-            <>
+        {allOrders.length ? (
+          <>
+            <div className={styles.listTitle}>
               <div className={styles.imgIcon}></div>
               {/* <div className={styles.name}>First Name</div>
           <div className={styles.name}>Last Name</div> */}
@@ -46,14 +45,14 @@ function AdminReservations() {
                 StartingDate <br /> EndingDate
               </div>
               <div className={styles.trashIcon}>Delete</div>
-            </>
-          ) : (
-            <div>Reservation not found</div>
-          )}
-        </div>
-        {allOrders?.map((u) => (
-          <ReservListItem key={u.id} order={u} />
-        ))}
+            </div>
+            {allOrders?.map((u) => (
+              <ReservListItem key={u.id} order={u} />
+            ))}
+          </>
+        ) : (
+          <div>Reservation not found</div>
+        )}
       </div>
     </div>
   );

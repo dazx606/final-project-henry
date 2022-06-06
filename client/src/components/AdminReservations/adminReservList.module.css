@@ -11,6 +11,9 @@
 
 .listTitle {
   display: flex;
+  align-items: center;
+  margin: 1rem;
+  color: var(--color4);
 }
 
 .userListItem {
@@ -49,6 +52,7 @@
 }
 .reservation {
   width: 20rem;
+  cursor:pointer;
 }
 .startingDate {
   width: 20rem;
