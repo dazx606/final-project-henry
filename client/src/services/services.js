@@ -9,7 +9,10 @@ export function getCarsByLocation(locationId) {
   return axios.get(`${URL}locationCars/${locationId}`);
 }
 
-export function filterCars({ brand, category, order, startingDate, endingDate, orderType, page }, locationId) {
+export function filterCars(
+  { brand, category, order, startingDate, endingDate, orderType, page },
+  locationId
+) {
   return axios.get(
     `${URL}cars/${locationId}?brand=${brand}&category=${category}&order=${order}&orderType=${orderType}&startingDate=${startingDate}&endingDate=${endingDate}&page=${page}`
   );
@@ -24,7 +27,6 @@ export function sendAMessage(message) {
 }
 
 export function getUserInformation(token, email) {
-  console.log("token: " + token);
   const options = {
     method: "GET",
     mode: "cors",
@@ -89,5 +91,25 @@ export function deleteReserv(reservId, token) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.delete(`http://localhost:3001/admin/reservations/delete/${reservId}`, options);
+  return axios.delete(
+    `http://localhost:3001/admin/reservations/delete/${reservId}`,
+    options
+  );
+}
+
+export function getAllOptionalEquipment() {
+  return axios.get(`${URL}admin/equipment/optional`);
+}
+
+export function getAllIncludedEquipment() {
+  return axios.get(`${URL}admin/equipment/included`);
+}
+
+export function getAllCars(token, plate) {
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}`, options)
 }

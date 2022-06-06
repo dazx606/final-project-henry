@@ -45,20 +45,19 @@ export default function Drivers({ drivers, setDrivers }) {
             <div className={styles.subContainer2} hidden={showAddDriver}>
                 <div className={styles.container3}>
                     <div className={styles.labels}><label>First Name: </label></div>
-
-                    <input className={styles.inputs} onChange={handleInput} value={driver.firstName} type="text" name="firstName" />
+                    <input className={`inputGlobal ${styles.inputs}`} onChange={handleInput} value={driver.firstName} type="text" name="firstName" />
                 </div>
                 <div className={styles.container3}>
                     <label className={styles.labels}>Last Name: </label>
-                    <input className={styles.inputs} onChange={handleInput} value={driver.lastName} type="text" name="lastName" />
+                    <input className={`inputGlobal ${styles.inputs}`} onChange={handleInput} value={driver.lastName} type="text" name="lastName" />
                 </div>
                 <div className={styles.container3}>
                     <label className={styles.labels}>License Number: </label>
-                    <input className={styles.inputs} onChange={handleInput} value={driver.licenseNumber} type="text" name="licenseNumber" />
+                    <input className={`inputGlobal ${styles.inputs}`} onChange={handleInput} value={driver.licenseNumber} type="text" name="licenseNumber" />
                 </div>
                 <div className={styles.container3}>
                     <label className={styles.labels}>Document ID: </label>
-                    <input className={styles.inputs} onChange={handleInput} value={driver.documentId} type="text" name="documentId" />
+                    <input className={`inputGlobal ${styles.inputs}`} onChange={handleInput} value={driver.documentId} type="text" name="documentId" />
                 </div>
                 {
                     error ? <span>{error}</span> :
