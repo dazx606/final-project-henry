@@ -73,12 +73,12 @@ export function deleteUserInfo(userId, token) {
   return axios.delete(`http://localhost:3001/admin/users/${userId}`, options);
 }
 
-export function getAllReservs(token, userId) {
+export function getAllReservs(token, orderId) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
-    params:{userId}
+    params:{orderId}
   };
   return axios.get(`http://localhost:3001/admin/reservations`, options);
 }
