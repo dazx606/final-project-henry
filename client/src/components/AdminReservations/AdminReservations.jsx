@@ -9,6 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 function AdminReservations() {
   const { getAccessTokenSilently } = useAuth0();
   const allOrders = useSelector((state) => state.orders);
+  console.log("🚀 ~ file: AdminReservations.jsx ~ line 12 ~ AdminReservations ~ allOrders", allOrders)
   const [userId, setUserId] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
