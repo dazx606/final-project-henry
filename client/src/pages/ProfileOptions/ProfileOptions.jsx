@@ -6,14 +6,14 @@ import ProfileInfo from "../../components/ProfileInfo/ProfileInfo";
 
 function ProfileOptions() {
   const profileOptions = useSelector((state) => state.profileOptions);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <div className={styles.container}>
       <div className={styles.selection}>
         <div className={styles.selectionbox}>
           <button
-            value='information'
+            value="information"
             className={styles.options}
             onClick={(e) => {
               dispatch(setProfileOptions(e.target.value));
@@ -22,7 +22,7 @@ function ProfileOptions() {
             Profile Information
           </button>
           <button
-            value='reservations'
+            value="reservations"
             className={styles.options}
             onClick={(e) => {
               dispatch(setProfileOptions(e.target.value));
@@ -33,8 +33,8 @@ function ProfileOptions() {
         </div>
       </div>
       <div className={styles.render}>
-        {profileOptions === 'information' && <ProfileInfo />}
-        {profileOptions === 'reservations' && <ProfileOrders />}
+        {profileOptions === "information" && <ProfileInfo />}
+        {profileOptions === "reservations" && <ProfileOrders />}
       </div>
     </div>
   );

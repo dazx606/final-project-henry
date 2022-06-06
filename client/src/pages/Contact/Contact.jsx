@@ -193,7 +193,7 @@ function Form() {
         <div className={styles.buttonContainer}>
           {
             disabled === false ?
-              (<button className={styles.buttonSend} type='submit' disabled={disabled}>SUBMIT</button>) :
+              (<button  className='buttonGlobal' type='submit' disabled={disabled}>SUBMIT</button>) :
               (<button className={styles.disabled} type='submit' disabled={disabled}>SUBMIT</button>)
           }
         </div>
