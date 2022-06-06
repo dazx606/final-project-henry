@@ -1,13 +1,13 @@
 .alertContainer{
     text-align: center;
     align-items: center;
-    font: var(--font3);
+    font-family: var(--font2);
     position: fixed;
     top: 30%;
     left: 35vw;
     height: 30vh;
     width: 30vw;
-    background-color: rgba(255, 255, 255, 0.885);
+    background-color: var(--color1);
     z-index: 1000;
 }
 .all{
@@ -16,10 +16,13 @@
 }
 
 .tittle{
-    margin-top: 1.5em;
+    margin: 1.5em 1em 0.5em 1em;
+    font-size: 1.5em;
+    font-weight: 400;
+    color: var(--color4)
 }
 
-.homeBtn {
+/* .homeBtn {
     
     font-size: 20px;
     font-weight: 200;
@@ -38,4 +41,4 @@
     left: 0px;
     background-color: rgba(145, 131, 131, 0.392);
     
-  }
+  } */

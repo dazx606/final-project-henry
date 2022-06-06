@@ -26,7 +26,7 @@ function LocationFilter() {
 
 
   return (
-    <select className={styles.citySelect} value={city} onChange={handleLocChange} >
+    <select className={` selectGlobal ${styles.citySelect}`} value={city} onChange={handleLocChange} >
       <option className={styles.cityOptions} hidden>City</option>
       {
         locations?.map(l =>

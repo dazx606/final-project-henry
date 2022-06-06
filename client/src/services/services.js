@@ -24,7 +24,6 @@ export function sendAMessage(message) {
 }
 
 export function getUserInformation(token, email) {
-  console.log("token: " + token);
   const options = {
     method: "GET",
     mode: "cors",
@@ -95,4 +94,13 @@ export function deleteReserv(reservId, token) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.delete(`http://localhost:3001/admin/reservations/delete/${reservId}`, options);
+}
+
+export function getAllCars(token, plate) {
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}`, options)
 }

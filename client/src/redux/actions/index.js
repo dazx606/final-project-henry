@@ -14,6 +14,7 @@ import {
   getUserReservations,
   getAllReservs,
   deleteReserv,
+  getAllCars,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -38,6 +39,7 @@ export const GET_USER_FOR_ADMIN = "GET_USER_FOR_ADMIN";
 export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
+export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
 
 export const URL = "http://localhost:3001/";
 
@@ -338,4 +340,21 @@ export function deleteReservation(getToken, payload) {
       }
     }
   };
+};
+
+export function getAllAdminCars(getToken, plate){
+  return async (dispatch) =>{
+    try{
+      const token = await getToken();
+      let response = await getAllCars(token, plate);
+      
+      return dispatch({
+        type: GET_ALL_ADMIN_CARS,
+        payload: response.data.cars
+      })
+
+    }catch (e) {
+      console.log(e)
+    }
+  }
 }

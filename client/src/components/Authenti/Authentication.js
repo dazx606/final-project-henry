@@ -28,7 +28,6 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
       dispatch(saveUser(user.email, user.picture));
       console.log(user.picture)
     }
-    console.log(user);
   }, [user, dispatch]);
 
   useEffect(() => {
@@ -111,7 +110,7 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
           )}
 
           <div className={style.btnCont}>
-            <button className={style.logBtn} onClick={() => logout()}>
+            <button className={`buttonGlobal ${style.logBtn}`} onClick={() => logout()}>
               Log out
             </button>
           </div>
