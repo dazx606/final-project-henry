@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+.navSuperContainer {
+  transition: all 0.5s;
+}
+
 .navcontainer {
   height: 4rem;
   
