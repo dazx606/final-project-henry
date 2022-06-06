@@ -17,7 +17,7 @@ export default function Alert() {
         element.addEventListener("click", (event) => {
             if (event.target.id === "All") { dispatch(showAlert(true)) }
         });
-        return () => dispatch(showAlert(true))
+        //return () => dispatch(showAlert(true))
     }, [city])
 
     function handleClick() {
