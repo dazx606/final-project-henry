@@ -7,11 +7,14 @@
     display: flex;
     justify-content: space-evenly;
     margin: 3rem;
+    flex-wrap: wrap;
 }
 .card{
     width: 25rem;
     box-shadow: 0 0 14px 2px var(--color6);
     border: ridge 1px var(--color4);
+    margin: 1em;
+
 }
 
 .topCard {
@@ -50,9 +53,35 @@
     display: flex;
     align-items: center;
 }
+@media (max-width: 800px) {
+    .container1{
+    display: flex;
+    flex-direction: column-reverse;
+    }
+    .container1 .img1{
+        width: 100vw;
+        height: auto;
+        padding-bottom: 1.5em;
+    }
+    .container2{
+        display: flex;
+        flex-direction: column;
+        }
+        .container2 .img2{
+            width: 100vw;
+            height: auto;
+            padding-top: 1.5em;
+        }
+    /* .subContainer1a {
+        width: 100vw;
+    } */
+
+}
 
 .subContainer1a {
-    width: 50%;
+    width: 50vw;
+
+
 }
 
 .img1 {
@@ -66,9 +95,20 @@
 
 .list {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     color: var(--color3);
     font-family: var(--font2);
+    margin: 0;
+}
+
+.list ul{
+    list-style-type: none;
+    
+}
+
+.list li{
+    padding: 0.35em;
+    
 }
 
 .container2 {
@@ -76,15 +116,18 @@
     align-items: center;
 }
 
+
+
 .img2 {
     width: 49.5vw;
 }
 
 .subContainer2a {
-    width: 50%;
+    width: 75%;
     padding: 2rem;
     line-height: 1.5rem;
     text-align: justify;
+
 }
 
 .paragraph {
