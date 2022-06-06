@@ -4,9 +4,18 @@ import { useParams } from "react-router-dom";
 import CarCard from "../../components/CarCard/CarCard";
 import CarFilters from "../../components/CarFilters/CarFilters";
 import LocationFilter from "../../components/LocationFilter/LocationFilter";
+import Pagination from "../../components/Pagination/Pagination";
 import { getFilteredCars, setCity, setSelection } from "../../redux/actions";
 
 import styles from "./CarsSelection.module.css";
+
+const datePlus = (date, num) => {
+  return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num));
+}
+
+const toUglyDayFormat = (date) => {
+  return new Date(date.getTime() - (date.getTimezoneOffset() * 60 * 1000)).toISOString().split('T')[0];
+}
 
 function CarsSelection() {
   const locations = useSelector((state) => state.locations);
@@ -17,8 +26,6 @@ function CarsSelection() {
 
   useEffect(() => {
     dispatch(getFilteredCars(selection, locationId));
-
-    dispatch(setSelection(selection));
   }, [dispatch, locationId, selection]);
 
   const findCityName = (array) => {
@@ -30,11 +37,26 @@ function CarsSelection() {
     }
   };
   const handleFilters = (e) => {
-    let selected = { ...selection, [e.target.name]: e.target.value };
-
+    let value = e.target.value;
+    let endingLowerThanStarting = false;
+    if (e.target.name === "startingDate" || e.target.name === "endingDate") {
+      value = value.split("-").join("/");
+      if (e.target.name === "startingDate" && new Date(value) >= new Date(selection.endingDate)) {
+        endingLowerThanStarting = true;
+      }
+    }
+    let selected = { ...selection, [e.target.name]: value , page:1};
+    if (endingLowerThanStarting) selected.endingDate = toUglyDayFormat(datePlus(new Date(value), 1)).split("-").join("/");
     dispatch(setSelection(selected));
-    dispatch(getFilteredCars(selection, locationId));
+    dispatch(getFilteredCars(selected, locationId));
   };
+
+  const handlePages = (page) => {
+    dispatch(getFilteredCars({
+      ...selection,
+      page 
+    }, locationId))
+  }
 
   return (
     <div>
@@ -49,28 +71,31 @@ function CarsSelection() {
           />
         </div>
       </div>
-      <div className={styles.cardsScreen}>
-        {filteredCars.length ? (
-          filteredCars.map((car) => {
-            return (
-              <div key={car.model}>
-                <CarCard
-                  brand={car.brand}
-                  model={car.model}
-                  pricePerDay={car.pricePerDay}
-                  rating={car.rating}
-                  image={car.images[0]}
-                />
-              </div>
-            );
-          })
-        ) : (
-          <div>
-            <div>{`We are sorry! :(`}</div>
-            <div>Car selection unavailable </div>
-          </div>
-        )}
-      </div>
+        <div className={styles.cardsScreen}>
+          {filteredCars.length ? (
+            filteredCars.map((car) => {
+              return (
+                <div key={car.model}>
+                  <CarCard
+                    brand={car.brand}
+                    model={car.model}
+                    pricePerDay={car.pricePerDay}
+                    rating={car.rating}
+                    image={car.images[0]}
+                  />
+                </div>
+              );
+            })
+          ) : (
+            <div>
+              <div>{`We are sorry! :(`}</div>
+              <div>Car selection unavailable </div>
+            </div>
+          )}
+        </div>
+        {
+        filteredCars.length ? <Pagination handlePages={handlePages} />: null
+      }
     </div>
   );
 }

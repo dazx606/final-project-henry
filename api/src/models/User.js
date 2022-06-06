@@ -3,10 +3,6 @@ module.exports = (sequelize) => {
   sequelize.define(
     "user",
     {
-      // userName: {
-      //     type: DataTypes.STRING,
-      //     primaryKey: true,
-      // },
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -28,6 +24,9 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+      },
+      picture:{
+        type:DataTypes.STRING,
       },
       phone: {
         type: DataTypes.STRING,

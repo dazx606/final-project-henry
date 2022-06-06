@@ -9,13 +9,13 @@ export default function Categories() {
 
     const responsive = {
         desktop: {
-            breakpoint: { max: 3000, min: 1235 },
-            items: 3.8,
+            breakpoint: { max: 3000, min: 1441 },
+            items: 3.6,
             partialVisibilityGutter: 40, // this is optional if you are not using partialVisible props
         },
         desktop4: {
             breakpoint: { max: 1440, min: 1235 },
-            items: 3.2,
+            items: 2.5,
             partialVisibilityGutter: 40, // this is optional if you are not using partialVisible props
         },
         desktop3: {

@@ -17,7 +17,7 @@ const datePlus = (date, num) => {
 }
 
 const getDatesInRange = (startDate, endDate) => {
-  const date = new Date(startDate.getTime());
+  const date = new Date(startDate.toDateString());
   const dates = [];
   while (date <= endDate) {
     dates.push(new Date(date));

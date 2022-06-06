@@ -1,11 +1,13 @@
 .footer {
-  background-color: #242424;
+  background-color: var(--color6);
   margin-top: auto;
   color: var(--color3);
   display: flex;
   padding: 10px;
   align-items: center;
   height: 16rem;
+  justify-content: right;
+  
 }
 
 .navLinks {
@@ -15,7 +17,7 @@
   text-decoration: none;
   padding: 5px 0;
   display: inline-block;
-  margin-left: 15rem;
+  margin-right: 13rem;
 }
 .links {
   display: flex;
@@ -25,7 +27,7 @@
 .icons {
   font-family: sans-serif;
   font-size: 1.2em;
-  margin-left: 10rem;
+  margin-right: 10rem;
 }
 .info {
   padding: 5px 0;
@@ -37,12 +39,12 @@
 .map {
   border-left: 1px groove var(--color3);
   padding: 2rem;
-  width: 25vw;
+  width: 30%;
   padding-left: 1rem;
-  margin-left: 15rem;
+  /* margin-left: 15rem; */
 }
 .mapContainer {
-  width: 300px;
+  width: 20%;
   height: 200px;
   border-radius: 4px;
   width: 25vw;
