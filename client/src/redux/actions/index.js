@@ -327,17 +327,21 @@ export function setAdminOptions(payload) {
   };
 }
 
-export function getAllReservations(getToken) {
+export function getAllReservations(getToken, id) {
   return async (dispatch) => {
     try {
       const token = await getToken();
-      let response = await getAllReservs(token);
+      let response = await getAllReservs(token,id);
       return dispatch({
         type: GET_ALL_RESERVATIONS,
-        payload: response.data.orders,
+        payload:response.data.order?[response.data.order]: response.data.orders,
       });
     } catch (error) {
       console.log(error);
+      return dispatch({
+        type:GET_ALL_RESERVATIONS,
+        payload:[],
+      });
     }
   };
 }

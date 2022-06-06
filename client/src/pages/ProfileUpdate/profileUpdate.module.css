@@ -57,7 +57,7 @@
   font-size: 20px;
   font-family: var(--font2);
 }
-.btnProfile{
+.buttonProfile{
   border: outset 2px var(--color4);
   background-color: var(--color1);
   border-radius: 0px;

@@ -311,7 +311,9 @@ router.get("/reservations", async (req, res, next) => {
     if (userId) {
       let orders = await RentOrder.findAll({
         where: { userId },
-        include: [{ model: IndividualCar, include: [CarModel, Location] }],
+        include: [{ model: IndividualCar, include: [CarModel, Location] },
+          { model: User, attributes: ['firstName','lastName','email']}
+        ],
       });
       return orders.length
         ? res.send({ orders })
@@ -320,7 +322,9 @@ router.get("/reservations", async (req, res, next) => {
     if (orderId) {
       let order = await RentOrder.findOne({
         where: { id: orderId },
-        include: [{ model: IndividualCar, include: [CarModel, Location] }],
+        include: [{ model: IndividualCar, include: [CarModel, Location] },
+          { model: User, attributes: ['firstName','lastName','email']}
+       ],
       });
       return order !== null
         ? res.send({ order })
