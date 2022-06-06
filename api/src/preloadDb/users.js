@@ -29,6 +29,16 @@ const users = [
     admin: true,
     picture: "https://lh3.googleusercontent.com/a/AATXAJxkVJbeNB4Pp-92JzDgWagSJojKjfW-LqnxFl8z=s96-c",
   },
+  {
+    email: "arseneblavier46@gmail.com",
+    admin: true,
+    picture: "https://lh3.googleusercontent.com/a-/AOh14GilJ4LmGwRWgXNiriN6VBaLWXGeoOBtfgAdd6Ayyg=s96-c",
+  },
+  {
+    email: "rentacarg7@gmail.com",
+    admin: true,
+    picture: "https://lh3.googleusercontent.com/a/AATXAJz-JJJCh8afMJERfTKPh69b_WnUAIiF2yIuqe6K=s96-c",
+  },
 ];
 
 module.exports = { users };

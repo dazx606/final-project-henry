@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
@@ -15,9 +14,11 @@ export default function Alert() {
         if (city !== "") setActiveBtn(false)
         const element = document.getElementById("All")
         element.addEventListener("click", (event) => {
-            if (event.target.id === "All") { dispatch(showAlert(true)) }
+            if (event.target.id === "All") { 
+                dispatch(showAlert(true)) 
+            }
         });
-        return () => dispatch(showAlert(true))
+        // return () => dispatch(showAlert(true))      //no se para que es esa linea pero rompe algunas cosas asi que lo commente(Arsène)
     }, [city])
 
     function handleClick() {
@@ -33,7 +34,9 @@ export default function Alert() {
                 </div>
                 <NavLink to={`/city/${city}`}><button className={`buttonGlobal ${style.homeBtn}`} disabled={activeBtn} onClick={handleClick}>select</button></NavLink>
             </div>
+            <NavLink to={`/city/${city}`}><button className={style.homeBtn} disabled={activeBtn} onClick={handleClick}>Select</button></NavLink>
         </div>
+     
 
     )
 }
