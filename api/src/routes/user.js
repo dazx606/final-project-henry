@@ -19,8 +19,6 @@ const authMiddleWare = jwt({
 
 const router = Router();
 
-
-
 // ============================ GET =============================================================//
 router.get("/", authMiddleWare, async (req, res, next) => {
   const { email } = req.query;
@@ -30,8 +28,8 @@ router.get("/", authMiddleWare, async (req, res, next) => {
     user.firstName && user.lastName && user.documentId && user.license
       ? (completed = true)
       : (completed = false);
-    if (user === null) res.status(404).send({ msg: "User not found" });
-    res.status(200).send({ data: user, completed });
+    if (user === null) return res.status(404).send({ msg: "User not found" });
+    return res.status(200).send({ data: user, completed });
   } catch (error) {
     next(error);
   }
@@ -95,6 +93,5 @@ router.patch("/:id", authMiddleWare, async (req, res, next) => {
     next(error);
   }
 });
-
 
 module.exports = router;

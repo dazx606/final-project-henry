@@ -10,7 +10,13 @@ export default function Profile() {
   const locations = useSelector((state) => state.locations);
   const { userId } = useParams();
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const [input, setInput] = useState({ firstName: "", lastName: "", phone: "", license: "", documentId: "" });
+  const [input, setInput] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    license: "",
+    documentId: "",
+  });
   const [alert, setAlert] = useState("");
 
   const dispatch = useDispatch();
@@ -27,7 +33,7 @@ export default function Profile() {
     });
   }, []);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (!user.email_verified) {
@@ -35,16 +41,27 @@ export default function Profile() {
 
       return;
     }
-    if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
+    if (
+      errors.firstName ||
+      errors.lastName ||
+      errors.phone ||
+      errors.license ||
+      errors.documentId
+    ) {
       setAlert("Complete with your correct information");
       return;
     }
-    if (!input.firstName || !input.lastName || !input.license || !input.documentId) {
+    if (
+      !input.firstName ||
+      !input.lastName ||
+      !input.license ||
+      !input.documentId
+    ) {
       setAlert("Complete your information");
       return;
     }
-    dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    await dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
+    await dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information is update");
   }
   function handleChange(e) {
@@ -75,7 +92,6 @@ export default function Profile() {
           <Link to={`/profile/${userId}`}>
             <button>Profile</button>
           </Link>
-
         </div>
       ) : (
         <form onSubmit={handleSubmit}>
@@ -104,12 +120,23 @@ export default function Profile() {
           </div>
           <div>
             <div className={styles.titles}>Phone: </div>
-            <input className={`${styles.inputGlobal} ${styles.inputs}`} type="text" value={input.phone} name="phone" onChange={handleChange} />
+            <input
+              className={`${styles.inputGlobal} ${styles.inputs}`}
+              type="text"
+              value={input.phone}
+              name="phone"
+              onChange={handleChange}
+            />
             {errors.phone && <p>{errors.phone}</p>}
           </div>
           <div>
             <div className={styles.titles}>Language: </div>
-            <select className={styles.inputs} value={input.language} name="language" onChange={handleChange}>
+            <select
+              className={styles.inputs}
+              value={input.language}
+              name="language"
+              onChange={handleChange}
+            >
               <option value="English">English</option>
               <option value="Spanish">Spanish</option>
             </select>
@@ -127,13 +154,24 @@ export default function Profile() {
           </div>
           <div className={styles.titles}>
             <div>License: </div>
-            <input className={`${styles.inputGlobal} ${styles.select}`} type="text" value={input.license} name="license" onChange={handleChange} />
+            <input
+              className={`${styles.inputGlobal} ${styles.select}`}
+              type="text"
+              value={input.license}
+              name="license"
+              onChange={handleChange}
+            />
             {errors.license && <p>{errors.license}</p>}
           </div>
           <div>
             <div className={styles.titles}>City: </div>
 
-            <select className={styles.select} value={input.city} name="city" onChange={handleChange}>
+            <select
+              className={styles.select}
+              value={input.city}
+              name="city"
+              onChange={handleChange}
+            >
               <option>City</option>
               {locations?.map((l) => (
                 <option key={l.city} value={l.id}>

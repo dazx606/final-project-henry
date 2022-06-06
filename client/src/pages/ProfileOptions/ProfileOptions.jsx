@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 
 import styles from "./ProfileOptions.module.css";
 import { setProfileOptions } from "../../redux/actions";
+import CreateModel from "../../components/CreateModel/CreateModel";
 
 function ProfileOptions() {
   const { isAuthenticated, loginWithPopup, isLoading } = useAuth0();
@@ -12,15 +13,14 @@ function ProfileOptions() {
   // const [profileInformation, setProfileInformation] = useState(true);
   // const [profileOrders, setProfileOrders] = useState(false);
   const profileOptions = useSelector((state) => state.profileOptions);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  
   return (
     <div className={styles.container}>
       <div className={styles.selection}>
         <div className={styles.selectionbox}>
           <button
-            value='information'
+            value="information"
             className={styles.options}
             onClick={(e) => {
               dispatch(setProfileOptions(e.target.value));
@@ -31,7 +31,7 @@ function ProfileOptions() {
             Profile Information
           </button>
           <button
-            value='reservations'
+            value="reservations"
             className={styles.options}
             onClick={(e) => {
               dispatch(setProfileOptions(e.target.value));
@@ -44,8 +44,8 @@ function ProfileOptions() {
         </div>
       </div>
       <div className={styles.render}>
-        {profileOptions === 'information' && <ProfileInfo />}
-        {profileOptions === 'reservations' && <ProfileOrders />}
+        {profileOptions === "information" && <ProfileInfo />}
+        {profileOptions === "reservations" && <ProfileOrders />}
       </div>
     </div>
   );
@@ -53,7 +53,7 @@ function ProfileOptions() {
 
 function ProfileInfo() {
   const userInfo = useSelector((state) => state.user);
-  
+
   return (
     <div className={styles.profileinfo}>
       {userInfo.data && (
@@ -141,7 +141,7 @@ function ProfileInfo() {
 
 function ProfileOrders() {
   const userInfo = useSelector((state) => state.user);
- 
+
   return (
     <div className={styles.profileinfo}>
       {userInfo.data && (
@@ -159,7 +159,9 @@ function ProfileOrders() {
           </div>
           <div
             style={{ display: "flex", fontSize: ".8rem", padding: "1rem 1rem" }}
-          ></div>
+          >
+            <CreateModel />
+          </div>
         </>
       )}
     </div>

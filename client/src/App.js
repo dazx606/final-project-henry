@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
+import { setUserInfo } from "./redux/actions";
 import Home from "./pages/Home/Home";
 import CarDetail from "./pages/CarDetail/CarDetail";
 import NavBar from "./components/NavBar/NavBar";
@@ -15,6 +18,15 @@ import ProfileUpdate from "./pages/ProfileUpdate/ProfileUpdate";
 import Booking from "./pages/Booking/Booking";
 
 function App() {
+  const dispatch = useDispatch();
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    }
+  }, [dispatch, isAuthenticated, getAccessTokenSilently, user]);
+
   return (
     <div className="app">
       <Routes>

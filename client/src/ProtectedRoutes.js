@@ -9,9 +9,9 @@ function ProtectedRoutes() {
     useAuth0();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setUserInfo(getAccessTokenSilently, user?.email));
-  }, [dispatch, user]);
+  // useEffect(() => {
+  //   dispatch(setUserInfo(getAccessTokenSilently, user?.email));
+  // }, [dispatch, user]);
 
   return isAuthenticated ? (
     <Outlet />

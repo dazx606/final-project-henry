@@ -6,14 +6,8 @@ import { setUserInfo, saveUser, setProfileOptions } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 
 function Authentication({ setDisplay, display, handleLoginInfo }) {
-  const {
-    loginWithPopup,
-    isAuthenticated,
-    logout,
-    user,
-    isLoading,
-    getAccessTokenSilently,
-  } = useAuth0();
+  const { loginWithPopup, isAuthenticated, logout, user, isLoading } =
+    useAuth0();
   const dispatch = useDispatch();
   const savedUser = useSelector((state) => state.savedUser);
   const completeUser = useSelector((state) => state.user);
@@ -24,16 +18,9 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
     }
   }, [user, dispatch]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(setUserInfo(getAccessTokenSilently, user.email));
-    }
-  }, [dispatch, savedUser]);
-
   function handleProfileInfo(e) {
-    setDisplay(!display)
+    setDisplay(!display);
     dispatch(setProfileOptions(e));
-   
   }
 
   return (
@@ -44,10 +31,19 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
             !completeUser.completed ? (
               <div>
                 <div className={style.head}>
-                  {user.picture ? <img className={style.imgIcon} src={user.picture} />
-                    : <div className={style.imgIcon}>{user.given_name ? user.given_name[0].toLocaleUpperCase() : user.nickname[0].toLocaleUpperCase()}</div>}
+                  {user.picture ? (
+                    <img className={style.imgIcon} src={user.picture} />
+                  ) : (
+                    <div className={style.imgIcon}>
+                      {user.given_name
+                        ? user.given_name[0].toLocaleUpperCase()
+                        : user.nickname[0].toLocaleUpperCase()}
+                    </div>
+                  )}
                   <div>
-                    <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname}!`}</h2>
+                    <h2 className={style.hello}>{`Hello ${
+                      user.given_name ? user.given_name : user.nickname
+                    }!`}</h2>
                     <h3 className={style.email}>{user?.email}</h3>
                   </div>
                 </div>
@@ -55,17 +51,26 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
 
                 <div className={style.exclam}>UPS! </div>
                 <div className={style.msg}>Your Profile is incomplete.</div>
-                <NavLink className={style.link} to={`/user/${savedUser[1]}`} onClick={handleLoginInfo}>
-                  <div >Complete Profile</div>
+                <NavLink
+                  className={style.link}
+                  to={`/user/${savedUser[1]}`}
+                  onClick={handleLoginInfo}
+                >
+                  <div>Complete Profile</div>
                 </NavLink>
               </div>
             ) : (
               <div>
                 <div className={style.head}>
-                  {user.picture ? <img className={style.imgIcon} src={user.picture} />
-                    : <div>{completeUser.data.firstName[0].toUpperCase()}</div>}
-                  <div >
-                    <h2 className={style.hello}>{`Hello ${completeUser && completeUser.data.firstName}!`}</h2>
+                  {user.picture ? (
+                    <img className={style.imgIcon} src={user.picture} />
+                  ) : (
+                    <div>{completeUser.data.firstName[0].toUpperCase()}</div>
+                  )}
+                  <div>
+                    <h2 className={style.hello}>{`Hello ${
+                      completeUser && completeUser.data.firstName
+                    }!`}</h2>
                     <h3 className={style.email}>{user?.email}</h3>
                   </div>
                 </div>
@@ -74,21 +79,38 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                 {/* <div className={style.exclam}>GREAT! </div>
                 <div className={style.msg}>Everithing looks good with your information.</div> */}
                 {/* <div className={style.msg}>You can rent a car now</div> */}
-                <NavLink className={style.link} to={`/profile/${savedUser[1]}`} onClick={(e) => handleProfileInfo(e='information')}>
-                  <div   >Profile</div>
+                <NavLink
+                  className={style.link}
+                  to={`/profile/${savedUser[1]}`}
+                  onClick={(e) => handleProfileInfo((e = "information"))}
+                >
+                  <div>Profile</div>
                 </NavLink>
-                <NavLink className={style.link} to={`/profile/${savedUser[1]}`} onClick={(e) => handleProfileInfo(e='reservations')} >
-                  <div  >My reservations</div>
+                <NavLink
+                  className={style.link}
+                  to={`/profile/${savedUser[1]}`}
+                  onClick={(e) => handleProfileInfo((e = "reservations"))}
+                >
+                  <div>My reservations</div>
                 </NavLink>
               </div>
             )
           ) : (
             <div>
               <div className={style.head}>
-                {user.picture ? <img className={style.imgIcon} src={user.picture} />
-                  : <div className={style.imgIcon}>{user.given_name ? user.given_name[0].toLocaleUpperCase() : user.nickname[0].toLocaleUpperCase()}</div>}
+                {user.picture ? (
+                  <img className={style.imgIcon} src={user.picture} />
+                ) : (
+                  <div className={style.imgIcon}>
+                    {user.given_name
+                      ? user.given_name[0].toLocaleUpperCase()
+                      : user.nickname[0].toLocaleUpperCase()}
+                  </div>
+                )}
                 <div>
-                  <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname}!`}</h2>
+                  <h2 className={style.hello}>{`Hello ${
+                    user.given_name ? user.given_name : user.nickname
+                  }!`}</h2>
                   <h3 className={style.email}>{user?.email}</h3>
                 </div>
               </div>
@@ -109,9 +131,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
             </button>
           </div>
         </div>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 }
 

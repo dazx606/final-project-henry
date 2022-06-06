@@ -15,6 +15,8 @@ import {
   SAVE_USER,
   PATCH_USER,
   SET_PROFILE_OPTIONS,
+  GET_INCLUDED_EQUIPMENT,
+  GET_OPTIONAL_EQUIPMENT,
 } from "../actions";
 
 const initialState = {
@@ -38,6 +40,8 @@ const initialState = {
   savedUser: [],
   user: {},
   profileOptions: "information",
+  optionalEquipment: [],
+  includedEquipment: [],
 };
 
 export default function rootReducer(state = initialState, { type, payload }) {
@@ -73,17 +77,17 @@ export default function rootReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         carRenting: payload,
-      }
+      };
     case DELETE_CAR_DETAILS:
       return {
         ...state,
-        carDetails: payload
+        carDetails: payload,
       };
     case DELETE_RENTING_CAR:
       return {
         ...state,
-        carRenting: {}
-      }
+        carRenting: {},
+      };
     case SEND_MESSAGE:
       return {
         ...state,
@@ -123,8 +127,21 @@ export default function rootReducer(state = initialState, { type, payload }) {
     case SET_PROFILE_OPTIONS: {
       return {
         ...state,
-        profileOptions: payload
-      }
+        profileOptions: payload,
+      };
+    }
+    case GET_INCLUDED_EQUIPMENT: {
+      return {
+        ...state,
+        includedEquipment: payload,
+      };
+    }
+
+    case GET_OPTIONAL_EQUIPMENT: {
+      return {
+        ...state,
+        optionalEquipment: payload,
+      };
     }
 
     default:

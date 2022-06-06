@@ -15,6 +15,9 @@ const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
 
+const { STRIPE_SECRET_KEY } = process.env;
+const stripe = require("stripe")(STRIPE_SECRET_KEY);
+
 // ===================================== AUTHORIZATION MIDDLEWARE ==================================//
 const authMiddleWare = jwt({
   secret: jwks.expressJwtSecret({
@@ -138,6 +141,24 @@ router.get("/allCars", async (req, res, next) => {
   }
 });
 
+router.get("/equipment/included", async (req, res, next) => {
+  try {
+    const includedlEquipment = await IncludedEquipment.findAll();
+    return res.status(200).send(includedlEquipment);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/equipment/optional", async (req, res, next) => {
+  try {
+    const optionalEquipment = await OptionalEquipment.findAll();
+    return res.status(200).send(optionalEquipment);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // ============================ POST =============================================================//
 
 //============== CARS & MODEL
@@ -146,7 +167,6 @@ router.post("/model", async (req, res, next) => {
     model,
     brand,
     pricePerDay,
-    stripePriceId,
     passengers,
     trunk,
     consumption,
@@ -163,15 +183,28 @@ router.post("/model", async (req, res, next) => {
     });
     if (checkIfModelExist)
       return res.status(409).send({ msg: "This model already exist" });
+    //////////////////////// ESTA FUNCION SE DESCOMENTA CUANDO SE NECESITA AGREGAR PRECIO DE STRIPE
+
+    // const product = await stripe.products.create({
+    //   name: `${brand} ${model}`,
+    // });
+    // const price = await stripe.prices.create({
+    //   product: product.id,
+    //   unit_amount: pricePerDay * 100,
+    //   currency: "usd",
+    // });
+
+    ////////////////////////////////
     const newModel = await CarModel.create({
       brand: brand,
       model: model,
-      pricePerDay: pricePerDay,
-      passengers: passengers,
+      pricePerDay: parseFloat(pricePerDay),
+      passengers: parseInt(passengers),
       trunk: trunk,
-      consumption: consumption,
-      engine: engine,
+      consumption: parseFloat(consumption),
+      engine: parseFloat(engine),
       images: images,
+      //stripePriceId: price.id,
     });
 
     await Promise.all(

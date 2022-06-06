@@ -48,3 +48,11 @@ export function updateUser(user, token) {
   };
   return axios.patch(`${URL}user/${user.userId}`, user, options);
 }
+
+export function getAllOptionalEquipment() {
+  return axios.get(`${URL}admin/equipment/optional`);
+}
+
+export function getAllIncludedEquipment() {
+  return axios.get(`${URL}admin/equipment/included`);
+}

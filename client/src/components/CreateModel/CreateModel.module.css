@@ -1,0 +1,138 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}
+.inputcontainer {
+  display: flex;
+  width: 100%;
+  font-size: small;
+  font-family: var(--font2);
+  color: var(--color3Tr);
+}
+
+.firstsplit {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 1rem;
+}
+
+.secondsplit {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 1rem;
+}
+
+.tag {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.taginfo {
+  font-size: smaller;
+  margin-bottom: 0.5rem;
+  color: var(--color4);
+}
+
+.input {
+  height: 1.75rem;
+  width: auto;
+  border-radius: 0.2rem;
+  border: none;
+  padding: 0 0.4rem;
+  color: var(--color4);
+  background-color: var(--color8);
+  font-family: var(--font2);
+  box-shadow: none;
+  font-size: small;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.input:hover {
+  box-shadow: none;
+  border: none;
+  font-weight: normal;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.inputgroup {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.inputgroup input {
+  width: 100%;
+}
+
+.groupcontainer {
+  display: flex;
+  flex-direction: column;
+  max-width: 8rem;
+}
+
+.subinput {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.imageinput {
+  display: flex;
+  align-items: center;
+}
+
+.imageinput input {
+  width: 100%;
+  border-bottom-left-radius: 0.2rem;
+  border-top-left-radius: 0.2rem;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+.imageinput input:focus {
+  box-shadow: none;
+}
+
+.imageinput button {
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  background-color: var(--color8);
+  height: 1.75rem;
+  text-align: center;
+  padding: none;
+  margin: none;
+  font-size: smaller;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0.2rem;
+  border-top-right-radius: 0.2rem;
+  width: auto;
+}
+
+.submit {
+  display: flex;
+  justify-content: end;
+  margin-top: 0.5rem;
+  width: 100%;
+}

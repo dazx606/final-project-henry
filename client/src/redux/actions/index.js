@@ -1,6 +1,17 @@
 // Declarar types aqui. ej export const GET_CARS = "GET_CARS"
 import axios from "axios";
-import { getAllLocations, getCarsByLocation, filterCars, getCarsDetails, sendAMessage, getUserInformation, addUser, updateUser } from "../../services/services";
+import {
+  getAllLocations,
+  getCarsByLocation,
+  filterCars,
+  getCarsDetails,
+  sendAMessage,
+  getUserInformation,
+  addUser,
+  updateUser,
+  getAllIncludedEquipment,
+  getAllOptionalEquipment,
+} from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
 export const SET_CITY = "SET_CITY";
@@ -17,6 +28,8 @@ export const SET_USER = "SET_USER";
 export const SAVE_USER = "SAVE_USER";
 export const PATCH_USER = "UPDATE_USER";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
+export const GET_OPTIONAL_EQUIPMENT = "GET_OPTIONAL_EQUIPMENT";
+export const GET_INCLUDED_EQUIPMENT = "GET_INCLUDED_EQUIPMENT";
 
 export const URL = "http://localhost:3001/";
 
@@ -57,7 +70,17 @@ export function getRentingCar(carModel) {
 }
 
 export function getFilteredCars(
-  { brand = "", category = "", order = "ASC", startingDate = "", endingDate = "", orderType = "pricePerDay", page = 1, model = "", carsPerPage = 8 },
+  {
+    brand = "",
+    category = "",
+    order = "ASC",
+    startingDate = "",
+    endingDate = "",
+    orderType = "pricePerDay",
+    page = 1,
+    model = "",
+    carsPerPage = 8,
+  },
   locationId
 ) {
   return async (dispatch) => {
@@ -138,10 +161,26 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation) {
+export function rentCar(
+  location,
+  model,
+  startingDate,
+  endingDate,
+  optionalEquipments,
+  drivers,
+  endLocation
+) {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URL}rent/car`, { location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation });
+      const response = await axios.post(`${URL}rent/car`, {
+        location,
+        model,
+        startingDate,
+        endingDate,
+        optionalEquipments,
+        drivers,
+        endLocation,
+      });
       return dispatch({
         type: RENT_ID,
         payload: response.data,
@@ -149,8 +188,8 @@ export function rentCar(location, model, startingDate, endingDate, optionalEquip
     } catch (error) {
       console.log(error);
     }
-  }
-};
+  };
+}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -158,7 +197,7 @@ export function setUserInfo(getToken, email) {
     try {
       if (email) {
         const token = await getToken();
-        let response = await getUserInformation(token, email)
+        let response = await getUserInformation(token, email);
 
         return dispatch({ type: SET_USER, payload: response.data });
       }
@@ -174,7 +213,11 @@ export function saveUser(email) {
       const response = await addUser(email);
       return dispatch({
         type: SAVE_USER,
-        payload: [response.data.msg, response.data.data, response.data.complited],
+        payload: [
+          response.data.msg,
+          response.data.data,
+          response.data.complited,
+        ],
       });
     } catch (e) {
       console.log(e);
@@ -200,7 +243,34 @@ export function patchUser(getToken, payload) {
 export function setProfileOptions(payload) {
   return {
     type: SET_PROFILE_OPTIONS,
-    payload
-  }
+    payload,
+  };
+}
 
+export function getIncludedEquipment() {
+  return async (dispatch) => {
+    try {
+      const response = await getAllIncludedEquipment();
+      return dispatch({
+        type: GET_INCLUDED_EQUIPMENT,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getOptionalEquipment() {
+  return async (dispatch) => {
+    try {
+      const response = await getAllOptionalEquipment();
+      return dispatch({
+        type: GET_OPTIONAL_EQUIPMENT,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
