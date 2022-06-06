@@ -207,16 +207,16 @@ export default function Booking() {
                         <div className={styles.title}>
                             <h3>RENTAL FORM</h3>
                         </div>
-                        <div>
+                        <div className={styles.locationContainer}>
                             <label>Location: </label>
-                            <LocationFilter />
+                            <div className={styles.location}><LocationFilter /></div>
                         </div>
                         {
                             !location && <div>Select a Location first</div>
                         }
                         <div>
-                            <label>Car Model: </label>
-                            <select name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
+                            <label>Car Model:  </label>
+                            <select  className={styles.selects} name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
                                 <option value="placeholder" hidden>Car Model</option>
                                 {locationCarsModels && locationCarsModels.map((el, k) => <option key={k} value={el}>{el}</option>)}
                             </select>
@@ -279,7 +279,7 @@ export default function Booking() {
                         <Drivers drivers={drivers} setDrivers={setDrivers} />
                         <div>
                             <label>Return location: </label>
-                            <select name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
+                            <select className={styles.selects} name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
                                 <option value="placeholder" hidden>location...</option>
                                 {allLocation.map((el, k) => <option key={k} value={el.id}>{el.city}</option>)}
                             </select>
@@ -303,12 +303,12 @@ export default function Booking() {
                             </table>
                         </div>
                         <div className={styles.termsConditions}>
-                            <input type="checkbox" onChange={checkboxHandler} />
+                            <input className={styles.checkbox} type="checkbox" onChange={checkboxHandler} />
                             <label htmlFor="agree"> I agree to <a className={styles.terms} onClick={() => { setShow(true) }}>terms and conditions</a></label>
                         </div>
                         {!loading ?
                             <div className={styles.buttonRent}>
-                                <button disabled={!agree || !location || !carRenting.model || !drivers.length || !endLocation || !validDays} type="submit">
+                                <button className="buttonGlobal" disabled={!agree || !location || !carRenting.model || !drivers.length || !endLocation || !validDays} type="submit">
                                     Rent
                                 </button>
                             </div>

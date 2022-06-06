@@ -207,9 +207,11 @@ export function setUserInfo(getToken, email) {
   };
 }
 
-export function userReservations(token, userId) {
+export function userReservations(getToken, userId) {
   return async (dispatch) => {
+    let token = getToken();
     try {
+      
       if (userId) {
         let response = await getUserReservations(token, userId);
         return dispatch({ type: GET_USER_RESERVATIONS, payload: response.data, token });

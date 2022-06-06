@@ -7,15 +7,17 @@
     margin: 3rem;
     padding: 2rem;
     background-color: var(--color1);
-    box-shadow: 0px 0px 8px 2px var(--color6Tr);
     font-family: var(--font2);
     font-size: 1rem;
     font-weight: 400;
     color: var(--color3);
     border: outset 1px var(--color4);
     outline: none;
-    width: 30rem;
+    max-width: 30em;
     line-height: 2rem;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 8px var(--color4);
 }
 
 .title {
@@ -47,23 +49,25 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
     background-color: var(--color1);
-    box-shadow: 0px 0px 8px 2px var(--color6Tr);
     font-family: var(--font2);
     font-size: 1rem;
     font-weight: 400;
     color: var(--color3);
     border: outset 1px var(--color4);
     outline: none;
-    width: 26rem;
+    max-width: 26rem;
     line-height: 3rem;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 8px var(--color4);
 }
 
-.date:hover {
+/* .date:hover {
     cursor: pointer;
     box-shadow: 0px 0px 0px 0px var(--color6Tr);
     font-weight: 500;
     border: outset 2px var(--color4);
-}
+} */
 
 .colum1 {
     width: 8rem;
@@ -82,6 +86,9 @@
 .termsConditions {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: left;
 }
 
 .buttonRent {
@@ -101,21 +108,68 @@
     justify-content: space-evenly;
 }
 
-
-
-/* .date button {
+.selects {
     border: outset 1px var(--color4);
+    outline: none;
+    padding: 4px;
     background-color: var(--color1);
-    border-radius: 0px;
+    box-shadow: 0px 0px 8px 2px var(--color6Tr);
     font-family: var(--font2);
+    font-size: 1rem;
     font-weight: 400;
-    font-size: 1em;
-    color: var(--color4);
-    box-shadow: none;
-    transition: 0.1s;
-    padding: 10px;
+    color: var(--color3);
 }
 
+.selects:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 8px 6px var(--color6Tr);
+    font-weight: 500;
+    border: outset 2px var(--color4);
+}
+
+.locationContainer {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.date {
+    
+    outline: none;
+    padding: 4px;
+    background-color: var(--color1);
+    font-family: var(--font2);
+    font-size: 1rem;
+    font-weight: 400;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 4px var(--color4);
+}
+
+.date input {
+    color: var(--color3);
+}
+
+
+
+.date p {
+    color: var(--color3);
+}
+
+.date select {
+    background-color: var(--color1);
+    font-family: var(--font2);
+    color: var(--color3);
+}
+
+.checkbox {
+ width: 1.5em;   
+ height: 1.5em;
+ align-items: center;
+ margin-right: 1em;
+}
+
+/*
 .date button:hover {
     cursor: pointer;
     box-shadow: none;

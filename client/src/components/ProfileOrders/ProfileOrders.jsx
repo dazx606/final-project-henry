@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "../../pages/ProfileOptions/ProfileOptions.module.css";
 import { userReservations } from "../../redux/actions";
@@ -8,11 +8,10 @@ export default function ProfileOrders() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user);
   const reservations = useSelector((state) => state.userReservations)
-  const { getAccessTokenSilently}= useAuth0()
+  const { getAccessTokenSilently }= useAuth0()
 
   useEffect(() => {
     dispatch(userReservations(getAccessTokenSilently, userInfo.data.id))
-
   }, [dispatch, userInfo.data.id]);
 
   console.log(reservations)
@@ -80,7 +79,7 @@ export default function ProfileOrders() {
                     </div>
                   )
                   ) :
-                  <div style={{display:"flex", justifyContent:"center"}}><p>You don't have any reservations. Go booking!</p></div>
+                  <div style={{display:"flex", justifyContent:"center"}}><p>You don't have any reservation. Go booking!</p></div>
               }
             </div>
 
