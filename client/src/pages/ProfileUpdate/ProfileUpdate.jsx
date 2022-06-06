@@ -56,8 +56,9 @@ export default function Profile() {
       setAlert(" Please complete your information");
       return;
     }
-    await dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    setAlert("Your information is update!");
+     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
+     dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    setAlert("Your information has been updated");
   }
   function handleChange(e) {
     setInput({
@@ -145,7 +146,7 @@ export default function Profile() {
             </select>
           </div>
           <div>
-            <div className={styles.titles}>Document Id: </div>
+            <div className={styles.titles}>Document ID: </div>
             <input
               className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
