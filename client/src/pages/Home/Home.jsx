@@ -30,13 +30,13 @@ function Home() {
 
     return (
         <div className={styles.homeCont}>
-            <div className={styles.slctBar}>
+            {/* <div className={styles.slctBar}>
                 <span className={styles.slCityT}>Select a city to find available cars</span>
                 <LocationFilter />
                 <Link to={`/city/${city}`}>
                     <button className={styles.goBtn}>Go</button>
                 </Link>
-            </div>
+            </div> */}
             <Carousel />
 
             <Categories />
