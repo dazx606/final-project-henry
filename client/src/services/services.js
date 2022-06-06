@@ -30,27 +30,21 @@ export function getUserInformation(token, email) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios(
-    `http://localhost:3001/user?email=${email}`,
-    options
-  );
-};
+  return axios(`http://localhost:3001/user?email=${email}`, options);
+}
 
 export function getUserReservations(token, userId) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
-  }
-  return axios(
-    `${URL}user/reservations?userId=${userId}`,
-    options
-  )
+  };
+  return axios(`${URL}user/reservations?userId=${userId}`, options);
 }
 
 export function addUser(email, picture) {
   return axios.post(`${URL}user`, { email, picture });
-};
+}
 
 export function updateUser(user, token) {
   // console.log("service token: "+token);
@@ -79,11 +73,12 @@ export function deleteUserInfo(userId, token) {
   return axios.delete(`http://localhost:3001/admin/users/${userId}`, options);
 }
 
-export function getAllReservs(token) {
+export function getAllReservs(token, userId) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
+    params:{userId}
   };
   return axios.get(`http://localhost:3001/admin/reservations`, options);
 }
