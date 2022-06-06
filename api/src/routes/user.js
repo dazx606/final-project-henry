@@ -44,7 +44,7 @@ router.get("/reservations", async (req,res,next)=>{
   try {
     if(userId){
       let orders = await RentOrder.findAll({where:{userId}, include:[{model:IndividualCar, include:[CarModel, Location]}]});
-      return orders.length ?  res.send(orders) : res.status(404).send({msg:"There are no orders for the user"})
+      return  res.json(orders)
     }
   } catch (error) {
     next(error)
