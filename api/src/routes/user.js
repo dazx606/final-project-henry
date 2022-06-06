@@ -19,8 +19,6 @@ const authMiddleWare = jwt({
 
 const router = Router();
 
-
-
 // ============================ GET =============================================================//
 router.get("/", authMiddleWare, async (req, res, next) => {
   const { email } = req.query;
@@ -30,8 +28,8 @@ router.get("/", authMiddleWare, async (req, res, next) => {
     user.firstName && user.lastName && user.documentId && user.license
       ? (completed = true)
       : (completed = false);
-    if (user === null) res.status(404).send({ msg: "User not found" });
-    res.status(200).send({ data: user, completed });
+    if (user === null) return res.status(404).send({ msg: "User not found" });
+    return res.status(200).send({ data: user, completed });
   } catch (error) {
     next(error);
   }
@@ -44,7 +42,7 @@ router.get("/reservations", async (req,res,next)=>{
   try {
     if(userId){
       let orders = await RentOrder.findAll({where:{userId}, include:[{model:IndividualCar, include:[CarModel, Location]}]});
-      return orders.length ?  res.send(orders) : res.status(404).send({msg:"There are no orders for the user"})
+      return  res.json(orders)
     }
   } catch (error) {
     next(error)
@@ -113,6 +111,5 @@ router.patch("/:id", authMiddleWare, async (req, res, next) => {
     next(error);
   }
 });
-
 
 module.exports = router;
