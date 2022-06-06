@@ -13,7 +13,6 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(saveUser(user.email));
-      console.log(user);
     }
   }, [user, dispatch]);
 
@@ -22,7 +21,6 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
       dispatch(saveUser(user.email, user.picture));
       console.log(user.picture);
     }
-    console.log(user);
   }, [user, dispatch]);
 
   function handleProfileInfo(e) {
@@ -138,7 +136,10 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
           )}
 
           <div className={style.btnCont}>
-            <button className={style.logBtn} onClick={() => logout()}>
+            <button
+              className={`buttonGlobal ${style.logBtn}`}
+              onClick={() => logout()}
+            >
               Log out
             </button>
           </div>

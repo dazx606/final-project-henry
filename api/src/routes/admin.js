@@ -102,14 +102,31 @@ router.get("/allCars", async (req, res, next) => {
   try {
     if (plate && !locationId) {
       let specificCar = await IndividualCar.findAll({
-        where: {
-          license_plate: plate.toString(),
-        },
         order: [["license_plate", "ASC"]],
         include: {
           model: CarModel,
-          attributes: ["model"],
+          attributes: ["brand", "images"],
         },
+      });
+      specificCar = specificCar.filter((sc) =>
+        sc.license_plate.includes(plate.toLocaleUpperCase())
+      );
+
+      return res.status(200).json({ cars: specificCar });
+    }
+
+    if (locationId) {
+      let carsInCity = await Location.findByPk(locationId, {
+        order: [[{ model: IndividualCar }, "license_plate", "ASC"]],
+        include: [
+          {
+            model: IndividualCar,
+          },
+          {
+            model: CarModel,
+            attributes: ["brand", "images"],
+          },
+        ],
       });
       if (!specificCar.length)
         return res.status(404).json({ msg: "car not found" });
@@ -144,10 +161,10 @@ router.get("/allCars", async (req, res, next) => {
         order: [["license_plate", "ASC"]],
         include: {
           model: CarModel,
-          attributes: ["model"],
+          attributes: ["brand", "images"],
         },
       });
-      return res.status(201).json({ car: allCars });
+      return res.status(201).json({ cars: allCars });
     }
   } catch (e) {
     next(e);

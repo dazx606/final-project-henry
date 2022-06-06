@@ -105,11 +105,10 @@
 .disabled {
     background-color: var(--color7);
     color: var(--color2);
-    /* font-size: 0.8rem;
+    font-size: 0.8rem;
     padding: 0.5rem;
     font-family: var(--font3);
     transition: 0.5s;
-    border-radius: 5px; */
 }
 
 /* .buttonSend:hover {
@@ -119,16 +118,44 @@
 .inputs {
     width: 400px;
     height: 30px;
-    border-radius: 5px;
-    border: 0;
+    border: outset 1px var(--color4);
+    outline: none;
+    padding: 8px;
+    background-color: var(--color6Tr);
+    box-shadow: 0px 0px 8px 2px var(--color6Tr);
+    font-family: var(--font2);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color3);
 }
+
+.inputs:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 8px 6px var(--color6Tr);
+    font-weight: 400;
+    border: outset 1px var(--color4);
+  }
 
 .textarea {
     width: 400px;
     height: 100px;
-    border-radius: 5px;
-    border: 0;
+    border: outset 1px var(--color4);
+    outline: none;
+    padding: 8px;
+    background-color: var(--color6Tr);
+    box-shadow: 0px 0px 8px 2px var(--color6Tr);
+    font-family: var(--font2);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color3);
 }
+
+.textarea:hover{
+    cursor: pointer;
+    box-shadow: 0px 0px 8px 6px var(--color6Tr);
+    font-weight: 400;
+    border: outset 1px var(--color4);
+  }
 
 .formContainer p {
     font-size: 11px;

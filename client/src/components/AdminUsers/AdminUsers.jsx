@@ -4,19 +4,18 @@ import style from "./adminUsers.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { deleteUser, getAdminUsers } from "../../redux/actions";
 import UserListItem from "./UserListItem";
-import { getAllUsersInfo } from "../../services/services";
 
 export default function AdminUsers() {
   const { getAccessTokenSilently } = useAuth0();
   const allUsers = useSelector((state) => state.users);
   const [email, setEmail] = useState('');
-  const [alert, setAlert] = useState({sure: false, ok: false});
-  const [dltUser, setDltUser] = useState({email:'', id: ''})
+  const [alert, setAlert] = useState({ sure: false, ok: false });
+  const [dltUser, setDltUser] = useState({ email: '', id: '' })
   //   const [alert, setAlert] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAdminUsers(getAccessTokenSilently(), email));
-    
+
   }, [dispatch, email]);
 
   function handleUserSearch(e) {
@@ -25,14 +24,14 @@ export default function AdminUsers() {
     dispatch(getAdminUsers(getAccessTokenSilently(), searchEmail))
   }
 
-  function handleTClick(email, id) {    
-    setAlert({...alert, sure: true})
-    setDltUser({...dltUser, email: email, id: id})
+  function handleTClick(email, id) {
+    setAlert({ ...alert, sure: true })
+    setDltUser({ ...dltUser, email: email, id: id })
   };
-  function handleDltClick(){
+  function handleDltClick() {
     dispatch(deleteUser(getAccessTokenSilently(), dltUser.id))
-    setAlert({...alert, ok: true});
-    setTimeout(setAlert({...alert, sure: false, ok:false}, 10000));
+    setAlert({ ...alert, ok: true });
+    setTimeout(setAlert({ ...alert, sure: false, ok: false }, 3000));
   }
 
   return (
@@ -59,17 +58,22 @@ export default function AdminUsers() {
         }
       </div>
       {
-        alert.sure ? 
-        !alert.ok ? 
-        <div>
-          <div>Are you sure you want to delete the user {dltUser.email}?</div>
-          <button onClick={handleDltClick}>Delete</button>
-        </div>
-        : 
-        <div>
-          The user {dltUser.email} has been deleted
-        </div>
-        : null
+        alert.sure ?
+          !alert.ok ?
+            <div className={style.alertContainer}>
+              <div className={style.Xcont}>
+                <button className={style.Xbton} onClick={() => setAlert({ ...alert, sure: false, ok: false })} >X</button>
+              </div>
+              <div className={style.sureTxt}>Are you sure you want to delete the user {dltUser.email}?</div>
+              <button className={`buttonGlobal ${style.dltBton}`} onClick={handleDltClick}>Delete</button>
+
+            </div>
+            :
+            <div>
+              The user {dltUser.email} has been deleted
+
+            </div>
+          : null
       }
 
     </div>

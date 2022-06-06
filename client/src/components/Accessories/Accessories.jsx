@@ -30,43 +30,43 @@ function Accessories({ carDetails }) {
         </div>
         <span className={styles.text}>Included Equipment</span>
         <div className={styles.info}>
-          {carDetails.includedEquipments.map((element) => {
+          {carDetails.includedEquipments.map((element, k) => {
             if (
               element.name === "Manual Transmission" ||
               element.name === "Automatic Transmission"
             )
               return (
-                <span className={styles.infoicon}>
+                <span className={styles.infoicon} key={k}>
                   {element.name.split(" ")[0]}
                 </span>
               );
             if (element.name === "Radio")
               return (
-                <div className={styles.infoicon}>
+                <div className={styles.infoicon} key={k}>
                   <i className="fa-solid fa-radio"></i>
                 </div>
               );
             if (element.name === "Airconditioning")
               return (
-                <div className={styles.infoicon}>
+                <div className={styles.infoicon} key={k}>
                   <i className="fa-solid fa-fan"></i>
                 </div>
               );
             if (element.name === "Electric Windows")
               return (
-                <div className={styles.infoicon}>
+                <div className={styles.infoicon} key={k}>
                   <i className="fa-solid fa-bolt-lightning"></i>
                 </div>
               );
             if (element.name === "Bluetooth")
               return (
-                <div className={styles.infoicon}>
+                <div className={styles.infoicon} key={k}>
                   <i className="fa-brands fa-bluetooth"></i>
                 </div>
               );
             if (element.name === "Power steering")
               return (
-                <div className={styles.infoicon}>
+                <div className={styles.infoicon} key={k}>
                   <i className="fa-solid fa-road"></i>
                 </div>
               );
@@ -74,22 +74,22 @@ function Accessories({ carDetails }) {
         </div>
         <span className={styles.text}>Accessories Available</span>
         <div className={styles.info}>
-          {carDetails.optionalEquipments.map((element) => {
+          {carDetails.optionalEquipments.map((element, k) => {
             if (element.name === "GPS")
               return (
-                <div className={styles.infoicon}>
+                <div className={styles.infoicon} key={k}>
                   <i className="fa-solid fa-location-arrow"></i>
                 </div>
               );
             if (element.name === "Child seat")
               return (
-                <div className={styles.infoicon}>
+                <div className={styles.infoicon} key={k}>
                   <i className="fa-solid fa-child-reaching"></i>
                 </div>
               );
             if (element.name === "Baby seat")
               return (
-                <div className={styles.infoicon}>
+                <div className={styles.infoicon} key={k}>
                   <i className="fa-solid fa-baby-carriage"></i>
                 </div>
               );

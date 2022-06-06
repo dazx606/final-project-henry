@@ -3,9 +3,13 @@
   padding: 0;
 }
 
+.navSuperContainer {
+  transition: all 0.5s;
+}
+
 .navcontainer {
   height: 4rem;
-  
+
   /* width: 100vw; */
 }
 
@@ -38,6 +42,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .logIcon {
   color: var(--color4);
   width: 20px;
@@ -55,9 +60,11 @@
   font-weight: 700;
   /* background-color: var(--color4); */
 }
+
 .icon:hover {
   cursor: pointer;
 }
+
 .logIcon:hover {
   cursor: pointer;
 }
@@ -121,11 +128,11 @@
 
 .link {
   list-style: none;
-} 
+}
 
 .list {
   margin: 0.5rem;
-} 
+}
 
 .link {
   margin: 2rem 1.5rem;
@@ -160,21 +167,21 @@
   transform: scaleX(1);
 }
 
-.checkbox:checked ~ .menu {
+.checkbox:checked~.menu {
   background: var(--color6);
   top: 0rem;
 }
 
-.checkbox:checked + .header .headercontainer label .headerButton {
+.checkbox:checked+.header .headercontainer label .headerButton {
   background: none;
 }
 
-.checkbox:checked + .header .headercontainer label .headerButton::before {
+.checkbox:checked+.header .headercontainer label .headerButton::before {
   transform: rotate(45deg);
   top: 0;
 }
 
-.checkbox:checked + .header .headercontainer label .headerButton::after {
+.checkbox:checked+.header .headercontainer label .headerButton::after {
   transform: rotate(-45deg);
   top: 0;
 }
@@ -182,4 +189,14 @@
 .tittle {
   text-decoration: none;
   color: var(--color4);
+}
+
+.alert {
+  position: fixed;
+  background-color: #00000094;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }

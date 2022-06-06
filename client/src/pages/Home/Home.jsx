@@ -40,11 +40,11 @@ function Home() {
             <Carousel />
 
             <Categories />
-            { !hide &&
+            {/* { !hide &&
                 <div className={styles.alert} >
                     <Alert />
                 </div>
-            }
+            } */}
             <div>
                 <Benefits />
             </div>

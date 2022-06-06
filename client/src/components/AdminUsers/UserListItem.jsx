@@ -3,6 +3,7 @@ import style from "./adminUsers.module.css";
 
 function UserListItem({user, handleTClick}) {
     const noInfo = 'No Info';
+
     return (
 
         <div className={style.userListItem}>

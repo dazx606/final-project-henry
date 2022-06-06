@@ -31,11 +31,7 @@
     justify-content: center;
 }
 
-<<<<<<< HEAD
-/* button {
-=======
 /* .goHomeb {
->>>>>>> 148cb7460f2172416db1a6ca4784edad558dc075
     background-color: var(--color4);
     color: var(--color3);
     font-size: 0.8rem;
@@ -46,13 +42,9 @@
     cursor: pointer;
 } */
 
-<<<<<<< HEAD
-/* button:hover {
-=======
 .goHomeb:hover {
->>>>>>> 148cb7460f2172416db1a6ca4784edad558dc075
     background-color: var(--color4Tr);
-} */
+}
 
 .subContainer1b {
     width: 50%;

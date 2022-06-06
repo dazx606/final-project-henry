@@ -27,7 +27,6 @@ export function sendAMessage(message) {
 }
 
 export function getUserInformation(token, email) {
-  console.log("token: " + token);
   const options = {
     method: "GET",
     mode: "cors",
@@ -103,4 +102,13 @@ export function getAllOptionalEquipment() {
 
 export function getAllIncludedEquipment() {
   return axios.get(`${URL}admin/equipment/included`);
+}
+
+export function getAllCars(token, plate) {
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}`, options)
 }
