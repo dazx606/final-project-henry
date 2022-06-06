@@ -50,7 +50,7 @@ const initialState = {
   adminOptions: "users",
   allCars:[],
   pagination: {page: 1, pageNum: 1},
-  Orders: [],
+  orders: [],
 };
 
 export default function rootReducer(state = initialState, { type, payload, token }) {

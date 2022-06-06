@@ -11,12 +11,15 @@ export default function ReservListItem({ order }) {
     e.preventDefault();
     dispatch(deleteReservation(getAccessTokenSilently, order.id));
   }
+  function handleClickReservation(){
+    navigator.clipboard.writeText(order.userId)
+  }
   return (
     <div className={styles.userListItem}>
       {/* <div className={styles.name}>{order.user.firstName ? order.user.firstName : null}</div>
       <div className={styles.name}>{order.user.lastName ? order.user.lastName : null}</div> */}
-      <div className={styles.email}>{order.user.email}</div>
-      <div className={styles.reservation}>{order.userId}</div>
+      <div className={styles.email}>{order.user?.email}</div>
+      <div onClick={handleClickReservation} className={styles.reservation}>{order.userId}</div>
       <div className={styles.startingDate}>
         {order.startingDate} <br />
         {order.endingDate}

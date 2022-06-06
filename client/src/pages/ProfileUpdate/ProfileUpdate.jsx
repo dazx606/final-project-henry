@@ -43,15 +43,15 @@ export default function Profile() {
       return;
     }
     if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
-      setAlert("Complete with your correct information");
+      setAlert(" Please complete with your correct information");
       return;
     }
     if (!input.firstName || !input.lastName || !input.license || !input.documentId) {
-      setAlert("Complete your information");
+      setAlert(" Please complete your information");
       return;
     }
     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    setAlert("Your information is update");
+    setAlert("Your information is update!");
   }
   function handleChange(e) {
     setInput({
@@ -72,15 +72,15 @@ export default function Profile() {
 
   return (
     <div className={styles.profile}>
-      {alert && alert.split(" ")[3] === "update" ? (
+      {alert === "Your information is update!" ? (
         <div>
           <div className={styles.messages}>{alert}</div>
           <div className={styles.buttonContainer}>
             <Link to="/">
-              <button>Home</button>
+              <button className={`buttonGlobal ${styles.button}`}>Home</button>
             </Link>
             <Link to={`/profile/${userId}`}>
-              <button className={styles.btnProfile}> Profile</button>
+              <button className={`buttonGlobal ${styles.buttonProfile}`}> Profile</button>
             </Link>
           </div>
         </div>
@@ -122,7 +122,12 @@ export default function Profile() {
           </div>
           <div>
             <div className={styles.titles}>Language: </div>
-            <select className={`${styles.inputGlobal} ${styles.inputs}`} value={input.language} name="language" onChange={handleChange}>
+            <select
+              className={`${styles.inputGlobal} ${styles.inputs}`}
+              value={input.language}
+              name="language"
+              onChange={handleChange}
+            >
               <option value="English">English</option> <option value="Spanish">Spanish</option>
             </select>
           </div>
@@ -150,7 +155,12 @@ export default function Profile() {
           </div>
           <div>
             <div className={styles.titles}>City: </div>
-            <select className={`${styles.inputGlobal} ${styles.inputs}`} value={input.city} name="city" onChange={handleChange}>
+            <select
+              className={`${styles.inputGlobal} ${styles.inputs}`}
+              value={input.city}
+              name="city"
+              onChange={handleChange}
+            >
               <option>City</option>
               {locations?.map((l) => (
                 <option key={l.city} value={l.id}>
@@ -160,7 +170,7 @@ export default function Profile() {
             </select>
           </div>
           <div className={styles.buttonContainer}>
-            <button className={styles.button} type="submit">
+            <button className={`buttonGlobal ${styles.button}`} type="submit">
               Submit
             </button>
           </div>

@@ -11,6 +11,9 @@
 
 .listTitle {
   display: flex;
+  align-items: center;
+  margin: 1rem;
+  color: var(--color4);
 }
 
 .userListItem {
@@ -24,6 +27,7 @@
   display: flex;
   justify-content: center;
 }
+
 .email {
   width: 20rem;
   display: flex;
@@ -48,13 +52,16 @@
 }
 .reservation {
   width: 20rem;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  cursor:pointer;
 }
 .startingDate {
   width: 20rem;
   display: flex;
   justify-content: center;
   
+}
+.searchReservation{
+  display: flex;
+  justify-content: left;
+  margin: 2rem 7rem;
 }

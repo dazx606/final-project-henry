@@ -71,3 +71,9 @@
     font-weight: 700;
    
 }
+.searchUser{
+  display: flex;
+  justify-content: left;
+  margin: 2rem 7rem;
+ 
+}
