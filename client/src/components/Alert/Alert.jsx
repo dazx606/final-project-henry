@@ -11,12 +11,10 @@ export default function Alert() {
     const [activeBtn, setActiveBtn] = useState(true);
 
     useEffect(() => {
-        console.log("hola");
         if (city !== "") setActiveBtn(false)
         const element = document.getElementById("All")
         element.addEventListener("click", (event) => {
             if (event.target.id === "All") { 
-                console.log("hola");
                 dispatch(showAlert(true)) 
             }
         });
