@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getLocations,
   getIncludedEquipment,
   getOptionalEquipment,
 } from "../../redux/actions";
@@ -23,8 +22,8 @@ const validate = (input) => {
   if (!input.passengers) errors.passengers = true;
   if (!input.consumption) errors.consumption = true;
   if (!input.engine) errors.engine = true;
-  if (input.location < 1) errors.location = true;
   if (!input.carType) errors.carType = true;
+  if (!input.description) errors.description = true;
   if (
     input.includedEquipment[0] !== "Automatic Transmission" ||
     input.includedEquipment[0] !== "Manual Transmission"
@@ -36,7 +35,6 @@ const validate = (input) => {
 
 function CreateModel() {
   const dispatch = useDispatch();
-  const locations = useSelector((state) => state.locations);
   const includedEquipment = useSelector((state) => state.includedEquipment);
   const optionalEquipment = useSelector((state) => state.optionalEquipment);
 
@@ -50,16 +48,16 @@ function CreateModel() {
     engine: "",
     cardImage: "",
     mainImage: "",
-    optionalImages: "",
-    location: [],
+    optionalImages: [],
     carType: "",
     includedEquipment: [],
     optionalEquipment: [],
+    description: "",
   });
   const [errors, setErrors] = useState({});
+  const [optionalImage, setOptionalImage] = useState("");
 
   useEffect(() => {
-    dispatch(getLocations());
     dispatch(getIncludedEquipment());
     dispatch(getOptionalEquipment());
   }, [dispatch]);
@@ -75,22 +73,26 @@ function CreateModel() {
       consumption: input.consumption,
       engine: input.engine,
       images: [input.cardImage, input.mainImage, input.optionalImages],
-      location: input.location,
       carType: input.carType,
+      description: input.description,
       includedEquipment: input.includedEquipment,
       optionalEquipment: input.optionalEquipment,
     });
+
     console.log(response.data);
   };
 
   const handleInputChange = (e) => {
     e.preventDefault();
-    if (e.target.name === "location") {
-      if (e.target.value === "") return;
-      if (input.location.includes(e.target.value)) return;
-      setInput({ ...input, location: [...input.location, e.target.value] });
+    if (e.target.name === "optionalImage") {
+      const validUrl = new RegExp(
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+      );
+      if (validUrl.test(e.target.value)) setOptionalImage(e.target.value);
+      else setOptionalImage("");
       return;
     }
+
     if (e.target.name === "included") {
       if (e.target.value === "") return;
       if (input.includedEquipment.includes(e.target.value)) return;
@@ -135,6 +137,17 @@ function CreateModel() {
       (item) => item !== e.target.value
     );
     setInput({ ...input, [e.target.name]: updatedList });
+  };
+
+  const addOptionalImage = (e) => {
+    e.preventDefault();
+    if (optionalImage !== "") {
+      const updatedList = [...input.optionalImages, optionalImage];
+      setInput({
+        ...input,
+        optionalImages: updatedList,
+      });
+    }
   };
 
   return (
@@ -236,7 +249,7 @@ function CreateModel() {
             <option value="SUV Full-Size">SUV Full-Size</option>
             <option value="SUV">SUV</option>
           </select>
-          <span className={styles.tag}>Transmission</span>
+          <span className={styles.tag}>Transmission*</span>
           <select
             name="transmission"
             className={styles.input}
@@ -246,98 +259,17 @@ function CreateModel() {
             <option value="Automatic Transmission">Automatic</option>
             <option value="Manual Transmission">Manual</option>
           </select>
-          <span
-            className={styles.tag}
-            style={{ textAlign: "center", marginBottom: "1rem" }}
-          >
-            IMAGES
-          </span>
-          <div className={styles.subinput}>
-            <span className={styles.subtitle}>Card image</span>
-            <div className={styles.imageinput}>
-              <input
-                name="cardImage"
-                value={input.cardImage}
-                className={styles.input}
-                type="text"
-                placeholder="e.g. http://www.example.com"
-                onChange={handleInputChange}
-              />
-              <button>
-                <i className={`fa-solid fa-pen ${styles.hidden}`}></i>
-              </button>
-              <button>
-                <i className="fa-solid fa-plus"></i>
-              </button>
-            </div>
-          </div>
-          <div className={styles.subinput}>
-            <span className={styles.subtitle}>Main image</span>
-            <div className={styles.imageinput}>
-              <input
-                name="mainImage"
-                value={input.mainImage}
-                className={styles.input}
-                type="text"
-                placeholder="e.g. http://www.example.com"
-                onChange={handleInputChange}
-              />
-              <button>
-                <i className={`fa-solid fa-pen ${styles.hidden}`}></i>
-              </button>
-              <button>
-                <i className="fa-solid fa-plus"></i>
-              </button>
-            </div>
-          </div>
-          <div className={styles.subinput}>
-            <span className={styles.subtitle}>Optional image:</span>
-            <div className={styles.imageinput}>
-              <input
-                name="optionalImages"
-                value={input.optionalImages}
-                className={styles.input}
-                type="text"
-                placeholder="e.g. http://www.example.com"
-                onChange={handleInputChange}
-              />
-              <button>
-                <i className={`fa-solid fa-pen ${styles.hidden}`}></i>
-              </button>
-              <button>
-                <i className="fa-solid fa-plus"></i>
-              </button>
-            </div>
-          </div>
+          <span className={styles.tag}>Description</span>
+          <textarea
+            className={styles.txtarea}
+            value={input.description}
+            name="description"
+            cols="30"
+            rows="8"
+            onChange={handleInputChange}
+          ></textarea>
         </div>
         <div className={styles.secondsplit}>
-          <span className={styles.tag}>Add to location</span>
-          <span className={styles.taginfo}>
-            ! Must add an individual car for each location selected
-          </span>
-          <select
-            name="location"
-            className={styles.input}
-            onChange={handleInputChange}
-          >
-            <option value="" hidden></option>
-            {locations?.map((location) => (
-              <option value={location.city} key={location.id}>
-                {location.city}
-              </option>
-            ))}
-          </select>
-          {input.location?.map((item) => (
-            <button
-              className={styles.selectionbutton}
-              name="location"
-              value={item}
-              key={item}
-              onClick={removeEquipment}
-            >
-              {item} x
-            </button>
-          ))}
           <span className={styles.tag}>Included equipment</span>
           <select
             name="included"
@@ -374,7 +306,11 @@ function CreateModel() {
                     key={item}
                     onClick={removeEquipment}
                   >
-                    {item} x
+                    {item}{" "}
+                    <i
+                      style={{ color: "var(--color4)" }}
+                      className="fa-solid fa-rectangle-xmark"
+                    ></i>
                   </button>
                 );
               }
@@ -402,7 +338,101 @@ function CreateModel() {
                 key={item}
                 onClick={removeEquipment}
               >
-                {item} x
+                {item}{" "}
+                <i
+                  style={{ color: "var(--color4)" }}
+                  className="fa-solid fa-rectangle-xmark"
+                ></i>
+              </button>
+            ))}
+          </div>
+          <span
+            className={styles.tag}
+            style={{ textAlign: "center", marginBottom: "1rem" }}
+          >
+            IMAGES
+          </span>
+          <div className={styles.subinput}>
+            <span className={styles.subtitle}>Card image</span>
+            <div className={styles.imageinput}>
+              <i
+                className="fa-solid fa-image"
+                style={{ padding: "0 0.5rem" }}
+              ></i>
+              <input
+                name="cardImage"
+                value={input.cardImage}
+                className={styles.input}
+                type="text"
+                placeholder="e.g. http://www.example.com"
+                onChange={handleInputChange}
+              />
+              {/*<button>
+                <i className="fa-solid fa-plus"></i>
+            </button>*/}
+            </div>
+          </div>
+          <div className={styles.subinput}>
+            <span className={styles.subtitle}>Main image</span>
+            <div className={styles.imageinput}>
+              <i
+                className="fa-solid fa-panorama"
+                style={{ padding: "0 0.5rem" }}
+              ></i>
+              <input
+                name="mainImage"
+                value={input.mainImage}
+                className={styles.input}
+                type="text"
+                placeholder="e.g. http://www.example.com"
+                onChange={handleInputChange}
+              />
+              {/*<button>
+                <i className="fa-solid fa-plus"></i>
+              </button>*/}
+            </div>
+          </div>
+          <div className={styles.subinput}>
+            <span className={styles.subtitle}>
+              Optional image{" "}
+              {optionalImage === "" && (
+                <span style={{ color: "red", fontSize: "smaller" }}>
+                  invalid url
+                </span>
+              )}
+            </span>
+            <div className={styles.imageinput}>
+              <i
+                className="fa-solid fa-images"
+                style={{ padding: "0 0.5rem" }}
+              ></i>
+              <input
+                name="optionalImage"
+                className={styles.input}
+                type="text"
+                placeholder="e.g. http://www.example.com"
+                onChange={handleInputChange}
+              />
+              <button onClick={addOptionalImage}>
+                <i className="fa-solid fa-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.links}>
+            {input.optionalImages?.map((item) => (
+              <button
+                className={styles.selectionbutton}
+                name="optionalImages"
+                value={optionalImage}
+                key={item}
+                onClick={removeEquipment}
+              >
+                optional image{" "}
+                <i
+                  style={{ color: "var(--color4)" }}
+                  className="fa-solid fa-rectangle-xmark"
+                ></i>
               </button>
             ))}
           </div>

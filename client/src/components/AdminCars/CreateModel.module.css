@@ -2,7 +2,15 @@
   display: flex;
   flex-direction: column;
   width: auto;
+  min-width: 40rem;
+  max-width: 50rem;
+  background-color: var(--color6Tr);
+  border: groove 1px var(--color4Tr);
+  box-shadow: 0px 0px 8px 4px var(--color6Tr);
+  margin: 2rem auto;
+  padding: 0.5rem;
 }
+
 .inputcontainer {
   display: flex;
   width: 100%;
@@ -47,6 +55,20 @@
   font-family: var(--font2);
   box-shadow: none;
   font-size: small;
+}
+
+.txtarea {
+  width: auto;
+  resize: none;
+  border-radius: 0.2rem;
+  border: none;
+  padding: 0.4rem;
+  color: var(--color4);
+  background-color: var(--color8);
+}
+
+.txtarea:focus {
+  outline: none;
 }
 
 .input::-webkit-outer-spin-button,
@@ -94,6 +116,9 @@
 .subtitle {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .imageinput {
@@ -120,7 +145,7 @@
   background-color: var(--color8);
   height: 1.75rem;
   text-align: center;
-  padding: none;
+  padding: 0 0.5rem;
   margin: none;
   font-size: smaller;
   border-top-left-radius: 0;
@@ -128,6 +153,12 @@
   border-bottom-right-radius: 0.2rem;
   border-top-right-radius: 0.2rem;
   width: auto;
+  color: var(--color4);
+  border-left: 2px solid var(--color6Tr);
+}
+
+.imageinput button:hover {
+  cursor: pointer;
 }
 
 .submit {
@@ -135,4 +166,47 @@
   justify-content: end;
   margin-top: 0.5rem;
   width: 100%;
+}
+
+.create {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  background-color: var(--color4);
+  color: var(--color3);
+}
+
+.create:hover {
+  cursor: pointer;
+  background-color: var(--color4Tr);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.equipment {
+  width: auto;
+  display: flexbox;
+}
+
+.selectionbutton {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: var(--color2);
+}
+
+.selectionbutton:hover {
+  cursor: pointer;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
 }

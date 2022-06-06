@@ -185,8 +185,8 @@ router.post("/model", async (req, res, next) => {
     consumption,
     engine,
     images,
-    location,
     carType,
+    description,
     includedEquipment,
     optionalEquipment,
   } = req.body;
@@ -195,7 +195,7 @@ router.post("/model", async (req, res, next) => {
       where: { model: model },
     });
     if (checkIfModelExist)
-      return res.status(409).send({ msg: "This model already exist" });
+      return res.status(200).send({ msg: "This model already exist" });
     //////////////////////// ESTA FUNCION SE DESCOMENTA CUANDO SE NECESITA AGREGAR PRECIO DE STRIPE
 
     // const product = await stripe.products.create({
@@ -217,17 +217,9 @@ router.post("/model", async (req, res, next) => {
       consumption: parseFloat(consumption),
       engine: parseFloat(engine),
       images: images,
+      description: description,
       //stripePriceId: price.id,
     });
-
-    await Promise.all(
-      location.map(async (element) => {
-        const carLocation = await Location.findOne({
-          where: { city: element },
-        });
-        if (carLocation) await carLocation.addCarModel(newModel);
-      })
-    );
 
     const type = await CarType.findOne({ where: { name: carType } });
     await type.addCarModel(newModel);
