@@ -277,18 +277,17 @@ router.post("/car", async (req, res, next) => {
     next(error);
   }
 });
+
 router.delete("/cars/delete/:license_plate", async (req, res, next) => {
   const { license_plate } = req.params;
   try {
     let car = await IndividualCar.destroy({ where: { license_plate } });
     if (car === 1) res.send({ msg: "Deleted", license: license_plate });
     else if (car === 0)
-      res
-        .status(404)
-        .send({
-          msg: "Car not found, check and try again",
-          license: license_plate,
-        });
+      res.status(404).send({
+        msg: "Car not found, check and try again",
+        license: license_plate,
+      });
   } catch (error) {
     next(error);
   }
