@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../../pages/ProfileOptions/ProfileOptions.module.css";
 import { NavLink } from "react-router-dom";
-import { useEffect } from "react";
+import { useState } from "react";
 import { setUserInfo } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -12,13 +12,8 @@ export default function ProfileInfo() {
     const userInfo = useSelector((state) => state.user);
     
 
-<<<<<<< HEAD
-    useEffect(()=>{
-        dispatch(setUserInfo(token,userInfo.data.email))
-=======
     useState(()=>{
         dispatch(setUserInfo(getAccessTokenSilently, userInfo.data.email))
->>>>>>> 2e32d1e4bf214ceeb052b21ad8cf826ebcd432ad
     },[dispatch])
 
     return (
