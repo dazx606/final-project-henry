@@ -28,5 +28,8 @@ module.exports = (sequelize) => {
         refundId: {
             type: DataTypes.STRING,
         },
+        paymentAmount: {
+            type: DataTypes.INTEGER,
+        },
     })
 }
