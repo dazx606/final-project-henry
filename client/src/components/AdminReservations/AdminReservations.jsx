@@ -57,6 +57,7 @@ function AdminReservations() {
               <div className={styles.startingDate}>
                 StartingDate <br /> EndingDate
               </div>
+              <div className={styles.status}>Status</div>
               <div className={styles.trashIcon}>Delete</div>
             </div>
             {allOrders?.map((order) => (
