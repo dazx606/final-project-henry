@@ -18,7 +18,7 @@ export default function Alert() {
                 dispatch(showAlert(true)) 
             }
         });
-        // return () => dispatch(showAlert(true))      //no se para que es esa linea pero rompe algunas cosas asi que lo commente(Arsène)
+        //return () => dispatch(showAlert(true))
     }, [city])
 
     function handleClick() {
