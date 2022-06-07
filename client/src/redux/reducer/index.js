@@ -126,7 +126,6 @@ export default function rootReducer(
       return {
         ...state,
         user: payload,
-        token,
       };
     case SAVE_USER:
       return {
