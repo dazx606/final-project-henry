@@ -90,6 +90,22 @@
   width: 30vw;
   background-color: var(--color1);
   color: var(--color4);
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0px 0px 0px 24px;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: flex;
+    font-size: 1.2em;
+    font-weight: 700;
+   
+}
+.searchUser{
+  display: flex;
+  justify-content: left;
+  margin: 2rem 7rem;
+ 
   z-index: 10;
   border: groove 1px var(--color4Tr);
   border-radius: 0px;
