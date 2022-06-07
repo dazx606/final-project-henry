@@ -58,7 +58,7 @@ function AdminReservations() {
                 StartingDate <br /> EndingDate
               </div>
               <div className={styles.status}>Status</div>
-              <div className={styles.trashIcon}>Delete</div>
+              <div className={styles.trashIcon}>View more</div>
             </div>
             {allOrders?.map((order) => (
               <ReservListItem handleShowAlert={handleShowAlert} key={order.id} order={order} />

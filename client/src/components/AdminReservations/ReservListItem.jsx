@@ -20,7 +20,7 @@ export default function ReservListItem({ order, handleShowAlert }) {
       <div className={styles.status}>{order.status}</div>
 
       <div onClick={() => handleShowAlert(order.id)} className={styles.trashIcon}>
-        <i className="fa-solid fa-trash-can"></i>
+        <i class="fa-solid fa-eye"></i>
       </div>
     </div>
   );
