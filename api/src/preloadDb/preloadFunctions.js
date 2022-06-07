@@ -7,7 +7,6 @@ const {
   IndividualCar,
   Location,
   OptionalEquipment,
-  Payment,
   RentOrder,
   User,
 } = require("../db.js");

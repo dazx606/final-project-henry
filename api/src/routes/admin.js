@@ -14,7 +14,6 @@ const {
   IndividualCar,
   CarModel,
   CarType,
-  Payment,
   IncludedEquipment,
 } = require("../db.js");
 
@@ -53,7 +52,7 @@ router.get("/users", async (req, res, next) => {
       //       model: Driver,
       //       attributes: ["firstName", "lastName"],
       //     },
-      //     { model: Payment, attributes: ["firstName", "lastName"] },
+      //     { model: Payment, attributes: ["firstName", "lastName"] }, //EL MODELO DE PAYMENT YA NO EXISTE!!!
       //   ],
       // }
       ();
