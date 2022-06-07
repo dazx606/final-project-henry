@@ -79,7 +79,7 @@ export default function Profile() {
 
   return (
     <div className={styles.profile}>
-      {alert === "Your information is update!" ? (
+      {alert === "Your information has been updated" ? (
         <div>
           <div className={styles.messages}>{alert}</div>
           <div className={styles.buttonContainer}>
