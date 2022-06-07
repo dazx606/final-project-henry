@@ -2,7 +2,7 @@ const rentOrders = [
     {
         startingDate: "2022/08/8",
         endingDate: "2022/08/20",
-        user: "unemail1@gmail.com",
+        user: "rentacarg7@gmail.com",
         car: "500",
         drivers: ["persona1", "persona2"],
         optionalEquipment: ["GPS"],
@@ -11,7 +11,7 @@ const rentOrders = [
     {
         startingDate: "2022/10/8",
         endingDate: "2023/02/3",
-        user: "unemail2@gmail.com",
+        user: "rentacarg7@gmail.com",
         car: "500",
         drivers: ["persona3"],
         optionalEquipment: [],
@@ -20,7 +20,7 @@ const rentOrders = [
     {
         startingDate: "2022/07/7",
         endingDate: "2022/07/8",
-        user: "unemail3@gmail.com",
+        user: "rentacarg7@gmail.com",
         car: "500",
         drivers: ["persona5"],
         optionalEquipment: ["GPS", "Child seat", "Baby seat"],
@@ -29,7 +29,7 @@ const rentOrders = [
     {
         startingDate: "2022/08/2",
         endingDate: "2022/08/11",
-        user: "unemail3@gmail.com",
+        user: "rentacarg7@gmail.com",
         car: "486",
         drivers: ["persona5"],
         optionalEquipment: ["GPS", "Child seat", "Baby seat"],

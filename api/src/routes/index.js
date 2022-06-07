@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const express = require('express');
-const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
+const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } = process.env;
 const { filterDates } = require("./controllers.js");
@@ -71,11 +71,11 @@ router.get('/cars/:locationId', async (req, res, next) => {
         pageNum: 1
       },
       models: filterdCars
-    } 
-    if (parseInt(carsPerPage)){
+    }
+    if (parseInt(carsPerPage)) {
       result.models = filterdCars.slice((page - 1) * carsPerPage, page * carsPerPage);
-      result.pagination.pageNum = Math.ceil(filterdCars.length/carsPerPage) 
-    } 
+      result.pagination.pageNum = Math.ceil(filterdCars.length / carsPerPage)
+    }
 
     return res.json(result);
   } catch (error) {
@@ -181,7 +181,7 @@ router.post("/send-email", async (req, res, next) => {
     next(error);
   }
 });
-
+//----------------------------------STIPE WEBHOOK----------------------------------
 router.post('/webhook', express.raw({ type: 'application/json' }), (req, res, next) => {
   const payload = req.body;
 
@@ -197,7 +197,8 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res, ne
 
   try {
     if (event.type === 'checkout.session.completed') {
-      RentOrder.update({ payed: true }, { where: { id: event.data.object.client_reference_id } });
+      // console.log(event.data.object);
+      RentOrder.update({ payed: true, refundId: event.data.object.payment_intent }, { where: { id: event.data.object.client_reference_id } });
     }
     return res.json({ received: true });
   } catch (error) {

@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
+const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { STRIPE_SECRET_KEY } = process.env;
 const { datePlus, filterRentDates, getDatesInRange } = require("./controllers.js");
