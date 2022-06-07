@@ -57,9 +57,6 @@ const users = [
     picture: "https://lh3.googleusercontent.com/a-/AOh14GiSpc2K2nqllAU_T4s1ABFe1xMTGSLqY8WqOL8NyQ=s96-c",
   },
   {
-<<<<<<< HEAD
-    email: "d.a.z_606@hotmail.com",
-=======
     email: "renatozapgon@gmail.com",
     firstName: "Renato",
     lastName: "Zapata",
@@ -74,7 +71,6 @@ const users = [
     lastName: "Zuleta",
     documentId:"52783733",
     license:"75272577",
->>>>>>> abbfd9d20f85d5628fc46483fba582c7f4689f09
     admin: true,
     picture: "https://lh3.googleusercontent.com/a-/AOh14Gj5kEDdBAQW7MwQbnagvSEzIZAxffhTAqJFwQxnYg=s96-c",
   },
