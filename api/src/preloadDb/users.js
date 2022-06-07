@@ -57,6 +57,11 @@ const users = [
     admin: true,
     picture: "https://lh3.googleusercontent.com/a-/AOh14GiSpc2K2nqllAU_T4s1ABFe1xMTGSLqY8WqOL8NyQ=s96-c",
   },
+  {
+    email: "d.a.z_606@hotmail.com",
+    admin: true,
+    picture: "https://lh3.googleusercontent.com/a-/AOh14Gj5kEDdBAQW7MwQbnagvSEzIZAxffhTAqJFwQxnYg=s96-c",
+  },
 ];
 
 module.exports = { users };
