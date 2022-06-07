@@ -25,10 +25,10 @@ router.get("/", authMiddleWare, async (req, res, next) => {
   try {
     let completed;
     const user = await User.findOne({ where: { email } });
+    if (user === null) return res.send({ msg: "User not found" });
     user.firstName && user.lastName && user.documentId && user.license
       ? (completed = true)
       : (completed = false);
-    if (user === null) return res.status(404).send({ msg: "User not found" });
     return res.status(200).send({ data: user, completed });
   } catch (error) {
     next(error);

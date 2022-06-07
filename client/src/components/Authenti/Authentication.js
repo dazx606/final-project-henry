@@ -6,22 +6,22 @@ import { setUserInfo, saveUser, setProfileOptions } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 
 function Authentication({ setDisplay, display, handleLoginInfo }) {
-  const { isAuthenticated, logout, user } = useAuth0();
+  const { isAuthenticated, logout, user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const savedUser = useSelector((state) => state.savedUser);
   const completeUser = useSelector((state) => state.user);
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(saveUser(user.email));
-    }
-  }, [user, dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(saveUser(user.email, user.picture));
-      console.log(user.picture);
     }
   }, [user, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated && savedUser.length) {
+      dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    }
+  }, [dispatch, savedUser]);
 
   function handleProfileInfo(e) {
     setDisplay(!display);
@@ -46,9 +46,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                     </div>
                   )}
                   <div>
-                    <h2 className={style.hello}>{`Hello ${
-                      user.given_name ? user.given_name : user.nickname
-                    }!`}</h2>
+                    <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname
+                      }!`}</h2>
                     <h3 className={style.email}>{user?.email}</h3>
                   </div>
                 </div>
@@ -76,9 +75,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                     <div>{completeUser.data.firstName[0].toUpperCase()}</div>
                   )}
                   <div>
-                    <h2 className={style.hello}>{`Hello ${
-                      completeUser && completeUser.data.firstName
-                    }!`}</h2>
+                    <h2 className={style.hello}>{`Hello ${completeUser && completeUser.data.firstName
+                      }!`}</h2>
                     <h3 className={style.email}>{user?.email}</h3>
                   </div>
                 </div>
@@ -122,9 +120,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                   </div>
                 )}
                 <div>
-                  <h2 className={style.hello}>{`Hello ${
-                    user.given_name ? user.given_name : user.nickname
-                  }!`}</h2>
+                  <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname
+                    }!`}</h2>
                   <h3 className={style.email}>{user?.email}</h3>
                 </div>
               </div>
