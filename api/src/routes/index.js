@@ -181,7 +181,7 @@ router.post("/send-email", async (req, res, next) => {
     next(error);
   }
 });
-
+//----------------------------------STIPE WEBHOOK----------------------------------
 router.post('/webhook', express.raw({ type: 'application/json' }), (req, res, next) => {
   const payload = req.body;
 
@@ -197,6 +197,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res, ne
 
   try {
     if (event.type === 'checkout.session.completed') {
+      console.log(event.data.object);
       RentOrder.update({ payed: true }, { where: { id: event.data.object.client_reference_id } });
     }
     return res.json({ received: true });
