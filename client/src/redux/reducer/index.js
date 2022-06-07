@@ -53,8 +53,8 @@ const initialState = {
   optionalEquipment: [],
   includedEquipment: [],
   adminOptions: "users",
-  allCars:[],
-  pagination: {page: 1, pageNum: 1},
+  allCars: [],
+  pagination: { page: 1, pageNum: 1 },
   orders: [],
 };
 

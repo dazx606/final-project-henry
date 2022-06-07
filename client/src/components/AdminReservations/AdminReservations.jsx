@@ -3,13 +3,16 @@ import styles from "./adminReservList.module.css";
 import { useEffect } from "react";
 import ReservListItem from "./ReservListItem";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllReservations } from "../../redux/actions";
+import { deleteReservation, getAllReservations } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function AdminReservations() {
   const { getAccessTokenSilently } = useAuth0();
   const allOrders = useSelector((state) => state.orders);
   const [userId, setUserId] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [orderId, setOrderId] = useState("");
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllReservations(getAccessTokenSilently));
@@ -19,6 +22,16 @@ function AdminReservations() {
     let userId = e.target.value;
     setUserId(userId);
     dispatch(getAllReservations(getAccessTokenSilently, userId));
+  }
+
+  function handleShowAlert(id) {
+    setShowAlert(true);
+    setOrderId(id);
+  }
+
+  function handleDeleteReservation() {
+    dispatch(deleteReservation(getAccessTokenSilently, orderId));
+    setShowAlert(false);
   }
 
   return (
@@ -46,14 +59,20 @@ function AdminReservations() {
               </div>
               <div className={styles.trashIcon}>Delete</div>
             </div>
-            {allOrders?.map((u) => (
-              <ReservListItem key={u.id} order={u} />
+            {allOrders?.map((order) => (
+              <ReservListItem handleShowAlert={handleShowAlert} key={order.id} order={order} />
             ))}
           </>
         ) : (
           <div>Reservation not found</div>
         )}
       </div>
+      {showAlert && (
+        <div>
+          <div>Are you sure you want to delete this reservation?</div>
+          <button onClick={handleDeleteReservation}>Delete</button>
+        </div>
+      )}
     </div>
   );
 }

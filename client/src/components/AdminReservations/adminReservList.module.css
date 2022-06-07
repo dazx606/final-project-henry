@@ -52,15 +52,15 @@
 }
 .reservation {
   width: 20rem;
-  cursor:pointer;
+  cursor: pointer;
+  text-align: center;
 }
 .startingDate {
   width: 20rem;
   display: flex;
   justify-content: center;
-  
 }
-.searchReservation{
+.searchReservation {
   display: flex;
   justify-content: left;
   margin: 2rem 7rem;

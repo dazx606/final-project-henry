@@ -80,6 +80,9 @@ export default function Profile() {
     await dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
     await dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information is update");
+     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
+     dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    setAlert("Your information has been updated");
   }
   function handleChange(e) {
     setInput({
@@ -163,11 +166,12 @@ export default function Profile() {
               onChange={handleChange}
             >
               <option value="English">English</option>{" "}
+              <option value="English">English</option>
               <option value="Spanish">Spanish</option>
             </select>
           </div>
           <div>
-            <div className={styles.titles}>Document Id: </div>
+            <div className={styles.titles}>Document ID: </div>
             <input
               className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
