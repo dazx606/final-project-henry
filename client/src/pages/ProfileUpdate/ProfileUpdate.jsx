@@ -49,37 +49,14 @@ export default function Profile() {
       return;
     }
     if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
-      setAlert(" Please complete with your correct information");
+      setAlert(" Please check invalid fields");
       return;
     }
     if (!input.firstName || !input.lastName || !input.license || !input.documentId) {
       setAlert(" Please complete your information");
       return;
     }
-    dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    setAlert("Your information is update!");
-    if (
-      errors.firstName ||
-      errors.lastName ||
-      errors.phone ||
-      errors.license ||
-      errors.documentId
-    ) {
-      setAlert("Complete with your correct information");
-      return;
-    }
-    if (
-      !input.firstName ||
-      !input.lastName ||
-      !input.license ||
-      !input.documentId
-    ) {
-      setAlert("Complete your information");
-      return;
-    }
-    await dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    await dispatch(setUserInfo(getAccessTokenSilently, user.email));
-    setAlert("Your information is update");
+    
      dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
      dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information has been updated");
@@ -165,7 +142,6 @@ export default function Profile() {
               name="language"
               onChange={handleChange}
             >
-              <option value="English">English</option>{" "}
               <option value="English">English</option>
               <option value="Spanish">Spanish</option>
             </select>
