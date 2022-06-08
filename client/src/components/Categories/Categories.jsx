@@ -9,35 +9,35 @@ export default function Categories() {
 
     const responsive = {
         desktop: {
-            breakpoint: { max: 3000, min: 1441 },
-            items: 3.6,
+            breakpoint: { max: 3000, min: 1050},
+            items: 3.8,
             partialVisibilityGutter: 40, // this is optional if you are not using partialVisible props
         },
         desktop4: {
-            breakpoint: { max: 1440, min: 1235 },
-            items: 2.5,
+            breakpoint: { max: 1050, min: 700 },
+            items: 2.8,
             partialVisibilityGutter: 40, // this is optional if you are not using partialVisible props
         },
         desktop3: {
-            breakpoint: { max: 1235, min: 1024 },
-            items: 2.9,
-            partialVisibilityGutter: 40, // this is optional if you are not using partialVisible props
-        },
-        desktop2: {
-            breakpoint: { max: 1024, min: 700 },
+            breakpoint: { max: 700, min: 500 },
             items: 2,
             partialVisibilityGutter: 40, // this is optional if you are not using partialVisible props
         },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 1.5,
-            partialVisibilityGutter: 30, // this is optional if you are not using partialVisible props
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
+        desktop2: {
+            breakpoint: { max: 500, min: 300 },
             items: 1,
-            partialVisibilityGutter: 30, // this is optional if you are not using partialVisible props
+            partialVisibilityGutter: 40, // this is optional if you are not using partialVisible props
         },
+        // tablet: {
+        //     breakpoint: { max: 1024, min: 464 },
+        //     items: 1.5,
+        //     partialVisibilityGutter: 30, // this is optional if you are not using partialVisible props
+        // },
+        // mobile: {
+        //     breakpoint: { max: 464, min: 0 },
+        //     items: 1,
+        //     partialVisibilityGutter: 30, // this is optional if you are not using partialVisible props
+        // },
     };
     const carTypes = [
         "Luxury",

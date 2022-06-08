@@ -69,8 +69,6 @@ export default function Benefits() {
                         <div className={styles.topCard}><h4 className={styles.titleh}>No Hidden Charges, No Dirty Bills</h4></div>
                         <div className={styles.bottomCard}><p className={styles.paragraph}>Tired of having a reservation for pennies just to discover that they wait you with expensive fees at the front desk? We in Rent A Car give you a full disclosure before you come.</p></div>
                     </div>
-                </div>
-                <div className={styles.cardContainer}>
                     <div className={styles.card}>
                         <div className={styles.topCard}><h4 className={styles.titleh}>Real Time Online Booking</h4></div>
                         <div className={styles.bottomCard}><p className={styles.paragraph}>Using our online booking system has never been easier. We make daily adjustments to our website. Florida Premium offers you fast online bookings and low price guarantee!</p></div>
