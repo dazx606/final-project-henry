@@ -57,13 +57,14 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                 <div className={style.msg}>Your Profile is incomplete.</div>
                 <div
                   className={style.msg}
-                >{`Let us know you better before we rent you a car :)`}</div>
+                >Let us know you better before we rent you a car!</div>
                 <NavLink
                   className={style.link}
                   to={`/user/${savedUser[1]}`}
                   onClick={handleLoginInfo}
                 >
-                  <div>Complete Profile</div>
+                  <i className="fa-solid fa-pen-to-square"></i>
+                  <div className={style.option}>Complete Profile</div>
                 </NavLink>
               </div>
             ) : (
@@ -87,14 +88,25 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                   to={`/profile/${savedUser[1]}`}
                   onClick={(e) => handleProfileInfo((e = "information"))}
                 >
-                  <div>Profile</div>
+                  <i className="fa-solid fa-user"></i>
+                  <div className={style.option}>Profile</div>
                 </NavLink>
+                
                 <NavLink
                   className={style.link}
                   to={`/profile/${savedUser[1]}`}
                   onClick={(e) => handleProfileInfo((e = "reservations"))}
                 >
-                  <div>My reservations</div>
+                  <i className="fa-regular fa-calendar-check"></i>
+                  <div className={style.option}>My reservations</div>
+                </NavLink>
+                <NavLink
+                  className={style.link}
+                  to={`/user/${savedUser[1]}`}
+                  onClick={handleLoginInfo}
+                >
+                  <i className="fa-solid fa-pen-to-square"></i>
+                  <div className={style.option}>Edit Profile</div>
                 </NavLink>
                 {completeUser.data.admin && (
                   <NavLink
@@ -102,7 +114,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                     to="/adminOptions"
                     onClick={(e) => handleProfileInfo((e = "reservations"))}
                   >
-                    <div>Manager Options</div>
+                    <i className="fa-solid fa-unlock"></i>
+                    <div className={style.option}>Manager Options</div>
                   </NavLink>
                 )}
               </div>

@@ -4,12 +4,13 @@ import style from "./adminUsers.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { deleteUser, getAdminUsers } from "../../redux/actions";
 import UserListItem from "./UserListItem";
+import DltAlert from "./DltAlert";
 
 export default function AdminUsers() {
   const { getAccessTokenSilently } = useAuth0();
   const allUsers = useSelector((state) => state.users);
   const [email, setEmail] = useState('');
-  const [alert, setAlert] = useState({ sure: false, ok: false });
+  const [alert, setAlert] = useState(false);
   const [dltUser, setDltUser] = useState({ email: '', id: '' })
   //   const [alert, setAlert] = useState("");
   const dispatch = useDispatch();
@@ -25,14 +26,14 @@ export default function AdminUsers() {
   }
 
   function handleTClick(email, id) {
-    setAlert({ ...alert, sure: true })
+    setAlert(true)
     setDltUser({ ...dltUser, email: email, id: id })
   };
   function handleDltClick() {
     dispatch(deleteUser(getAccessTokenSilently(), dltUser.id))
-    setAlert({ ...alert, ok: true });
-    setTimeout(setAlert({ ...alert, sure: false, ok: false }, 3000));
+    setAlert(false)
   }
+  
 
   return (
     <div>
@@ -44,36 +45,22 @@ export default function AdminUsers() {
         {allUsers.length ?
           <div>
             <div className={style.listTitle}>
-              <div className={style.imgIcon}></div>
               <div className={style.name}>First Name</div>
               <div className={style.name}>Last Name</div>
               <div className={style.email}>Email</div>
-              <div className={style.trashIcon}>Delete User</div>
+              <div className={style.trashTitle}>Delete User</div>
             </div>
             {allUsers?.map((u) => <UserListItem handleTClick={handleTClick} key={u.id} user={u} />)}
           </div>
           :
           <div>User not found</div>
-
         }
       </div>
       {
-        alert.sure ?
-          !alert.ok ?
-            <div className={style.alertContainer}>
-              <div className={style.Xcont}>
-                <button className={style.Xbton} onClick={() => setAlert({ ...alert, sure: false, ok: false })} >X</button>
-              </div>
-              <div className={style.sureTxt}>Are you sure you want to delete the user {dltUser.email}?</div>
-              <button className={`buttonGlobal ${style.dltBton}`} onClick={handleDltClick}>Delete</button>
-
-            </div>
-            :
-            <div>
-              The user {dltUser.email} has been deleted
-
-            </div>
-          : null
+        alert &&
+        <div className={style.alert}>
+          <DltAlert setAlert={setAlert} handleDltClick={handleDltClick} dltUser={dltUser} alert={alert} />
+        </div>
       }
 
     </div>
