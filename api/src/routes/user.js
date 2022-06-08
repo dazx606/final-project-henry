@@ -43,7 +43,7 @@ router.get("/reservations", async (req, res, next) => {
   try {
     if (userId) {
       await statusUpdater();
-      let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refundId'] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
+      let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
       return res.json(orders)
     }
   } catch (error) {

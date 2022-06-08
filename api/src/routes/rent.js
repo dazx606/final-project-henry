@@ -24,7 +24,7 @@ const router = Router();
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
 const YOUR_DOMAIN = "http://localhost:3000";  //DIRECCION DEL FRONT
 
-router.post("/car", async (req, res, next) => {
+router.post("/car", authMiddleWare, async (req, res, next) => {
   const { location, model, startingDate, endingDate, optionalEquipments = [], drivers, endLocation, userId } = req.body;
   try {
     if (!location || !model || !startingDate || !endingDate || !drivers.length || !endLocation || !userId) return res.status(417).json({ msg: "Missing info!" });
@@ -85,7 +85,7 @@ router.post("/car", async (req, res, next) => {
         })),
       ],
       customer_email: carRent.user.email,
-      client_reference_id: rentId,
+      client_reference_id: `${rentId}:${numberOfDays}`,
       mode: 'payment',
       expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
       success_url: `${YOUR_DOMAIN}/booking?success=true`,
@@ -106,32 +106,96 @@ router.post("/car", async (req, res, next) => {
   }
 });
 
-router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) => {
+// router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) => {
+router.delete("/refund/:userId/:rentId", async (req, res, next) => {
+
   try {
     await statusUpdater();
     const { userId, rentId } = req.params;
     const user = await User.findByPk(userId, { include: [{ model: RentOrder, where: { id: rentId } }] });
     if (!user) return res.status(404).json({ msg: "RentOrder not found!!!" });
     const rent = user.dataValues.rentOrders[0].toJSON();
-    if (["canceled", "maintenance", "concluded"].includes(rent.status)) return res.status(404).json({ msg: "RentOrder not refundable" });
+    if (["canceled", "maintenance", "concluded", "in use"].includes(rent.status)) return res.status(400).json({ msg: "RentOrder not refundable" });
 
-    let amount = rent.paymentAmount;
+    let discount = 1;
     const amountDayBeforeStart = getDatesInRange(new Date(), new Date(rent.startingDate)).length - 1;
-    if (amountDayBeforeStart > 7) amount = Math.ceil(amount * 0.95);
-    else if (amountDayBeforeStart > 2) amount = Math.ceil(amount * 0.90);
-    else amount = Math.ceil(amount * 0.80);
+    if (amountDayBeforeStart > 7) discount = 0.95;
+    else if (amountDayBeforeStart > 2) discount = 0.90;
+    else discount = 0.80;
 
-    const refund = await stripe.refunds.create({
-      payment_intent: rent.refundId,
-      amount,
-    });
-    if (refund.status === "succeeded") {
-      await RentOrder.update({ status: "canceled" }, { where: { id: rentId } });
+    await Promise.all(
+      rent.refunds.map(async (id, k) => {
+        const refund = await stripe.refunds.create({
+          payment_intent: id,
+          amount: rent.paymentAmount[k] * discount,
+        });
+        return refund.status;
+      })
+    ).then(async res => {
+      if (res.every(s => s === "succeeded")) {
+        await RentOrder.update({ status: "canceled" }, { where: { id: rentId } });
+      }
+    })
+    return res.json("all Ok");
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/modify", authMiddleWare, async (req, res, next) => {
+  const { startingDate, endingDate, userId, rentId } = req.body;
+  try {
+    await statusUpdater();
+    if (!startingDate || !endingDate || !userId || !rentId) return res.status(404).json({ msg: "Missing info!!!" });
+    const user = await User.findByPk(userId, { include: [{ model: RentOrder, where: { id: rentId } }] });
+    if (!user) return res.status(404).json({ msg: "RentOrder not found!!!" });
+    const rent = user.dataValues.rentOrders[0].toJSON();
+    if (!["in use", "pending"].includes(rent.status)) return res.status(400).json({ msg: "RentOrder not modifiable" });
+
+    //verificar si las fechas son posibles osea que lo que llega del front no coincida con otra rentorder
+
+    const oldStart = new Date(rent.startingDate);
+    const oldEnd = new Date(rent.endingDate);
+    const start = new Date(startingDate);
+    const end = new Date(endingDate);
+    const maintenanceEnd = datePlus(end, 2);
+    if (rent.status === "pending") {
+      let startDiff = 0;
+      let endDiff = 0;
+      if (start < oldStart) {
+        startDiff = getDatesInRange(start, oldStart).length - 1;
+      } else if (start > oldStart) {
+        startDiff = -getDatesInRange(oldStart, start).length - 1;
+      }
+      if (maintenanceEnd < oldEnd) {
+        endDiff = -getDatesInRange(maintenanceEnd, oldEnd).length - 1;
+      } else if (maintenanceEnd > oldEnd) {
+        endDiff = getDatesInRange(oldEnd, maintenanceEnd).length - 1;
+      }
+
+      const totalDiff = startDiff + endDiff;
+      if (totalDiff <= 0) {
+        await RentOrder.update({ startingDate: start.toDateString(), endingDate: end.toDateString() }, { where: { id: rentId } });
+        if (!totalDiff) return res.json({ msg: "modified" });
+        const refund = await stripe.refunds.create({
+          payment_intent: rent.refundId,
+          amount: 5464654,
+        });
+        if (refund.status === "succeeded") {
+          await RentOrder.update({ status: "canceled" }, { where: { id: rentId } });
+        }
+      }
+
     }
+
+
+
+
     res.json("todo Ok");
   } catch (error) {
     next(error);
   }
 });
+
 
 module.exports = router;

@@ -121,8 +121,20 @@ const statusUpdater = async () => {
   }
 }
 
+const rentUpdate = async (stripeObject) => {
+  try {
+    const rentId = stripeObject.client_reference_id.split(":")[0];
+    const days = stripeObject.client_reference_id.split(":")[1];
+    const rent = await RentOrder.findByPk(rentId);
+    await RentOrder.update({ payed: true, refunds: [...rent.refunds, stripeObject.payment_intent], paymentDays: [...rent.paymentDays, days], paymentAmount: [...rent.paymentAmount, stripeObject.amount_total] }, { where: { id: rentId } });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 module.exports = {
+  rentUpdate,
   datePlus,
   getDatesInRange,
   filterDates,

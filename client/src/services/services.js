@@ -27,7 +27,7 @@ export function sendAMessage(message) {
 }
 
 export function getUserInformation(token, email) {
-  
+
   const options = {
     method: "GET",
     mode: "cors",
@@ -81,7 +81,7 @@ export function getAllReservs(token, orderId) {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
-    params:{orderId}
+    params: { orderId }
   };
   return axios.get(`http://localhost:3001/admin/reservations`, options);
 }
@@ -113,4 +113,41 @@ export function getAllCars(token, plate, page) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}`, options)
+}
+
+
+export function rentCar(
+  location,
+  model,
+  startingDate,
+  endingDate,
+  optionalEquipments,
+  drivers,
+  endLocation,
+  userId,
+  getToken,
+) {
+  return async () => {
+    try {
+      const token = await getToken();
+      const options = {
+        method: "POST",
+        mode: "cors",
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const res = await axios.post(`${URL}rent/car`, {
+        location,
+        model,
+        startingDate,
+        endingDate,
+        optionalEquipments,
+        drivers,
+        endLocation,
+        userId,
+      }, options);
+      window.location.href = res.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
