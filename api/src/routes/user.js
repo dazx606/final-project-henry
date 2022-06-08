@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { User, RentOrder, IndividualCar, CarModel, Location, Driver, OptionalEquipment } = require("../db.js");
+const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
@@ -41,6 +42,7 @@ router.get("/reservations", async (req, res, next) => {
 
   try {
     if (userId) {
+      await statusUpdater();
       let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refundId'] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
       return res.json(orders)
     }
@@ -55,14 +57,15 @@ router.get("/reservation/:orderId", async (req, res, next) => {
 
   try {
     if (orderId) {
+      await statusUpdater();
       let order = await RentOrder.findOne({
         where: { id: orderId },
         include: [{ model: IndividualCar, include: [CarModel, Location] },
-          { model: User, attributes: ['firstName','lastName','email']},
+        { model: User, attributes: ['firstName', 'lastName', 'email'] },
           Location,
           Driver,
           OptionalEquipment,
-       ],
+        ],
       });
       return order !== null
         ? res.send({ order })
