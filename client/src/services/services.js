@@ -44,6 +44,15 @@ export function getUserReservations(token, userId) {
   return axios(`${URL}user/reservations?userId=${userId}`, options);
 }
 
+export function getUserReservation(token, orderId) {
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios(`${URL}user/reservation/${orderId}`, options);
+}
+
 export function addUser(email, picture) {
   return axios.post(`${URL}user`, { email, picture });
 }

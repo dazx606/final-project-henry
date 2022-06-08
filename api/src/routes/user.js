@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { User, RentOrder, IndividualCar, CarModel, Location } = require("../db.js");
+const { User, RentOrder, IndividualCar, CarModel, Location, Driver, OptionalEquipment } = require("../db.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
@@ -43,6 +43,30 @@ router.get("/reservations", async (req, res, next) => {
     if (userId) {
       let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refundId'] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
       return res.json(orders)
+    }
+  } catch (error) {
+    next(error)
+  }
+});
+
+router.get("/reservation/:orderId", async (req, res, next) => {
+
+  const { orderId } = req.params;
+
+  try {
+    if (orderId) {
+      let order = await RentOrder.findOne({
+        where: { id: orderId },
+        include: [{ model: IndividualCar, include: [CarModel, Location] },
+          { model: User, attributes: ['firstName','lastName','email']},
+          Location,
+          Driver,
+          OptionalEquipment,
+       ],
+      });
+      return order !== null
+        ? res.send({ order })
+        : res.status(404).send({ msg: "order not found" });
     }
   } catch (error) {
     next(error)

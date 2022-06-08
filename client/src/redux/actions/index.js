@@ -14,6 +14,7 @@ import {
   getAllUsersInfo,
   deleteUserInfo,
   getUserReservations,
+  getUserReservation,
   getAllReservs,
   deleteReserv,
   getAllCars,
@@ -44,6 +45,7 @@ export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
+export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
 
 export const URL = "http://localhost:3001/";
 
@@ -235,6 +237,23 @@ export function userReservations(getToken, userId) {
       }
     } catch (error) {
       return dispatch({ type: GET_USER_RESERVATIONS, payload: undefined });
+    }
+  };
+}
+
+export function userReservation(getToken, orderId) {
+  return async (dispatch) => {
+    let token = getToken();
+    try {
+      if (orderId) {
+        let response = await getUserReservation(token, orderId);
+        return dispatch({
+          type: GET_USER_RESERVATION,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      return dispatch({ type: GET_USER_RESERVATION, payload: undefined });
     }
   };
 }
