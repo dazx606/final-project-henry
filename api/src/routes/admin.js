@@ -32,8 +32,7 @@ const authMiddleWare = jwt({
   issuer: process.env.AUTH_ISSUER,
   algorithms: ["RS256"],
 });
-const checkScopes = (permissions) =>
-  jwtScope(permissions, { scopeKey: "permissions", requireAll: true });
+const checkScopes = (permissions) => jwtScope(permissions, { scopeKey: "permissions", requireAll: true });
 
 // router.use(authMiddleWare);
 // router.use(checkScopes("read:user"));
@@ -107,9 +106,7 @@ router.get("/allCars", async (req, res, next) => {
           attributes: ["brand", "images"],
         },
       });
-      specificCar = specificCar.filter((sc) =>
-        sc.license_plate.includes(plate.toLocaleUpperCase())
-      );
+      specificCar = specificCar.filter((sc) => sc.license_plate.includes(plate.toLocaleUpperCase()));
 
       return res.status(200).json({ cars: specificCar });
     }
@@ -127,8 +124,7 @@ router.get("/allCars", async (req, res, next) => {
           },
         ],
       });
-      if (!specificCar.length)
-        return res.status(404).json({ msg: "car not found" });
+      if (!specificCar.length) return res.status(404).json({ msg: "car not found" });
       return res.status(200).json({ car: specificCar });
     }
 
@@ -147,9 +143,7 @@ router.get("/allCars", async (req, res, next) => {
       });
       carsInCity = carsInCity.individualCars;
       if (plate) {
-        carsInCity = carsInCity.filter((c) =>
-          c.license_plate.includes(plate.toString())
-        );
+        carsInCity = carsInCity.filter((c) => c.license_plate.includes(plate.toString()));
       }
 
       return res.status(200).json({ cars: carsInCity });
@@ -210,8 +204,7 @@ router.post("/model", async (req, res, next) => {
     const checkIfModelExist = await CarModel.findOne({
       where: { model: model },
     });
-    if (checkIfModelExist)
-      return res.status(200).send({ msg: "This model already exist" });
+    if (checkIfModelExist) return res.status(200).send({ msg: "This model already exist" });
     //////////////////////// ESTA FUNCION SE DESCOMENTA CUANDO SE NECESITA AGREGAR PRECIO DE STRIPE
 
     // const product = await stripe.products.create({
@@ -273,8 +266,7 @@ router.post("/car", async (req, res, next) => {
       where: { license_plate: licensePlate },
       defaults: { license_plate: licensePlate, year: year },
     });
-    if (!created)
-      return res.send(409).send({ msg: "License plate already in use" });
+    if (!created) return res.send(409).send({ msg: "License plate already in use" });
 
     await findModel.addIndividualCar(car);
     const carLocation = await Location.findOne({ where: { city: location } });
@@ -310,24 +302,22 @@ router.get("/reservations", async (req, res, next) => {
     if (userId) {
       let orders = await RentOrder.findAll({
         where: { userId },
-        include: [{ model: IndividualCar, include: [CarModel, Location] },
-          { model: User, attributes: ['firstName','lastName','email']}
+        include: [
+          { model: IndividualCar, include: [CarModel, Location] },
+          { model: User, attributes: ["firstName", "lastName", "email"] },
         ],
       });
-      return orders.length
-        ? res.send({ orders })
-        : res.status(404).send({ msg: "There are no orders for the user" });
+      return orders.length ? res.send({ orders }) : res.status(404).send({ msg: "There are no orders for the user" });
     }
     if (orderId) {
       let order = await RentOrder.findOne({
         where: { id: orderId },
-        include: [{ model: IndividualCar, include: [CarModel, Location] },
-          { model: User, attributes: ['firstName','lastName','email']}
-       ],
+        include: [
+          { model: IndividualCar, include: [CarModel, Location] },
+          { model: User, attributes: ["firstName", "lastName", "email"] },
+        ],
       });
-      return order !== null
-        ? res.send({ order })
-        : res.status(404).send({ msg: "order not found" });
+      return order !== null ? res.send({ order }) : res.status(404).send({ msg: "order not found" });
     }
     // let orders = await RentOrder.findAll({include:[{model:IndividualCar, include:[CarModel, Location]}]});
     let orders = await RentOrder.findAll({
@@ -336,9 +326,7 @@ router.get("/reservations", async (req, res, next) => {
         attributes: ["firstName", "lastName", "email"],
       },
     });
-    orders.length
-      ? res.send({ orders })
-      : res.status(404).send({ msg: "There are no orders" });
+    orders.length ? res.send({ orders }) : res.status(404).send({ msg: "There are no orders" });
   } catch (error) {
     next(error);
   }
@@ -349,10 +337,28 @@ router.delete("/reservations/delete/:id", async (req, res, next) => {
   try {
     let order = await RentOrder.destroy({ where: { id } });
     if (order === 1) res.send({ msg: "Deleted", id });
-    else if (order === 0)
-      res.status(404).send({ msg: "Order not found, check and try again", id });
+    else if (order === 0) res.status(404).send({ msg: "Order not found, check and try again", id });
   } catch (error) {
     next(error);
+  }
+});
+
+router.get("/reservation/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+  try {
+    if (orderId) {
+      let order = await RentOrder.findOne({
+        where: { id: orderId },
+        include: [
+          { model: IndividualCar, include: [CarModel, Location] },
+          { model: User, attributes: ["firstName", "lastName", "email","license"] },
+          Driver,Location
+        ],
+      });
+      return order !== null ? res.send({ order }) : res.status(404).send({ msg: "order not found" });
+    }
+  } catch (error) {
+    console.log(error)
   }
 });
 

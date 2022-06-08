@@ -113,3 +113,12 @@ export function getAllCars(token, plate) {
   };
   return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}`, options)
 }
+
+export function getOrderDetail(orderId,token){
+  const options={
+    method:'GET',
+    mode:'cors',
+    headers:{authorization:  `Bearer ${token}`}
+  }
+  return axios.get(`http://localhost:3001/admin/reservation/${orderId}`, options)
+}

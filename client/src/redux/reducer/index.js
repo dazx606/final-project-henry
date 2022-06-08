@@ -24,6 +24,7 @@ import {
   GET_ALL_RESERVATIONS,
   DELETE_RESERVATION,
   GET_ALL_ADMIN_CARS,
+  GET_DETAIL_RESERVATION,
 } from "../actions";
 
 const initialState = {
@@ -56,12 +57,10 @@ const initialState = {
   allCars: [],
   pagination: { page: 1, pageNum: 1 },
   orders: [],
+  order:{},
 };
 
-export default function rootReducer(
-  state = initialState,
-  { type, payload, token }
-) {
+export default function rootReducer(state = initialState, { type, payload, token }) {
   switch (type) {
     case GET_LOCATIONS:
       return {
@@ -212,6 +211,12 @@ export default function rootReducer(
       return {
         ...state,
         allCars: payload,
+      };
+    }
+    case GET_DETAIL_RESERVATION: {
+      return {
+        ...state,
+        order: payload,
       };
     }
 

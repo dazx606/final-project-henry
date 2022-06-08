@@ -35,13 +35,13 @@ router.get("/", authMiddleWare, async (req, res, next) => {
   }
 });
 
-router.get("/reservations", async (req, res, next) => {
+router.get("/reservations",authMiddleWare, async (req, res, next) => {
 
   const { userId } = req.query;
 
   try {
     if (userId) {
-      let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refundId'] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
+      let orders = await RentOrder.findOne({ where: { userId, payed: true }, attributes: { exclude: ['refundId'] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
       return res.json(orders)
     }
   } catch (error) {
