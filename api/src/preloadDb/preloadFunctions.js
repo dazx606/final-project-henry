@@ -216,7 +216,7 @@ const preloadRentOrder = async () => {
       rentOrders.map(async (r) => {
         const newRentOrder = await RentOrder.findOrCreate({
           where: { startingDate: r.startingDate },
-          defaults: { startingDate: r.startingDate, endingDate: r.endingDate },
+          defaults: { startingDate: r.startingDate, endingDate: r.endingDate, status: r.status },
         });
         if (newRentOrder[1]) {
           const user = await User.findOne({ where: { email: r.user } });

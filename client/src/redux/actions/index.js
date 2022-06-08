@@ -213,6 +213,7 @@ export function setUserInfo(getToken, email) {
     try {
       if (email) {
         const token = await getToken();
+        // console.log(token);
         let response = await getUserInformation(token, email);
         return dispatch({ type: SET_USER, payload: response.data });
       }
