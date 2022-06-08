@@ -2,10 +2,10 @@
     display:flex;
     position: fixed;
     width: 21rem;
-    background-color: var(--color1);
+    background-color: var(--color6);
     top: 4.5rem;
     right: 1.5rem;
-    border: ridge 1px var(--color6);
+    border: groove 1px var(--color4);
     border-radius:  0px;
     box-shadow: 0px 0px 8px 4px var(--color6Tr);
 }
@@ -56,12 +56,11 @@
     border-top: groove 1px var(--color4Tr);
 }
 
-.welcome{
-    
-    color: var(--color3);
+.welcome{    
+    color: var(--color4);
     font-family: var(--font2);
     font-size: 1.2em;
-    font-weight: 300;   
+    font-weight: 400;   
     margin: 16px 0px 0px 24px;
 }
 
@@ -85,6 +84,7 @@
 
 .link{
     display: flex;
+    align-items: center;
     text-decoration:none;
     font-family: var(--font2);
     color: var(--color4);
@@ -93,7 +93,16 @@
 .link a:visited{
     text-decoration:none;
 }
-
+.option{
+    margin-left: 8px;    
+    color: var(--color3);
+}
+.option:hover{
+    color:var(--color4);
+}
+.link:hover{
+    color:var(--color4);
+}
 .btnCont{
     display:flex;
     justify-content: center;
