@@ -1,10 +1,61 @@
 .usersBox {
-    width: auto;
+    flex: 1;
     height: auto;
     background-color: var(--color6Tr);
     border: groove 1px var(--color4Tr);
     box-shadow: 0px 0px 8px 4px var(--color6Tr);
     margin: 2rem 7rem;
-    padding: 0.5rem;
+    padding: 2rem;
     color: var(--color3Tr);
+    max-width: 30em;
+  }
+
+  .drivers{
+    display:flex;
+  }
+  .driver{
+    margin:10px;
+  }
+  .textForm{
+    display:flex;
+    justify-content: center;
+  }
+  .firstName{
+    color:var(--color4)
+  }
+
+  .lastName{
+    color: var(--color4)
+
+  }
+  .lastNameContainer{
+    margin-top:5px;
+  }
+  .button{
+    margin:15px;
+  }
+
+  .divButtonContainer{
+   text-align: center;
+  }
+  .reservationTitle{
+    text-align: center;
+    color:var(--color4);
+    margin-bottom:5px;
+  }
+  .email{
+    color:var(--color4)
+  }
+  .emailContainer{
+    margin-top:5px;
+  }
+  .license{
+    color:var(--color4)
+  }
+  .licenseContainer{
+    margin-top:5px;
+  }
+  .statusContainer{
+    color:var(--color4);
+    margin-top:5px;
   }

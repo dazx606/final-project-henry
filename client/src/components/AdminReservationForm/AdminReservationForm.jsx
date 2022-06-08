@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./adminReservationForm.module.css";
-import AddDriver from "./AddDriver";
+// import AddDriver from "./AddDriver";
 import { getOrderReservationId } from "../../redux/actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -18,25 +18,31 @@ export default function AdminReservationForm() {
   });
 
   return (
-    <div>
+    <div className={styles.textForm}>
       <div className={styles.usersBox}>
-        <h2>Reservation Detail:</h2>
+        <h2 className={styles.reservationTitle}>Reservation Detail:</h2>
         <form>
-          <div>
-            FirstName:
+          <div className={styles.firstNameContainer}>
+            <span className={styles.firstName}>FirstName: </span>
+
             <span>{order.user?.firstName}</span>
           </div>
-          <div>
-            LastName:
+
+          <div className={styles.lastNameContainer}>
+            <span className={styles.lastName}>LastName: </span>
+
             <span>{order.user?.lastName}</span>
           </div>
-          <div>
-            Email:
+          <div className={styles.emailContainer}>
+            <span className={styles.email}>Email: </span>
             <span>{order.user?.email}</span>
           </div>
-          <div>License:</div>
-          <span>{order.user?.license}</span>
-          <div>Reservation Status:</div>
+          <div className={styles.licenseContainer}>
+            <span className={styles.license}>License: </span>
+            <span>{order.user?.license}</span>
+          </div>
+
+          <div className={styles.statusContainer}>Reservation Status: </div>
           <select>
             <option value="">status</option>
             <option value="pending">Pending</option>
@@ -45,53 +51,58 @@ export default function AdminReservationForm() {
             <option value="maintenance">Maintenance</option>
           </select>
           <div>
-            <span>StartingDate:</span>
-            <span>{order.startingDate}</span>
+            <span>StartingDate: </span>
+            <span>{order?.startingDate}</span>
             <br />
-            <span>EndingDate:</span>
-            <span>{order.startingDate}</span>
+            <span>EndingDate: </span>
+            <span>{order?.endingDate}</span>
           </div>
-          <div>Payed</div>
+          <div>
+            Payed
+            <span>{order?.payed}</span>
+          </div>
+
           <br />
-          <div>Car
-          <span>{order.individualCar?.carModel.model}</span>
-          <span>{order.individualCar?.carModel.brand}</span>
-          </div>
-          
           <div>
-          <select>                       
-            <option value="">Car</option>
-            <option value=""></option>
-            <option value=""></option>
-          </select>
+            PaymentAmount
+            <span>{order?.paymentAmount}</span>
           </div>
           <div>
+            Rated
+            <span>{order?.rated}</span>
           </div>
-          {/* <div>StartingDate</div>
-          <input type="date" name="startingDate" value={input.startingDate} />
-          <div>EndingDate</div>
-          <input type="date" name="endingDate" value={input.endingDate} /> */}
+
           <div>
-            <div>Location</div>
-            <span>{order.individualCar?.locationId}</span>
+            Car:
+            <span>{order.individualCar?.carModel.model}</span>
+            <br />
+            <span>{order.individualCar?.carModel.brand}</span>
+          </div>
+
+          <div></div>
+          <div>
+            <div> Starting Location</div>
+            <span>{order.individualCar?.location.city}</span>
+
+            <div> Ending Location</div>
+            <span>{order.location?.city}</span>
             <div>
               Driver:
-              <div>
-                <span>FirstName</span>
-                <span>{}</span>
-                <br />
-               {/* { order.drivers.map((driver) =>driver.firstName)} */}
-                <span>LastName</span>
-                <br />
-                <span>License Number</span>
-                <br />
-                <span>Document Id</span>
-                <br />
+              <div className={styles.drivers}>
+                {order.drivers?.map((driver) => (
+                  <div  key={driver.id} className={styles.driver}>
+                    <div>firstName: {driver.firstName}</div>
+                    <div>lastName: {driver.lastName}</div>
+                    <div>license: {driver.licenseNumber}</div>
+                    <div>documentId: {driver.documentId}</div>
+                  </div>
+                ))}
               </div>
             </div>
-            <AddDriver />
-            <button>Edit</button>
-            <button>Delete</button>
+            <div className={styles.divButtonContainer}>
+              <button className={`buttonGlobal ${styles.button}`}>Edit</button>
+              <button className={`buttonGlobal ${styles.button}`}>Delete</button>
+            </div>
           </div>
         </form>
       </div>
