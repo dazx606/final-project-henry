@@ -34,9 +34,6 @@ export default function Alert() {
                 </div>
                 <NavLink to={`/city/${city}`}><button className={`buttonGlobal ${style.homeBtn}`} disabled={activeBtn} onClick={handleClick}>select</button></NavLink>
             </div>
-            <NavLink to={`/city/${city}`}><button className={style.homeBtn} disabled={activeBtn} onClick={handleClick}>Select</button></NavLink>
         </div>
-     
-
     )
 }

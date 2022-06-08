@@ -1,21 +1,23 @@
 const rentOrders = [
     {
-        startingDate: "2022/08/8",
+        startingDate: "2022/06/04",
         endingDate: "2022/08/20",
         user: "rentacarg7@gmail.com",
         car: "500",
         drivers: ["persona1", "persona2"],
         optionalEquipment: ["GPS"],
-        endLocation: "Buenos Aires"
+        endLocation: "Buenos Aires",
+        status:"pending",
     },
     {
-        startingDate: "2022/10/8",
-        endingDate: "2023/02/3",
+        startingDate: "2022/04/04",
+        endingDate: "2022/06/07",
         user: "rentacarg7@gmail.com",
         car: "500",
         drivers: ["persona3"],
         optionalEquipment: [],
-        endLocation: "Rosario"
+        endLocation: "Rosario",
+        status:"maintenance",
     },
     {
         startingDate: "2022/07/7",
@@ -24,7 +26,8 @@ const rentOrders = [
         car: "500",
         drivers: ["persona5"],
         optionalEquipment: ["GPS", "Child seat", "Baby seat"],
-        endLocation: "Cali"
+        endLocation: "Cali",
+        status:"canceled",
     },
     {
         startingDate: "2022/08/2",
@@ -33,7 +36,8 @@ const rentOrders = [
         car: "486",
         drivers: ["persona5"],
         optionalEquipment: ["GPS", "Child seat", "Baby seat"],
-        endLocation: "Cali"
+        endLocation: "Cali",
+        status:"pending",
     }
 ]
 
