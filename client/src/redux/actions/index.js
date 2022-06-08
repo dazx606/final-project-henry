@@ -17,6 +17,8 @@ import {
   getAllReservs,
   deleteReserv,
   getAllCars,
+  getAllModels,
+  createIndividualCar,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -44,6 +46,7 @@ export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
+export const GET_ALL_MODELS = "GET_ALL_MODELS";
 
 export const URL = "http://localhost:3001/";
 
@@ -399,6 +402,20 @@ export function getOptionalEquipment() {
       const response = await getAllOptionalEquipment();
       return dispatch({
         type: GET_OPTIONAL_EQUIPMENT,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getModels() {
+  return async (dispatch) => {
+    try {
+      const response = await getAllModels();
+      return dispatch({
+        type: GET_ALL_MODELS,
         payload: response.data,
       });
     } catch (error) {

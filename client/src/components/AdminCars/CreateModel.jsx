@@ -4,10 +4,10 @@ import {
   getIncludedEquipment,
   getOptionalEquipment,
 } from "../../redux/actions";
+import { createModel } from "../../services/services";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import styles from "./CreateModel.module.css";
-//eliminar
-import axios from "axios";
 
 const validate = (input) => {
   const errors = {};
@@ -15,25 +15,28 @@ const validate = (input) => {
     (item) =>
       item !== "Automatic Transmission" && item !== "Manual Transmission"
   );
-  if (!input.model) errors.model = true;
-  if (!input.brand) errors.brand = true;
-  if (!input.pricePerDay) errors.pricePerDay = true;
-  if (!input.trunk) errors.trunk = true;
-  if (!input.passengers) errors.passengers = true;
-  if (!input.consumption) errors.consumption = true;
-  if (!input.engine) errors.engine = true;
-  if (!input.carType) errors.carType = true;
-  if (!input.description) errors.description = true;
+  if (!input.model) errors.model = "Model name is required";
+  if (!input.brand) errors.brand = "Brand name is required";
+  if (!input.pricePerDay) errors.pricePerDay = "Price is required";
+  if (!input.trunk) errors.trunk = "Trunk size is required";
+  if (!input.passengers) errors.passengers = "Passengers is required";
+  if (!input.consumption) errors.consumption = "Consumption is required";
+  if (!input.engine) errors.engine = "Engine capacity is required";
+  if (!input.carType) errors.carType = "Car type is required";
+  if (!input.description) errors.description = "Description is required";
   if (
     input.includedEquipment[0] !== "Automatic Transmission" ||
     input.includedEquipment[0] !== "Manual Transmission"
   )
-    errors.transmission = true;
-  if (filteredIncludedList.length < 1) errors.includedEquipment = true;
-  if (input.optionalEquipment.length < 1) errors.optionalEquipment = true;
+    errors.transmission = "Transmision is required";
+  if (filteredIncludedList.length < 1)
+    errors.includedEquipment = "Included equipment is required";
+  if (input.optionalEquipment.length < 1)
+    errors.optionalEquipment = "Optional equipment is required";
 };
 
 function CreateModel() {
+  const { getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const includedEquipment = useSelector((state) => state.includedEquipment);
   const optionalEquipment = useSelector((state) => state.optionalEquipment);
@@ -56,6 +59,7 @@ function CreateModel() {
   });
   const [errors, setErrors] = useState({});
   const [optionalImage, setOptionalImage] = useState("");
+  const [checker, setChecker] = useState(false);
 
   useEffect(() => {
     dispatch(getIncludedEquipment());
@@ -63,23 +67,24 @@ function CreateModel() {
   }, [dispatch]);
 
   const handleSubmit = async (e) => {
+    setChecker(true);
+    if (!Object.keys(errors).length) {
+      return await createModel({
+        model: input.model,
+        brand: input.brand,
+        pricePerDay: input.pricePerDay,
+        passengers: input.passengers,
+        trunk: input.trunk,
+        consumption: input.consumption,
+        engine: input.engine,
+        images: [input.cardImage, input.mainImage, ...input.optionalImages],
+        carType: input.carType,
+        description: input.description,
+        includedEquipment: input.includedEquipment,
+        optionalEquipment: input.optionalEquipment,
+      });
+    }
     e.preventDefault();
-    const response = await axios.post("http://localhost:3001/admin/model", {
-      model: input.model,
-      brand: input.brand,
-      pricePerDay: input.pricePerDay,
-      passengers: input.passengers,
-      trunk: input.trunk,
-      consumption: input.consumption,
-      engine: input.engine,
-      images: [input.cardImage, input.mainImage, input.optionalImages],
-      carType: input.carType,
-      description: input.description,
-      includedEquipment: input.includedEquipment,
-      optionalEquipment: input.optionalEquipment,
-    });
-
-    console.log(response.data);
   };
 
   const handleInputChange = (e) => {

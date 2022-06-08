@@ -110,5 +110,34 @@ export function getAllCars(token, plate) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}`, options)
+  return axios.get(
+    `http://localhost:3001/admin/allCars?plate=${plate}`,
+    options
+  );
+}
+
+export function getAllModels() {
+  return axios.get(`${URL}models`);
+}
+
+export async function createIndividualCar(body, getToken) {
+  const token = await getToken();
+  const options = {
+    method: "post",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  const respone = await axios.post(`${URL}admin/car`, body, options);
+  return respone.data;
+}
+
+export async function createModel(body, getToken) {
+  const token = await getToken();
+  const options = {
+    method: "post",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  const response = await axios.post(`${URL}admin/model`, body, options);
+  return response.data;
 }
