@@ -26,31 +26,36 @@
 .listTitle {
   display: flex;
   align-items: center;
-  margin: 1rem;
+  margin: 0rem;
   justify-content: space-evenly;
   color: var(--color4);
   font-size: 1em;
+  /* border-bottom: groove 1px var(--color4Tr); */
+  height: 1em;
+  padding: 1rem;
+  
 }
 
 .userListItem {
   display: flex;
   align-items: center;
-  margin: 1rem;
   justify-content: space-evenly;
+  height: 1em;
+  padding: 1rem;
 
 }
 
 .name {
   width: 12rem;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 
 }
 
 .email {
   width: 20rem;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 }
 
 .trashIcon {
@@ -58,6 +63,11 @@
   display: flex;
   justify-content: center;
 
+}
+.trashTitle{
+  width: 10rem;
+  display: flex;
+  justify-content: center;
 }
 
 .trashIcon:hover {
@@ -78,6 +88,15 @@
   font-weight: 700;
 
 }
+.alert {
+  position: fixed;
+  background-color: #00000094;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
 
 .alertContainer {
   text-align: center;
@@ -88,34 +107,25 @@
   left: 35vw;
   height: 30vh;
   width: 30vw;
-  background-color: var(--color1);
-  color: var(--color4);
+  background-color: var(--color6);
+  color: var(--color3Tr);
   z-index: 10;
-  border: groove 1px var(--color4Tr);
+  border:none;
   border-radius: 0px;
   box-shadow: 0px 0px 8px 4px var(--color6Tr);
 }
+.all{
+  width: 100vw;
+  height: 100vh;
+  
+}
 
-.Xcont{
-  display: flex;
-  justify-content: right;
-  height: 4rem;
-}
-.Xbton{
-  border: none;
-  margin: 0rem 1rem;
-  color: var(--color4);
-  background-color: rgba(0, 0, 0, 0);
-  box-shadow: none;
-  font-family: var(--font2);
-  font-size: 1.4em;
-}
 .dltBton{
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 
 .sureTxt{
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 400;
-  margin: 0 2em 0 2em;
+  margin: 2.5em 2em 0 2em;
 }

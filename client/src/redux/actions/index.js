@@ -367,15 +367,15 @@ export function deleteReservation(getToken, payload) {
   };
 }
 
-export function getAllAdminCars(getToken, plate) {
+export function getAllAdminCars(getToken, plate, page) {
   return async (dispatch) => {
     try {
       const token = await getToken();
-      let response = await getAllCars(token, plate);
-
+      let response = await getAllCars(token, plate, page);
+      console.log(response.data)
       return dispatch({
         type: GET_ALL_ADMIN_CARS,
-        payload: response.data.cars,
+        payload: response.data,
       });
     } catch (e) {
       console.log(e);
