@@ -109,7 +109,7 @@ router.get("/allCars", async (req, res, next) => {
         },
       });
       specificCar = specificCar.filter((sc) =>
-        sc.license_plate.includes(plate.toLocaleUpperCase())
+        sc.license_plate.includes(plate.toUpperCase())
       );
       cars = specificCar;
     }
