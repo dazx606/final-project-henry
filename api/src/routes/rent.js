@@ -2,7 +2,7 @@ const { Router } = require("express");
 const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { STRIPE_SECRET_KEY } = process.env;
-const { datePlus, filterRentDates, getDatesInRange } = require("./controllers.js");
+const { datePlus, filterRentDates, getDatesInRange, statusUpdater } = require("./controllers.js");
 
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
@@ -108,10 +108,12 @@ router.post("/car", async (req, res, next) => {
 
 router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) => {
   try {
+    await statusUpdater();
     const { userId, rentId } = req.params;
     const user = await User.findByPk(userId, { include: [{ model: RentOrder, where: { id: rentId } }] });
     if (!user) return res.status(404).json({ msg: "RentOrder not found!!!" });
     const rent = user.dataValues.rentOrders[0].toJSON();
+    if (["canceled", "maintenance", "concluded"].includes(rent.status)) return res.status(404).json({ msg: "RentOrder not refundable" });
 
     let amount = rent.paymentAmount;
     const amountDayBeforeStart = getDatesInRange(new Date(), new Date(rent.startingDate)).length - 1;
