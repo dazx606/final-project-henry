@@ -213,6 +213,7 @@ export function setUserInfo(getToken, email) {
     try {
       if (email) {
         const token = await getToken();
+        // console.log(token);
         let response = await getUserInformation(token, email);
         return dispatch({ type: SET_USER, payload: response.data });
       }
@@ -367,15 +368,14 @@ export function deleteReservation(getToken, payload) {
   };
 }
 
-export function getAllAdminCars(getToken, plate) {
+export function getAllAdminCars(getToken, plate, page) {
   return async (dispatch) => {
     try {
       const token = await getToken();
-      let response = await getAllCars(token, plate);
-
+      let response = await getAllCars(token, plate, page);
       return dispatch({
         type: GET_ALL_ADMIN_CARS,
-        payload: response.data.cars,
+        payload: response.data,
       });
     } catch (e) {
       console.log(e);
