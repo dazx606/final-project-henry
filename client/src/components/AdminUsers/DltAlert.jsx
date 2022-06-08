@@ -6,7 +6,6 @@ function DltAlert({ alert, setAlert, handleDltClick, dltUser }) {
 
     useEffect(() => {
         if (alert === true) {
-          console.log('entre')
           const element = document.getElementById("All")
           element.addEventListener("click", (event) => {
             if (event.target.id === "All") {

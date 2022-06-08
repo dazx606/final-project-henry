@@ -97,7 +97,6 @@ router.get("/rent", async (req, res, next) => {
 //============ CARS
 router.get("/allCars", async (req, res, next) => {
   const { plate, locationId, page = 1 } = req.query;
-  console.log(plate);
   let cars = [];
   try {
     if (plate && !locationId) {

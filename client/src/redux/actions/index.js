@@ -372,7 +372,6 @@ export function getAllAdminCars(getToken, plate, page) {
     try {
       const token = await getToken();
       let response = await getAllCars(token, plate, page);
-      console.log(response.data)
       return dispatch({
         type: GET_ALL_ADMIN_CARS,
         payload: response.data,
