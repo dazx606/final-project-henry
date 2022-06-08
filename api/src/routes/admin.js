@@ -345,7 +345,8 @@ router.delete("/reservations/delete/:id", async (req, res, next) => {
 
 router.get("/reservation/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-  try {
+  try { 
+    await statusUpdater()
     if (orderId) {
       let order = await RentOrder.findOne({
         where: { id: orderId },
