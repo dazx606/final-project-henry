@@ -58,9 +58,9 @@
   margin: auto;
   /* margin-left: 3rem; */
 }
-/* @media (max-width: 1172px) {
+@media (max-width: 800px) {
 
   .footer{
-    flex-direction: column;
+    font-size: 0.8em;
   }
-} */
+}
