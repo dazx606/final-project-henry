@@ -206,6 +206,7 @@ export function setUserInfo(getToken, email) {
     try {
       if (email) {
         const token = await getToken();
+        // console.log(token);
         let response = await getUserInformation(token, email);
         console.log("🚀 ~ file: index.js ~ line 210 ~ return ~ token", token)
         return dispatch({ type: SET_USER, payload: response.data });

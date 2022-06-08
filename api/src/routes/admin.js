@@ -40,7 +40,7 @@ const checkScopes = (permissions) => jwtScope(permissions, { scopeKey: "permissi
 // ===================================GET== USERS
 router.get("/users", async (req, res, next) => {
   const { email } = req.query;
-  console.log(email);
+  // console.log(email);
   try {
     let users = await User
       .findAll
