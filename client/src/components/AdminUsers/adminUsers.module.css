@@ -109,10 +109,13 @@
   width: 30vw;
   background-color: var(--color6);
   color: var(--color3Tr);
-  z-index: 10;
-  border:none;
-  border-radius: 0px;
-  box-shadow: 0px 0px 8px 4px var(--color6Tr);
+  
+}
+.searchUser{
+  display: flex;
+  justify-content: left;
+  margin: 2rem 7rem;
+ 
 }
 .all{
   width: 100vw;
