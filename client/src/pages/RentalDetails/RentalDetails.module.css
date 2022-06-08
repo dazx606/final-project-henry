@@ -7,17 +7,51 @@
     padding: 0.5rem;
     color: var(--color3Tr);
     font-family: var(--font2);
-  }
+}
 
 .containerRent {
-    line-height: 2em;
+    line-height: 2.5em;
 }
 
 .detailsRent {
     display: flex;
     justify-content: center;
+    color: var(--color4);
+    margin-bottom: 2em;
+}
+
+.containerRent2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .itemsRent {
     display: flex;
+    justify-content: center;
+}
+
+.itemsRent1 {
+    display: flex;
+    justify-content: start;
+    margin-left: 10em;
+    width: 15em;
+    border: 1px solid;
+}
+
+.itemsRent2 {
+    display: flex;
+    justify-content: start;
+    padding-left: 5em;
+    margin-right: 10em;
+    text-align: start;
+    width: 15em;
+    border: 1px solid;
+}
+
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 2em;
 }
