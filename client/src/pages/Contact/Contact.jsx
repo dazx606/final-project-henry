@@ -15,7 +15,7 @@ function Contact() {
   return (
     <div className={styles.container}>
       <div className={styles.container1}>
-        <h3>GET IN TOUCH</h3>
+        <h3 className={styles.titleh}>GET IN TOUCH</h3>
         <p className={styles.text}>AU Tte. Gral. Pablo Riccheri Km 33,5, B1802 Ezeiza, Provincia de Buenos Aires</p>
         <p className={styles.text}>Phone: +54 9 11 3220 1367</p>
         <p className={styles.text}>Email: info@rentacar.com</p>
@@ -23,7 +23,7 @@ function Contact() {
       <div className={styles.container2}>
         <div className={styles.findus}>
           <div className={styles.subcontainer1}>
-            <h3>FIND US HERE</h3>
+            <h3 className={styles.titleh}>FIND US HERE</h3>
             <p className={styles.text}>RENT A CAR NEAR EZEIZA AIRPORT</p>
             <p className={styles.text}>Bellow you will find our office location. You can also review then on the map so you can easily find us. If you need a vehicle delivered on your door just contact us.</p>
             <div className={styles.iconContainer}>
@@ -145,55 +145,55 @@ function Form() {
 
   return (
     <div className={styles.form}>
-      <h3>CONTACT FORM</h3>
+      <h3 className={styles.titleh}>CONTACT FORM</h3>
       <form onSubmit={e => handleSubmit(e)}>
         <div>
-          <div>Full name*: </div>
-          <input type="text" value={input.name} name='name' onChange={e => handleChange(e)} />
+          <div className={styles.paragraph}>Full name*: </div>
+          <input className={styles.inputs} type="text" value={input.name} name='name' onChange={e => handleChange(e)} />
           {
             errors.name &&
-            (<p>{errors.name}</p>)
+            (<p className={styles.paragraph}>{errors.name}</p>)
           }
         </div>
         <div>
-          <div>Email*: </div>
-          <input type="email" value={input.email} name='email' onChange={e => handleChange(e)} />
+          <div className={styles.paragraph}>Email*: </div>
+          <input className={styles.inputs} type="email" value={input.email} name='email' onChange={e => handleChange(e)} />
           {
             errors.email &&
-            (<p>{errors.email}</p>)
+            (<p className={styles.paragraph}>{errors.email}</p>)
           }
         </div>
         <div>
-          <div>Phone: </div>
-          <input type="number" value={input.phone} name='phone' onChange={e => handleChange(e)} />
+          <div className={styles.paragraph}>Phone: </div>
+          <input className={styles.inputs} type="number" value={input.phone} name='phone' onChange={e => handleChange(e)} />
           {
             errors.phone &&
-            (<p>{errors.phone}</p>)
+            (<p className={styles.paragraph}>{errors.phone}</p>)
           }
         </div>
         <div>
-          <div>Subject: </div>
-          <input type="text" value={input.subject} name='subject' onChange={e => handleChange(e)} />
+          <div className={styles.paragraph}>Subject: </div>
+          <input className={styles.inputs} type="text" value={input.subject} name='subject' onChange={e => handleChange(e)} />
           {
             errors.subject &&
-            (<p>{errors.subject}</p>)
+            (<p className={styles.paragraph}>{errors.subject}</p>)
           }
         </div>
         <div>
-          <div>Message*: </div>
-          <textarea type='text' value={input.message} name='message' onChange={e => handleChange(e)} />
+          <div className={styles.paragraph}>Message*: </div>
+          <textarea className={styles.textarea} type='text' value={input.message} name='message' onChange={e => handleChange(e)} />
           {
             errors.message &&
-            (<p>{errors.message}</p>)
+            (<p className={styles.paragraph}>{errors.message}</p>)
           }
         </div>
         <div>
-          <p>* Please fill in required fields</p>
+          <p className={styles.paragraph}>* Please fill in required fields</p>
         </div>
         <div className={styles.buttonContainer}>
           {
             disabled === false ?
-              (<button className={styles.buttonSend} type='submit' disabled={disabled}>SUBMIT</button>) :
+              (<button  className='buttonGlobal' type='submit' disabled={disabled}>SUBMIT</button>) :
               (<button className={styles.disabled} type='submit' disabled={disabled}>SUBMIT</button>)
           }
         </div>

@@ -1,0 +1,115 @@
+.container {
+  display: flex;
+  font-family: var(--font2);
+}
+
+.selection {
+  width: 25%;
+  height: 92vh;
+  background-color: var(--color6Tr);
+  display: flex;
+  justify-content: center;
+  position: fixed;
+}
+
+.render {
+  width: 75%;
+  height: auto;
+  position: relative;
+  left: 25%;
+  
+}
+
+.selectionbox { 
+  margin-top: 4rem;
+  height: 30%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;  
+}
+
+.options {
+  color: var(--color4);
+  padding: 0px;
+  border: none;
+  box-shadow: none;
+  background-color: rgba(252, 192, 72, 0);
+  font-weight: 500;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  width: 80%;
+  height: 5rem;
+  border-bottom: 1px groove var(--color4);
+  position: static;
+
+}
+
+.options:hover {
+  font-weight: 550;
+  width: 80%;
+  height: 5rem;
+  padding: 0px;
+  border: none;
+  border-bottom: 1px double var(--color4);
+  box-shadow: none;
+  color: var(--color4);
+}
+
+.profileinfo {
+  width: auto;
+  background-color: var(--color6Tr);
+  border: groove 1px var(--color4Tr);
+  box-shadow: 0px 0px 8px 4px var(--color6Tr);
+  margin: 2rem 7rem;
+  padding: 0.5rem;
+  color: var(--color3Tr);
+}
+
+.firstinfo {
+  width: 100%;
+  margin-left: 16px;
+}
+
+.proInfotle {
+  color: var(--color4);
+  font-size: 1.3rem;
+  font-weight: 400;
+  margin-top: 16px;
+  margin-left: 14px;
+}
+
+.info {
+  display: flex;
+  margin: 3rem 0;
+}
+
+.infotitle {
+  width: 100%;
+}
+
+.infocontent {
+  text-align: center;
+  width: 100%;
+  color: var(--color3);
+}
+
+.edit {
+  margin-top: 16px;
+  margin-right: 16px;
+  font-size: 1.2rem;
+  background-color: rgba(252, 192, 72, 0);
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.edit:hover {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  color: var(--color3);
+}

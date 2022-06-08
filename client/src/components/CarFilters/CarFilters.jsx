@@ -5,6 +5,14 @@ import { getLocationCars } from "../../redux/actions";
 
 import styles from "./CarFilters.module.css";
 
+const toUglyDayFormat = (date) => {
+  return new Date(date.getTime() - (date.getTimezoneOffset() * 60 * 1000)).toISOString().split('T')[0];
+}
+
+const datePlus = (date, num) => {
+  return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num));
+}
+
 function CarFilters({ locationId, selection, handleFilters }) {
   const dispatch = useDispatch();
   const locationCars = useSelector((state) => state.locationCars);
@@ -23,19 +31,19 @@ function CarFilters({ locationId, selection, handleFilters }) {
       <input
         type="date"
         name="startingDate"
-        value={selection.startingDate}
-        className={styles.select}
-        onChange={(e) =>
-          handleFilters(e)}
+        value={selection.startingDate.split("/").join("-")}
+        className={`${styles.inputGlobal} ${styles.select}`}
+        onChange={(e) => handleFilters(e)}
+        min={toUglyDayFormat(new Date())}
       />
       <span className={styles.to}>to:</span>
       <input
         type="date"
         name="endingDate"
-        value={selection.endingDate}
-        className={styles.select}
-        onChange={(e) =>
-         handleFilters(e)}
+        value={selection.endingDate.split("/").join("-")}
+        className={`${styles.inputGlobal} ${styles.select}`}
+        onChange={(e) => handleFilters(e)}
+        min={toUglyDayFormat(!selection.startingDate ? datePlus(new Date(), 1) : datePlus(new Date(selection.startingDate), 1))}
       />
       <div className={styles.divider}></div>
       <span>Filters</span>
@@ -43,8 +51,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
         className={styles.select}
         name="category"
         value={selection.category}
-        onChange={(e) =>
-          handleFilters(e)}
+        onChange={(e) => handleFilters(e)}
       >
         <option value="" hidden>
           Category...
@@ -78,8 +85,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
         className={styles.select}
         name="orderType"
         value={selection.orderType}
-        onChange={(e) =>
-          handleFilters(e)}
+        onChange={(e) => handleFilters(e)}
       >
         <option value="pricePerDay">Price</option>
         <option value="rating">Rating</option>
@@ -98,3 +104,6 @@ function CarFilters({ locationId, selection, handleFilters }) {
 }
 
 export default CarFilters;
+
+
+

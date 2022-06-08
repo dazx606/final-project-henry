@@ -9,5 +9,13 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        licenseNumber: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        documentId: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
     }, { timestamps: false });
 };

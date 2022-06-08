@@ -20,13 +20,12 @@ function LocationFilter() {
 
   function handleLocChange(e) {
     dispatch(setCity(e.target.value))
-    
     if (locationId) navigate(`/city/${e.target.value}`)
   };
 
 
   return (
-    <select className={styles.citySelect} value={city} onChange={handleLocChange} >
+    <select className={` selectGlobal ${styles.citySelect}`} value={city} onChange={handleLocChange} >
       <option className={styles.cityOptions} hidden>City</option>
       {
         locations?.map(l =>

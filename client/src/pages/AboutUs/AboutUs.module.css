@@ -2,12 +2,12 @@
     background-color: var(--color1);
 }
 
-h3, h5 {
+.titleh {
     font-family: var(--font3);
     color: var(--color3);
 }
 
-p {
+.paragraph {
     font-family: var(--font2);
     color: var(--color3)
 }
@@ -31,7 +31,7 @@ p {
     justify-content: center;
 }
 
-button {
+/* .goHomeb {
     background-color: var(--color4);
     color: var(--color3);
     font-size: 0.8rem;
@@ -40,9 +40,9 @@ button {
     transition: 0.5s;
     border-radius: 5px;
     cursor: pointer;
-}
+} */
 
-button:hover {
+.goHomeb:hover {
     background-color: var(--color4Tr);
 }
 
