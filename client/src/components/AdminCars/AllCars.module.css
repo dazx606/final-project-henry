@@ -1,0 +1,107 @@
+.alertContainer {
+    text-align: center;
+    align-items: center;
+    font-family: var(--font2);
+    position: fixed;
+    top: 30%;
+    left: 35vw;
+    height: 30vh;
+    width: 30vw;
+    background-color: var(--color6);
+    color: var(--color3Tr);
+
+}
+
+.alert {
+    position: fixed;
+    background-color: #00000094;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.all {
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.dltBton {
+    margin-top: 2.5rem;
+}
+
+.sureTxt {
+    font-size: 1.1em;
+    font-weight: 400;
+    margin: 2.5em 2em 0 2em;
+}
+
+.carsBox {
+    width: auto;
+    height: auto;
+    background-color: var(--color6Tr);
+    border: groove 1px var(--color4Tr);
+    box-shadow: 0px 0px 8px 4px var(--color6Tr);
+    margin: 1rem 7rem;
+    padding: 0.5rem;
+    color: var(--color3Tr);
+}
+
+.listTitle {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 1rem;
+    justify-content: space-evenly;
+    color: var(--color4);
+    font-size: 1.1em;
+    height: 4rem;
+}
+
+.brand {
+    width: 12rem;
+    display: flex;
+    justify-content: center;
+
+}
+
+.plate {
+    width: 20rem;
+    display: flex;
+    justify-content: center;
+}
+
+.dltTitle {
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+}
+
+.trashIcon {
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+}
+
+.trashIcon:hover {
+    font-size: 1.3em;
+    cursor: pointer;
+}
+
+.imgIcon {
+    color: var(--color4);
+    width: 4rem;
+    max-height: 4rem;
+    margin: 0px 0px 0px 24px;
+    display: flex;
+
+}
+
+.carListItem {
+    display: flex;
+    align-items: center;
+    margin: 2rem 1rem;
+    justify-content: space-evenly;
+
+}
