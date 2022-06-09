@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { cancelReservation, userReservation } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
-import AlertCancel from "./AlertCancel";
+import AlertConfirmation from '../../components/AlertConfirmation/AlertConfirmation';
 import styles from "./RentalDetails.module.css";
 
 export default function RentalDetails({ match }) {
@@ -12,23 +12,29 @@ export default function RentalDetails({ match }) {
     const dispatch = useDispatch();
     const { orderId } = useParams();
     const { getAccessTokenSilently } = useAuth0();
-    const [cancelOrder, setCancelOrder] = useState({ userId: '', rentId: '' })
-    const [alert, setAlert] = useState(false);
+    // const [cancelOrder, setCancelOrder] = useState({ userId: '', rentId: '' });
+    // const [message, setMessage] = useState("");
+    // const [alert, setAlert] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [showAlertOk, setShowAlertOk] = useState(false)
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         dispatch(userReservation(getAccessTokenSilently, orderId));
     }, [dispatch, getAccessTokenSilently, orderId, cancelReservation, reservation.order?.status]);
 
     function handleCancel() {
-        dispatch(cancelReservation(getAccessTokenSilently, cancelOrder.userId, cancelOrder.rentId));
-        setAlert(false)
-        dispatch(userReservation(getAccessTokenSilently, cancelOrder.rentId));
+        dispatch(cancelReservation(getAccessTokenSilently, reservation.order?.userId, orderId));
+        // setAlert(false);
+        setShowAlert(false);
+        setShowAlertOk(true);
     }
 
-    function handleClick() {
-        setAlert(true);
-        setCancelOrder({...cancelOrder, userId: reservation.order?.userId, rentId: orderId})
-    };
+    function handleMessageOk() {
+        setShowAlertOk(false)
+        navigate(`/profile/${reservation.order?.userId}`);
+    }
 
     const date = new Date(reservation.order?.endingDate);
 
@@ -121,16 +127,12 @@ export default function RentalDetails({ match }) {
                     reservation.order?.status === 'maintenance' ||
                     reservation.order?.status === 'concluded'}
                     className='buttonGlobal'
-                    onClick={() => handleClick()}>
+                    onClick={() => setShowAlert(true)}>
                     Cancel Order
                 </button>
             </div>
-            {
-                alert &&
-                <div className={styles.alert}>
-                    <AlertCancel setAlert={setAlert} handleCancel={handleCancel} cancelOrder={cancelOrder} alert={alert} />
-                </div>
-            }
+            <AlertConfirmation onCancel={() => setShowAlert(false)} showAlert={showAlert} onConfirmation={handleCancel} alertText={`Are you sure you want to cancel reservation ${orderId}?`} buttonText={'Cancel'} />
+            <AlertConfirmation onCancel={handleMessageOk} showAlert={showAlertOk} onConfirmation={handleMessageOk} alertText={`Reservation ${orderId} has been canceled successfully`} buttonText={'Close'} />
         </div>
     )
 }
