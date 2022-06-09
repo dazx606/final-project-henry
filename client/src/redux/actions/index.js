@@ -17,6 +17,7 @@ import {
   getAllReservs,
   deleteReserv,
   getAllCars,
+  deleteSpecificCar,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -44,6 +45,7 @@ export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
+export const DELETE_CAR = "DELETE_CAR";
 
 export const URL = "http://localhost:3001/";
 
@@ -353,6 +355,22 @@ export function getAllAdminCars(getToken, plate, page) {
       console.log(e);
     }
   };
+}
+
+export function deleteCar(getToken, plate){
+  return async (dispatch) => {
+    try{
+      const token = getToken();
+      let response = await deleteSpecificCar(token, plate);
+      
+      return dispatch({
+        type: DELETE_CAR,        
+        payload: response.data
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 
 export function getIncludedEquipment() {
