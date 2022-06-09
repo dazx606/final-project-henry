@@ -23,6 +23,7 @@ import {
   GET_ALL_RESERVATIONS,
   DELETE_RESERVATION,
   GET_ALL_ADMIN_CARS,
+  GET_ALL_MODELS,
   DELETE_CAR,
 } from "../actions";
 
@@ -54,6 +55,8 @@ const initialState = {
   includedEquipment: [],
   allCars: {},
   pagination: { page: 1, pageNum: 1 },
+  Orders: [],
+  modelNames: [],
   orders: [],
   carDeleted: {},
 };
@@ -207,11 +210,17 @@ export default function rootReducer(
         allCars: payload,
       };
     }
-    case DELETE_CAR:{
-      return{
+    case GET_ALL_MODELS: {
+      return {
         ...state,
-        carDeleted: payload
-      }
+        modelNames: payload,
+      };
+    }
+    case DELETE_CAR: {
+      return {
+        ...state,
+        carDeleted: payload,
+      };
     }
 
     default:

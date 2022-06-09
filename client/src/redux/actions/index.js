@@ -17,6 +17,8 @@ import {
   getAllReservs,
   deleteReserv,
   getAllCars,
+  getAllModels,
+  createIndividualCar,
   deleteSpecificCar,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
@@ -44,6 +46,7 @@ export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
+export const GET_ALL_MODELS = "GET_ALL_MODELS";
 export const DELETE_CAR = "DELETE_CAR";
 
 export const URL = "http://localhost:3001/";
@@ -179,34 +182,6 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(
-  location,
-  model,
-  startingDate,
-  endingDate,
-  optionalEquipments,
-  drivers,
-  endLocation,
-  userId
-) {
-  return async (dispatch) => {
-    try {
-      const res = await axios.post(`${URL}rent/car`, {
-        location,
-        model,
-        startingDate,
-        endingDate,
-        optionalEquipments,
-        drivers,
-        endLocation,
-        userId,
-      });
-      window.location.href = res.data.url;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -326,16 +301,18 @@ export function getAllReservations(getToken, id) {
   return async (dispatch) => {
     try {
       const token = await getToken();
-      let response = await getAllReservs(token,id);
+      let response = await getAllReservs(token, id);
       return dispatch({
         type: GET_ALL_RESERVATIONS,
-        payload:response.data.order?[response.data.order]: response.data.orders,
+        payload: response.data.order
+          ? [response.data.order]
+          : response.data.orders,
       });
     } catch (error) {
       console.log(error);
       return dispatch({
-        type:GET_ALL_RESERVATIONS,
-        payload:[],
+        type: GET_ALL_RESERVATIONS,
+        payload: [],
       });
     }
   };
@@ -377,20 +354,20 @@ export function getAllAdminCars(getToken, plate, page) {
   };
 }
 
-export function deleteCar(getToken, plate){
+export function deleteCar(getToken, plate) {
   return async (dispatch) => {
-    try{
+    try {
       const token = getToken();
       let response = await deleteSpecificCar(token, plate);
-      
+
       return dispatch({
-        type: DELETE_CAR,        
-        payload: response.data
-      })
+        type: DELETE_CAR,
+        payload: response.data,
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 }
 
 export function getIncludedEquipment() {
@@ -413,6 +390,20 @@ export function getOptionalEquipment() {
       const response = await getAllOptionalEquipment();
       return dispatch({
         type: GET_OPTIONAL_EQUIPMENT,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getModels() {
+  return async (dispatch) => {
+    try {
+      const response = await getAllModels();
+      return dispatch({
+        type: GET_ALL_MODELS,
         payload: response.data,
       });
     } catch (error) {
