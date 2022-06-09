@@ -124,6 +124,8 @@ const preloadCar = async () => {
           },
         });
         const newIndividualCar = await IndividualCar.findOrCreate({
+          // where: { id: c.id },
+          // defaults: { id: c.id, license_plate: c.license_plate, year: c.year },
           where: { license_plate: c.license_plate },
           defaults: { license_plate: c.license_plate, year: c.year },
         });
