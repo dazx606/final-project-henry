@@ -19,6 +19,7 @@ import {
   deleteReserv,
   getAllCars,
   cancelUserReservation,
+  getOrderDetail,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -48,6 +49,7 @@ export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
 export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
 export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
+export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 
 export const URL = "http://localhost:3001/";
 
@@ -182,16 +184,7 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(
-  location,
-  model,
-  startingDate,
-  endingDate,
-  optionalEquipments,
-  drivers,
-  endLocation,
-  userId
-) {
+export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation, userId) {
   return async (dispatch) => {
     try {
       const res = await axios.post(`${URL}rent/car`, {
@@ -219,6 +212,7 @@ export function setUserInfo(getToken, email) {
         const token = await getToken();
         // console.log(token);
         let response = await getUserInformation(token, email);
+        console.log("🚀 ~ file: index.js ~ line 210 ~ return ~ token", token);
         return dispatch({ type: SET_USER, payload: response.data });
       }
     } catch (error) {
@@ -284,11 +278,7 @@ export function saveUser(email, picture) {
       const response = await addUser(email, picture);
       return dispatch({
         type: SAVE_USER,
-        payload: [
-          response.data.msg,
-          response.data.data,
-          response.data.complited,
-        ],
+        payload: [response.data.msg, response.data.data, response.data.complited],
       });
     } catch (e) {
       console.log(e);
@@ -370,16 +360,16 @@ export function getAllReservations(getToken, id) {
   return async (dispatch) => {
     try {
       const token = await getToken();
-      let response = await getAllReservs(token,id);
+      let response = await getAllReservs(token, id);
       return dispatch({
         type: GET_ALL_RESERVATIONS,
-        payload:response.data.order?[response.data.order]: response.data.orders,
+        payload: response.data.order ? [response.data.order] : response.data.orders,
       });
     } catch (error) {
       console.log(error);
       return dispatch({
-        type:GET_ALL_RESERVATIONS,
-        payload:[],
+        type: GET_ALL_RESERVATIONS,
+        payload: [],
       });
     }
   };
@@ -445,6 +435,23 @@ export function getOptionalEquipment() {
       });
     } catch (error) {
       console.log(error);
+    }
+  };
+}
+export function getOrderReservationId(orderId, getToken) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      let response = await getOrderDetail(orderId, token);
+      return dispatch({
+        type: GET_DETAIL_RESERVATION,
+        payload: response.data.order,
+      });
+    } catch (error) {
+      return dispatch({
+        type: GET_DETAIL_RESERVATION,
+        payload: { error: error.response?.data.msg },
+      });
     }
   };
 }

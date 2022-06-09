@@ -20,6 +20,7 @@ import Booking from "./pages/Booking/Booking";
 import AdminRoutes from "./AdminRoutes";
 import AdminOptions from "./pages/AdminOptions/AdminOptions";
 import RentalDetails from "./pages/RentalDetails/RentalDetails";
+import AdminReservationForm from "./components/AdminReservationForm/AdminReservationForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,7 +49,8 @@ function App() {
             <Route path="/booking" element={<Booking />} />
           </Route>
           <Route element={<AdminRoutes />}>
-            < Route path="/adminOptions" element={<AdminOptions/>} />
+            <Route path="/adminReservationForm/:orderId" element={<AdminReservationForm/>} />
+            <Route path="/adminOptions" element={<AdminOptions />} />
           </Route>
         </Route>
       </Routes>

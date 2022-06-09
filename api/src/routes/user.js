@@ -36,7 +36,7 @@ router.get("/", authMiddleWare, async (req, res, next) => {
   }
 });
 
-router.get("/reservations", async (req, res, next) => {
+router.get("/reservations",authMiddleWare, async (req, res, next) => {
 
   const { userId } = req.query;
   
