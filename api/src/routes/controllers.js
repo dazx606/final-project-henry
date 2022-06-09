@@ -11,6 +11,23 @@ const {
   User,
   StatusUpdate,
 } = require("../db.js");
+require("dotenv").config();
+const { MIDDLE_EMAIL } = process.env;
+const Mailgen = require("mailgen")
+const { confirmationEmail } = require("../MailTemplate/MailTemplate")
+const { transporter } = require("../config/mailer")
+const YOUR_DOMAIN = "http://localhost:3000";  //DIRECCION DEL FRONT
+
+let mailGenerator = new Mailgen({
+  theme: 'default',
+  product: {
+      // Appears in header & footer of e-mails
+      name: 'RC', //WHEELBARROW
+      link: YOUR_DOMAIN
+      // Optional logo
+      // logo: 'https://mailgen.js/img/logo.png'
+  }
+});
 
 const datePlus = (date, num) => {
   return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num))
@@ -126,7 +143,12 @@ const rentUpdate = async (stripeObject) => {
     const info = stripeObject.client_reference_id.split(":");
     const rentId = info[0];
     const days = info[1];
-    const rent = await RentOrder.findByPk(rentId);
+    const rent = await RentOrder.findByPk(rentId, {
+      include: [{
+        model: User
+      }, { model: OptionalEquipment }, { model: IndividualCar, include: [{ model: CarModel }] }]
+    });
+    console.log(rent.toJSON())
     if (info.length <= 2) {
       await RentOrder.update({
         payed: true,
@@ -136,6 +158,16 @@ const rentUpdate = async (stripeObject) => {
       },
         { where: { id: rentId } }
       );
+      const emailBody = mailGenerator.generate(confirmationEmail(rent.user.firstName, rent.user.lastName, rent.individualCar.carModel.brand, rent.individualCar.carModel.model, rent.startingDate, datePlus(new Date(rent.endingDate), -2).toDateString(), stripeObject.amount_total))
+      const emailText = mailGenerator.generatePlaintext(confirmationEmail(rent.user.firstName, rent.user.lastName, rent.individualCar.brand, rent.individualCar.model, rent.startingDate, datePlus(new Date(rent.endingDate), -2).toDateString(), stripeObject.amount_total))
+
+      const info = await transporter.sendMail({
+        from: `RC Order Placed <${MIDDLE_EMAIL}>`,
+        subject: `Receipt for Order #${rent.id}`,
+        to: rent.user.email,
+        html: emailBody,
+        text: emailText,
+      });
     } else {
       await RentOrder.update({
         payed: true,

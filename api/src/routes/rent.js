@@ -4,6 +4,8 @@ require("dotenv").config();
 const { STRIPE_SECRET_KEY } = process.env;
 const { datePlus, filterRentDates, getDatesInRange, statusUpdater } = require("./controllers.js");
 
+
+
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 
