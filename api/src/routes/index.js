@@ -3,7 +3,7 @@ const express = require('express');
 const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } = process.env;
-const { filterDates } = require("./controllers.js");
+const { filterDates, statusUpdater } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 const userRouter = require("./user");
 const adminRouter = require("./admin");
@@ -20,13 +20,14 @@ router.use("/rent", rentRouter);
 router.get('/cars/:locationId', async (req, res, next) => {
   const { brand, category, order = "ASC", orderType = "pricePerDay", startingDate, endingDate, page = 1, model, carsPerPage = 8 } = req.query
   // const allowedStatus = ["pending", "in use", "maintenance"];
-  const notAllowedStatus = ["canceled", "done"];
+  const notAllowedStatus = ["canceled", "concluded"];
   const { locationId } = req.params;
   const brandModelFilter = brand ? { where: { brand: brand } } : { where: null };
   const categoryFilter = category ? { where: { name: category } } : { where: null };
   if (model) brandModelFilter.where.model = model;
 
   try {
+    await statusUpdater();
     if (!startingDate && endingDate) return res.status(417).json({ msg: "Missing startingDate!" });
     if (new Date(startingDate) > new Date(endingDate)) return res.status(409).json({ msg: "StartingDate cannot be greater than endingDate!" });
     const locationCarModels = await Location.findByPk(locationId,

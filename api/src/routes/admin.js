@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 const jwtScope = require("express-jwt-scope");
+const { statusUpdater } = require("./controllers.js");
 require("dotenv").config();
 const router = Router();
 
@@ -89,6 +90,7 @@ router.delete("/users/:id", async (req, res, next) => {
 //============ RENT
 router.get("/rent", async (req, res, next) => {
   try {
+    await statusUpdater();
     const orders = await RentOrder.findAll();
     res.status(200).send(orders);
   } catch (error) { }
@@ -313,6 +315,7 @@ router.get("/reservations", async (req, res, next) => {
   const { userId, orderId } = req.query;
 
   try {
+    await statusUpdater();
     if (userId) {
       let orders = await RentOrder.findAll({
         where: { userId },

@@ -1,6 +1,6 @@
 const rentOrders = [
     {
-        startingDate: "2022/08/8",
+        startingDate: "2022/06/04",
         endingDate: "2022/08/20",
         user: "rentacarg7@gmail.com",
         car: "500",
@@ -10,14 +10,14 @@ const rentOrders = [
         status:"pending",
     },
     {
-        startingDate: "2022/10/8",
-        endingDate: "2023/02/3",
+        startingDate: "2022/04/04",
+        endingDate: "2022/06/07",
         user: "rentacarg7@gmail.com",
         car: "500",
         drivers: ["persona3"],
         optionalEquipment: [],
         endLocation: "Rosario",
-        status:"pending",
+        status:"maintenance",
     },
     {
         startingDate: "2022/07/7",
