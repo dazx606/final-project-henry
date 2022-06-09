@@ -19,12 +19,9 @@
 
 .topCard {
     height: 3rem;
-    width: 20rem;
+
     /* box-shadow: 0 0 8px var(--color4); */
-    /* border-radius: 8px 8px 0 0; */
     padding-top: 1.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
     margin: auto;
     align-items: center;
     text-align: center;
@@ -35,8 +32,8 @@
 .bottomCard {
     /* box-shadow: 0 0 8px var(--color4); */
     /* border-radius: 0 0 8px 8px;  */
-    height: 10rem;
-    width: 20rem;
+    /* height: 10rem; */
+    /* width: 20rem; */
     text-align: center;
     line-height: 2rem;
     padding: 1rem;
@@ -178,26 +175,11 @@
     .subContainer1a{
         width: 90vw;
     }
-    /* .card {
-        width: 99vw;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-    }
-
-    .topCard{
-    padding: 0;
-    padding-top: 1.5em;
-    margin: 0;
-
+    .card {
+        width: 95vw;
     }
     .bottomCard{
-        margin: 0;
-        padding: 0;
-    } */
-    /* .subContainer1a {
-        width: 100vw;
-    } */
-
+        width: 85vw;
+    }
 }
 
