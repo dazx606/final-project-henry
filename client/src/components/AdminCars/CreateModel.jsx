@@ -11,6 +11,9 @@ import styles from "./CreateModel.module.css";
 
 const validate = (input) => {
   const errors = {};
+  const validUrl = new RegExp(
+    /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+  );
   const filteredIncludedList = input.includedEquipment.filter(
     (item) =>
       item !== "Automatic Transmission" && item !== "Manual Transmission"
@@ -25,7 +28,7 @@ const validate = (input) => {
   if (!input.carType) errors.carType = "Car type is required";
   if (!input.description) errors.description = "Description is required";
   if (
-    input.includedEquipment[0] !== "Automatic Transmission" ||
+    input.includedEquipment[0] !== "Automatic Transmission" &&
     input.includedEquipment[0] !== "Manual Transmission"
   )
     errors.transmission = "Transmision is required";
@@ -33,6 +36,17 @@ const validate = (input) => {
     errors.includedEquipment = "Included equipment is required";
   if (input.optionalEquipment.length < 1)
     errors.optionalEquipment = "Optional equipment is required";
+  if (!input.cardImage) errors.cardImage = "This is required";
+  else if (!validUrl.test(input.cardImage)) errors.cardImage = "Invalid url";
+  if (!input.mainImage) errors.mainImage = "This is required";
+  else if (!validUrl.test(input.mainImage)) errors.mainImage = "Invalid url";
+  if (input.optionalImages.length < 3) {
+    errors.optionalImages = "At least 3 images are required";
+    if (!validUrl.test(input.optionalImage))
+      errors.optionalImage = "Invalid url";
+  }
+
+  return errors;
 };
 
 function CreateModel() {
@@ -52,6 +66,7 @@ function CreateModel() {
     cardImage: "",
     mainImage: "",
     optionalImages: [],
+    optionalImage: "",
     carType: "",
     includedEquipment: [],
     optionalEquipment: [],
@@ -66,38 +81,60 @@ function CreateModel() {
     dispatch(getOptionalEquipment());
   }, [dispatch]);
 
+  useEffect(() => {
+    setErrors(validate({ ...input }));
+  }, [input]);
+
   const handleSubmit = async (e) => {
+    e.preventDefault();
     setChecker(true);
     if (!Object.keys(errors).length) {
-      return await createModel({
-        model: input.model,
-        brand: input.brand,
-        pricePerDay: input.pricePerDay,
-        passengers: input.passengers,
-        trunk: input.trunk,
-        consumption: input.consumption,
-        engine: input.engine,
-        images: [input.cardImage, input.mainImage, ...input.optionalImages],
-        carType: input.carType,
-        description: input.description,
-        includedEquipment: input.includedEquipment,
-        optionalEquipment: input.optionalEquipment,
-      });
+      const response = await createModel(
+        {
+          model: input.model,
+          brand: input.brand,
+          pricePerDay: input.pricePerDay,
+          passengers: input.passengers,
+          trunk: input.trunk,
+          consumption: input.consumption,
+          engine: input.engine,
+          images: [input.cardImage, input.mainImage, ...input.optionalImages],
+          carType: input.carType,
+          description: input.description,
+          includedEquipment: input.includedEquipment,
+          optionalEquipment: input.optionalEquipment,
+        },
+        getAccessTokenSilently
+      );
+      console.log(response);
+      if (response.msg === "This model already exist") {
+        alert("Model name already in use");
+      } else {
+        alert("Car Model created successfully");
+        setInput({
+          model: "",
+          brand: "",
+          pricePerDay: "",
+          trunk: "",
+          passengers: "",
+          consumption: "",
+          engine: "",
+          cardImage: "",
+          mainImage: "",
+          optionalImages: [],
+          optionalImage: "",
+          carType: "",
+          includedEquipment: [],
+          optionalEquipment: [],
+          description: "",
+        });
+        setChecker(false);
+      }
     }
-    e.preventDefault();
   };
 
   const handleInputChange = (e) => {
     e.preventDefault();
-    if (e.target.name === "optionalImage") {
-      const validUrl = new RegExp(
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-      );
-      if (validUrl.test(e.target.value)) setOptionalImage(e.target.value);
-      else setOptionalImage("");
-      return;
-    }
-
     if (e.target.name === "included") {
       if (e.target.value === "") return;
       if (input.includedEquipment.includes(e.target.value)) return;
@@ -146,11 +183,12 @@ function CreateModel() {
 
   const addOptionalImage = (e) => {
     e.preventDefault();
-    if (optionalImage !== "") {
-      const updatedList = [...input.optionalImages, optionalImage];
+    if (!errors.optionalImage) {
+      const updatedList = [...input.optionalImages, input.optionalImage];
       setInput({
         ...input,
         optionalImages: updatedList,
+        optionalImage: "",
       });
     }
   };
@@ -159,7 +197,14 @@ function CreateModel() {
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.inputcontainer}>
         <div className={styles.firstsplit}>
-          <span className={styles.tag}>Model name</span>
+          <span className={styles.tag}>
+            Model name{" "}
+            {checker && errors.model && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.model}
+              </span>
+            )}
+          </span>
           <input
             name="model"
             value={input.model}
@@ -167,7 +212,14 @@ function CreateModel() {
             type="text"
             onChange={handleInputChange}
           />
-          <span className={styles.tag}>Brand name</span>
+          <span className={styles.tag}>
+            Brand name{" "}
+            {checker && errors.brand && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.brand}
+              </span>
+            )}
+          </span>
           <input
             name="brand"
             value={input.brand}
@@ -188,6 +240,11 @@ function CreateModel() {
                 />
                 <i className="fa-solid fa-user" style={{ width: "100%" }}></i>
               </div>
+              {checker && errors.passengers && (
+                <span style={{ color: "red", fontSize: "smaller" }}>
+                  {errors.passengers}
+                </span>
+              )}
             </div>
             <div className={styles.groupcontainer}>
               <span className={styles.tag}>Engine</span>
@@ -201,6 +258,11 @@ function CreateModel() {
                 />
                 <i className="fa-solid fa-gears" style={{ width: "100%" }}></i>
               </div>
+              {checker && errors.engine && (
+                <span style={{ color: "red", fontSize: "smaller" }}>
+                  {errors.engine}
+                </span>
+              )}
             </div>
             <div className={styles.groupcontainer}>
               <span className={styles.tag}>Km / L</span>
@@ -217,9 +279,21 @@ function CreateModel() {
                   style={{ width: "100%" }}
                 ></i>
               </div>
+              {checker && errors.consumption && (
+                <span style={{ color: "red", fontSize: "smaller" }}>
+                  {errors.consumption}
+                </span>
+              )}
             </div>
           </div>
-          <span className={styles.tag}>Trunk size</span>
+          <span className={styles.tag}>
+            Trunk size{" "}
+            {checker && errors.trunk && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.trunk}
+              </span>
+            )}
+          </span>
           <select
             name="trunk"
             className={styles.input}
@@ -230,7 +304,14 @@ function CreateModel() {
             <option value="medium">Medium</option>
             <option value="large">Large</option>
           </select>
-          <span className={styles.tag}>Price per day</span>
+          <span className={styles.tag}>
+            Price per day{" "}
+            {checker && errors.pricePerDay && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.pricePerDay}
+              </span>
+            )}
+          </span>
           <input
             name="pricePerDay"
             value={input.pricePerDay}
@@ -239,7 +320,14 @@ function CreateModel() {
             placeholder="$"
             onChange={handleInputChange}
           />
-          <span className={styles.tag}>Car type</span>
+          <span className={styles.tag}>
+            Car type{" "}
+            {checker && errors.carType && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.carType}
+              </span>
+            )}
+          </span>
           <select
             name="carType"
             className={styles.input}
@@ -254,7 +342,14 @@ function CreateModel() {
             <option value="SUV Full-Size">SUV Full-Size</option>
             <option value="SUV">SUV</option>
           </select>
-          <span className={styles.tag}>Transmission*</span>
+          <span className={styles.tag}>
+            Transmission{" "}
+            {checker && errors.transmission && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.transmission}
+              </span>
+            )}
+          </span>
           <select
             name="transmission"
             className={styles.input}
@@ -264,7 +359,14 @@ function CreateModel() {
             <option value="Automatic Transmission">Automatic</option>
             <option value="Manual Transmission">Manual</option>
           </select>
-          <span className={styles.tag}>Description</span>
+          <span className={styles.tag}>
+            Description{" "}
+            {checker && errors.description && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.description}
+              </span>
+            )}
+          </span>
           <textarea
             className={styles.txtarea}
             value={input.description}
@@ -275,7 +377,14 @@ function CreateModel() {
           ></textarea>
         </div>
         <div className={styles.secondsplit}>
-          <span className={styles.tag}>Included equipment</span>
+          <span className={styles.tag}>
+            Included equipment{" "}
+            {checker && errors.includedEquipment && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.includedEquipment}
+              </span>
+            )}
+          </span>
           <select
             name="included"
             className={styles.input}
@@ -321,7 +430,14 @@ function CreateModel() {
               }
             })}
           </div>
-          <span className={styles.tag}>Optional equipment</span>
+          <span className={styles.tag}>
+            Optional equipment{" "}
+            {checker && errors.optionalEquipment && (
+              <span style={{ color: "red", fontSize: "smaller" }}>
+                {errors.optionalEquipment}
+              </span>
+            )}
+          </span>
           <select
             name="optional"
             className={styles.input}
@@ -358,7 +474,14 @@ function CreateModel() {
             IMAGES
           </span>
           <div className={styles.subinput}>
-            <span className={styles.subtitle}>Card image</span>
+            <span className={styles.subtitle}>
+              Card image{" "}
+              {checker && errors.cardImage && (
+                <span style={{ color: "red", fontSize: "smaller" }}>
+                  {errors.cardImage}
+                </span>
+              )}
+            </span>
             <div className={styles.imageinput}>
               <i
                 className="fa-solid fa-image"
@@ -378,7 +501,14 @@ function CreateModel() {
             </div>
           </div>
           <div className={styles.subinput}>
-            <span className={styles.subtitle}>Main image</span>
+            <span className={styles.subtitle}>
+              Main image{" "}
+              {checker && errors.mainImage && (
+                <span style={{ color: "red", fontSize: "smaller" }}>
+                  {errors.mainImage}
+                </span>
+              )}
+            </span>
             <div className={styles.imageinput}>
               <i
                 className="fa-solid fa-panorama"
@@ -400,9 +530,9 @@ function CreateModel() {
           <div className={styles.subinput}>
             <span className={styles.subtitle}>
               Optional image{" "}
-              {optionalImage === "" && (
+              {checker && errors.optionalImage && (
                 <span style={{ color: "red", fontSize: "smaller" }}>
-                  invalid url
+                  {errors.optionalImage}
                 </span>
               )}
             </span>
@@ -413,6 +543,7 @@ function CreateModel() {
               ></i>
               <input
                 name="optionalImage"
+                value={input.optionalImage}
                 className={styles.input}
                 type="text"
                 placeholder="e.g. http://www.example.com"
@@ -423,13 +554,16 @@ function CreateModel() {
               </button>
             </div>
           </div>
-
+          {checker && errors.optionalImages && (
+            <span style={{ color: "red", fontSize: "smaller" }}>
+              {errors.optionalImages}
+            </span>
+          )}
           <div className={styles.links}>
             {input.optionalImages?.map((item) => (
               <button
                 className={styles.selectionbutton}
-                name="optionalImages"
-                value={optionalImage}
+                name="optionalImage"
                 key={item}
                 onClick={removeEquipment}
               >
