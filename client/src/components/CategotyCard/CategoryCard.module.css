@@ -1,17 +1,49 @@
 .images{
-    width: 400px;
-    height: 280px;
+    width: 25vw;
+    height: 35vh;
     object-fit: cover;
 }
 
 .card{
     margin: 8px;
-    width: 400px;
-    height: 280px;
+    width: 25vw;
+    height: 35vh;
     display: flex;
     position: relative;
     transition: 0.5s;
 }
+@media (max-width: 1050px) {
+ 
+    .images{
+        width: 33vw;
+    }
+    
+    .card{
+        width: 33vw;
+    }
+}
+
+@media (max-width: 700px) {
+ 
+    .images{
+        width: 45vw;
+    }
+    
+    .card{
+        width: 45vw;
+    }
+}
+@media (max-width: 500px) {
+ 
+    .images{
+        width: 95vw;
+    }
+    
+    .card{
+        width: 95vw;
+    }
+}
+
 
 .card:hover{
     position: relative;

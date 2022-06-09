@@ -24,6 +24,7 @@ import {
   GET_ALL_RESERVATIONS,
   DELETE_RESERVATION,
   GET_ALL_ADMIN_CARS,
+  DELETE_CAR,
 } from "../actions";
 
 const initialState = {
@@ -53,9 +54,10 @@ const initialState = {
   optionalEquipment: [],
   includedEquipment: [],
   adminOptions: "users",
-  allCars: [],
+  allCars: {},
   pagination: { page: 1, pageNum: 1 },
   orders: [],
+  carDeleted: {},
 };
 
 export default function rootReducer(
@@ -126,7 +128,6 @@ export default function rootReducer(
       return {
         ...state,
         user: payload,
-        token,
       };
     case SAVE_USER:
       return {
@@ -213,6 +214,12 @@ export default function rootReducer(
         ...state,
         allCars: payload,
       };
+    }
+    case DELETE_CAR:{
+      return{
+        ...state,
+        carDeleted: payload
+      }
     }
 
     default:

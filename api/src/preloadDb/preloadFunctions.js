@@ -7,7 +7,6 @@ const {
   IndividualCar,
   Location,
   OptionalEquipment,
-  Payment,
   RentOrder,
   User,
 } = require("../db.js");
@@ -137,7 +136,7 @@ const preloadCar = async () => {
             await newCarLocation.addIndividualCar(newIndividualCar[0]);
             try {
               await newCarLocation.addCarModel(newModel[0]);
-            } catch (error) {}
+            } catch (error) { }
           }
         }
         if (newModel[1]) {
@@ -173,14 +172,14 @@ const preloadCar = async () => {
 };
 
 const preloadDriver = async () => {
-    try {
-        await Promise.all(drivers.map(d => Driver.findOrCreate({
-            where: { firstName: d.firstName },
-            defaults: { firstName: d.firstName, lastName: d.lastName, licenseNumber: d.licenseNumber, documentId:d.documentId }
-        })))
-    } catch (error) {
-        throw new Error(error);
-    }
+  try {
+    await Promise.all(drivers.map(d => Driver.findOrCreate({
+      where: { firstName: d.firstName },
+      defaults: { firstName: d.firstName, lastName: d.lastName, licenseNumber: d.licenseNumber, documentId: d.documentId }
+    })))
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 const preloadUser = async () => {
@@ -191,8 +190,12 @@ const preloadUser = async () => {
           where: { email: u.email },
           defaults: {
             email: u.email,
+            firstName: u.firstName,
+            lastName: u.lastName,
+            documentId: u.documentId,
+            license: u.license,
             admin: u.admin ? u.admin : null,
-            picture: u.picture? u.picture : null
+            picture: u.picture ? u.picture : null
           },
         });
         if (newUser[1] && u.drivers?.length) {
@@ -213,7 +216,7 @@ const preloadRentOrder = async () => {
       rentOrders.map(async (r) => {
         const newRentOrder = await RentOrder.findOrCreate({
           where: { startingDate: r.startingDate },
-          defaults: { startingDate: r.startingDate, endingDate: r.endingDate },
+          defaults: { startingDate: r.startingDate, endingDate: r.endingDate, status: r.status },
         });
         if (newRentOrder[1]) {
           const user = await User.findOne({ where: { email: r.user } });

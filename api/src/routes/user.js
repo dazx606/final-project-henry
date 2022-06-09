@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { User, RentOrder, IndividualCar, CarModel, Location } = require("../db.js");
+const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
@@ -25,24 +26,25 @@ router.get("/", authMiddleWare, async (req, res, next) => {
   try {
     let completed;
     const user = await User.findOne({ where: { email } });
+    if (user === null) return res.send({ msg: "User not found" });
     user.firstName && user.lastName && user.documentId && user.license
       ? (completed = true)
       : (completed = false);
-    if (user === null) return res.status(404).send({ msg: "User not found" });
     return res.status(200).send({ data: user, completed });
   } catch (error) {
     next(error);
   }
 });
 
-router.get("/reservations", async (req,res,next)=>{
-    
-  const {userId} = req.query;
+router.get("/reservations", async (req, res, next) => {
+
+  const { userId } = req.query;
 
   try {
-    if(userId){
-      let orders = await RentOrder.findAll({where:{userId}, include:[{model:IndividualCar, include:[CarModel, Location]}]});
-      return  res.json(orders)
+    if (userId) {
+      await statusUpdater();
+      let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
+      return res.json(orders)
     }
   } catch (error) {
     next(error)

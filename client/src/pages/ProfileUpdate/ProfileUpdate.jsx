@@ -49,13 +49,14 @@ export default function Profile() {
       return;
     }
     if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
-      setAlert(" Please complete with your correct information");
+      setAlert(" Please check invalid fields");
       return;
     }
     if (!input.firstName || !input.lastName || !input.license || !input.documentId) {
       setAlert(" Please complete your information");
       return;
     }
+    
      dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
      dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information has been updated");
@@ -79,7 +80,7 @@ export default function Profile() {
 
   return (
     <div className={styles.profile}>
-      {alert === "Your information is update!" ? (
+      {alert === "Your information has been updated" ? (
         <div>
           <div className={styles.messages}>{alert}</div>
           <div className={styles.buttonContainer}>

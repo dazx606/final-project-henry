@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,400;1,500;1,600&family=Radio+Canada:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -44,20 +45,20 @@ code {
 
 .buttonGlobal {
   border: outset 1px var(--color4);
-  background-color: var(--color1);
+  background-color: var(--color6);
   border-radius: 0px;
   font-family: var(--font2);
   font-weight: 400;
   font-size: 1em;
   color: var(--color4);
-  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  box-shadow: 0px 0px 3px 0px var(--color4Tr);
   transition: 0.1s;
   padding: 10px;
 }
 
 .buttonGlobal:hover {
   cursor: pointer;
-  box-shadow: 0px 0px 8px 6px var(--color6Tr);
+  box-shadow: 0px 0px 4px 1px var(--color4Tr);
   font-weight: 500;
   border: outset 2px var(--color4);
 }
@@ -98,4 +99,14 @@ code {
   box-shadow: 0px 0px 8px 6px var(--color6Tr);
   font-weight: 400;
   border: outset 1px var(--color4);
+}
+
+.boxGlobal {
+  width: auto;
+  height: auto;
+  background-color: var(--color6Tr);
+  border: groove 1px var(--color4Tr);
+  box-shadow: 0px 0px 8px 4px var(--color6Tr);
+  padding: 0.5rem;
+  color: var(--color3Tr);
 }

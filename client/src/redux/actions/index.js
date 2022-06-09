@@ -17,6 +17,7 @@ import {
   getAllReservs,
   deleteReserv,
   getAllCars,
+  deleteSpecificCar,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -44,6 +45,7 @@ export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
+export const DELETE_CAR = "DELETE_CAR";
 
 export const URL = "http://localhost:3001/";
 
@@ -178,34 +180,6 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(
-  location,
-  model,
-  startingDate,
-  endingDate,
-  optionalEquipments,
-  drivers,
-  endLocation,
-  userId
-) {
-  return async (dispatch) => {
-    try {
-      const res = await axios.post(`${URL}rent/car`, {
-        location,
-        model,
-        startingDate,
-        endingDate,
-        optionalEquipments,
-        drivers,
-        endLocation,
-        userId,
-      });
-      window.location.href = res.data.url;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -213,6 +187,7 @@ export function setUserInfo(getToken, email) {
     try {
       if (email) {
         const token = await getToken();
+        // console.log(token);
         let response = await getUserInformation(token, email);
         return dispatch({ type: SET_USER, payload: response.data });
       }
@@ -367,20 +342,35 @@ export function deleteReservation(getToken, payload) {
   };
 }
 
-export function getAllAdminCars(getToken, plate) {
+export function getAllAdminCars(getToken, plate, page) {
   return async (dispatch) => {
     try {
       const token = await getToken();
-      let response = await getAllCars(token, plate);
-
+      let response = await getAllCars(token, plate, page);
       return dispatch({
         type: GET_ALL_ADMIN_CARS,
-        payload: response.data.cars,
+        payload: response.data,
       });
     } catch (e) {
       console.log(e);
     }
   };
+}
+
+export function deleteCar(getToken, plate){
+  return async (dispatch) => {
+    try{
+      const token = getToken();
+      let response = await deleteSpecificCar(token, plate);
+      
+      return dispatch({
+        type: DELETE_CAR,        
+        payload: response.data
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 
 export function getIncludedEquipment() {

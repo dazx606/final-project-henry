@@ -61,7 +61,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = sequelize.models;
+const { CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, RentOrder, User } = sequelize.models;
 
 CarModel.belongsTo(CarType);
 CarType.hasMany(CarModel);
@@ -80,9 +80,6 @@ CarModel.hasMany(IndividualCar);
 
 IndividualCar.belongsTo(Location);
 Location.hasMany(IndividualCar);
-
-Payment.belongsTo(User);
-User.hasMany(Payment);
 
 Driver.belongsTo(User);
 User.hasMany(Driver);

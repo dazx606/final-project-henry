@@ -7,9 +7,9 @@ const {
   IndividualCar,
   Location,
   OptionalEquipment,
-  Payment,
   RentOrder,
   User,
+  StatusUpdate,
 } = require("../db.js");
 
 const datePlus = (date, num) => {
@@ -80,10 +80,85 @@ const filterRentDates = (LocationCars, startingDate, endingDate) => {
   return LocationCars
 }
 
+const statusUpdater = async () => {
+  let today = new Date().toDateString();
+  let lastUpdate = await StatusUpdate.findOrCreate({
+    where: { id: 1 },
+    defaults: {
+      lastExecution: today
+    },
+  })
+  if (lastUpdate[1] || new Date(today) > new Date(lastUpdate[0].dataValues.lastExecution)) {
+    await StatusUpdate.update({ lastExecution: today }, { where: { id: 1 } });
+    const allowedStatus = ["pending", "in use", "maintenance"];
+    let rents = await RentOrder.findAll({ where: { status: { [Op.or]: allowedStatus } } });
+    today = new Date(today);
+    await Promise.all(
+      rents.map(async r => {
+        const start = new Date(r.startingDate);
+        const end = new Date(r.endingDate);
+        const inUseEnd = datePlus(end, -2);
+        let status = r.status;
+
+        if (r.status === "pending") {
+          status = end < today ? "concluded"
+            : inUseEnd < today ? "maintenance"
+              : start <= today ? "in use"
+                : status
+        } else if (r.status === "in use") {
+          status = end < today ? "concluded"
+            : inUseEnd < today ? "maintenance"
+              : status
+        } else if (r.status === "maintenance") {
+          status = end < today ? "concluded"
+            : status
+        }
+        if (status !== r.status) {
+          await RentOrder.update({ status }, { where: { id: r.id } });
+        }
+      })
+    );
+  }
+}
+
+const rentUpdate = async (stripeObject) => {
+  try {
+    const info = stripeObject.client_reference_id.split(":");
+    const rentId = info[0];
+    const days = info[1];
+    const rent = await RentOrder.findByPk(rentId);
+    if (info.length <= 2) {
+      await RentOrder.update({
+        payed: true,
+        refunds: [...rent.refunds, stripeObject.payment_intent],
+        paymentDays: [...rent.paymentDays, days],
+        paymentAmount: [...rent.paymentAmount, stripeObject.amount_total]
+      },
+        { where: { id: rentId } }
+      );
+    } else {
+      await RentOrder.update({
+        payed: true,
+        refunds: [...rent.refunds, stripeObject.payment_intent],
+        paymentDays: [...rent.paymentDays, days],
+        paymentAmount: [...rent.paymentAmount, stripeObject.amount_total],
+        startingDate: info[2],
+        endingDate: info[3],
+      },
+        { where: { id: rentId } }
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 module.exports = {
+  rentUpdate,
   datePlus,
   getDatesInRange,
   filterDates,
   filterRentDates,
+  statusUpdater,
 }
