@@ -1,3 +1,29 @@
 .pagesCont{
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.page{
+    font-family: var(--font2);
+    color: var(--color4);
+    font-size: 1em;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    margin: 1rem;
+    
+}
+.page:hover {
+    cursor: pointer;
+}
+
+.current{
+    font-family: var(--font2);
+    color: var(--color4Tr);
+    font-size: 1em;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    margin: 1rem;
+    border-bottom: groove 2px var(--color4Tr);
+}
+

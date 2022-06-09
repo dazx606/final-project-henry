@@ -142,3 +142,55 @@ export async function createModel(body, getToken) {
   const response = await axios.post(`${URL}admin/model`, body, options);
   return response.data;
 }
+
+export function deleteSpecificCar(token, plate) {
+  const options = {
+    mothod: "DELETE",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.delete(
+    `http://localhost:3001/admin//cars/delete/${plate}`,
+    options
+  );
+}
+
+export function rentCar(
+  location,
+  model,
+  startingDate,
+  endingDate,
+  optionalEquipments,
+  drivers,
+  endLocation,
+  userId,
+  getToken
+) {
+  return async () => {
+    try {
+      const token = await getToken();
+      const options = {
+        method: "POST",
+        mode: "cors",
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const res = await axios.post(
+        `${URL}rent/car`,
+        {
+          location,
+          model,
+          startingDate,
+          endingDate,
+          optionalEquipments,
+          drivers,
+          endLocation,
+          userId,
+        },
+        options
+      );
+      window.location.href = res.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}

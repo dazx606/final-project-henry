@@ -19,6 +19,7 @@ import {
   getAllCars,
   getAllModels,
   createIndividualCar,
+  deleteSpecificCar,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -47,6 +48,7 @@ export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
 export const GET_ALL_MODELS = "GET_ALL_MODELS";
+export const DELETE_CAR = "DELETE_CAR";
 
 export const URL = "http://localhost:3001/";
 
@@ -181,34 +183,6 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(
-  location,
-  model,
-  startingDate,
-  endingDate,
-  optionalEquipments,
-  drivers,
-  endLocation,
-  userId
-) {
-  return async (dispatch) => {
-    try {
-      const res = await axios.post(`${URL}rent/car`, {
-        location,
-        model,
-        startingDate,
-        endingDate,
-        optionalEquipments,
-        drivers,
-        endLocation,
-        userId,
-      });
-      window.location.href = res.data.url;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -335,16 +309,18 @@ export function getAllReservations(getToken, id) {
   return async (dispatch) => {
     try {
       const token = await getToken();
-      let response = await getAllReservs(token,id);
+      let response = await getAllReservs(token, id);
       return dispatch({
         type: GET_ALL_RESERVATIONS,
-        payload:response.data.order?[response.data.order]: response.data.orders,
+        payload: response.data.order
+          ? [response.data.order]
+          : response.data.orders,
       });
     } catch (error) {
       console.log(error);
       return dispatch({
-        type:GET_ALL_RESERVATIONS,
-        payload:[],
+        type: GET_ALL_RESERVATIONS,
+        payload: [],
       });
     }
   };
@@ -378,6 +354,22 @@ export function getAllAdminCars(getToken, plate, page) {
       let response = await getAllCars(token, plate, page);
       return dispatch({
         type: GET_ALL_ADMIN_CARS,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export function deleteCar(getToken, plate) {
+  return async (dispatch) => {
+    try {
+      const token = getToken();
+      let response = await deleteSpecificCar(token, plate);
+
+      return dispatch({
+        type: DELETE_CAR,
         payload: response.data,
       });
     } catch (e) {

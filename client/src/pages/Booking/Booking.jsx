@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { deleteRentingCar, getLocationCars, getRentingCar, URL, getFilteredCars, rentCar } from "../../redux/actions";
+import { deleteRentingCar, getLocationCars, getRentingCar, URL, getFilteredCars } from "../../redux/actions";
+import { rentCar } from "../../services/services";
 import DatePicker from 'react-date-picker'
 import { useDispatch, useSelector } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
 import LocationFilter from "../../components/LocationFilter/LocationFilter";
 import Drivers from "../../components/Drivers/Drivers";
 //import { URL } from "../../redux/actions";
@@ -88,6 +90,7 @@ export default function Booking() {
     const [validDays, setValidDays] = useState(true)
     const [loading, setLoading] = useState(false)
     const userDriver = useSelector(state => state.user)
+    const { getAccessTokenSilently } = useAuth0();
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -166,7 +169,7 @@ export default function Booking() {
     const handleRentForm = (e) => {
         e.preventDefault();
         setLoading(true);
-        dispatch(rentCar(location, carRenting.model, startingDate.toDateString(), endingDate.toDateString(), optionalEquipments, drivers, endLocation, userId))
+        dispatch(rentCar(location, carRenting.model, startingDate.toDateString(), endingDate.toDateString(), optionalEquipments, drivers, endLocation, userId, getAccessTokenSilently))
     }
 
     const handleSelectModel = (e) => {
@@ -216,7 +219,7 @@ export default function Booking() {
                         }
                         <div>
                             <label>Car Model:  </label>
-                            <select  className={styles.selects} name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
+                            <select className={styles.selects} name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
                                 <option value="placeholder" hidden>Car Model</option>
                                 {locationCarsModels && locationCarsModels.map((el, k) => <option key={k} value={el}>{el}</option>)}
                             </select>
@@ -317,40 +320,6 @@ export default function Booking() {
 
                     </form>
                 </div>
-                {/* {didRent &&
-                    <div>
-                        <div className={styles.total2}>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td className={styles.colum1}><label>Price Per Day: </label></td>
-                                        <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td className={styles.colum1}><label>Total Days: </label></td>
-                                        <td className={styles.colum2}><span>{getDatesInRange(startingDate, endingDate).length - 1}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td className={styles.colum1}><label>Total Price: </label></td>
-                                        <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((getDatesInRange(startingDate, endingDate).length - 1) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        {
-                            rentId ?
-                                <div className={styles.buttons}>
-                                    <form action={`${URL}rent/create-checkout-session/${rentId}`} method="POST">
-                                        <div>
-                                            <button type="submit">
-                                                Pay Now
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                                : <p>Loading...</p>
-                        }
-                    </div>} */}
                 <TermsConditions show={show} onClose={() => setShow(false)} />
             </section>
         </div>

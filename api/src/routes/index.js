@@ -15,7 +15,7 @@ const {
 require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } =
   process.env;
-const { filterDates, statusUpdater } = require("./controllers.js");
+const { filterDates, statusUpdater, rentUpdate } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 const userRouter = require("./user");
 const adminRouter = require("./admin");
@@ -296,6 +296,7 @@ router.post(
           { where: { id: stripeObject.client_reference_id } }
         );
       }
+      return res.json({ received: true });
     } catch (error) {
       next(error);
     }
