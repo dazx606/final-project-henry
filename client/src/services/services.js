@@ -113,4 +113,13 @@ export function getAllCars(token, plate, page) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}`, options)
+};
+
+export function deleteSpecificCar(token, plate){
+  const options = {
+    mothod: "DELETE",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.delete(`http://localhost:3001/admin//cars/delete/${plate}`, options);
 }
