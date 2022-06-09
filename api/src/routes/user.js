@@ -39,10 +39,10 @@ router.get("/", authMiddleWare, async (req, res, next) => {
 router.get("/reservations", async (req, res, next) => {
 
   const { userId } = req.query;
-
+  
   try {
+    await statusUpdater();
     if (userId) {
-      await statusUpdater();
       let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refundId'] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
       return res.json(orders)
     }
@@ -56,10 +56,10 @@ router.get("/reservation/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
 
   try {
+    await statusUpdater();
     if (orderId) {
-      await statusUpdater();
       let order = await RentOrder.findOne({
-        where: { id: orderId },
+        where: { id: orderId, payed: true },
         include: [{ model: IndividualCar, include: [CarModel, Location] },
         { model: User, attributes: ['firstName', 'lastName', 'email'] },
           Location,

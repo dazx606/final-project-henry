@@ -24,7 +24,8 @@ import {
   GET_ALL_RESERVATIONS,
   DELETE_RESERVATION,
   GET_ALL_ADMIN_CARS,
-  GET_USER_RESERVATION
+  GET_USER_RESERVATION,
+  CANCEL_RESERVATION
 } from "../actions";
 
 const initialState = {
@@ -189,6 +190,11 @@ export default function rootReducer(
       return {
         ...state,
         userReservation: payload,
+      };
+    }
+    case CANCEL_RESERVATION: {
+      return {
+        ...state,
       };
     }
     case GET_ALL_RESERVATIONS: {

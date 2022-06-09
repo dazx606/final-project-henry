@@ -3,10 +3,13 @@
     background-color: var(--color6Tr);
     border: groove 1px var(--color4Tr);
     box-shadow: 0px 0px 8px 4px var(--color6Tr);
-    margin: 2rem 7rem;
     padding: 0.5rem;
     color: var(--color3Tr);
     font-family: var(--font2);
+    margin-left: 10em;
+    margin-right: 10em;
+    margin-top: 3em;
+    margin-bottom: 3em;
 }
 
 .containerRent {
@@ -17,7 +20,10 @@
     display: flex;
     justify-content: center;
     color: var(--color4);
+    margin-top: 2em;
     margin-bottom: 2em;
+    font-family: var(--font3);
+    font-size: 20px;
 }
 
 .containerRent2 {
@@ -29,26 +35,35 @@
 .itemsRent {
     display: flex;
     justify-content: center;
+    border-bottom: 2px solid var(--color4);
+    width: 35em;
 }
 
 .itemsRent1 {
     display: flex;
     justify-content: start;
-    margin-left: 10em;
+    margin-left: 4em;
     width: 15em;
-    border: 1px solid;
+    color: var(--color4)
 }
 
 .itemsRent2 {
     display: flex;
     justify-content: start;
     padding-left: 5em;
-    margin-right: 10em;
+    margin-right: 0em;
     text-align: start;
     width: 15em;
-    border: 1px solid;
 }
 
+.itemsRent3 {
+    display: flex;
+    justify-content: start;
+    padding-left: 5em;
+    margin-right: -2em;
+    text-align: start;
+    width: 15em;
+}
 
 .buttons {
     display: flex;

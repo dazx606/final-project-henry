@@ -16,8 +16,6 @@ export default function ProfileOrders() {
 
   }, [dispatch, userInfo.data.id]);
 
-  console.log(reservations)
-
   return (
     <div className={styles.profileinfo}>
       {userInfo.data && (
@@ -72,7 +70,8 @@ export default function ProfileOrders() {
                 !reservations.length ?
                   (<div style={{
                     display: "flex",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    margin: "2em"
                   }}>
                     <p>You don't have any reservations. Go booking!</p>
                   </div>) :
@@ -96,10 +95,10 @@ export default function ProfileOrders() {
                         <div>{r.startingDate}</div>
                       </div>
                       <div style={{ width: "20%" }}>
-                        <div>{r.endingDate}</div>
+                        <div>{(new Date(new Date((new Date(r.endingDate)).getTime()).setDate(new Date((new Date(r.endingDate)).getTime()).getDate() - 2))).toDateString()}</div>
                       </div>
                       <div style={{ width: "10%" }}>
-                        <div>{r.status}</div>
+                        <div>{r.status === 'maintenance' ? 'concluded' : r.status}</div>
                       </div>
                       <div style={{ width: "15%" }}>
                         <div>

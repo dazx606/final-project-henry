@@ -54,6 +54,15 @@ export function getUserReservation(token, orderId) {
   return axios(`${URL}user/reservation/${orderId}`, options);
 }
 
+export function cancelUserReservation(token, userId, rentId) {
+  const options = {
+    method: "DELETE",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.delete(`${URL}rent/refund/${userId}/${rentId}`, options);
+}
+
 export function addUser(email, picture) {
   return axios.post(`${URL}user`, { email, picture });
 }
