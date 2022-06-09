@@ -106,7 +106,6 @@ function CreateModel() {
         },
         getAccessTokenSilently
       );
-      console.log(response);
       if (response.msg === "This model already exist") {
         alert("Model name already in use");
       } else {

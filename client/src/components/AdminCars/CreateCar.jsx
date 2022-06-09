@@ -50,7 +50,7 @@ function CreateCar() {
     e.preventDefault();
     setChecker(true);
     if (!Object.keys(errors).length) {
-      return await createIndividualCar(
+      const response = await createIndividualCar(
         {
           model: input.model,
           licensePlate: input.licensePlate,
@@ -59,6 +59,16 @@ function CreateCar() {
         },
         getAccessTokenSilently
       );
+      if (response.msg === "License plate already in use") {
+        alert("License plate already in use");
+      } else {
+        alert("New car added successfully");
+        setInput({
+          licensePlate: "",
+          year: "",
+        });
+        setChecker(false);
+      }
     }
   };
 
