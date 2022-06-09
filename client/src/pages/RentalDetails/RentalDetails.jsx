@@ -36,7 +36,7 @@ export default function RentalDetails({ match }) {
         navigate(`/profile/${reservation.order?.userId}`);
     }
 
-    const date = new Date(reservation.order?.endingDate);
+    const date = new Date(reservation?.order?.endingDate);
 
     const datePlus = ((date, num) => {
         return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num))
@@ -122,10 +122,10 @@ export default function RentalDetails({ match }) {
                 </div>
             </div>
             <div className={styles.buttons}>
-                <button disabled={reservation.order?.status !== 'pending' || reservation.order?.status !== 'in use'} className='buttonGlobal'>Modify Dates</button>
-                <button disabled={reservation.order?.status === 'canceled' ||
-                    reservation.order?.status === 'maintenance' ||
-                    reservation.order?.status === 'concluded'}
+                <button disabled={reservation?.order?.status !== 'pending' || reservation?.order?.status !== 'in use'} className='buttonGlobal'>Modify Dates</button>
+                <button disabled={reservation?.order?.status === 'canceled' ||
+                    reservation?.order?.status === 'maintenance' ||
+                    reservation?.order?.status === 'concluded'}
                     className='buttonGlobal'
                     onClick={() => setShowAlert(true)}>
                     Cancel Order
