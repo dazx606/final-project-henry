@@ -39,7 +39,6 @@ export const DELETE_USER_INFO = "DELETE_USERS_INFO";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 export const GET_OPTIONAL_EQUIPMENT = "GET_OPTIONAL_EQUIPMENT";
 export const GET_INCLUDED_EQUIPMENT = "GET_INCLUDED_EQUIPMENT";
-export const SET_ADMIN_OPTIONS = "SET_ADMIN_OPTIONS";
 export const GET_USER_FOR_ADMIN = "GET_USER_FOR_ADMIN";
 export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
@@ -319,13 +318,6 @@ export function getUserForadmin(getToken, email) {
 export function setProfileOptions(payload) {
   return {
     type: SET_PROFILE_OPTIONS,
-    payload,
-  };
-}
-
-export function setAdminOptions(payload) {
-  return {
-    type: SET_ADMIN_OPTIONS,
     payload,
   };
 }

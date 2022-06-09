@@ -19,7 +19,6 @@ import {
   SET_PROFILE_OPTIONS,
   GET_INCLUDED_EQUIPMENT,
   GET_OPTIONAL_EQUIPMENT,
-  SET_ADMIN_OPTIONS,
   GET_USER_RESERVATIONS,
   GET_ALL_RESERVATIONS,
   DELETE_RESERVATION,
@@ -53,7 +52,6 @@ const initialState = {
   profileOptions: "information",
   optionalEquipment: [],
   includedEquipment: [],
-  adminOptions: "users",
   allCars: {},
   pagination: { page: 1, pageNum: 1 },
   orders: [],
@@ -171,12 +169,6 @@ export default function rootReducer(
       return {
         ...state,
         optionalEquipment: payload,
-      };
-    }
-    case SET_ADMIN_OPTIONS: {
-      return {
-        ...state,
-        adminOptions: payload,
       };
     }
     case GET_USER_RESERVATIONS: {
