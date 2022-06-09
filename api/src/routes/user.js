@@ -6,6 +6,7 @@ const {
   CarModel,
   Location,
 } = require("../db.js");
+const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
@@ -46,8 +47,10 @@ router.get("/reservations", async (req, res, next) => {
 
   try {
     if (userId) {
+      await statusUpdater();
       let orders = await RentOrder.findAll({
-        where: { userId },
+        where: { userId, payed: true },
+        attributes: { exclude: ["refundId"] },
         include: [{ model: IndividualCar, include: [CarModel, Location] }],
       });
       return res.json(orders);

@@ -1,8 +1,24 @@
 const { Router } = require("express");
-const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, Payment, RentOrder, User } = require("../db.js");
+const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { STRIPE_SECRET_KEY } = process.env;
-const { datePlus, filterRentDates, getDatesInRange } = require("./controllers.js");
+const { datePlus, filterRentDates, getDatesInRange, statusUpdater } = require("./controllers.js");
+
+const { expressjwt: jwt } = require("express-jwt");
+const jwks = require("jwks-rsa");
+
+// ===================================== AUTHORIZATION MIDDLEWARE ==================================//
+const authMiddleWare = jwt({
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: process.env.AUTH_JWKS_URI,
+  }),
+  audience: process.env.AUTH_AUDIENCE,
+  issuer: process.env.AUTH_ISSUER,
+  algorithms: ["RS256"],
+});
 
 const router = Router();
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
@@ -90,6 +106,32 @@ router.post("/car", async (req, res, next) => {
   }
 });
 
+router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) => {
+  try {
+    await statusUpdater();
+    const { userId, rentId } = req.params;
+    const user = await User.findByPk(userId, { include: [{ model: RentOrder, where: { id: rentId } }] });
+    if (!user) return res.status(404).json({ msg: "RentOrder not found!!!" });
+    const rent = user.dataValues.rentOrders[0].toJSON();
+    if (["canceled", "maintenance", "concluded"].includes(rent.status)) return res.status(404).json({ msg: "RentOrder not refundable" });
 
+    let amount = rent.paymentAmount;
+    const amountDayBeforeStart = getDatesInRange(new Date(), new Date(rent.startingDate)).length - 1;
+    if (amountDayBeforeStart > 7) amount = Math.ceil(amount * 0.95);
+    else if (amountDayBeforeStart > 2) amount = Math.ceil(amount * 0.90);
+    else amount = Math.ceil(amount * 0.80);
+
+    const refund = await stripe.refunds.create({
+      payment_intent: rent.refundId,
+      amount,
+    });
+    if (refund.status === "succeeded") {
+      await RentOrder.update({ status: "canceled" }, { where: { id: rentId } });
+    }
+    res.json("todo Ok");
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

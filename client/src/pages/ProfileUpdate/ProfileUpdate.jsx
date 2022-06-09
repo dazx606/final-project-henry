@@ -48,28 +48,18 @@ export default function Profile() {
 
       return;
     }
-    if (
-      errors.firstName ||
-      errors.lastName ||
-      errors.phone ||
-      errors.license ||
-      errors.documentId
-    ) {
-      setAlert("Complete with your correct information");
+    if (errors.firstName || errors.lastName || errors.phone || errors.license || errors.documentId) {
+      setAlert(" Please check invalid fields");
       return;
     }
-    if (
-      !input.firstName ||
-      !input.lastName ||
-      !input.license ||
-      !input.documentId
-    ) {
-      setAlert("Complete your information");
+    if (!input.firstName || !input.lastName || !input.license || !input.documentId) {
+      setAlert(" Please complete your information");
       return;
     }
-    await dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-    await dispatch(setUserInfo(getAccessTokenSilently, user.email));
-    setAlert("Your information is update");
+    
+     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
+     dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    setAlert("Your information has been updated");
   }
   function handleChange(e) {
     setInput({
@@ -90,15 +80,15 @@ export default function Profile() {
 
   return (
     <div className={styles.profile}>
-      {alert && alert.split(" ")[3] === "update" ? (
+      {alert === "Your information has been updated" ? (
         <div>
           <div className={styles.messages}>{alert}</div>
           <div className={styles.buttonContainer}>
             <Link to="/">
-              <button>Home</button>
+              <button className={`buttonGlobal ${styles.button}`}>Home</button>
             </Link>
             <Link to={`/profile/${userId}`}>
-              <button className={styles.btnProfile}> Profile</button>
+              <button className={`buttonGlobal ${styles.buttonProfile}`}> Profile</button>
             </Link>
           </div>
         </div>
@@ -152,12 +142,12 @@ export default function Profile() {
               name="language"
               onChange={handleChange}
             >
-              <option value="English">English</option>{" "}
+              <option value="English">English</option>
               <option value="Spanish">Spanish</option>
             </select>
           </div>
           <div>
-            <div className={styles.titles}>Document Id: </div>
+            <div className={styles.titles}>Document ID: </div>
             <input
               className={`${styles.inputGlobal} ${styles.inputs}`}
               type="text"
@@ -199,7 +189,7 @@ export default function Profile() {
             </select>
           </div>
           <div className={styles.buttonContainer}>
-            <button className={styles.button} type="submit">
+            <button className={`buttonGlobal ${styles.button}`} type="submit">
               Submit
             </button>
           </div>

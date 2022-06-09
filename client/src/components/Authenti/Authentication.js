@@ -6,22 +6,22 @@ import { setUserInfo, saveUser, setProfileOptions } from "../../redux/actions";
 import { NavLink } from "react-router-dom";
 
 function Authentication({ setDisplay, display, handleLoginInfo }) {
-  const { isAuthenticated, logout, user } = useAuth0();
+  const { isAuthenticated, logout, user, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const savedUser = useSelector((state) => state.savedUser);
   const completeUser = useSelector((state) => state.user);
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(saveUser(user.email));
-    }
-  }, [user, dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(saveUser(user.email, user.picture));
-      console.log(user.picture);
     }
   }, [user, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated && savedUser.length) {
+      dispatch(setUserInfo(getAccessTokenSilently, user.email));
+    }
+  }, [dispatch, savedUser]);
 
   function handleProfileInfo(e) {
     setDisplay(!display);
@@ -46,9 +46,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                     </div>
                   )}
                   <div>
-                    <h2 className={style.hello}>{`Hello ${
-                      user.given_name ? user.given_name : user.nickname
-                    }!`}</h2>
+                    <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname
+                      }!`}</h2>
                     <h3 className={style.email}>{user?.email}</h3>
                   </div>
                 </div>
@@ -58,13 +57,14 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                 <div className={style.msg}>Your Profile is incomplete.</div>
                 <div
                   className={style.msg}
-                >{`Let us know you better before we rent you a car :)`}</div>
+                >Let us know you better before we rent you a car!</div>
                 <NavLink
                   className={style.link}
                   to={`/user/${savedUser[1]}`}
                   onClick={handleLoginInfo}
                 >
-                  <div>Complete Profile</div>
+                  <i className="fa-solid fa-pen-to-square"></i>
+                  <div className={style.option}>Complete Profile</div>
                 </NavLink>
               </div>
             ) : (
@@ -76,9 +76,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                     <div>{completeUser.data.firstName[0].toUpperCase()}</div>
                   )}
                   <div>
-                    <h2 className={style.hello}>{`Hello ${
-                      completeUser && completeUser.data.firstName
-                    }!`}</h2>
+                    <h2 className={style.hello}>{`Hello ${completeUser && completeUser.data.firstName
+                      }!`}</h2>
                     <h3 className={style.email}>{user?.email}</h3>
                   </div>
                 </div>
@@ -89,14 +88,25 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                   to={`/profile/${savedUser[1]}`}
                   onClick={(e) => handleProfileInfo((e = "information"))}
                 >
-                  <div>Profile</div>
+                  <i className="fa-solid fa-user"></i>
+                  <div className={style.option}>Profile</div>
                 </NavLink>
+                
                 <NavLink
                   className={style.link}
                   to={`/profile/${savedUser[1]}`}
                   onClick={(e) => handleProfileInfo((e = "reservations"))}
                 >
-                  <div>My reservations</div>
+                  <i className="fa-regular fa-calendar-check"></i>
+                  <div className={style.option}>My reservations</div>
+                </NavLink>
+                <NavLink
+                  className={style.link}
+                  to={`/user/${savedUser[1]}`}
+                  onClick={handleLoginInfo}
+                >
+                  <i className="fa-solid fa-pen-to-square"></i>
+                  <div className={style.option}>Edit Profile</div>
                 </NavLink>
                 {completeUser.data.admin && (
                   <NavLink
@@ -104,7 +114,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                     to="/adminOptions"
                     onClick={(e) => handleProfileInfo((e = "reservations"))}
                   >
-                    <div>Manager Options</div>
+                    <i className="fa-solid fa-unlock"></i>
+                    <div className={style.option}>Manager Options</div>
                   </NavLink>
                 )}
               </div>
@@ -122,9 +133,8 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                   </div>
                 )}
                 <div>
-                  <h2 className={style.hello}>{`Hello ${
-                    user.given_name ? user.given_name : user.nickname
-                  }!`}</h2>
+                  <h2 className={style.hello}>{`Hello ${user.given_name ? user.given_name : user.nickname
+                    }!`}</h2>
                   <h3 className={style.email}>{user?.email}</h3>
                 </div>
               </div>

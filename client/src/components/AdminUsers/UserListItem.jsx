@@ -7,7 +7,6 @@ function UserListItem({user, handleTClick}) {
     return (
 
         <div className={style.userListItem}>
-            {user.picture ? <img className={style.imgIcon} src={user.picture} /> : null}
             <div className={style.name}>{user.firstName ? user.firstName : noInfo}</div>
             <div className={style.name}>{user.lastName ? user.lastName : noInfo}</div>
             <div className={style.email}>{user.email}</div>

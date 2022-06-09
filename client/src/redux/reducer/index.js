@@ -54,10 +54,11 @@ const initialState = {
   optionalEquipment: [],
   includedEquipment: [],
   adminOptions: "users",
-  allCars: [],
+  allCars: {},
   pagination: { page: 1, pageNum: 1 },
   Orders: [],
   modelNames: [],
+  //orders: [],
 };
 
 export default function rootReducer(
@@ -128,7 +129,6 @@ export default function rootReducer(
       return {
         ...state,
         user: payload,
-        token,
       };
     case SAVE_USER:
       return {

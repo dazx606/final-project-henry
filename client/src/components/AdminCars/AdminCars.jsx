@@ -6,26 +6,34 @@ import CreateCar from "./CreateCar";
 import CreateModel from "./CreateModel";
 import { getAllAdminCars } from "../../redux/actions";
 import CarListItem from "./CarListItem";
+import Pages from "./Pages";
 
 function AdminCars() {
-  const allCars = useSelector((state) => state.allCars);
+  const allCars = useSelector((state) => state.allCars.cars);
   const { getAccessTokenSilently } = useAuth0();
   const [carOption, setCarOption] = useState("allCars");
   const [plate, setPlate] = useState("");
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllAdminCars(getAccessTokenSilently, plate));
+    dispatch(getAllAdminCars(getAccessTokenSilently, plate, page));
   }, [dispatch, plate]);
 
   function handleCarsSearch(e) {
     let searchPlate = e.target.value;
     setPlate(searchPlate);
-    dispatch(getAllAdminCars(getAccessTokenSilently, e.target.value));
+    dispatch(getAllAdminCars(getAccessTokenSilently, e.target.value, page));
   }
   function handleCarOption(e) {
     setCarOption(e.target.value);
   }
+
+  const pagination = (p) => {
+    setPage(p);
+    dispatch(getAllAdminCars(getAccessTokenSilently, plate, p));
+  }
+
 
   return (
     <div>
@@ -60,7 +68,7 @@ function AdminCars() {
           </div>
 
           <div className={style.carsBox}>
-            {allCars.length ? (
+            {allCars?.length ? (
               <div>
                 <div className={style.listTitle}>
                   <div className={style.imgIcon}></div>
@@ -72,6 +80,9 @@ function AdminCars() {
                 {allCars?.map((c) => (
                   <CarListItem car={c} key={c.id} />
                 ))}
+                <div >
+                  <Pages pagination={pagination} page={page} />
+                </div>
               </div>
             ) : (
               <div>Car not found</div>
@@ -79,6 +90,8 @@ function AdminCars() {
           </div>
         </div>
       )}
+
+
       {carOption === "Add model" && (
         <div>
           <div className={style.searchCar}>

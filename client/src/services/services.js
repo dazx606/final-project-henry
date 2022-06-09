@@ -75,11 +75,12 @@ export function deleteUserInfo(userId, token) {
   return axios.delete(`http://localhost:3001/admin/users/${userId}`, options);
 }
 
-export function getAllReservs(token) {
+export function getAllReservs(token, orderId) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
+    params: { orderId },
   };
   return axios.get(`http://localhost:3001/admin/reservations`, options);
 }
@@ -104,14 +105,14 @@ export function getAllIncludedEquipment() {
   return axios.get(`${URL}admin/equipment/included`);
 }
 
-export function getAllCars(token, plate) {
+export function getAllCars(token, plate, page) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.get(
-    `http://localhost:3001/admin/allCars?plate=${plate}`,
+    `http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}`,
     options
   );
 }

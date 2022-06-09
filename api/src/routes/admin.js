@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 const jwtScope = require("express-jwt-scope");
+const { statusUpdater } = require("./controllers.js");
 require("dotenv").config();
 const router = Router();
 
@@ -14,7 +15,6 @@ const {
   IndividualCar,
   CarModel,
   CarType,
-  Payment,
   IncludedEquipment,
 } = require("../db.js");
 
@@ -42,7 +42,7 @@ const checkScopes = (permissions) =>
 // ===================================GET== USERS
 router.get("/users", async (req, res, next) => {
   const { email } = req.query;
-  console.log(email);
+  // console.log(email);
   try {
     let users = await User
       .findAll
@@ -53,7 +53,7 @@ router.get("/users", async (req, res, next) => {
       //       model: Driver,
       //       attributes: ["firstName", "lastName"],
       //     },
-      //     { model: Payment, attributes: ["firstName", "lastName"] },
+      //     { model: Payment, attributes: ["firstName", "lastName"] }, //EL MODELO DE PAYMENT YA NO EXISTE!!!
       //   ],
       // }
       ();
@@ -90,15 +90,16 @@ router.delete("/users/:id", async (req, res, next) => {
 //============ RENT
 router.get("/rent", async (req, res, next) => {
   try {
+    await statusUpdater();
     const orders = await RentOrder.findAll();
     res.status(200).send(orders);
-  } catch (error) {}
+  } catch (error) { }
 });
 
 //============ CARS
 router.get("/allCars", async (req, res, next) => {
-  const { plate, locationId } = req.query;
-  console.log(plate);
+  const { plate, locationId, page = 1 } = req.query;
+  let cars = [];
   try {
     if (plate && !locationId) {
       let specificCar = await IndividualCar.findAll({
@@ -109,52 +110,51 @@ router.get("/allCars", async (req, res, next) => {
         },
       });
       specificCar = specificCar.filter((sc) =>
-        sc.license_plate.includes(plate.toLocaleUpperCase())
+        sc.license_plate.includes(plate.toUpperCase())
       );
-
-      return res.status(200).json({ cars: specificCar });
+      cars = specificCar;
     }
 
-    if (locationId) {
-      let carsInCity = await Location.findByPk(locationId, {
-        order: [[{ model: IndividualCar }, "license_plate", "ASC"]],
-        include: [
-          {
-            model: IndividualCar,
-          },
-          {
-            model: CarModel,
-            attributes: ["brand", "images"],
-          },
-        ],
-      });
-      if (!specificCar.length)
-        return res.status(404).json({ msg: "car not found" });
-      return res.status(200).json({ car: specificCar });
-    }
+    // if (locationId) {
+    //   let carsInCity = await Location.findByPk(locationId, {
+    //     order: [[{ model: IndividualCar }, "license_plate", "ASC"]],
+    //     include: [
+    //       {
+    //         model: IndividualCar,
+    //       },
+    //       {
+    //         model: CarModel,
+    //         attributes: ["brand", "images"],
+    //       },
+    //     ],
+    //   });
+    //   if (!specificCar.length)
+    //     return res.status(404).json({ msg: "car not found" });
+    //   return res.status(200).json({ car: specificCar });
+    // }
 
-    if (locationId) {
-      let carsInCity = await Location.findByPk(locationId, {
-        order: [[{ model: IndividualCar }, "license_plate", "ASC"]],
-        include: [
-          {
-            model: IndividualCar,
-          },
-          {
-            model: CarModel,
-            attributes: ["model"],
-          },
-        ],
-      });
-      carsInCity = carsInCity.individualCars;
-      if (plate) {
-        carsInCity = carsInCity.filter((c) =>
-          c.license_plate.includes(plate.toString())
-        );
-      }
+    // if (locationId) {
+    //   let carsInCity = await Location.findByPk(locationId, {
+    //     order: [[{ model: IndividualCar }, "license_plate", "ASC"]],
+    //     include: [
+    //       {
+    //         model: IndividualCar,
+    //       },
+    //       {
+    //         model: CarModel,
+    //         attributes: ["model"],
+    //       },
+    //     ],
+    //   });
+    //   carsInCity = carsInCity.individualCars;
+    //   if (plate) {
+    //     carsInCity = carsInCity.filter((c) =>
+    //       c.license_plate.includes(plate.toString())
+    //     );
+    //   }
 
-      return res.status(200).json({ cars: carsInCity });
-    }
+    //   return res.status(200).json({ cars: carsInCity });
+    // }
 
     if (!plate && !locationId) {
       let allCars = await IndividualCar.findAll({
@@ -164,8 +164,15 @@ router.get("/allCars", async (req, res, next) => {
           attributes: ["brand", "images"],
         },
       });
-      return res.status(201).json({ cars: allCars });
+      cars = allCars;
     }
+
+    let totalPages= 1;    
+    let carsPerPage = 7;
+    totalPages = Math.ceil(cars.length / carsPerPage)
+    cars = cars.slice((page - 1) * carsPerPage, page * carsPerPage);    
+
+    return res.status(200).json({ cars, totalPages });
   } catch (e) {
     next(e);
   }
@@ -312,10 +319,13 @@ router.get("/reservations", async (req, res, next) => {
   const { userId, orderId } = req.query;
 
   try {
+    await statusUpdater();
     if (userId) {
       let orders = await RentOrder.findAll({
         where: { userId },
-        include: [{ model: IndividualCar, include: [CarModel, Location] }],
+        include: [{ model: IndividualCar, include: [CarModel, Location] },
+        { model: User, attributes: ['firstName', 'lastName', 'email'] }
+        ],
       });
       return orders.length
         ? res.send({ orders })
@@ -324,7 +334,9 @@ router.get("/reservations", async (req, res, next) => {
     if (orderId) {
       let order = await RentOrder.findOne({
         where: { id: orderId },
-        include: [{ model: IndividualCar, include: [CarModel, Location] }],
+        include: [{ model: IndividualCar, include: [CarModel, Location] },
+        { model: User, attributes: ['firstName', 'lastName', 'email'] }
+        ],
       });
       return order !== null
         ? res.send({ order })

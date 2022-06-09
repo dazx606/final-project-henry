@@ -17,5 +17,19 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
+        status: {
+            type: DataTypes.STRING,
+            defaultValue: "pending",
+        },
+        rated: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+        refundId: {
+            type: DataTypes.STRING,
+        },
+        paymentAmount: {
+            type: DataTypes.INTEGER,
+        },
     })
 }
