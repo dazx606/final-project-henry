@@ -57,6 +57,13 @@ const users = [
     admin: true,
     picture: "https://lh3.googleusercontent.com/a-/AOh14GiSpc2K2nqllAU_T4s1ABFe1xMTGSLqY8WqOL8NyQ=s96-c",
   },
+  {
+    email: "renatozapgon@gmail.com",
+    admin: true,
+    picture: "https://lh3.googleusercontent.com/a-/AOh14GgXtXYgyDsXq7NFxnkTOQcJeIgeMNiYftj4gU18Gg=s96-c",
+  }
 ];
 
 module.exports = { users };
+
+
