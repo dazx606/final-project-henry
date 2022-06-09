@@ -1,15 +1,5 @@
 const { Router } = require("express");
-<<<<<<< HEAD
-const {
-  User,
-  RentOrder,
-  IndividualCar,
-  CarModel,
-  Location,
-} = require("../db.js");
-=======
 const { User, RentOrder, IndividualCar, CarModel, Location, Driver, OptionalEquipment } = require("../db.js");
->>>>>>> 5cce9afc909fb1707d161b7d8739e6cfd96b07e6
 const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");

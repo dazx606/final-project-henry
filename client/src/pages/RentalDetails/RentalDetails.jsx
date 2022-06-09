@@ -22,7 +22,7 @@ export default function RentalDetails({ match }) {
 
     useEffect(() => {
         dispatch(userReservation(getAccessTokenSilently, orderId));
-    }, [dispatch, getAccessTokenSilently, orderId, cancelReservation, reservation.order?.status]);
+    }, [dispatch, getAccessTokenSilently, orderId]);
 
     function handleCancel() {
         dispatch(cancelReservation(getAccessTokenSilently, reservation.order?.userId, orderId));
