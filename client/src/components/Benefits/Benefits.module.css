@@ -162,7 +162,7 @@
     flex-direction: column-reverse;
     }
     .container1 .img1{
-        width: 100vw;
+        width: 97vw;
         height: auto;
         padding-bottom: 1.5em;
     }
@@ -171,13 +171,30 @@
         flex-direction: column;
         }
         .container2 .img2{
-            width: 100vw;
+            width: 97vw;
             height: auto;
             padding-top: 1.5em;
         }
     .subContainer1a{
         width: 90vw;
     }
+    /* .card {
+        width: 99vw;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    .topCard{
+    padding: 0;
+    padding-top: 1.5em;
+    margin: 0;
+
+    }
+    .bottomCard{
+        margin: 0;
+        padding: 0;
+    } */
     /* .subContainer1a {
         width: 100vw;
     } */

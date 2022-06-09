@@ -180,3 +180,41 @@
     font-size: 14px;
     color: var(--color3);
 }
+
+@media (max-width: 800px) {
+    .container1{
+        width: 95vw;
+        margin: auto;
+        line-height: 1.5rem;
+    }
+    .container2{
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        align-items: center;
+        
+    }
+    .mapContainer{
+        width: 90vw;
+        height: 60vw;
+        padding: 0;
+        margin: 0;
+        
+    }
+    .form{
+        width: 99vw;
+        padding: 0;
+    }
+    .inputs{
+        width: 90vw;
+    }
+    .textarea{
+        width: 90vw;
+    }
+    .subcontainer1{
+        /* width: 95vw; */
+      
+        /* margin: auto; */
+        line-height: 1.3rem;
+    }
+}
