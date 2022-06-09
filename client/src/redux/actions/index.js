@@ -51,7 +51,7 @@ export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 export const GET_ALL_MODELS = "GET_ALL_MODELS";
 export const DELETE_CAR = "DELETE_CAR";
 
-export const URL = "http://localhost:3001/";
+export const URL = "https://car-rents.herokuapp.com/";
 
 export function getLocations() {
   return async (dispatch) => {
