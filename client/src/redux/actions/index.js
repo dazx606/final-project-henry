@@ -14,9 +14,11 @@ import {
   getAllUsersInfo,
   deleteUserInfo,
   getUserReservations,
+  getUserReservation,
   getAllReservs,
   deleteReserv,
   getAllCars,
+  cancelUserReservation,
   getOrderDetail,
   getAllModels,
   createIndividualCar,
@@ -48,6 +50,8 @@ export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
+export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
+export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 export const GET_ALL_MODELS = "GET_ALL_MODELS";
 export const DELETE_CAR = "DELETE_CAR";
@@ -235,6 +239,40 @@ export function userReservations(getToken, userId) {
       }
     } catch (error) {
       return dispatch({ type: GET_USER_RESERVATIONS, payload: undefined });
+    }
+  };
+}
+
+export function userReservation(getToken, orderId) {
+  return async (dispatch) => {
+    let token = getToken();
+    try {
+      if (orderId) {
+        let response = await getUserReservation(token, orderId);
+        return dispatch({
+          type: GET_USER_RESERVATION,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      return dispatch({ type: GET_USER_RESERVATION, payload: undefined });
+    }
+  };
+}
+
+export function cancelReservation(getToken, userId, rentId) {
+  return async (dispatch) => {
+    let token = getToken();
+    try {
+      if (userId && rentId) {
+        let response = await cancelUserReservation(token, userId, rentId);
+        return dispatch({
+          type: CANCEL_RESERVATION, 
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 }

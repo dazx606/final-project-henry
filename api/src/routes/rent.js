@@ -88,7 +88,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
       client_reference_id: `${rentId}:${numberOfDays}`,
       mode: 'payment',
       expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
-      success_url: `${YOUR_DOMAIN}/booking?success=true`,
+      success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,
       cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
     });
     setTimeout(async () => {
@@ -106,8 +106,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
   }
 });
 
-router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) => {
-  // router.delete("/refund/:userId/:rentId", async (req, res, next) => {
+router.delete("/refund/:userId/:rentId", async (req, res, next) => {
   try {
     await statusUpdater();
     const { userId, rentId } = req.params;

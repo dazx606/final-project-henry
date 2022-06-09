@@ -1,4 +1,5 @@
 const { Router } = require("express");
+<<<<<<< HEAD
 const {
   User,
   RentOrder,
@@ -6,6 +7,9 @@ const {
   CarModel,
   Location,
 } = require("../db.js");
+=======
+const { User, RentOrder, IndividualCar, CarModel, Location, Driver, OptionalEquipment } = require("../db.js");
+>>>>>>> 5cce9afc909fb1707d161b7d8739e6cfd96b07e6
 const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
@@ -44,10 +48,10 @@ router.get("/", authMiddleWare, async (req, res, next) => {
 
 router.get("/reservations", async (req, res, next) => {
   const { userId } = req.query;
-
+  
   try {
+    await statusUpdater();
     if (userId) {
-      await statusUpdater();
       let orders = await RentOrder.findAll({
         where: { userId, payed: true },
         attributes: { exclude: ["refunds", "paymentDays", "paymentAmount"] },
@@ -57,6 +61,31 @@ router.get("/reservations", async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+  }
+});
+
+router.get("/reservation/:orderId", async (req, res, next) => {
+
+  const { orderId } = req.params;
+
+  try {
+    await statusUpdater();
+    if (orderId) {
+      let order = await RentOrder.findOne({
+        where: { id: orderId, payed: true },
+        include: [{ model: IndividualCar, include: [CarModel, Location] },
+        { model: User, attributes: ['firstName', 'lastName', 'email'] },
+          Location,
+          Driver,
+          OptionalEquipment,
+        ],
+      });
+      return order !== null
+        ? res.send({ order })
+        : res.status(404).send({ msg: "order not found" });
+    }
+  } catch (error) {
+    next(error)
   }
 });
 
