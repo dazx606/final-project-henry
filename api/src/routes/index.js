@@ -3,7 +3,7 @@ const express = require('express');
 const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
 const { EMAIL, MIDDLE_EMAIL, STRIPE_SECRET_KEY, STRIPE_SECRET_WEBHOOK_KEY } = process.env;
-const { filterDates, statusUpdater } = require("./controllers.js");
+const { filterDates, statusUpdater, rentUpdate } = require("./controllers.js");
 const { transporter } = require("../config/mailer");
 const userRouter = require("./user");
 const adminRouter = require("./admin");
@@ -217,8 +217,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), (req, res, ne
   try {
     if (event.type === 'checkout.session.completed') {
       // console.log(event.data.object);
-      const stripeObject = event.data.object;
-      RentOrder.update({ payed: true, refundId: stripeObject.payment_intent, paymentAmount: stripeObject.amount_total }, { where: { id: stripeObject.client_reference_id } });
+      rentUpdate(event.data.object);
     }
     return res.json({ received: true });
   } catch (error) {

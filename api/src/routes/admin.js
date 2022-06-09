@@ -66,7 +66,6 @@ router.get("/users", async (req, res, next) => {
       return res.status(200).json(users);
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
@@ -82,7 +81,6 @@ router.delete("/users/:id", async (req, res, next) => {
     const users = await User.findAll();
     return res.json(users);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });

@@ -180,34 +180,6 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(
-  location,
-  model,
-  startingDate,
-  endingDate,
-  optionalEquipments,
-  drivers,
-  endLocation,
-  userId
-) {
-  return async (dispatch) => {
-    try {
-      const res = await axios.post(`${URL}rent/car`, {
-        location,
-        model,
-        startingDate,
-        endingDate,
-        optionalEquipments,
-        drivers,
-        endLocation,
-        userId,
-      });
-      window.location.href = res.data.url;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {

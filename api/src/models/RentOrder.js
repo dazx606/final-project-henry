@@ -25,11 +25,17 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
-        refundId: {
-            type: DataTypes.STRING,
+        refunds: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            defaultValue: [],
+        },
+        paymentDays: {
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            defaultValue: [],
         },
         paymentAmount: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.ARRAY(DataTypes.INTEGER),
+            defaultValue: [],
         },
     })
 }
