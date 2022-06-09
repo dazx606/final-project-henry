@@ -291,21 +291,4 @@ router.patch("/modify", async (req, res, next) => {
   }
 });
 
-router.get('/test', async (req, res, next) => {
-  const maintenanceEnd = datePlus(new Date("2022/09/05"), 2);
-  const start = new Date("2022/09/03");
-
-
-  const otherRentsSameCar = await IndividualCar.findByPk(500, { include: [{ model: RentOrder, where: { id: { [Op.ne]: 2 } }, }] })
-  const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
-  const startString = start.toDateString();
-  const endString = maintenanceEnd.toDateString();
-  for (let i = 0; i < unavailableDays.length; i++) {
-    const day = unavailableDays[i].toDateString();
-    if (day === startString || day === endString) return res.status(409).json({ msg: "Dates not available!!!" });
-  }
-
-  res.send("no coli")
-})
-
 module.exports = router;
