@@ -38,7 +38,7 @@ router.get("/", authMiddleWare, async (req, res, next) => {
       ? (completed = true)
       : (completed = false);
 
-    
+    await statusUpdater();
     const allowedStatus = ["maintenance", "concluded"];
     let userReservations = await User.findByPk(user.id, {
       include: [{
@@ -60,11 +60,13 @@ router.get("/", authMiddleWare, async (req, res, next) => {
     let reservations = [];
     if (userReservations) {
       userReservations.rentOrders.forEach(e => {
-        reservations.push({
-          model:e.individualCar.carModel.model,
-          brand:e.individualCar.carModel.brand,
-          img:e.individualCar.carModel.images[0]
-        })
+        if (!reservations.find(el => el.model === e.individualCar.carModel.model) ) {
+          reservations.push({
+            model: e.individualCar.carModel.model,
+            brand: e.individualCar.carModel.brand,
+            img: e.individualCar.carModel.images[0],
+          })
+        }
       });
     }
 
@@ -149,6 +151,15 @@ router.patch("/:id", authMiddleWare, async (req, res, next) => {
         phone,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/rate", authMiddleWare, async (req, res, next) => {
+  const { userId, ratings } = req.body;  //rating = [{model:name, rate:number},{}]
+  try {
+
   } catch (error) {
     next(error);
   }
