@@ -21,7 +21,7 @@ export default function ReservListItem({ order }) {
       <div className={styles.status}>{order.status}</div>
 
       <Link  to={`/adminReservationForm/${order.id}`} className={styles.eye}>
-        <i class="fa-solid fa-eye"></i>
+        <i className="fa-solid fa-eye"></i>
       </Link>
     </div>
   );

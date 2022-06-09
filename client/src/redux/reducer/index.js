@@ -204,6 +204,7 @@ export default function rootReducer(state = initialState, { type, payload, token
       return {
         ...state,
         orders: payload,
+        order:{},
       };
     }
     case GET_ALL_ADMIN_CARS: {
