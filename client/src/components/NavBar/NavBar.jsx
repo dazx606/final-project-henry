@@ -9,7 +9,7 @@ import Alert from "../Alert/Alert";
 
 function NavBar() {
   const [display, setDisplay] = useState(false);
-  const [showLinks, setShowLinks] = useState(false);
+  const [showLinks, setShowLinks] = useState(false); //---------------------------
   const hide = useSelector((state) => state.hideAlert);
   const { loginWithPopup, isAuthenticated, user } = useAuth0();
 
@@ -55,7 +55,7 @@ function NavBar() {
             </NavLink> */}
           </div>
         </header>
-        <nav className={styles.menu}>
+        <nav className={styles.menu} hidden={!showLinks}>
           <ul className={styles.link}>
             <NavLink to="/">
               <li className={styles.list} onClick={showAllLinks}>HOME</li>
