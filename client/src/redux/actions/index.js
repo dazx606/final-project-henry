@@ -18,6 +18,9 @@ import {
   deleteReserv,
   getAllCars,
   getOrderDetail,
+  getAllModels,
+  createIndividualCar,
+  deleteSpecificCar,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -46,6 +49,8 @@ export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
+export const GET_ALL_MODELS = "GET_ALL_MODELS";
+export const DELETE_CAR = "DELETE_CAR";
 
 export const URL = "http://localhost:3001/";
 
@@ -373,6 +378,22 @@ export function getAllAdminCars(getToken, plate, page) {
   };
 }
 
+export function deleteCar(getToken, plate) {
+  return async (dispatch) => {
+    try {
+      const token = getToken();
+      let response = await deleteSpecificCar(token, plate);
+
+      return dispatch({
+        type: DELETE_CAR,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
 export function getIncludedEquipment() {
   return async (dispatch) => {
     try {
@@ -414,6 +435,19 @@ export function getOrderReservationId(orderId, getToken) {
         type: GET_DETAIL_RESERVATION,
         payload: { error: error.response?.data.msg },
       });
+    }
+  }
+}
+export function getModels() {
+  return async (dispatch) => {
+    try {
+      const response = await getAllModels();
+      return dispatch({
+        type: GET_ALL_MODELS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 }
