@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { cancelReservation, userReservation } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
+import AlertCancel from "./AlertCancel";
 import styles from "./RentalDetails.module.css";
 
 export default function RentalDetails({ match }) {
@@ -11,18 +12,24 @@ export default function RentalDetails({ match }) {
     const dispatch = useDispatch();
     const { orderId } = useParams();
     const { getAccessTokenSilently } = useAuth0();
-
-
-
+    const [cancelOrder, setCancelOrder] = useState({ userId: '', rentId: '' })
+    const [alert, setAlert] = useState(false);
 
     useEffect(() => {
-        dispatch(userReservation(getAccessTokenSilently, orderId))
+        dispatch(userReservation(getAccessTokenSilently, orderId));
     }, [dispatch, getAccessTokenSilently, orderId, cancelReservation, reservation.order?.status]);
 
     function handleCancel() {
-        dispatch(cancelReservation(getAccessTokenSilently, reservation.order.userId, orderId))
-        dispatch(userReservation(getAccessTokenSilently, orderId))
+        dispatch(cancelReservation(getAccessTokenSilently, cancelOrder.userId, cancelOrder.rentId));
+        setAlert(false)
+        dispatch(userReservation(getAccessTokenSilently, cancelOrder.rentId));
     }
+
+    function handleClick() {
+        setAlert(true);
+        setCancelOrder({...cancelOrder, userId: reservation.order?.userId, rentId: orderId})
+    };
+
     const date = new Date(reservation.order?.endingDate);
 
     const datePlus = ((date, num) => {
@@ -114,10 +121,23 @@ export default function RentalDetails({ match }) {
                     reservation.order?.status === 'maintenance' ||
                     reservation.order?.status === 'concluded'}
                     className='buttonGlobal'
-                    onClick={() => handleCancel()}>
+                    onClick={() => handleClick()}>
                     Cancel Order
                 </button>
             </div>
+            {
+                alert &&
+                <div className={styles.alert}>
+                    <AlertCancel setAlert={setAlert} handleCancel={handleCancel} cancelOrder={cancelOrder} alert={alert} />
+                </div>
+            }
         </div>
     )
+}
+
+function Form() {
+    return (
+        <div>Modify date</div>
+    )
+
 }

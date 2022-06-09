@@ -1,0 +1,29 @@
+.all {
+    width: 100vw;
+    height: 100vh;
+
+}
+
+.alertContainer {
+    text-align: center;
+    align-items: center;
+    font-family: var(--font2);
+    position: fixed;
+    top: 30%;
+    left: 35vw;
+    height: 30vh;
+    width: 30vw;
+    background-color: var(--color6);
+    color: var(--color3Tr);
+
+}
+
+.dltBton {
+    margin-top: 2.5rem;
+}
+
+.sureTxt {
+    font-size: 1.1em;
+    font-weight: 400;
+    margin: 2.5em 2em 0 2em;
+}
