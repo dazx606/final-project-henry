@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./adminReservList.module.css";
 
-export default function ReservListItem({ order, handleShowAlert }) {
+export default function ReservListItem({ order }) {
   function handleClickReservation() {
     navigator.clipboard.writeText(order.id);
   }
@@ -19,9 +20,9 @@ export default function ReservListItem({ order, handleShowAlert }) {
       </div>
       <div className={styles.status}>{order.status}</div>
 
-      <div onClick={() => handleShowAlert(order.id)} className={styles.trashIcon}>
-        <i className="fa-solid fa-trash-can"></i>
-      </div>
+      <Link  to={`/adminReservationForm/${order.id}`} className={styles.eye}>
+        <i className="fa-solid fa-eye"></i>
+      </Link>
     </div>
   );
 }
