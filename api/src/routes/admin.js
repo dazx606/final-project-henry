@@ -156,7 +156,7 @@ router.get("/equipment/optional", async (req, res, next) => {
 // ============================ POST =============================================================//
 
 //============== CARS & MODEL
-router.post("/model", async (req, res, next) => {
+router.post("/model", authMiddleWare, async (req, res, next) => {
   const {
     model,
     brand,
@@ -225,25 +225,29 @@ router.post("/model", async (req, res, next) => {
 
     return res.status(201).send({ msg: "New car model created" });
   } catch (error) {
+    console.log(error.error);
     next(error);
   }
 });
 
-router.post("/car", async (req, res, next) => {
+router.post("/car", authMiddleWare, async (req, res, next) => {
   const { model, licensePlate, year, location } = req.body;
   try {
     const findModel = await CarModel.findOne({ where: { model: model } });
-
-    const [car, created] = await IndividualCar.findOrCreate({
+    const findCar = await IndividualCar.findOne({
       where: { license_plate: licensePlate },
-      defaults: { license_plate: licensePlate, year: year },
     });
-    if (!created)
-      return res.send(409).send({ msg: "License plate already in use" });
+    if (findCar)
+      return res.status(200).send({ msg: "License plate already in use" });
+    const car = await IndividualCar.create({
+      license_plate: licensePlate,
+      year: year,
+    });
+    const carLocation = await Location.findOne({ where: { id: location } });
 
     await findModel.addIndividualCar(car);
-    const carLocation = await Location.findOne({ where: { city: location } });
     await carLocation.addIndividualCar(car);
+    await carLocation.addCarModel(findModel);
 
     return res.status(201).send({ msg: "New car created" });
   } catch (error) {
