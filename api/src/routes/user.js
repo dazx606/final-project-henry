@@ -1,5 +1,12 @@
 const { Router } = require("express");
-const { Op, User, RentOrder, IndividualCar, CarModel, Location } = require("../db.js");
+const {
+  Op,
+  User,
+  RentOrder,
+  IndividualCar,
+  CarModel,
+  Location,
+} = require("../db.js");
 const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
@@ -68,17 +75,20 @@ router.get("/", authMiddleWare, async (req, res, next) => {
 });
 
 router.get("/reservations", async (req, res, next) => {
-
   const { userId } = req.query;
 
   try {
     if (userId) {
       await statusUpdater();
-      let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
-      return res.json(orders)
+      let orders = await RentOrder.findAll({
+        where: { userId, payed: true },
+        attributes: { exclude: ["refunds", "paymentDays", "paymentAmount"] },
+        include: [{ model: IndividualCar, include: [CarModel, Location] }],
+      });
+      return res.json(orders);
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 
@@ -91,8 +101,8 @@ router.post("/", async (req, res, next) => {
         email: email,
       },
       defaults: {
-        picture: picture
-      }
+        picture: picture,
+      },
     });
     let completed;
     user.firstName && user.lastName && user.documentId && user.license
@@ -107,7 +117,6 @@ router.post("/", async (req, res, next) => {
       data: user.id,
       completed,
     });
-
   } catch (error) {
     next(error);
   }
