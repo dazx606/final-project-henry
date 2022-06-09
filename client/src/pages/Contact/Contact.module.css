@@ -204,17 +204,38 @@
     .form{
         width: 99vw;
         padding: 0;
+        display: flex;
+        flex-direction: column;
+        
+        align-items: center;
+        
     }
     .inputs{
-        width: 90vw;
+        width: 85vw;
+     
+        
     }
     .textarea{
-        width: 90vw;
+        width: 85vw;
     }
     .subcontainer1{
-        /* width: 95vw; */
-      
-        /* margin: auto; */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         line-height: 1.3rem;
+        margin: auto;
+    }
+    .titleh{
+        padding-top: 1em;
+    }
+    .buttonContainer{
+        padding-bottom: 1em;
+    }
+    .iconContainer{
+        padding-bottom: 1em;
+    }
+    .findus{
+        width: 90vw;
+        
     }
 }
