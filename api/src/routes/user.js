@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { User, RentOrder, IndividualCar, CarModel, Location } = require("../db.js");
+const { Op, User, RentOrder, IndividualCar, CarModel, Location } = require("../db.js");
 const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
@@ -30,7 +30,38 @@ router.get("/", authMiddleWare, async (req, res, next) => {
     user.firstName && user.lastName && user.documentId && user.license
       ? (completed = true)
       : (completed = false);
-    return res.status(200).send({ data: user, completed });
+
+    
+    const allowedStatus = ["maintenance", "concluded"];
+    let userReservations = await User.findByPk(user.id, {
+      include: [{
+        model: RentOrder,
+        where: {
+          rated: false,
+          status: { [Op.or]: allowedStatus }
+        },
+        attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] },
+        include: [{
+          model: IndividualCar,
+          include: [{
+            model: CarModel,
+            attributes: ['brand', "model", "images"],
+          }]
+        }]
+      }]
+    })
+    let reservations = [];
+    if (userReservations) {
+      userReservations.rentOrders.forEach(e => {
+        reservations.push({
+          model:e.individualCar.carModel.model,
+          brand:e.individualCar.carModel.brand,
+          img:e.individualCar.carModel.images[0]
+        })
+      });
+    }
+
+    return res.status(200).send({ data: user, completed, reservations });
   } catch (error) {
     next(error);
   }
