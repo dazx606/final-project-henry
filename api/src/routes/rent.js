@@ -100,15 +100,14 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
         console.log(`Could not delete rentOrder ${rentId}`);
       }
     }, "3720000")
-    return res.json({ url: session.url })
+    return res.json({ url: session.url });
   } catch (error) {
     next(error);
   }
 });
 
-// router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) => {
-router.delete("/refund/:userId/:rentId", async (req, res, next) => {
-
+router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) => {
+  // router.delete("/refund/:userId/:rentId", async (req, res, next) => {
   try {
     await statusUpdater();
     const { userId, rentId } = req.params;
@@ -142,60 +141,171 @@ router.delete("/refund/:userId/:rentId", async (req, res, next) => {
   }
 });
 
-router.patch("/modify", authMiddleWare, async (req, res, next) => {
+router.patch("/modify", async (req, res, next) => {
+  // router.patch("/modify", authMiddleWare, async (req, res, next) => {
   const { startingDate, endingDate, userId, rentId } = req.body;
   try {
     await statusUpdater();
     if (!startingDate || !endingDate || !userId || !rentId) return res.status(404).json({ msg: "Missing info!!!" });
-    const user = await User.findByPk(userId, { include: [{ model: RentOrder, where: { id: rentId } }] });
+    const user = await User.findByPk(userId,
+      {
+        include: [{
+          model: RentOrder, where: { id: rentId }, include: [
+            { model: OptionalEquipment, attributes: ['stripePriceId'], through: { attributes: [] } },
+            { model: IndividualCar, include: [{ model: CarModel }] },
+          ]
+        }]
+      });
     if (!user) return res.status(404).json({ msg: "RentOrder not found!!!" });
+    const email = user.email;
     const rent = user.dataValues.rentOrders[0].toJSON();
     if (!["in use", "pending"].includes(rent.status)) return res.status(400).json({ msg: "RentOrder not modifiable" });
 
-    //verificar si las fechas son posibles osea que lo que llega del front no coincida con otra rentorder
-
     const oldStart = new Date(rent.startingDate);
     const oldEnd = new Date(rent.endingDate);
-    const start = new Date(startingDate);
     const end = new Date(endingDate);
     const maintenanceEnd = datePlus(end, 2);
-    if (rent.status === "pending") {
-      let startDiff = 0;
-      let endDiff = 0;
-      if (start < oldStart) {
-        startDiff = getDatesInRange(start, oldStart).length - 1;
-      } else if (start > oldStart) {
-        startDiff = -getDatesInRange(oldStart, start).length - 1;
-      }
-      if (maintenanceEnd < oldEnd) {
-        endDiff = -getDatesInRange(maintenanceEnd, oldEnd).length - 1;
-      } else if (maintenanceEnd > oldEnd) {
-        endDiff = getDatesInRange(oldEnd, maintenanceEnd).length - 1;
-      }
+    const start = new Date(startingDate);
 
-      const totalDiff = startDiff + endDiff;
-      if (totalDiff <= 0) {
-        await RentOrder.update({ startingDate: start.toDateString(), endingDate: end.toDateString() }, { where: { id: rentId } });
-        if (!totalDiff) return res.json({ msg: "modified" });
-        const refund = await stripe.refunds.create({
-          payment_intent: rent.refundId,
-          amount: 5464654,
-        });
-        if (refund.status === "succeeded") {
-          await RentOrder.update({ status: "canceled" }, { where: { id: rentId } });
-        }
-      }
-
+    const otherRentsSameCar = await IndividualCar.findByPk(rent.individualCarId, { include: [{ model: RentOrder, where: { id: { [Op.ne]: rentId } }, }] })
+    const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
+    const startString = start.toDateString();
+    const endString = maintenanceEnd.toDateString();
+    for (let i = 0; i < unavailableDays.length; i++) {
+      const day = unavailableDays[i].toDateString();
+      if (day === startString || day === endString) return res.status(409).json({ msg: "Dates not available!!!" });
     }
 
+    let startDiff = 0;
+    let endDiff = 0;
+    if (start < oldStart) {
+      startDiff = getDatesInRange(start, oldStart).length - 1;
+    } else if (start > oldStart) {
+      startDiff -= getDatesInRange(oldStart, start).length - 1;
+    }
+    if (maintenanceEnd < oldEnd) {
+      endDiff -= getDatesInRange(maintenanceEnd, oldEnd).length - 1;
+    } else if (maintenanceEnd > oldEnd) {
+      endDiff = getDatesInRange(oldEnd, maintenanceEnd).length - 1;
+    }
 
+    if (rent.status === "in use") {
+      if (endDiff <= 0) return res.status(409).json({ msg: "Cannot remove days when already in use!!!" });
+      if (startDiff !== 0) return res.status(409).json({ msg: "Cannot modify starting day when already in use!!!" });
+    }
 
+    let totalDiff = startDiff + endDiff;
 
-    res.json("todo Ok");
+    if (totalDiff > 0) {
+      const session = await stripe.checkout.sessions.create({
+        line_items: [
+          {
+            price: rent.individualCar.carModel.stripePriceId,
+            quantity: totalDiff,
+          },
+          ...rent.optionalEquipments.map((equip) => ({
+            price: equip.stripePriceId,
+            quantity: totalDiff,
+          })),
+        ],
+        customer_email: email,
+        client_reference_id: `${rentId}:${totalDiff}:${start.toDateString()}:${maintenanceEnd.toDateString()}`,
+        mode: 'payment',
+        expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
+        success_url: `${YOUR_DOMAIN}/booking?success=true`,  ////////////////////////Cambiar esto
+        cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
+      });
+      return res.json({ url: session.url })
+    }
+
+    if (totalDiff === 0) {
+      await RentOrder.update({ startingDate: start.toDateString(), endingDate: end.toDateString() }, { where: { id: rentId } });
+      return res.json({ msg: "modified" });
+    }
+
+    if (totalDiff < 0) {
+      let i = 0;
+      while (totalDiff !== 0) {
+        if (rent.paymentDays[i] >= - totalDiff) {
+          const refundPerOrder = Math.ceil(rent.paymentAmount[i] * (-totalDiff / rent.paymentDays[i]));
+
+          const refund = await stripe.refunds.create({
+            payment_intent: rent.refunds[i],
+            amount: refundPerOrder,
+          });
+          if (refund.status === "succeeded") {
+            if (rent.paymentDays[i] === - totalDiff) {
+              rent.paymentAmount.splice(i, 1);
+              rent.paymentDays.splice(i, 1);
+              rent.refunds.splice(i, 1);
+              await RentOrder.update({
+                paymentAmount: rent.paymentAmount,
+                paymentDays: rent.paymentDays,
+                refunds: rent.refunds,
+                startingDate: start.toDateString(),
+                endingDate: maintenanceEnd.toDateString(),
+              },
+                { where: { id: rentId } }
+              );
+            } else {
+              rent.paymentAmount.splice(i, 1, (rent.paymentAmount[i] - refundPerOrder));
+              rent.paymentDays.splice(i, 1, (rent.paymentDays[i] + totalDiff));
+              await RentOrder.update({
+                paymentAmount: rent.paymentAmount,
+                paymentDays: rent.paymentDays,
+                startingDate: start.toDateString(),
+                endingDate: maintenanceEnd.toDateString(),
+              },
+                { where: { id: rentId } }
+              );
+            }
+          } else return res.status(409).json({ msg: "Problems while refund!!!" });
+          totalDiff = 0;
+        } else {
+          const refund = await stripe.refunds.create({
+            payment_intent: rent.refunds[i],
+          });
+          if (refund.status === "succeeded") {
+            totalDiff += rent.paymentDays[i];
+            rent.paymentAmount.splice(i, 1);
+            rent.paymentDays.splice(i, 1);
+            rent.refunds.splice(i, 1);
+            await RentOrder.update({
+              paymentAmount: rent.paymentAmount,
+              paymentDays: rent.paymentDays,
+              refunds: rent.refunds,
+              startingDate: start.toDateString(),
+              endingDate: maintenanceEnd.toDateString(),
+            },
+              { where: { id: rentId } }
+            );
+          } else return res.status(409).json({ msg: "Problems while refund!!!" });
+          i--;
+        }
+        i++;
+      }
+      return res.json("refund successful");
+    }
   } catch (error) {
     next(error);
   }
 });
 
+router.get('/test', async (req, res, next) => {
+  const maintenanceEnd = datePlus(new Date("2022/09/05"), 2);
+  const start = new Date("2022/09/03");
+
+
+  const otherRentsSameCar = await IndividualCar.findByPk(500, { include: [{ model: RentOrder, where: { id: { [Op.ne]: 2 } }, }] })
+  const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
+  const startString = start.toDateString();
+  const endString = maintenanceEnd.toDateString();
+  for (let i = 0; i < unavailableDays.length; i++) {
+    const day = unavailableDays[i].toDateString();
+    if (day === startString || day === endString) return res.status(409).json({ msg: "Dates not available!!!" });
+  }
+
+  res.send("no coli")
+})
 
 module.exports = router;
