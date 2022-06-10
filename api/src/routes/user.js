@@ -6,6 +6,8 @@ const {
   IndividualCar,
   CarModel,
   Location,
+  Driver,
+   OptionalEquipment,
 } = require("../db.js");
 const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
@@ -78,7 +80,7 @@ router.get("/", authMiddleWare, async (req, res, next) => {
 
 router.get("/reservations", async (req, res, next) => {
   const { userId } = req.query;
-
+  
   try {
     if (userId) {
       await statusUpdater();
@@ -91,6 +93,31 @@ router.get("/reservations", async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+  }
+});
+
+router.get("/reservation/:orderId", async (req, res, next) => {
+
+  const { orderId } = req.params;
+
+  try {
+    await statusUpdater();
+    if (orderId) {
+      let order = await RentOrder.findOne({
+        where: { id: orderId, payed: true },
+        include: [{ model: IndividualCar, include: [CarModel, Location] },
+        { model: User, attributes: ['firstName', 'lastName', 'email'] },
+          Location,
+          Driver,
+          OptionalEquipment,
+        ],
+      });
+      return order !== null
+        ? res.send({ order })
+        : res.status(404).send({ msg: "order not found" });
+    }
+  } catch (error) {
+    next(error)
   }
 });
 
