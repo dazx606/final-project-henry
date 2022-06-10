@@ -16,16 +16,18 @@ export default function Pagination({ handlePages }) {
     }, [pagination])
 
     const back = () => {
-        if(parseInt(pagination.page) !== 1) handlePages(pagination.page-1)
+        if (parseInt(pagination.page) !== 1) handlePages(pagination.page - 1);
+        else handlePages(parseInt(pagination.pageNum));
     }
-    
+
     const next = () => {
-        if(parseInt(pagination.page) !== parseInt(pagination.pageNum)) handlePages(parseInt(pagination.page)+1)
+        if (parseInt(pagination.page) !== parseInt(pagination.pageNum)) handlePages(parseInt(pagination.page) + 1);
+        else handlePages(1);
     }
 
     const dots = (page) => {
         handlePages(page)
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
     }
 
     return (
