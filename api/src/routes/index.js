@@ -189,7 +189,7 @@ router.post("/send-email", async (req, res, next) => {
     `;
 
     const info = await transporter.sendMail({
-      from: `RC G7 Contact Us <${MIDDLE_EMAIL}>`,
+      from: `Luxurent Contact Us <${MIDDLE_EMAIL}>`,
       to: EMAIL,
       subject: subject ? subject : "No subject",
       html: contentHTML,
