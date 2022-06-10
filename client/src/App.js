@@ -20,6 +20,7 @@ import Booking from "./pages/Booking/Booking";
 import AdminRoutes from "./AdminRoutes";
 import AdminOptions from "./pages/AdminOptions/AdminOptions";
 
+
 function App() {
   const dispatch = useDispatch();
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();

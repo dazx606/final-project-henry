@@ -6,6 +6,7 @@ import { showAlert } from '../../redux/actions';
 import Authentication from "../Authenti/Authentication";
 import styles from "./NavBar.module.css";
 import Alert from "../Alert/Alert";
+import Rating from "../Rating/Rating";
 
 function NavBar() {
   const [display, setDisplay] = useState(false);
@@ -79,6 +80,9 @@ function NavBar() {
             <Alert />
           </div>
         }
+
+        <Rating />
+
       </div>
       <Outlet />
     </div>

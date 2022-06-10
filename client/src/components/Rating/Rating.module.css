@@ -1,0 +1,56 @@
+.popUp{
+
+}
+.popUpcont{
+    text-align: center;
+    align-items: center;
+    font-family: var(--font2);
+    position: fixed;
+    top: 30%;
+    left: 40vw;
+    height: 40vh;
+    width: 25vw;
+    max-width: 500px;
+    max-height: 300px;
+    background-color: var(--color6);
+    z-index: 10;
+    padding-top: 2rem;
+    color: var(--color4);
+    font-size: 1.2em;
+}
+
+
+.question{
+    margin: 1.5rem 1em 0rem 1rem;
+    color: var(--color3Tr);
+    font-size: 0.9em;
+    
+}
+.carImg{
+    width: 10rem;
+    max-height: 10rem;
+    margin: auto;
+    margin-top: 1.5rem;
+    display: flex;
+}
+.starsCont{
+    display: flex;
+    width: 50%;
+    margin: auto;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    color: var(--color2);
+    text-align: center;
+    justify-content: space-around;
+    
+}
+.stars{
+    color:#ca9600; 
+}
+
+.stars:hover{
+    cursor: pointer;
+
+}
+
+
