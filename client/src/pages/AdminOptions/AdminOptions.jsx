@@ -4,32 +4,40 @@ import { useDispatch, useSelector } from 'react-redux';
 import AdminCars from '../../components/AdminCars/AdminCars';
 import AdminReservations from '../../components/AdminReservations/AdminReservations';
 import AdminUsers from '../../components/AdminUsers/AdminUsers';
-import { setAdminOptions, setUserInfo } from '../../redux/actions';
+import { setUserInfo } from '../../redux/actions';
 import styles from "./AdminOptions.module.css"
-import DltAlert from '../../components/AdminUsers/DltAlert';
 
 function AdminOptions() {
     const dispatch = useDispatch();
     const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [alert, setAlert] = useState(false);
-    const adminOptions = useSelector(state => state.adminOptions);   
+    const [showOptions, setShowOptions] = useState(false)
+    const [adminOptions, setAdminOpt] = useState('')
 
     useEffect(() => {
         if (isAuthenticated) {
             dispatch(setUserInfo(getAccessTokenSilently, user.email));
         }
+        return setAdminOpt('');
     }, [dispatch, user]);
+
 
 
     return (
         <div className={styles.container} >
+            <input type="checkbox" className={styles.checkbox} checked={showOptions} onChange={() => { }} />
+
             <div className={styles.selection}>
+                <input type="checkbox" className={styles.checkbox2} checked={showOptions} onChange={() => { }} />
                 <div className={styles.selectionbox}>
+                    <input type="checkbox" className={styles.checkbox3} checked={showOptions} onChange={() => { }} />
                     <button
                         value='users'
                         className={adminOptions === 'users' ? styles.activeOpt : styles.options}
                         onClick={(e) => {
-                            dispatch(setAdminOptions(e.target.value));
+                            setAdminOpt(e.target.value);
+                            setShowOptions(true);
+                            if (adminOptions === 'users' && showOptions) setShowOptions(false);
                         }}
                     >
                         Manage Users
@@ -38,7 +46,9 @@ function AdminOptions() {
                         value='reservations'
                         className={adminOptions === 'reservations' ? styles.activeOpt : styles.options}
                         onClick={(e) => {
-                            dispatch(setAdminOptions(e.target.value));
+                            setAdminOpt(e.target.value);
+                            setShowOptions(true);
+                            if (adminOptions === 'reservations'  && showOptions) setShowOptions(false);
                         }}
                     >
                         Manage Reservations
@@ -47,18 +57,22 @@ function AdminOptions() {
                         value='cars'
                         className={adminOptions === 'cars' ? styles.activeOpt : styles.options}
                         onClick={(e) => {
-                            dispatch(setAdminOptions(e.target.value));
+                            setAdminOpt(e.target.value);
+                            setShowOptions(true);
+                            if (adminOptions === 'cars' && showOptions) setShowOptions(false);
                         }}
                     >
                         Manage Cars
                     </button>
+
                 </div>
+               
             </div>
             <div className={styles.render}>
                 {adminOptions === 'users' && <AdminUsers alert={alert} setAlert={setAlert} />}
                 {adminOptions === 'reservations' && <AdminReservations />}
                 {adminOptions === 'cars' && <AdminCars />}
-                
+
             </div>
         </div>
     );

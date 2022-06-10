@@ -3,8 +3,12 @@ import styles from "./footer.module.css";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const apiKEY = process.env.REACT_APP_API_KEY;
+
+
 
 function Map() {
     const locationCars = useSelector((state) => state.locationCars);
@@ -33,6 +37,28 @@ export default function Footer() {
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: apiKEY,
     });
+    function getW () {
+        const {innerWidth: width} = window;
+        return width
+    } 
+    const [windowDimensions, setWindowDimensions] = useState(getW())
+    
+
+    const [hid, setHid] = useState(false)
+    useEffect(()=>{
+        
+        let w = getW()
+        if(w<800) setHid(true)
+        else setHid(false)
+
+        function handleResize() {
+            setWindowDimensions(getW());
+            if(getW()<800) setHid(true)
+            else setHid(false)
+          }
+       
+        // if(w<800) setHid(true)
+    },[])
     return (
         <div className={styles.footer}>
             <div className={styles.links}>
@@ -63,7 +89,7 @@ export default function Footer() {
 
                 <p>rent a car</p>
             </div>
-            <div className={styles.map}>
+            <div className={styles.map} hidden={hid}>
                 {!isLoaded ? <div>Loading...</div> : <Map />}
             </div>
         </div>

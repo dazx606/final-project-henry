@@ -19,13 +19,15 @@ import {
   SET_PROFILE_OPTIONS,
   GET_INCLUDED_EQUIPMENT,
   GET_OPTIONAL_EQUIPMENT,
-  SET_ADMIN_OPTIONS,
   GET_USER_RESERVATIONS,
   GET_ALL_RESERVATIONS,
   DELETE_RESERVATION,
   GET_ALL_ADMIN_CARS,
   GET_ALL_MODELS,
   DELETE_CAR,
+  GET_USER_RESERVATION,
+  CANCEL_RESERVATION,
+  GET_DETAIL_RESERVATION,
 } from "../actions";
 
 const initialState = {
@@ -48,25 +50,23 @@ const initialState = {
   savedUser: [],
   user: {},
   userReservations: [],
+  userReservation: [],
   token: "",
   users: [],
   userForAdmin: {},
   profileOptions: "information",
   optionalEquipment: [],
   includedEquipment: [],
-  adminOptions: "users",
   allCars: {},
   pagination: { page: 1, pageNum: 1 },
   Orders: [],
   modelNames: [],
   orders: [],
   carDeleted: {},
+  order: {},
 };
 
-export default function rootReducer(
-  state = initialState,
-  { type, payload, token }
-) {
+export default function rootReducer(state = initialState, { type, payload, token }) {
   switch (type) {
     case GET_LOCATIONS:
       return {
@@ -176,18 +176,23 @@ export default function rootReducer(
         optionalEquipment: payload,
       };
     }
-    case SET_ADMIN_OPTIONS: {
-      return {
-        ...state,
-        adminOptions: payload,
-      };
-    }
     case GET_USER_RESERVATIONS: {
       return {
         ...state,
         userReservations: payload,
       };
     }
+    case GET_USER_RESERVATION: {
+      return {
+        ...state,
+        userReservation: payload,
+      };
+    }
+    case CANCEL_RESERVATION: {
+      return {
+        ...state,
+      };
+    }
     case GET_ALL_RESERVATIONS: {
       return {
         ...state,
@@ -210,6 +215,7 @@ export default function rootReducer(
       return {
         ...state,
         orders: payload,
+        order: {},
       };
     }
     case GET_ALL_ADMIN_CARS: {
@@ -217,6 +223,12 @@ export default function rootReducer(
         ...state,
         allCars: payload,
       };
+    }
+    case GET_DETAIL_RESERVATION: {
+      return {
+        ...state,
+        order: payload,
+      }
     }
     case GET_ALL_MODELS: {
       return {
