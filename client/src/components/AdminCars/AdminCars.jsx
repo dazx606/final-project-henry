@@ -29,7 +29,7 @@ function AdminCars() {
   return (
     <div>
       {carOption === "allCars" && (
-        <div>
+        <div className={style.adminCars}>
           <div className={style.searchCar}>
             <input
               className={`inputGlobal ${style.inputSearch}`}
