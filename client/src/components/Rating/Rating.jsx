@@ -21,8 +21,8 @@ function Rating() {
         if (dbUser.reservations?.length) {
             setHide(false)
         }
-        console.log(hide)
-        console.log(dbUser)
+        // console.log(hide)
+        // console.log(dbUser)
     }, [dispatch, dbUser])
 
 
