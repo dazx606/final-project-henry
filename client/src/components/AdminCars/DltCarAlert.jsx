@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import style from "./adminUsers.module.css";
+import style from "./AllCars.module.css";
 
 
-function DltAlert({ alert, setAlert, handleDltClick, dltUser }) {
+function DltCarAlert({ alert, setAlert, handleDltClick, dltCar }) {
 
     useEffect(() => {
         if (alert === true) {
@@ -18,11 +18,11 @@ function DltAlert({ alert, setAlert, handleDltClick, dltUser }) {
     return (
         <div className={style.all} id='All' >
             <div className={style.alertContainer} id='alert' >
-                <div className={style.sureTxt}>Are you sure you want to delete the user {dltUser.email}?</div>
+                <div className={style.sureTxt}>Are you sure you want to delete the car with the license plate {dltCar?.plate}?</div>
                 <button className={`buttonGlobal ${style.dltBton}`} onClick={handleDltClick}>Delete</button>
             </div>
         </div>
     )
 }
 
-export default DltAlert
+export default DltCarAlert

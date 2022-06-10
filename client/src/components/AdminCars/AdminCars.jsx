@@ -5,21 +5,18 @@ import style from "./AdminCars.module.css";
 import CreateCar from "./CreateCar";
 import CreateModel from "./CreateModel";
 import { getAllAdminCars } from "../../redux/actions";
-import CarListItem from "./CarListItem";
-import Pages from "./Pages";
+import AllCars from "./AllCars";
+
 
 function AdminCars() {
-  const allCars = useSelector((state) => state.allCars.cars);
+  
   const { getAccessTokenSilently } = useAuth0();
   const [carOption, setCarOption] = useState("allCars");
   const [plate, setPlate] = useState("");
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getAllAdminCars(getAccessTokenSilently, plate, page));
-  }, [dispatch, plate]);
-
+  
   function handleCarsSearch(e) {
     let searchPlate = e.target.value;
     setPlate(searchPlate);
@@ -29,16 +26,10 @@ function AdminCars() {
     setCarOption(e.target.value);
   }
 
-  const pagination = (p) => {
-    setPage(p);
-    dispatch(getAllAdminCars(getAccessTokenSilently, plate, p));
-  }
-
-
   return (
     <div>
       {carOption === "allCars" && (
-        <div>
+        <div className={style.adminCars}>
           <div className={style.searchCar}>
             <input
               className={`inputGlobal ${style.inputSearch}`}
@@ -66,28 +57,7 @@ function AdminCars() {
               </button>
             </div>
           </div>
-
-          <div className={style.carsBox}>
-            {allCars?.length ? (
-              <div>
-                <div className={style.listTitle}>
-                  <div className={style.imgIcon}></div>
-                  <div className={style.brand}>Brand</div>
-                  <div className={style.brand}>Model</div>
-                  <div className={style.plate}>License Plate</div>
-                  <div className={style.dltTitle}>Delete Car</div>
-                </div>
-                {allCars?.map((c) => (
-                  <CarListItem car={c} key={c.id} />
-                ))}
-                <div >
-                  <Pages pagination={pagination} page={page} />
-                </div>
-              </div>
-            ) : (
-              <div>Car not found</div>
-            )}
-          </div>
+          < AllCars plate={plate}/>          
         </div>
       )}
 

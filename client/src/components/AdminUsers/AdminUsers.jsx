@@ -33,27 +33,28 @@ export default function AdminUsers() {
     dispatch(deleteUser(getAccessTokenSilently(), dltUser.id))
     setAlert(false)
   }
-  
+
 
   return (
-    <div>
+    <div className={style.adminUsers}>
       <div className={style.searchUser}>
         <input className={`inputGlobal ${style.inputSearch}`} type='search' placeholder="Find user by email" value={email} onChange={handleUserSearch} />
       </div>
 
       <div className={style.usersBox}>
         {allUsers.length ?
-          <div>
+          <div className={style.internBox} >
             <div className={style.listTitle}>
-              <div className={style.name}>First Name</div>
-              <div className={style.name}>Last Name</div>
-              <div className={style.email}>Email</div>
-              <div className={style.trashTitle}>Delete User</div>
+              <div className={style.namePemail}>
+                <div className={style.nameT}>User</div>
+                <div className={style.emailT}>Email</div>
+              </div>
+              <div className={style.trashTitle}>Delete</div>
             </div>
             {allUsers?.map((u) => <UserListItem handleTClick={handleTClick} key={u.id} user={u} />)}
           </div>
           :
-          <div>User not found</div>
+          <div className={style.internBox}>User not found</div>
         }
       </div>
       {

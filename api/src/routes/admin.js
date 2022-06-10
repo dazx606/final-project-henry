@@ -65,7 +65,6 @@ router.get("/users", async (req, res, next) => {
       return res.status(200).json(users);
     }
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
@@ -81,7 +80,6 @@ router.delete("/users/:id", async (req, res, next) => {
     const users = await User.findAll();
     return res.json(users);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 });
@@ -100,7 +98,7 @@ router.get("/allCars", async (req, res, next) => {
   const { plate, locationId, page = 1 } = req.query;
   let cars = [];
   try {
-    if (plate && !locationId) {
+    if (plate) {
       let specificCar = await IndividualCar.findAll({
         order: [["license_plate", "ASC"]],
         include: {
@@ -114,48 +112,7 @@ router.get("/allCars", async (req, res, next) => {
       cars = specificCar;
     }
 
-    // if (locationId) {
-    //   let carsInCity = await Location.findByPk(locationId, {
-    //     order: [[{ model: IndividualCar }, "license_plate", "ASC"]],
-    //     include: [
-    //       {
-    //         model: IndividualCar,
-    //       },
-    //       {
-    //         model: CarModel,
-    //         attributes: ["brand", "images"],
-    //       },
-    //     ],
-    //   });
-    //   if (!specificCar.length)
-    //     return res.status(404).json({ msg: "car not found" });
-    //   return res.status(200).json({ car: specificCar });
-    // }
-
-    // if (locationId) {
-    //   let carsInCity = await Location.findByPk(locationId, {
-    //     order: [[{ model: IndividualCar }, "license_plate", "ASC"]],
-    //     include: [
-    //       {
-    //         model: IndividualCar,
-    //       },
-    //       {
-    //         model: CarModel,
-    //         attributes: ["model"],
-    //       },
-    //     ],
-    //   });
-    //   carsInCity = carsInCity.individualCars;
-    //   if (plate) {
-    //     carsInCity = carsInCity.filter((c) =>
-    //       c.license_plate.includes(plate.toString())
-    //     );
-    //   }
-
-    //   return res.status(200).json({ cars: carsInCity });
-    // }
-
-    if (!plate && !locationId) {
+    if (!plate) {
       let allCars = await IndividualCar.findAll({
         order: [["license_plate", "ASC"]],
         include: {
@@ -198,7 +155,7 @@ router.get("/equipment/optional", async (req, res, next) => {
 // ============================ POST =============================================================//
 
 //============== CARS & MODEL
-router.post("/model", async (req, res, next) => {
+router.post("/model", authMiddleWare, async (req, res, next) => {
   const {
     model,
     brand,
@@ -266,24 +223,29 @@ router.post("/model", async (req, res, next) => {
 
     return res.status(201).send({ msg: "New car model created" });
   } catch (error) {
+    console.log(error.error);
     next(error);
   }
 });
 
-router.post("/car", async (req, res, next) => {
+router.post("/car", authMiddleWare, async (req, res, next) => {
   const { model, licensePlate, year, location } = req.body;
   try {
     const findModel = await CarModel.findOne({ where: { model: model } });
-
-    const [car, created] = await IndividualCar.findOrCreate({
+    const findCar = await IndividualCar.findOne({
       where: { license_plate: licensePlate },
-      defaults: { license_plate: licensePlate, year: year },
     });
-    if (!created) return res.send(409).send({ msg: "License plate already in use" });
+    if (findCar)
+      return res.status(200).send({ msg: "License plate already in use" });
+    const car = await IndividualCar.create({
+      license_plate: licensePlate,
+      year: year,
+    });
+    const carLocation = await Location.findOne({ where: { id: location } });
 
     await findModel.addIndividualCar(car);
-    const carLocation = await Location.findOne({ where: { city: location } });
     await carLocation.addIndividualCar(car);
+    await carLocation.addCarModel(findModel);
 
     return res.status(201).send({ msg: "New car created" });
   } catch (error) {
@@ -295,7 +257,10 @@ router.delete("/cars/delete/:license_plate", async (req, res, next) => {
   const { license_plate } = req.params;
   try {
     let car = await IndividualCar.destroy({ where: { license_plate } });
-    if (car === 1) res.send({ msg: "Deleted", license: license_plate });
+    if (car === 1) {
+      
+      res.send({ msg: "Deleted", license: license_plate })
+    }
     else if (car === 0)
       res.status(404).send({
         msg: "Car not found, check and try again",

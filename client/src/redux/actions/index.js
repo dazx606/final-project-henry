@@ -18,6 +18,9 @@ import {
   getAllReservs,
   deleteReserv,
   getAllCars,
+  getAllModels,
+  createIndividualCar,
+  deleteSpecificCar,
   cancelUserReservation,
   getOrderDetail,
 } from "../../services/services";
@@ -41,12 +44,13 @@ export const DELETE_USER_INFO = "DELETE_USERS_INFO";
 export const SET_PROFILE_OPTIONS = "SET_PROFILE_OPTIONS";
 export const GET_OPTIONAL_EQUIPMENT = "GET_OPTIONAL_EQUIPMENT";
 export const GET_INCLUDED_EQUIPMENT = "GET_INCLUDED_EQUIPMENT";
-export const SET_ADMIN_OPTIONS = "SET_ADMIN_OPTIONS";
 export const GET_USER_FOR_ADMIN = "GET_USER_FOR_ADMIN";
 export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
+export const GET_ALL_MODELS = "GET_ALL_MODELS";
+export const DELETE_CAR = "DELETE_CAR";
 export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
 export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
@@ -184,25 +188,6 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation, userId) {
-  return async (dispatch) => {
-    try {
-      const res = await axios.post(`${URL}rent/car`, {
-        location,
-        model,
-        startingDate,
-        endingDate,
-        optionalEquipments,
-        drivers,
-        endLocation,
-        userId,
-      });
-      window.location.href = res.data.url;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -262,7 +247,7 @@ export function cancelReservation(getToken, userId, rentId) {
       if (userId && rentId) {
         let response = await cancelUserReservation(token, userId, rentId);
         return dispatch({
-          type: CANCEL_RESERVATION, 
+          type: CANCEL_RESERVATION,
           payload: response.data,
         });
       }
@@ -349,13 +334,6 @@ export function setProfileOptions(payload) {
   };
 }
 
-export function setAdminOptions(payload) {
-  return {
-    type: SET_ADMIN_OPTIONS,
-    payload,
-  };
-}
-
 export function getAllReservations(getToken, id) {
   return async (dispatch) => {
     try {
@@ -363,7 +341,9 @@ export function getAllReservations(getToken, id) {
       let response = await getAllReservs(token, id);
       return dispatch({
         type: GET_ALL_RESERVATIONS,
-        payload: response.data.order ? [response.data.order] : response.data.orders,
+        payload: response.data.order
+          ? [response.data.order]
+          : response.data.orders,
       });
     } catch (error) {
       console.log(error);
@@ -411,6 +391,22 @@ export function getAllAdminCars(getToken, plate, page) {
   };
 }
 
+export function deleteCar(getToken, plate) {
+  return async (dispatch) => {
+    try {
+      const token = getToken();
+      let response = await deleteSpecificCar(token, plate);
+
+      return dispatch({
+        type: DELETE_CAR,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
 export function getIncludedEquipment() {
   return async (dispatch) => {
     try {
@@ -438,6 +434,21 @@ export function getOptionalEquipment() {
     }
   };
 }
+
+export function getModels() {
+  return async (dispatch) => {
+    try {
+      const response = await getAllModels();
+      return dispatch({
+        type: GET_ALL_MODELS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export function getOrderReservationId(orderId, getToken) {
   return async (dispatch) => {
     try {

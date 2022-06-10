@@ -27,7 +27,6 @@ export function sendAMessage(message) {
 }
 
 export function getUserInformation(token, email) {
-  
   const options = {
     method: "GET",
     mode: "cors",
@@ -99,7 +98,7 @@ export function getAllReservs(token, orderId) {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
-    params:{orderId}
+    params: { orderId },
   };
   return axios.get(`http://localhost:3001/admin/reservations`, options);
 }
@@ -130,7 +129,88 @@ export function getAllCars(token, plate, page) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}`, options)
+  return axios.get(
+    `http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}`,
+    options
+  );
+}
+
+export function getAllModels() {
+  return axios.get(`${URL}models`);
+}
+
+export async function createIndividualCar(body, getToken) {
+  const token = await getToken();
+  const options = {
+    method: "post",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  const respone = await axios.post(`${URL}admin/car`, body, options);
+  return respone.data;
+}
+
+export async function createModel(body, getToken) {
+  const token = await getToken();
+  const options = {
+    method: "post",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  const response = await axios.post(`${URL}admin/model`, body, options);
+  return response.data;
+}
+
+export function deleteSpecificCar(token, plate) {
+  const options = {
+    mothod: "DELETE",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.delete(
+    `http://localhost:3001/admin//cars/delete/${plate}`,
+    options
+  );
+}
+
+export function rentCar(
+  location,
+  model,
+  startingDate,
+  endingDate,
+  optionalEquipments,
+  drivers,
+  endLocation,
+  userId,
+  getToken
+) {
+  return async () => {
+    try {
+      const token = await getToken();
+      const options = {
+        method: "POST",
+        mode: "cors",
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const res = await axios.post(
+        `${URL}rent/car`,
+        {
+          location,
+          model,
+          startingDate,
+          endingDate,
+          optionalEquipments,
+          drivers,
+          endLocation,
+          userId,
+        },
+        options
+      );
+      window.location.href = res.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export function getOrderDetail(orderId,token){

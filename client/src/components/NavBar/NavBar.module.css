@@ -140,6 +140,8 @@
   justify-content: space-evenly;
 }
 
+
+
 .link a {
   letter-spacing: 2px;
   text-decoration: none;
@@ -199,4 +201,12 @@
   top: 0;
   left: 0;
   z-index: 10;
+}
+
+@media (max-width: 800px) {
+  .link{
+    /* flex-direction: column; */
+    flex-wrap: wrap;
+     
+  }
 }

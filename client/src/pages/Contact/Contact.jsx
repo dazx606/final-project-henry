@@ -14,6 +14,9 @@ function Contact() {
 
   return (
     <div className={styles.container}>
+      <div className='column'>
+        
+      </div>
       <div className={styles.container1}>
         <h3 className={styles.titleh}>GET IN TOUCH</h3>
         <p className={styles.text}>AU Tte. Gral. Pablo Riccheri Km 33,5, B1802 Ezeiza, Provincia de Buenos Aires</p>
@@ -24,8 +27,10 @@ function Contact() {
         <div className={styles.findus}>
           <div className={styles.subcontainer1}>
             <h3 className={styles.titleh}>FIND US HERE</h3>
-            <p className={styles.text}>RENT A CAR NEAR EZEIZA AIRPORT</p>
-            <p className={styles.text}>Bellow you will find our office location. You can also review then on the map so you can easily find us. If you need a vehicle delivered on your door just contact us.</p>
+            <div>
+              <p className={styles.text}>RENT A CAR NEAR EZEIZA AIRPORT</p>
+              <p className={styles.text}>Bellow you will find our office location. You can also review then on the map so you can easily find us. If you need a vehicle delivered on your door just contact us.</p>
+            </div>
             <div className={styles.iconContainer}>
               <a href='https://www.facebook.com/'>
                 <i className={`fa-brands fa-facebook-f ${styles.icon}`}></i>
@@ -193,7 +198,7 @@ function Form() {
         <div className={styles.buttonContainer}>
           {
             disabled === false ?
-              (<button  className='buttonGlobal' type='submit' disabled={disabled}>SUBMIT</button>) :
+              (<button className='buttonGlobal' type='submit' disabled={disabled}>SUBMIT</button>) :
               (<button className={styles.disabled} type='submit' disabled={disabled}>SUBMIT</button>)
           }
         </div>
