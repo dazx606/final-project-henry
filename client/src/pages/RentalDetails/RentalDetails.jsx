@@ -6,7 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import AlertConfirmation from '../../components/AlertConfirmation/AlertConfirmation';
 import styles from "./RentalDetails.module.css";
 
-export default function RentalDetails({ match }) {
+export default function RentalDetails() {
 
     const reservation = useSelector(state => state.userReservation);
     const dispatch = useDispatch();
