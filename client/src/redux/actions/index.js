@@ -14,12 +14,15 @@ import {
   getAllUsersInfo,
   deleteUserInfo,
   getUserReservations,
+  getUserReservation,
   getAllReservs,
   deleteReserv,
   getAllCars,
   getAllModels,
   createIndividualCar,
   deleteSpecificCar,
+  cancelUserReservation,
+  getOrderDetail,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -48,6 +51,9 @@ export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
 export const GET_ALL_MODELS = "GET_ALL_MODELS";
 export const DELETE_CAR = "DELETE_CAR";
+export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
+export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
+export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 
 export const URL = "http://localhost:3001/";
 
@@ -191,6 +197,7 @@ export function setUserInfo(getToken, email) {
         const token = await getToken();
         // console.log(token);
         let response = await getUserInformation(token, email);
+        console.log("🚀 ~ file: index.js ~ line 210 ~ return ~ token", token);
         return dispatch({ type: SET_USER, payload: response.data });
       }
     } catch (error) {
@@ -216,17 +223,47 @@ export function userReservations(getToken, userId) {
   };
 }
 
+export function userReservation(getToken, orderId) {
+  return async (dispatch) => {
+    let token = getToken();
+    try {
+      if (orderId) {
+        let response = await getUserReservation(token, orderId);
+        return dispatch({
+          type: GET_USER_RESERVATION,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      return dispatch({ type: GET_USER_RESERVATION, payload: undefined });
+    }
+  };
+}
+
+export function cancelReservation(getToken, userId, rentId) {
+  return async (dispatch) => {
+    let token = getToken();
+    try {
+      if (userId && rentId) {
+        let response = await cancelUserReservation(token, userId, rentId);
+        return dispatch({
+          type: CANCEL_RESERVATION,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function saveUser(email, picture) {
   return async (dispatch) => {
     try {
       const response = await addUser(email, picture);
       return dispatch({
         type: SAVE_USER,
-        payload: [
-          response.data.msg,
-          response.data.data,
-          response.data.complited,
-        ],
+        payload: [response.data.msg, response.data.data, response.data.complited],
       });
     } catch (e) {
       console.log(e);
@@ -408,6 +445,24 @@ export function getModels() {
       });
     } catch (error) {
       console.log(error);
+    }
+  }
+}
+
+export function getOrderReservationId(orderId, getToken) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      let response = await getOrderDetail(orderId, token);
+      return dispatch({
+        type: GET_DETAIL_RESERVATION,
+        payload: response.data.order,
+      });
+    } catch (error) {
+      return dispatch({
+        type: GET_DETAIL_RESERVATION,
+        payload: { error: error.response?.data.msg },
+      });
     }
   };
 }
