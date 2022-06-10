@@ -86,10 +86,10 @@ export default function RentalDetails() {
                                             <td className={styles.itemsRent1}>Drivers:</td>
                                             <td>
                                                 {
-                                                    reservation?.order?.drivers.map(d =>
-                                                        <tr>
-                                                            <td className={styles.itemsRent3}>{`${d.firstName} ${d.lastName}`}</td>
-                                                        </tr>
+                                                    reservation?.order?.drivers.map((d, k) =>
+                                                        <div key={k}>
+                                                            <p className={styles.itemsRent3}>{`${d.firstName} ${d.lastName}`}</p>
+                                                        </div>
                                                     )
                                                 }
                                             </td>
@@ -98,10 +98,10 @@ export default function RentalDetails() {
                                             <td className={styles.itemsRent1}>Optional Equipment:</td>
                                             <td>
                                                 {
-                                                    reservation?.order?.optionalEquipments.map(e =>
-                                                        <tr>
-                                                            <td className={styles.itemsRent3}>{e.name}</td>
-                                                        </tr>
+                                                    reservation?.order?.optionalEquipments.map((e, k) =>
+                                                        <div key={k}>
+                                                            <p className={styles.itemsRent3}>{e.name}</p>
+                                                        </div >
                                                     )
                                                 }
                                             </td>
