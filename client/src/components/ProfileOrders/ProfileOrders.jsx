@@ -75,9 +75,9 @@ export default function ProfileOrders() {
                   }}>
                     <p>You don't have any reservations. Go booking!</p>
                   </div>) :
-                  reservations?.map(r =>
+                  reservations?.map((r, k) =>
                   (
-                    <div style={{
+                    <div key={k} style={{
                       display: "flex",
                       fontSize: ".8rem",
                       justifyContent: "space-between",
