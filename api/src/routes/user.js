@@ -60,7 +60,7 @@ router.get("/", authMiddleWare, async (req, res, next) => {
     let reservations = [];
     if (userReservations) {
       userReservations.rentOrders.forEach(e => {
-        if (!reservations.find(el => el.model === e.individualCar.carModel.model) ) {
+        if (!reservations.find(el => el.model === e.individualCar.carModel.model)) {
           reservations.push({
             model: e.individualCar.carModel.model,
             brand: e.individualCar.carModel.brand,
@@ -159,7 +159,28 @@ router.patch("/:id", authMiddleWare, async (req, res, next) => {
 router.patch("/rate", authMiddleWare, async (req, res, next) => {
   const { userId, ratings } = req.body;  //rating = [{model:name, rate:number},{}]
   try {
-
+    const allowedStatus = ["maintenance", "concluded"];
+    const models = ratings.map(r => r.name);
+    let userReservations = await User.findByPk(userId, {
+      include: [{
+        model: RentOrder,
+        where: {
+          rated: false,
+          status: { [Op.or]: allowedStatus }
+        },
+        attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] },
+        include: [{
+          model: IndividualCar,
+          include: [{
+            model: CarModel,
+            where: {
+              status: { [Op.or]: models }
+            }
+          }]
+        }]
+      }]
+    })
+    res.json({ msg: userReservations })
   } catch (error) {
     next(error);
   }
