@@ -33,10 +33,13 @@
   display: flex;
   justify-content: center;
 }
-.trashIcon {
+.eye {
   width: 10rem;
   display: flex;
   justify-content: center;
+  color:var(--color3);
+  text-decoration: none;
+
 }
 .imgIcon {
   color: var(--color4);
@@ -64,4 +67,9 @@
   display: flex;
   justify-content: left;
   margin: 2rem 7rem;
+}
+.viewMore {
+  display: flex;
+  justify-content: center;
+  margin:1rem;
 }

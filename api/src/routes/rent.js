@@ -90,7 +90,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
       client_reference_id: `${rentId}:${numberOfDays}`,
       mode: 'payment',
       expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
-      success_url: `${YOUR_DOMAIN}/booking?success=true`,
+      success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,
       cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
     });
     setTimeout(async () => {
@@ -108,8 +108,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
   }
 });
 
-router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) => {
-  // router.delete("/refund/:userId/:rentId", async (req, res, next) => {
+router.delete("/refund/:userId/:rentId", async (req, res, next) => {
   try {
     await statusUpdater();
     const { userId, rentId } = req.params;
@@ -143,8 +142,7 @@ router.delete("/refund/:userId/:rentId", authMiddleWare, async (req, res, next) 
   }
 });
 
-router.patch("/modify", async (req, res, next) => {
-  // router.patch("/modify", authMiddleWare, async (req, res, next) => {
+router.patch("/modify", authMiddleWare, async (req, res, next) => {
   const { startingDate, endingDate, userId, rentId } = req.body;
   try {
     await statusUpdater();
@@ -170,12 +168,14 @@ router.patch("/modify", async (req, res, next) => {
     const start = new Date(startingDate);
 
     const otherRentsSameCar = await IndividualCar.findByPk(rent.individualCarId, { include: [{ model: RentOrder, where: { id: { [Op.ne]: rentId } }, }] })
-    const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
-    const startString = start.toDateString();
-    const endString = maintenanceEnd.toDateString();
-    for (let i = 0; i < unavailableDays.length; i++) {
-      const day = unavailableDays[i].toDateString();
-      if (day === startString || day === endString) return res.status(409).json({ msg: "Dates not available!!!" });
+    if (otherRentsSameCar !== null) {
+      const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
+      const startString = start.toDateString();
+      const endString = maintenanceEnd.toDateString();
+      for (let i = 0; i < unavailableDays.length; i++) {
+        const day = unavailableDays[i].toDateString();
+        if (day === startString || day === endString) return res.status(409).json({ msg: "Dates not available!!!" });
+      }
     }
 
     let startDiff = 0;
@@ -214,7 +214,7 @@ router.patch("/modify", async (req, res, next) => {
         client_reference_id: `${rentId}:${totalDiff}:${start.toDateString()}:${maintenanceEnd.toDateString()}`,
         mode: 'payment',
         expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
-        success_url: `${YOUR_DOMAIN}/booking?success=true`,  ////////////////////////Cambiar esto
+        success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,  ////////////////////////Cambiar esto
         cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
       });
       return res.json({ url: session.url })
@@ -286,7 +286,7 @@ router.patch("/modify", async (req, res, next) => {
         }
         i++;
       }
-      return res.json("refund successful");
+      return res.json({ msg: "refund successful" });
     }
   } catch (error) {
     next(error);

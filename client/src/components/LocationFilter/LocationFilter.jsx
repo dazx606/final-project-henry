@@ -25,6 +25,7 @@ function LocationFilter() {
 
 
   return (
+    <div className={styles.options}>
     <select className={` selectGlobal ${styles.citySelect}`} value={city} onChange={handleLocChange} >
       <option className={styles.cityOptions} hidden>City</option>
       {
@@ -33,6 +34,7 @@ function LocationFilter() {
         )
       }
     </select>
+    </div>
   )
 }
 

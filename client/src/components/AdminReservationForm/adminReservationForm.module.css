@@ -1,0 +1,59 @@
+.usersBoxContainer {
+  flex: 1;
+  height: auto;
+  background-color: var(--color6Tr);
+  border: groove 1px var(--color4Tr);
+  box-shadow: 0px 0px 8px 4px var(--color6Tr);
+  margin: 2rem 7rem;
+  padding: 2rem;
+  color: var(--color3Tr);
+  max-width: 30em;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.drivers {
+  display: flex;
+}
+.driver {
+  color: var(--color4);
+}
+.driverItem {
+  margin: 10px;
+}
+.textForm {
+  display: flex;
+  justify-content: center;
+}
+.item{
+  margin:5px 25px 0px 0px;
+}
+.itemTitle{
+  color:var(--color4);
+  font-family: var(--font3);
+}
+.button {
+  margin: 15px;
+  border: outset 2px var(--color4);
+}
+
+.divButtonContainer {
+  text-align: center;
+}
+.reservationTitle {
+  text-align: center;
+  color: var(--color4);
+  margin-bottom: 5px;
+}
+
+.marginLeft{
+  margin-left:15px;
+}
+.driverInfo{
+  color:var(--color4);
+  margin-bottom:5px;
+  margin-right:5px;
+display: inline-block;
+}

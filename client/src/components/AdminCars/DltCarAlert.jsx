@@ -18,7 +18,7 @@ function DltCarAlert({ alert, setAlert, handleDltClick, dltCar }) {
     return (
         <div className={style.all} id='All' >
             <div className={style.alertContainer} id='alert' >
-                <div className={style.sureTxt}>Are you sure you want to delete the car with the {dltCar?.plate} license plate?</div>
+                <div className={style.sureTxt}>Are you sure you want to delete the car with the license plate {dltCar?.plate}?</div>
                 <button className={`buttonGlobal ${style.dltBton}`} onClick={handleDltClick}>Delete</button>
             </div>
         </div>
