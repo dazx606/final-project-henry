@@ -56,8 +56,6 @@ export default function Footer() {
             if(getW()<800) setHid(true)
             else setHid(false)
           }
-
-        console.log(window.addEventListener('resize', handleResize));  
        
         // if(w<800) setHid(true)
     },[])
