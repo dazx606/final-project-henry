@@ -27,8 +27,8 @@ function CarFilters({ locationId, selection, handleFilters }) {
 
   return (
     <div className={styles.filters}>
-      <div>
-        <span>Check availability from:</span>
+      <div className={styles.section}>
+        <span>From:</span>
         <input
           type="date"
           name="startingDate"
@@ -38,8 +38,8 @@ function CarFilters({ locationId, selection, handleFilters }) {
           min={toUglyDayFormat(new Date())}
         />
       </div>
-      <div>
-        <span className={styles.to}>to:</span>
+      <div className={styles.section}>
+        <span >to:</span>
         <input
           type="date"
           name="endingDate"
@@ -49,7 +49,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
           min={toUglyDayFormat(!selection.startingDate ? datePlus(new Date(), 1) : datePlus(new Date(selection.startingDate), 1))}
         />
       </div>
-      <div>
+      <div className={styles.section}>
         <span>Filters</span>
         <select
           className={styles.select}

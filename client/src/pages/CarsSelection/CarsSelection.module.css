@@ -1,8 +1,8 @@
 .selections {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background-color: var(--color1);
-  padding: 0.8rem 2.5rem;
+  padding: 0.8rem 0 ;
   border-bottom: 1px solid var(--color3Tr);
   color: var(--color3);
   /* height: 2rem; */
@@ -10,7 +10,9 @@
   align-content: center;
   margin-bottom: 16px;
   flex-wrap: wrap;
+  
 }
+
 
 .title {
   align-items: center;
@@ -27,11 +29,12 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-around;
-  align-content: space-around;
-  min-height: 90vh;
-  max-width: 99vw;
+  justify-content: space-evenly;
   margin: 0px 30px;
+}
+.child{
+  /* flex: 1 0 24%; */
+  padding: 0 0.9em;
 }
 
 .slctBar {
