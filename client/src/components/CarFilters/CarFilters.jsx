@@ -27,78 +27,85 @@ function CarFilters({ locationId, selection, handleFilters }) {
 
   return (
     <div className={styles.filters}>
-      <span>Check availability from:</span>
-      <input
-        type="date"
-        name="startingDate"
-        value={selection.startingDate.split("/").join("-")}
-        className={`${styles.inputGlobal} ${styles.select}`}
-        onChange={(e) => handleFilters(e)}
-        min={toUglyDayFormat(new Date())}
-      />
-      <span className={styles.to}>to:</span>
-      <input
-        type="date"
-        name="endingDate"
-        value={selection.endingDate.split("/").join("-")}
-        className={`${styles.inputGlobal} ${styles.select}`}
-        onChange={(e) => handleFilters(e)}
-        min={toUglyDayFormat(!selection.startingDate ? datePlus(new Date(), 1) : datePlus(new Date(selection.startingDate), 1))}
-      />
-      <div className={styles.divider}></div>
-      <span>Filters</span>
-      <select
-        className={styles.select}
-        name="category"
-        value={selection.category}
-        onChange={(e) => handleFilters(e)}
-      >
-        <option value="" hidden>
-          Category...
-        </option>
-        {locationCars.categories?.map((category) => (
-          <option key={category} value={category}>
-            {category}
+      <div>
+        <span>Check availability from:</span>
+        <input
+          type="date"
+          name="startingDate"
+          value={selection.startingDate.split("/").join("-")}
+          className={`${styles.inputGlobal} ${styles.select}`}
+          onChange={(e) => handleFilters(e)}
+          min={toUglyDayFormat(new Date())}
+        />
+      </div>
+      <div>
+        <span className={styles.to}>to:</span>
+        <input
+          type="date"
+          name="endingDate"
+          value={selection.endingDate.split("/").join("-")}
+          className={`${styles.inputGlobal} ${styles.select}`}
+          onChange={(e) => handleFilters(e)}
+          min={toUglyDayFormat(!selection.startingDate ? datePlus(new Date(), 1) : datePlus(new Date(selection.startingDate), 1))}
+        />
+      </div>
+      <div>
+        <span>Filters</span>
+        <select
+          className={styles.select}
+          name="category"
+          value={selection.category}
+          onChange={(e) => handleFilters(e)}
+        >
+          <option value="" hidden>
+            Category...
           </option>
-        ))}
-        <option value=''>All</option>
-      </select>
-      <select
-        className={styles.select}
-        name="brand"
-        value={selection.brand}
-        onChange={(e) => handleFilters(e)}
-      >
-        <option value="" hidden>
-          Brand...
-        </option>
-        {locationCars.brands?.map((brand) => (
-          <option key={brand} value={brand}>
-            {brand}
+          {locationCars.categories?.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+          <option value=''>All</option>
+        </select>
+        <select
+          className={styles.select}
+          name="brand"
+          value={selection.brand}
+          onChange={(e) => handleFilters(e)}
+        >
+          <option value="" hidden>
+            Brand...
           </option>
-        ))}
-        <option value=''>All</option>
-      </select>
-      <div className={styles.divider}></div>
-      <span>Order</span>
-      <select
-        className={styles.select}
-        name="orderType"
-        value={selection.orderType}
-        onChange={(e) => handleFilters(e)}
-      >
-        <option value="pricePerDay">Price</option>
-        <option value="rating">Rating</option>
-      </select>
-      <select
-        className={styles.select}
-        name="order"
-        value={selection.order}
-        onChange={(e) => handleFilters(e)}
-      >
-        <option value="ASC">Low to High</option>
-        <option value="DESC">High to Low</option>
-      </select>
+          {locationCars.brands?.map((brand) => (
+            <option key={brand} value={brand}>
+              {brand}
+            </option>
+          ))}
+          <option value=''>All</option>
+        </select>
+        <div className={styles.divider}></div>
+      </div>
+      <div>
+        <span>Order</span>
+        <select
+          className={styles.select}
+          name="orderType"
+          value={selection.orderType}
+          onChange={(e) => handleFilters(e)}
+        >
+          <option value="pricePerDay">Price</option>
+          <option value="rating">Rating</option>
+        </select>
+        <select
+          className={styles.select}
+          name="order"
+          value={selection.order}
+          onChange={(e) => handleFilters(e)}
+        >
+          <option value="ASC">Low to High</option>
+          <option value="DESC">High to Low</option>
+        </select>
+      </div>
     </div>
   );
 }

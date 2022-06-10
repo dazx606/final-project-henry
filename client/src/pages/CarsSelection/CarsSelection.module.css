@@ -2,13 +2,14 @@
   display: flex;
   justify-content: space-between;
   background-color: var(--color1);
-  padding: 1rem 3rem;
+  padding: 0.8rem 2.5rem;
   border-bottom: 1px solid var(--color3Tr);
   color: var(--color3);
-  height: 2rem;
+  /* height: 2rem; */
   align-items: center;
   align-content: center;
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .title {
@@ -19,7 +20,7 @@
   color: var(--color4);
   padding-left: 3rem;
   background-color: var(--color1);
-  padding: 0.5rem 3.5rem;
+  padding: 0.5rem 3rem;
 }
 
 .cardsScreen {
