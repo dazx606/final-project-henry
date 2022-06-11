@@ -7,17 +7,26 @@ import AlertConfirmation from '../../components/AlertConfirmation/AlertConfirmat
 import ModifyForm from './ModifyForm';
 import styles from "./RentalDetails.module.css";
 
+const getDatesInRange = (startDate, endDate) => {
+    const date = new Date(startDate);
+    const dates = [];
+    while (date <= endDate) {
+        dates.push(new Date(date));
+        date.setDate(date.getDate() + 1);
+    }
+    return dates;
+}
+
 export default function RentalDetails() {
 
     const reservation = useSelector(state => state.userReservation);
     const dispatch = useDispatch();
     const { orderId } = useParams();
     const { getAccessTokenSilently } = useAuth0();
-    // const [cancelOrder, setCancelOrder] = useState({ userId: '', rentId: '' });
-    // const [message, setMessage] = useState("");
-    // const [alert, setAlert] = useState(false);
+    
     const [showAlert, setShowAlert] = useState(false);
-    const [showAlertOk, setShowAlertOk] = useState(false)
+    const [showAlertOk, setShowAlertOk] = useState(false);
+    const [showModify, setShowModify] = useState(true);
     const navigate = useNavigate();
 
 
@@ -27,14 +36,17 @@ export default function RentalDetails() {
 
     function handleCancel() {
         dispatch(cancelReservation(getAccessTokenSilently, reservation?.order?.userId, orderId));
-        // setAlert(false);
         setShowAlert(false);
         setShowAlertOk(true);
     }
 
     function handleMessageOk() {
         setShowAlertOk(false)
-        navigate(`/profile/${reservation?.order?.userId}`);
+        navigate(`/`);
+    }
+
+    function handleShow () {
+        setShowModify(!showModify)
     }
 
     const date = new Date(reservation?.order?.endingDate);
@@ -43,7 +55,13 @@ export default function RentalDetails() {
         return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num))
     })(date, -2)
 
+    const amount = reservation?.order?.paymentAmount.length === 1 ? 
+        (Number(reservation?.order?.paymentAmount[0])/100) :
+        (reservation?.order?.paymentAmount.reduce(
+        (previousValue, currentValue) => Number(previousValue) + Number(currentValue) ,
+        0)) /100 ;
 
+    const numberOfDatesInitial = getDatesInRange(reservation?.order?.startingDate, datePlus).length - 1;
 
     return (
         <div className={styles.rentDetails}>
@@ -109,7 +127,7 @@ export default function RentalDetails() {
                                         </tr>
                                         <tr className={styles.itemsRent}>
                                             <td className={styles.itemsRent1}>Payment Amount:</td>
-                                            <td className={styles.itemsRent2}>{`$ ${reservation?.order?.paymentAmount}`}</td>
+                                            <td className={styles.itemsRent2}>{`$ ${amount}`}</td>
                                         </tr>
                                         <tr className={styles.itemsRent}>
                                             <td className={styles.itemsRent1}>Status:</td>
@@ -122,8 +140,18 @@ export default function RentalDetails() {
                     }
                 </div>
             </div>
+            <div  hidden={showModify}>
+                <ModifyForm status={reservation?.order?.status} 
+                userId={reservation?.order?.userId} 
+                ending={reservation?.order?.status === 'in use' ? datePlus : new Date()} 
+                numberOfDatesInitial={numberOfDatesInitial}/>
+            </div>
             <div className={styles.buttons}>
-                <button disabled={reservation?.order?.status !== 'pending' || reservation?.order?.status !== 'in use'} className='buttonGlobal'>Modify Dates</button>
+                <button disabled={reservation?.order?.status === 'canceled' ||
+                    reservation?.order?.status === 'maintenance' ||
+                    reservation?.order?.status === 'concluded'} className='buttonGlobal'
+                    onClick={handleShow}>
+                    Modify Dates</button>
                 <button disabled={reservation?.order?.status === 'canceled' ||
                     reservation?.order?.status === 'maintenance' ||
                     reservation?.order?.status === 'concluded'}
@@ -132,7 +160,6 @@ export default function RentalDetails() {
                     Cancel Order
                 </button>
             </div>
-            <ModifyForm/>
             <AlertConfirmation onCancel={() => setShowAlert(false)} showAlert={showAlert} onConfirmation={handleCancel} alertText={`Are you sure you want to cancel reservation ${orderId}?`} buttonText={'Cancel'} />
             <AlertConfirmation onCancel={handleMessageOk} showAlert={showAlertOk} onConfirmation={handleMessageOk} alertText={`Reservation ${orderId} has been canceled successfully. Refound process could take between 5 to 10 days.`} buttonText={'Close'} />
         </div>

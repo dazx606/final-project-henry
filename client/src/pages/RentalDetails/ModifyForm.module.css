@@ -1,0 +1,58 @@
+.modifyForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+
+    width: auto;
+    background-color: var(--color6Tr);
+    border: groove 1px var(--color4Tr);
+    box-shadow: 0px 0px 8px 4px var(--color6Tr);
+    padding: 5vh;
+    color: var(--color3Tr);
+    font-family: var(--font2);
+    margin-left: 5vh;
+    margin-right: 5vh;
+}
+
+.calendar {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.date {
+
+    outline: none;
+    padding: 4px;
+    background-color: var(--color1);
+    font-family: var(--font2);
+    font-size: 1rem;
+    font-weight: 400;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 4px var(--color4);
+    margin-right: 5vh;
+}
+
+.date input {
+    color: var(--color3);
+}
+
+
+
+.date p {
+    color: var(--color3);
+}
+
+.date select {
+    background-color: var(--color1);
+    font-family: var(--font2);
+    color: var(--color3);
+}
+
+.buttonContainer {
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+}

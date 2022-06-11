@@ -101,7 +101,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
       mode: 'payment',
       expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
       success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,
-      cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
+      cancel_url: `${YOUR_DOMAIN}/`,
     });
     setTimeout(async () => {
       try {
@@ -161,7 +161,7 @@ router.delete("/refund/:userId/:rentId", async (req, res, next) => {
   }
 });
 
-router.patch("/modify", authMiddleWare, async (req, res, next) => {
+router.patch("/modify", async (req, res, next) => {
   const { startingDate, endingDate, userId, rentId } = req.body;
   try {
     await statusUpdater();
@@ -234,7 +234,7 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
         mode: 'payment',
         expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
         success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,  ////////////////////////Cambiar esto
-        cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
+        cancel_url: `${YOUR_DOMAIN}/`,
       });
       return res.json({ url: session.url })
     }
