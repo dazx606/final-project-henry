@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "./redux/actions";
 import ClipLoader from "react-spinners/ClipLoader";
+import LoginPopup from "./components/LoginPopup/LoginPopup";
 
 function AdminRoutes() {
   const dbUser = useSelector((state) => state.user);
@@ -30,7 +31,7 @@ function AdminRoutes() {
       <ClipLoader color="#ef8354" size={50} margin={10} />
     </div>
   ) : (
-    <div>No tienes permiso a esta pag</div>
+    <LoginPopup />
   );
 }
 
