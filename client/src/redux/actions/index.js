@@ -23,6 +23,7 @@ import {
   deleteSpecificCar,
   cancelUserReservation,
   getOrderDetail,
+  // modifyBooking,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -54,6 +55,7 @@ export const DELETE_CAR = "DELETE_CAR";
 export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
 export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
+// export const MODIFY_RESERVATION = "MODIFY_RESERVATION";
 
 export const URL = "http://localhost:3001/";
 
@@ -466,3 +468,23 @@ export function getOrderReservationId(orderId, getToken) {
     }
   };
 }
+
+// export function modifyReservation(getToken, body) {
+//   console.log(body)
+//   console.log(getToken)
+//   return async (dispatch) => {
+//     try {
+//       let token = getToken();
+//       if (body) {
+//         let response = await modifyBooking(token, body);
+//         console.log(response.data)
+//         return dispatch({
+//           type: MODIFY_RESERVATION,
+//           payload: response.data,
+//         });
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// }
