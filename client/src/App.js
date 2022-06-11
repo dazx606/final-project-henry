@@ -22,6 +22,7 @@ import AdminOptions from "./pages/AdminOptions/AdminOptions";
 import RentalDetails from "./pages/RentalDetails/RentalDetails";
 import AdminReservationForm from "./components/AdminReservationForm/AdminReservationForm";
 
+
 function App() {
   const dispatch = useDispatch();
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();

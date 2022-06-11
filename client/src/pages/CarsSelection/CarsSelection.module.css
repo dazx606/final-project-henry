@@ -1,15 +1,18 @@
 .selections {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background-color: var(--color1);
-  padding: 1rem 3rem;
+  padding: 0.8rem 0 ;
   border-bottom: 1px solid var(--color3Tr);
   color: var(--color3);
-  height: 2rem;
+  /* height: 2rem; */
   align-items: center;
   align-content: center;
   margin-bottom: 16px;
+  flex-wrap: wrap;
+  
 }
+
 
 .title {
   align-items: center;
@@ -19,18 +22,19 @@
   color: var(--color4);
   padding-left: 3rem;
   background-color: var(--color1);
-  padding: 0.5rem 3.5rem;
+  padding: 0.5rem 3rem;
 }
 
 .cardsScreen {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-around;
-  align-content: space-around;
-  min-height: 90vh;
-  max-width: 99vw;
+  justify-content: space-evenly;
   margin: 0px 30px;
+}
+.child{
+  /* flex: 1 0 24%; */
+  padding: 0 0.9em;
 }
 
 .slctBar {

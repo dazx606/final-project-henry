@@ -262,3 +262,11 @@ export function modifyReservation(
 //   };
 //   return axios.patch(`${URL}rent/modify`,body, options);
 // }
+export function rateCar(token, userId, ratings) {
+  const options = {
+    method: 'PATCH',
+    mode: 'cors',
+    headers: {authorization:  `Bearer ${token}`}
+  };
+  return axios.patch(`http://localhost:3001/user/rate`, {userId, ratings}, options)
+}
