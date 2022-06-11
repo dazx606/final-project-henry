@@ -212,7 +212,7 @@ router.patch("/modify", async (req, res, next) => {
         client_reference_id: `${rentId}:${totalDiff}:${start.toDateString()}:${maintenanceEnd.toDateString()}`,
         mode: 'payment',
         expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
-        success_url: `${YOUR_DOMAIN}/`,  ////////////////////////Cambiar esto
+        success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,  ////////////////////////Cambiar esto
         cancel_url: `${YOUR_DOMAIN}/`,
       });
       return res.json({ url: session.url })

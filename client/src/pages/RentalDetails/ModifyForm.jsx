@@ -5,6 +5,8 @@ import { userReservation } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams } from "react-router-dom";
 import { modifyReservation } from "../../services/services";
+import styles from "./ModifyForm.module.css";
+import AlertConfirmation from '../../components/AlertConfirmation/AlertConfirmation';
 
 const datePlus = (date, num) => {
     return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num))
@@ -64,17 +66,20 @@ const checkInvalidDate = (day, array) => {
     return array.some(d => d.toDateString() === day);
 }
 
-export default function Form({ status , userId}) {
+export default function Form({ status, userId, ending }) {
+
+    const endingValid = ending ? ending : new Date();
 
     const [startingDate, setStartingDate] = useState(new Date());
     const [message, setMessage] = useState("");
-    const [endingDate, setEndingDate] = useState(datePlus(new Date(), 1));
+    const [endingDate, setEndingDate] = useState(datePlus(endingValid, 1))
     const [unavailableDay, setUnavailableDay] = useState([]);
     const [initialDisableDay, setInitialDisableDay] = useState([]);
     const [maxEndingDisableDate, setMaxEndingDisableDate] = useState([]);
     const [validDays, setValidDays] = useState(true);
     const filteredCars = useSelector((state) => state.filteredCars[0]);
     const { orderId } = useParams();
+    const [showAlert, setShowAlert] = useState(false);
     const { getAccessTokenSilently } = useAuth0();
     const dispatch = useDispatch();
 
@@ -127,7 +132,7 @@ export default function Form({ status , userId}) {
             );
         }
     }, []);
-    
+
     // const body = {
     //     startingDate: startingDate.toDateString(),
     //     endingDate: endingDate.toDateString(),
@@ -141,62 +146,73 @@ export default function Form({ status , userId}) {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-            {
-                status === 'pending' ?
-                    (
-                        <div>
-                            <div>
-                                <label>Start Date: </label>
-                                <DatePicker
-                                    clearIcon={null}
-                                    minDate={new Date()}
-                                    onChange={handleStartingDateChange}
-                                    value={startingDate}
-                                    disabled={status !== 'pending'}
-                                    format="dd/MM/yyyy"
-                                    tileDisabled={({ date, view }) =>
-                                        (view === 'month') &&
-                                        initialDisableDay.some(disabledDate =>
-                                            date.getFullYear() === disabledDate.getFullYear() &&
-                                            date.getMonth() === disabledDate.getMonth() &&
-                                            date.getDate() === disabledDate.getDate()
-                                        )
-                                    }
-                                />
-                            </div>
-                            {
+        <div className={styles.modifyForm}>
+            <form>
+                {
+                    status === 'pending' ?
+                        (
+                            <div className={styles.calendar}>
                                 <div>
-                                    <label>End Date: </label>
+                                    <label>Start Date: </label>
                                     <DatePicker
+                                        className={styles.date}
                                         clearIcon={null}
-                                        minDate={datePlus(startingDate, 1)}
-                                        onChange={setEndingDate}
-                                        value={endingDate}
+                                        minDate={new Date()}
+                                        onChange={handleStartingDateChange}
+                                        value={startingDate}
+                                        disabled={status !== 'pending'}
                                         format="dd/MM/yyyy"
-                                        maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
+                                        tileDisabled={({ date, view }) =>
+                                            (view === 'month') &&
+                                            initialDisableDay.some(disabledDate =>
+                                                date.getFullYear() === disabledDate.getFullYear() &&
+                                                date.getMonth() === disabledDate.getMonth() &&
+                                                date.getDate() === disabledDate.getDate()
+                                            )
+                                        }
                                     />
                                 </div>
-                            }
-                            {!validDays && <p>Invalid dates</p>}
-                        </div>
-                    ) :
-                    (
-                        <div>
-                            <label>End Date: </label>
-                            <DatePicker
-                                clearIcon={null}
-                                minDate={datePlus(startingDate, 1)}
-                                onChange={setEndingDate}
-                                value={endingDate}
-                                format="dd/MM/yyyy"
-                                maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
-                            />
-                        </div>
-                    )
-            }
-            <button type="submit">Modify</button>
+                                {
+                                    <div>
+                                        <label>End Date: </label>
+                                        <DatePicker
+                                            className={styles.date}
+                                            clearIcon={null}
+                                            minDate={datePlus(startingDate, 1)}
+                                            onChange={setEndingDate}
+                                            value={endingDate}
+                                            format="dd/MM/yyyy"
+                                            maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
+                                        />
+                                    </div>
+                                }
+                                {!validDays && <p>Invalid dates</p>}
+                            </div>
+                        ) :
+                        (
+                            <div>
+                                <label>End Date: </label>
+                                <DatePicker
+                                    className={styles.date}
+                                    clearIcon={null}
+                                    minDate={ending}
+                                    onChange={setEndingDate}
+                                    value={endingDate}
+                                    format="dd/MM/yyyy"
+                                    maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
+                                />
+                            </div>
+                        )
+                }
+                <div className={styles.buttonContainer}>
+                    <input className="buttonGlobal" type="button" value='Modify' onClick={() => setShowAlert(true)}/>
+                </div>
+                <AlertConfirmation 
+                onCancel={() => setShowAlert(false)} 
+                showAlert={showAlert} 
+                onConfirmation={handleSubmit} 
+                alertText={`Are you sure you want to modify reservation ${orderId}? Remember that in case of refound it could take between 5 to 10 days.`} 
+                buttonText={'Confirm'} />
             </form>
         </div>
     )
