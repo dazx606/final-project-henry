@@ -1,20 +1,23 @@
-const modifyOrder = (firstName, lastName, brand, model, optionalEquipments, startingDate, endingDate, paymentAmount) => {
-    let optionals = optionalEquipments.map(el => `a ${el.name}`)
-    if(optionals.length > 1) optionals.splice(optionals.length -1, 1, ` and ${optionals[optionals.length -1]}`)
-    else if (optionals.length === 1) optionals = [`--${optionals[0]}`]
-    let formatOptional = ""
-    optionals.forEach((el, k) => {
-        if(k !== optionals.length-1)formatOptional += `, ${el}`
-        else{
-            formatOptional+= el
-        }
-    }) 
+require("dotenv").config();
+const { YOUR_DOMAIN } = process.env;
+const modifyOrder = (rentId, userId, firstName, lastName, newStartingDate, newEndingDate) => {
+   
     let email = {
         body: {
             name: `${firstName} ${lastName}`,
-            intro: [`We have succesfully processed your payment of $${paymentAmount/100} USD.`,
-                `Today, you rented our ${brand} ${model}, from ${startingDate} to  ${endingDate}.`,
-                `Also, ${optionals.length? `you added ${formatOptional.slice(2)}`: "you didn't add any optional equipments"} to your reserve.`],
+            intro: [`Your order #${rentId} has been successfully modified.`,
+                `The new renting has been scheduled to be from ${newStartingDate} to ${newEndingDate}.`
+                ],
+                action: [
+                    {
+                        instructions: 'If you want to check your order, click on the button below.',
+                        button: {
+                            color: '#22BC66',
+                            text: 'Go to my reservations',
+                            link: `${YOUR_DOMAIN}/reservation/${rentId}`
+                        }
+                    }
+                ],
             signature: "Sincerely",
             greeting: "Greetings ",
             outro: 'We thank you for trusting in our services.'

@@ -177,6 +177,7 @@ const rentUpdate = async (stripeObject) => {
       },
         { where: { id: rentId } }
       );
+      //email fechas nuevas: info2 e info3(con dias de), necesito el id del usuario(rent.user.id)
     }
   } catch (error) {
     console.log(error);
