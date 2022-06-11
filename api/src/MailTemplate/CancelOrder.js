@@ -1,23 +1,17 @@
-const cancelEmail = (firstName, lastName, brand, model, optionalEquipments, startingDate, endingDate, paymentAmount) => {
-    let optionals = optionalEquipments.map(el => `a ${el.name}`)
-    if(optionals.length > 1) optionals.splice(optionals.length -1, 1, ` and ${optionals[optionals.length -1]}`)
-    else if (optionals.length === 1) optionals = [`--${optionals[0]}`]
-    let formatOptional = ""
-    optionals.forEach((el, k) => {
-        if(k !== optionals.length-1)formatOptional += `, ${el}`
-        else{
-            formatOptional+= el
-        }
-    }) 
+
+const cancelEmail = (rentId, firstName, lastName, discount, paymentAmount) => {
+    const total = paymentAmount.reduce((prev, actual) => prev + actual, 0)
+    const totalWithFee = Math.floor(total * discount)
     let email = {
         body: {
             name: `${firstName} ${lastName}`,
-            intro: [`We have succesfully processed your payment of $${paymentAmount/100} USD.`,
-                `Today, you rented our ${brand} ${model}, from ${startingDate} to  ${endingDate}.`,
-                `Also, ${optionals.length? `you added ${formatOptional.slice(2)}`: "you didn't add any optional equipments"} to your reserve.`],
+            intro: [`The order #${rentId} has been canceled.`,
+            `We have deducted ${Math.ceil((1 - discount) *100)}% as a fee from the $${total / 100} USD paid.`,
+            `The total amount being refunded to your account is: $${totalWithFee/100} USD.`,
+            `This process may take up to 10 business days.`],
             signature: "Sincerely",
             greeting: "Greetings ",
-            outro: 'We thank you for trusting in our services.'
+            outro: 'We don’t want to see you go, but totally understand that cancellations happen. Just know that your account and settings are saved so the door is always open to get going with Luxurent again!'
         }
     }
     return email
