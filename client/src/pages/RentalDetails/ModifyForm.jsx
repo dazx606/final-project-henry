@@ -3,7 +3,7 @@ import DatePicker from 'react-date-picker';
 import { useSelector, useDispatch } from "react-redux";
 import { userReservation } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { modifyReservation } from "../../services/services";
 import styles from "./ModifyForm.module.css";
 import AlertConfirmation from '../../components/AlertConfirmation/AlertConfirmation';
@@ -66,7 +66,7 @@ const checkInvalidDate = (day, array) => {
     return array.some(d => d.toDateString() === day);
 }
 
-export default function Form({ status, userId, ending }) {
+export default function Form({ status, userId, ending, numberOfDatesInitial }) {
 
     const endingValid = ending ? ending : new Date();
 
@@ -80,8 +80,10 @@ export default function Form({ status, userId, ending }) {
     const filteredCars = useSelector((state) => state.filteredCars[0]);
     const { orderId } = useParams();
     const [showAlert, setShowAlert] = useState(false);
+    const [showAlertOk, setShowAlertOk] = useState(false);
     const { getAccessTokenSilently } = useAuth0();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(userReservation(getAccessTokenSilently, orderId));
@@ -133,16 +135,24 @@ export default function Form({ status, userId, ending }) {
         }
     }, []);
 
-    // const body = {
-    //     startingDate: startingDate.toDateString(),
-    //     endingDate: endingDate.toDateString(),
-    //     userId: userId,
-    //     rentId: orderId
-    // }
+    // const numberOfDatesInicial = getDatesInRange(sDate, eDate).length - 1;
+    const numberOfDatesModified = getDatesInRange(startingDate, endingDate).length - 1;
+
+    console.log(numberOfDatesModified)
 
     function handleSubmit(e) {
         e.preventDefault();
         dispatch(modifyReservation(startingDate.toDateString(), endingDate.toDateString(), userId, orderId, getAccessTokenSilently))
+        dispatch(userReservation(getAccessTokenSilently, orderId));
+        setShowAlert(false)
+        if(numberOfDatesModified < numberOfDatesInitial) {
+            setShowAlertOk(true)
+        }
+    }
+
+    function handleMessageOk() {
+        setShowAlertOk(false)
+        navigate(`/profile/${userId}`);
     }
 
     return (
@@ -213,6 +223,11 @@ export default function Form({ status, userId, ending }) {
                 onConfirmation={handleSubmit} 
                 alertText={`Are you sure you want to modify reservation ${orderId}? Remember that in case of refound it could take between 5 to 10 days.`} 
                 buttonText={'Confirm'} />
+                <AlertConfirmation 
+                onCancel={handleMessageOk} 
+                showAlert={showAlertOk} 
+                onConfirmation={handleMessageOk} 
+                alertText={`Reservation ${orderId} has been modified successfully. Check back later to see the status of your reservation.`} buttonText={'Close'} />
             </form>
         </div>
     )

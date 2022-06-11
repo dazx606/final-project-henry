@@ -247,7 +247,9 @@ export function modifyReservation(
         },
         options
       );
-      window.location.href = res.data.url;
+      if(res.data.url) {
+        window.location.href = res.data.url;
+      }
     } catch (error) {
       console.log(error);
     }
