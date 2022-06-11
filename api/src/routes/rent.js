@@ -4,9 +4,8 @@ require("dotenv").config();
 const Mailgen = require("mailgen")
 const { cancelEmail } = require("../MailTemplate/CancelOrder")
 const { transporter } = require("../config/mailer")
-const { STRIPE_SECRET_KEY, EMAIL } = process.env;
+const { STRIPE_SECRET_KEY, EMAIL, YOUR_DOMAIN } = process.env;
 const { datePlus, filterRentDates, getDatesInRange, statusUpdater } = require("./controllers.js");
-const YOUR_DOMAIN = "http://localhost:3000";  //DIRECCION DEL FRONT
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 
@@ -26,11 +25,11 @@ const authMiddleWare = jwt({
 let mailGenerator = new Mailgen({
   theme: 'default',
   product: {
-      // Appears in header & footer of e-mails
-      name: 'Luxurent', 
-      link: YOUR_DOMAIN
-      // Optional logo
-      // logo: 'https://mailgen.js/img/logo.png'
+    // Appears in header & footer of e-mails
+    name: 'Luxurent',
+    link: YOUR_DOMAIN
+    // Optional logo
+    // logo: 'https://mailgen.js/img/logo.png'
   }
 });
 
