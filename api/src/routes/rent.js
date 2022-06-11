@@ -1,9 +1,12 @@
 const { Router } = require("express");
 const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Location, OptionalEquipment, RentOrder, User } = require("../db.js");
 require("dotenv").config();
-const { STRIPE_SECRET_KEY } = process.env;
+const Mailgen = require("mailgen")
+const { cancelEmail } = require("../MailTemplate/CancelOrder")
+const { transporter } = require("../config/mailer")
+const { STRIPE_SECRET_KEY, EMAIL } = process.env;
 const { datePlus, filterRentDates, getDatesInRange, statusUpdater } = require("./controllers.js");
-
+const YOUR_DOMAIN = "http://localhost:3000";  //DIRECCION DEL FRONT
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 
@@ -20,9 +23,19 @@ const authMiddleWare = jwt({
   algorithms: ["RS256"],
 });
 
+let mailGenerator = new Mailgen({
+  theme: 'default',
+  product: {
+      // Appears in header & footer of e-mails
+      name: 'Luxurent', 
+      link: YOUR_DOMAIN
+      // Optional logo
+      // logo: 'https://mailgen.js/img/logo.png'
+  }
+});
+
 const router = Router();
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
-const YOUR_DOMAIN = "http://localhost:3000";  //DIRECCION DEL FRONT
 
 router.post("/car", authMiddleWare, async (req, res, next) => {
   const { location, model, startingDate, endingDate, optionalEquipments = [], drivers, endLocation, userId } = req.body;
@@ -133,6 +146,15 @@ router.delete("/refund/:userId/:rentId", async (req, res, next) => {
       if (res.every(s => s === "succeeded")) {
         await RentOrder.update({ status: "canceled" }, { where: { id: rentId } });
       }
+      const emailBody = mailGenerator.generate(cancelEmail(rentId, user.firstName, user.lastName, discount, rent.paymentAmount))
+      const emailText = mailGenerator.generatePlaintext(cancelEmail(rentId, user.firstName, user.lastName, discount, rent.paymentAmount))
+      const info = await transporter.sendMail({
+        from: `Luxurent TEAM <${EMAIL}>`,
+        subject: `Cancelation of Order #${rent.id}`,
+        to: user.email,
+        html: emailBody,
+        text: emailText,
+      });
     })
     return res.json("all Ok");
   } catch (error) {
@@ -166,12 +188,14 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
     const start = new Date(startingDate);
 
     const otherRentsSameCar = await IndividualCar.findByPk(rent.individualCarId, { include: [{ model: RentOrder, where: { id: { [Op.ne]: rentId } }, }] })
-    const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
-    const startString = start.toDateString();
-    const endString = maintenanceEnd.toDateString();
-    for (let i = 0; i < unavailableDays.length; i++) {
-      const day = unavailableDays[i].toDateString();
-      if (day === startString || day === endString) return res.status(409).json({ msg: "Dates not available!!!" });
+    if (otherRentsSameCar !== null) {
+      const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
+      const startString = start.toDateString();
+      const endString = maintenanceEnd.toDateString();
+      for (let i = 0; i < unavailableDays.length; i++) {
+        const day = unavailableDays[i].toDateString();
+        if (day === startString || day === endString) return res.status(409).json({ msg: "Dates not available!!!" });
+      }
     }
 
     let startDiff = 0;
@@ -210,7 +234,7 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
         client_reference_id: `${rentId}:${totalDiff}:${start.toDateString()}:${maintenanceEnd.toDateString()}`,
         mode: 'payment',
         expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
-        success_url: `${YOUR_DOMAIN}/booking?success=true`,  ////////////////////////Cambiar esto
+        success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,  ////////////////////////Cambiar esto
         cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
       });
       return res.json({ url: session.url })

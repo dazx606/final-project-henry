@@ -3,7 +3,8 @@ import { Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "./redux/actions";
-import Rating from "./components/Rating/Rating";
+import ClipLoader from "react-spinners/ClipLoader";
+import LoginPopup from "./components/LoginPopup/LoginPopup";
 
 function ProtectedRoutes() {
   const { isAuthenticated, isLoading, getAccessTokenSilently, user } =
@@ -20,9 +21,18 @@ function ProtectedRoutes() {
   return isAuthenticated ? (
     <Outlet />
   ) : isLoading ? (
-    <div>Loading...</div>
+    <div
+      style={{
+        marginTop: "10rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <ClipLoader color="#ef8354" size={70} margin={10} />
+    </div>
   ) : (
-    <div>No tienes permiso a esta pag</div>
+    <LoginPopup />
   );
 }
 
