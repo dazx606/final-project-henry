@@ -247,7 +247,9 @@ export function modifyReservation(
         },
         options
       );
-      window.location.href = res.data.url;
+      if(res.data.url) {
+        window.location.href = res.data.url;
+      }
     } catch (error) {
       console.log(error);
     }
@@ -262,3 +264,11 @@ export function modifyReservation(
 //   };
 //   return axios.patch(`${URL}rent/modify`,body, options);
 // }
+export function rateCar(token, userId, ratings) {
+  const options = {
+    method: 'PATCH',
+    mode: 'cors',
+    headers: {authorization:  `Bearer ${token}`}
+  };
+  return axios.patch(`http://localhost:3001/user/rate`, {userId, ratings}, options)
+}

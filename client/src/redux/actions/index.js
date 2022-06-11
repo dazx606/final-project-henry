@@ -23,7 +23,7 @@ import {
   deleteSpecificCar,
   cancelUserReservation,
   getOrderDetail,
-  // modifyBooking,
+  rateCar,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -55,7 +55,7 @@ export const DELETE_CAR = "DELETE_CAR";
 export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
 export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
-// export const MODIFY_RESERVATION = "MODIFY_RESERVATION";
+export const RATE_CAR = "RATE_CAR";
 
 export const URL = "http://localhost:3001/";
 
@@ -199,7 +199,6 @@ export function setUserInfo(getToken, email) {
         const token = await getToken();
         // console.log(token);
         let response = await getUserInformation(token, email);
-        console.log("🚀 ~ file: index.js ~ line 210 ~ return ~ token", token);
         return dispatch({ type: SET_USER, payload: response.data });
       }
     } catch (error) {
@@ -469,22 +468,16 @@ export function getOrderReservationId(orderId, getToken) {
   };
 }
 
-// export function modifyReservation(getToken, body) {
-//   console.log(body)
-//   console.log(getToken)
-//   return async (dispatch) => {
-//     try {
-//       let token = getToken();
-//       if (body) {
-//         let response = await modifyBooking(token, body);
-//         console.log(response.data)
-//         return dispatch({
-//           type: MODIFY_RESERVATION,
-//           payload: response.data,
-//         });
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-// }
+export function sendCarRating (getToken, userId, ratings) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      let response = await rateCar(token, userId, ratings)
+      return dispatch ({
+        type: RATE_CAR,        
+      })
+    }catch (e) {
+      console.log(e)
+    }
+  }
+}

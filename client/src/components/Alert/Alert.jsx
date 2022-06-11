@@ -27,7 +27,7 @@ export default function Alert() {
 
     return (
         <div className={style.all} id="All" >
-            <div className={style.alertContainer} id="Alert">
+            <div className={`boxGlobal ${style.alertContainer} `} id="Alert">
                 <h1 className={style.tittle}>Select a city to continue</h1>
                 <div className={style.seacrh}>
                     <LocationFilter className={style.select}/>

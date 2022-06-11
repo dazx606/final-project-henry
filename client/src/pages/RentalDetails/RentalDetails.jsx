@@ -7,6 +7,16 @@ import AlertConfirmation from '../../components/AlertConfirmation/AlertConfirmat
 import ModifyForm from './ModifyForm';
 import styles from "./RentalDetails.module.css";
 
+const getDatesInRange = (startDate, endDate) => {
+    const date = new Date(startDate);
+    const dates = [];
+    while (date <= endDate) {
+        dates.push(new Date(date));
+        date.setDate(date.getDate() + 1);
+    }
+    return dates;
+}
+
 export default function RentalDetails() {
 
     const reservation = useSelector(state => state.userReservation);
@@ -51,7 +61,7 @@ export default function RentalDetails() {
         (previousValue, currentValue) => Number(previousValue) + Number(currentValue) ,
         0)) /100 ;
 
-    console.log(reservation?.order?.paymentAmount)
+    const numberOfDatesInitial = getDatesInRange(reservation?.order?.startingDate, datePlus).length - 1;
 
     return (
         <div className={styles.rentDetails}>
@@ -133,7 +143,8 @@ export default function RentalDetails() {
             <div  hidden={showModify}>
                 <ModifyForm status={reservation?.order?.status} 
                 userId={reservation?.order?.userId} 
-                ending={reservation?.order?.status === 'in use' ? datePlus : new Date()} />
+                ending={reservation?.order?.status === 'in use' ? datePlus : new Date()} 
+                numberOfDatesInitial={numberOfDatesInitial}/>
             </div>
             <div className={styles.buttons}>
                 <button disabled={reservation?.order?.status === 'canceled' ||

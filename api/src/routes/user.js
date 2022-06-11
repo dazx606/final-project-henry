@@ -7,7 +7,7 @@ const {
   CarModel,
   Location,
   Driver,
-   OptionalEquipment,
+  OptionalEquipment,
 } = require("../db.js");
 const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
@@ -81,7 +81,7 @@ router.get("/", authMiddleWare, async (req, res, next) => {
 
 router.get("/reservations", async (req, res, next) => {
   const { userId } = req.query;
-  
+
   try {
     if (userId) {
       await statusUpdater();
@@ -151,6 +151,45 @@ router.post("/", async (req, res, next) => {
 });
 
 // ============================ PATCH =============================================================//
+//[ 'Trafic', 'Corolla' ]
+ router.patch("/rate", authMiddleWare, async (req, res, next) => {
+
+  const { userId, ratings } = req.body;  //ratings = {model:name, rate:number}
+  try {
+    const allowedStatus = ["maintenance", "concluded"];
+    let userReservations = await User.findByPk(userId, {
+      include: [{
+        model: RentOrder,
+        where: {
+          rated: false,
+          status: { [Op.or]: allowedStatus }
+        },
+        attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] },
+        include: [{
+          model: IndividualCar,
+          where: { carModelModel: String(ratings.model) },
+          include: [{
+            model: CarModel,
+          }]
+        }]
+      }]
+    })
+    if (!userReservations) return res.status(404).json({ msg: "RentOrder not found!!!" });
+    await Promise.all(
+      userReservations.rentOrders.map((d) => RentOrder.update({ rated: true }, { where: { id: d.id } }))
+    )
+    if (ratings.rate) {
+      const model = userReservations.rentOrders[0].individualCar.carModel;
+      const ratingNum = model.ratingNum + 1;
+      const rating = (model.rating * model.ratingNum + ratings.rate) / ratingNum;
+      await CarModel.update({ rating, ratingNum }, { where: { model: model.model } });
+    }
+    res.json({ msg: 'OK' })
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch("/:id", authMiddleWare, async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -181,35 +220,5 @@ router.patch("/:id", authMiddleWare, async (req, res, next) => {
     next(error);
   }
 });
-
-// router.patch("/rate", authMiddleWare, async (req, res, next) => {
-//   const { userId, ratings } = req.body;  //rating = [{model:name, rate:number},{}]
-//   try {
-//     const allowedStatus = ["maintenance", "concluded"];
-//     const models = ratings.map(r => r.name);
-//     let userReservations = await User.findByPk(userId, {
-//       include: [{
-//         model: RentOrder,
-//         where: {
-//           rated: false,
-//           status: { [Op.or]: allowedStatus }
-//         },
-//         attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] },
-//         include: [{
-//           model: IndividualCar,
-//           include: [{
-//             model: CarModel,
-//             where: {
-//               status: { [Op.or]: models }
-//             }
-//           }]
-//         }]
-//       }]
-//     })
-//     res.json({ msg: userReservations })
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 module.exports = router;

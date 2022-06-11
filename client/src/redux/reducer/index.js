@@ -28,7 +28,7 @@ import {
   GET_USER_RESERVATION,
   CANCEL_RESERVATION,
   GET_DETAIL_RESERVATION,
-  // MODIFY_RESERVATION,
+  RATE_CAR,
 } from "../actions";
 
 const initialState = {
@@ -242,6 +242,13 @@ export default function rootReducer(state = initialState, { type, payload, token
         ...state,
         carDeleted: payload,
       };
+    }
+    case RATE_CAR: {
+      
+      return {
+        ...state,
+        user: {...state.user, reservations: state.user.reservations.slice(1)}
+      }
     }
 
     default:

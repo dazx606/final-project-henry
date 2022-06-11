@@ -6,6 +6,7 @@ import { showAlert } from '../../redux/actions';
 import Authentication from "../Authenti/Authentication";
 import styles from "./NavBar.module.css";
 import Alert from "../Alert/Alert";
+import Rating from "../Rating/Rating";
 
 function NavBar() {
   const [display, setDisplay] = useState(false);
@@ -38,7 +39,7 @@ function NavBar() {
             <label htmlFor="btn-nav" className={styles.btnLabel} onClick={showAllLinks}>
               <div className={styles.headerButton}></div>
             </label>
-            <NavLink className={styles.tittle} to="/"><h1>RENT A CAR</h1></NavLink>
+            <NavLink className={styles.tittle} to="/"><h1>LUXURENT</h1></NavLink>
 
             {isAuthenticated ?
               <div onClick={handleLoginInfo} className={styles.logIcon} >
@@ -61,7 +62,10 @@ function NavBar() {
               <li className={styles.list} onClick={showAllLinks}>HOME</li>
             </NavLink>
             <NavLink to={window.location.pathname}>
-              <li className={styles.list} onClick={handleFleet}>FLEET</li>
+              <li className={styles.list} onClick={handleFleet}>MODELS</li>
+            </NavLink>
+            <NavLink to="/booking">
+              <li className={styles.list} onClick={showAllLinks}>BOOKING</li>
             </NavLink>
             <NavLink to="/about">
               <li className={styles.list} onClick={showAllLinks}>ABOUT US</li>
@@ -69,9 +73,7 @@ function NavBar() {
             <NavLink to="/contact">
               <li className={styles.list} onClick={showAllLinks}>CONTACT US</li>
             </NavLink>
-            <NavLink to="/booking">
-              <li className={styles.list} onClick={showAllLinks}>BOOKING</li>
-            </NavLink>
+            
           </ul>
         </nav>
         {!hide &&
@@ -79,6 +81,9 @@ function NavBar() {
             <Alert />
           </div>
         }
+
+        <Rating />
+
       </div>
       <Outlet />
     </div>
