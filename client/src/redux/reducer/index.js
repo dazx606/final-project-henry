@@ -243,12 +243,6 @@ export default function rootReducer(state = initialState, { type, payload, token
         carDeleted: payload,
       };
     }
-    // case MODIFY_RESERVATION: {
-    //   return {
-    //     ...state,
-    //     reservation: payload,
-    //   };
-    // }
 
     default:
       return { ...state };

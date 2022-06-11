@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styles from "./adminReservList.module.css";
 
 export default function ReservListItem({ order }) {
+  console.log("🚀 ~ file: ReservListItem.jsx ~ line 6 ~ ReservListItem ~ order", order)
   function handleClickReservation() {
     navigator.clipboard.writeText(order.id);
   }
