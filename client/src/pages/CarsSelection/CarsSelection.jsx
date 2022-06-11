@@ -75,8 +75,8 @@ function CarsSelection() {
           {filteredCars.length ? (
             filteredCars.map((car) => {
               return (
-                <div key={car.model}>
-                  <CarCard
+                <div key={car.model} className={styles.child}>
+                  <CarCard 
                     brand={car.brand}
                     model={car.model}
                     pricePerDay={car.pricePerDay}
