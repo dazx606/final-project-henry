@@ -17,15 +17,14 @@
   height: auto;
   position: relative;
   left: 25%;
-  
 }
 
-.selectionbox { 
+.selectionbox {
   margin-top: 4rem;
   height: 30%;
   width: 80%;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
 }
 
 .options {
@@ -45,7 +44,6 @@
   height: 5rem;
   border-bottom: 1px groove var(--color4);
   position: static;
-
 }
 
 .options:hover {
@@ -105,6 +103,10 @@
   padding: 0;
   border: none;
   box-shadow: none;
+  color: var(--color3Tr);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .edit:hover {
@@ -112,4 +114,5 @@
   border: none;
   box-shadow: none;
   color: var(--color3);
+  cursor: pointer;
 }
