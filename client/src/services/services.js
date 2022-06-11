@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "http://localhost:3001/";
+const URL = "https://car-rents.herokuapp.com/";
 
 export function getAllLocations() {
   return axios.get(`${URL}locations`);
@@ -32,7 +32,7 @@ export function getUserInformation(token, email) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios(`http://localhost:3001/user?email=${email}`, options);
+  return axios(`${URL}user?email=${email}`, options);
 }
 
 export function getUserReservations(token, userId) {
@@ -42,6 +42,24 @@ export function getUserReservations(token, userId) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios(`${URL}user/reservations?userId=${userId}`, options);
+}
+
+export function getUserReservation(token, orderId) {
+  const options = {
+    method: "GET",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios(`${URL}user/reservation/${orderId}`, options);
+}
+
+export function cancelUserReservation(token, userId, rentId) {
+  const options = {
+    method: "DELETE",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.delete(`${URL}rent/refund/${userId}/${rentId}`, options);
 }
 
 export function addUser(email, picture) {
@@ -63,7 +81,7 @@ export function getAllUsersInfo(token, email) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.get(`http://localhost:3001/admin/users?email=${email}`, options);
+  return axios.get(`${URL}admin/users?email=${email}`, options);
 }
 
 export function deleteUserInfo(userId, token) {
@@ -72,7 +90,7 @@ export function deleteUserInfo(userId, token) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.delete(`http://localhost:3001/admin/users/${userId}`, options);
+  return axios.delete(`${URL}admin/users/${userId}`, options);
 }
 
 export function getAllReservs(token, orderId) {
@@ -80,9 +98,9 @@ export function getAllReservs(token, orderId) {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
-    params:{orderId}
+    params: { orderId },
   };
-  return axios.get(`http://localhost:3001/admin/reservations`, options);
+  return axios.get(`${URL}admin/reservations`, options);
 }
 
 export function deleteReserv(reservId, token) {
@@ -92,7 +110,7 @@ export function deleteReserv(reservId, token) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.delete(
-    `http://localhost:3001/admin/reservations/delete/${reservId}`,
+    `${URL}admin/reservations/delete/${reservId}`,
     options
   );
 }
@@ -105,11 +123,110 @@ export function getAllIncludedEquipment() {
   return axios.get(`${URL}admin/equipment/included`);
 }
 
-export function getAllCars(token, plate) {
+export function getAllCars(token, plate, page) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.get(`http://localhost:3001/admin/allCars?plate=${plate}`, options)
+  return axios.get(
+    `${URL}admin/allCars?plate=${plate}&&page=${page}`,
+    options
+  );
+}
+
+export function getAllModels() {
+  return axios.get(`${URL}models`);
+}
+
+export async function createIndividualCar(body, getToken) {
+  const token = await getToken();
+  const options = {
+    method: "post",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  const respone = await axios.post(`${URL}admin/car`, body, options);
+  return respone.data;
+}
+
+export async function createModel(body, getToken) {
+  const token = await getToken();
+  const options = {
+    method: "post",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  const response = await axios.post(`${URL}admin/model`, body, options);
+  return response.data;
+}
+
+export function deleteSpecificCar(token, plate) {
+  const options = {
+    mothod: "DELETE",
+    mode: "cors",
+    headers: { authorization: `Bearer ${token}` },
+  };
+  return axios.delete(
+    `${URL}admin//cars/delete/${plate}`,
+    options
+  );
+}
+
+export function rentCar(
+  location,
+  model,
+  startingDate,
+  endingDate,
+  optionalEquipments,
+  drivers,
+  endLocation,
+  userId,
+  getToken
+) {
+  return async () => {
+    try {
+      const token = await getToken();
+      const options = {
+        method: "POST",
+        mode: "cors",
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const res = await axios.post(
+        `${URL}rent/car`,
+        {
+          location,
+          model,
+          startingDate,
+          endingDate,
+          optionalEquipments,
+          drivers,
+          endLocation,
+          userId,
+        },
+        options
+      );
+      window.location.href = res.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getOrderDetail(orderId,token){
+  const options={
+    method:'GET',
+    mode:'cors',
+    headers:{authorization:  `Bearer ${token}`}
+  }
+  return axios.get(`${URL}admin/reservation/${orderId}`, options)
+}
+
+export function rateCar(token, userId, ratings) {
+  const options = {
+    method: 'PATCH',
+    mode: 'cors',
+    headers: {authorization:  `Bearer ${token}`}
+  };
+  return axios.patch(`http://localhost:3001/user/rate`, {userId, ratings}, options)
 }

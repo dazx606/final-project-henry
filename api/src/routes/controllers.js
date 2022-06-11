@@ -9,7 +9,25 @@ const {
   OptionalEquipment,
   RentOrder,
   User,
+  StatusUpdate,
 } = require("../db.js");
+require("dotenv").config();
+const { EMAIL } = process.env;
+const Mailgen = require("mailgen")
+const { confirmationEmail } = require("../MailTemplate/OrderConfirmation")
+const { transporter } = require("../config/mailer")
+const YOUR_DOMAIN = "http://localhost:3000";  //DIRECCION DEL FRONT
+
+let mailGenerator = new Mailgen({
+  theme: 'default',
+  product: {
+    // Appears in header & footer of e-mails
+    name: 'Luxurent',
+    link: YOUR_DOMAIN
+    // Optional logo
+    // logo: 'https://mailgen.js/img/logo.png'
+  }
+});
 
 const datePlus = (date, num) => {
   return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num))
@@ -79,10 +97,99 @@ const filterRentDates = (LocationCars, startingDate, endingDate) => {
   return LocationCars
 }
 
+const statusUpdater = async () => {
+  let today = new Date().toDateString();
+  let lastUpdate = await StatusUpdate.findOrCreate({
+    where: { id: 1 },
+    defaults: {
+      lastExecution: today
+    },
+  })
+  if (lastUpdate[1] || new Date(today) > new Date(lastUpdate[0].dataValues.lastExecution)) {
+    await StatusUpdate.update({ lastExecution: today }, { where: { id: 1 } });
+    const allowedStatus = ["pending", "in use", "maintenance"];
+    let rents = await RentOrder.findAll({ where: { status: { [Op.or]: allowedStatus } } });
+    today = new Date(today);
+    await Promise.all(
+      rents.map(async r => {
+        const start = new Date(r.startingDate);
+        const end = new Date(r.endingDate);
+        const inUseEnd = datePlus(end, -2);
+        let status = r.status;
+
+        if (r.status === "pending") {
+          status = end < today ? "concluded"
+            : inUseEnd < today ? "maintenance"
+              : start <= today ? "in use"
+                : status
+        } else if (r.status === "in use") {
+          status = end < today ? "concluded"
+            : inUseEnd < today ? "maintenance"
+              : status
+        } else if (r.status === "maintenance") {
+          status = end < today ? "concluded"
+            : status
+        }
+        if (status !== r.status) {
+          await RentOrder.update({ status }, { where: { id: r.id } });
+        }
+      })
+    );
+  }
+}
+
+const rentUpdate = async (stripeObject) => {
+  try {
+    const info = stripeObject.client_reference_id.split(":");
+    const rentId = info[0];
+    const days = info[1];
+    const rent = await RentOrder.findByPk(rentId, {
+      include: [{
+        model: User
+      }, { model: OptionalEquipment }, { model: IndividualCar, include: [{ model: CarModel }] }]
+    });
+    if (info.length <= 2) {
+      await RentOrder.update({
+        payed: true,
+        refunds: [...rent.refunds, stripeObject.payment_intent],
+        paymentDays: [...rent.paymentDays, days],
+        paymentAmount: [...rent.paymentAmount, stripeObject.amount_total]
+      },
+        { where: { id: rentId } }
+      );
+      const emailBody = mailGenerator.generate(confirmationEmail(rent.user.firstName, rent.user.lastName, rent.individualCar.carModel.brand, rent.individualCar.carModel.model, rent.optionalEquipments, rent.startingDate, datePlus(new Date(rent.endingDate), -2).toDateString(), stripeObject.amount_total))
+      const emailText = mailGenerator.generatePlaintext(confirmationEmail(rent.user.firstName, rent.user.lastName, rent.individualCar.brand, rent.individualCar.model, rent.optionalEquipments, rent.startingDate, datePlus(new Date(rent.endingDate), -2).toDateString(), stripeObject.amount_total))
+
+      const info = await transporter.sendMail({
+        from: `Luxurent TEAM <${EMAIL}>`,
+        subject: `Receipt for Order #${rent.id}`,
+        to: rent.user.email,
+        html: emailBody,
+        text: emailText,
+      });
+    } else {
+      await RentOrder.update({
+        payed: true,
+        refunds: [...rent.refunds, stripeObject.payment_intent],
+        paymentDays: [...rent.paymentDays, days],
+        paymentAmount: [...rent.paymentAmount, stripeObject.amount_total],
+        startingDate: info[2],
+        endingDate: info[3],
+      },
+        { where: { id: rentId } }
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 module.exports = {
+  rentUpdate,
   datePlus,
   getDatesInRange,
   filterDates,
   filterRentDates,
+  statusUpdater,
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import style from "./AdminCars.module.css";
+import style from "./AllCars.module.css";
 
-function CarListItem({car}) {
+function CarListItem({car, handleTClick}) {
   const noInfo = 'No Info';
     return (
 
@@ -11,7 +11,7 @@ function CarListItem({car}) {
             <div className={style.brand}>{car.carModelModel ? car.carModelModel : noInfo}</div>
             <div className={style.plate}>{car.license_plate}</div>
             <div className={style.trashIcon} value={car.id} name={car.license_plate} 
-            // onClick={(email, id) => handleTClick(user.email, user.id)}
+            onClick={() => handleTClick(car.license_plate)}
             >
                 <i className="fa-solid fa-trash-can" ></i>
             </div>

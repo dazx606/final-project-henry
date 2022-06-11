@@ -19,12 +19,9 @@
 
 .topCard {
     height: 3rem;
-    width: 20rem;
+
     /* box-shadow: 0 0 8px var(--color4); */
-    /* border-radius: 8px 8px 0 0; */
     padding-top: 1.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
     margin: auto;
     align-items: center;
     text-align: center;
@@ -35,8 +32,8 @@
 .bottomCard {
     /* box-shadow: 0 0 8px var(--color4); */
     /* border-radius: 0 0 8px 8px;  */
-    height: 10rem;
-    width: 20rem;
+    /* height: 10rem; */
+    /* width: 20rem; */
     text-align: center;
     line-height: 2rem;
     padding: 1rem;
@@ -53,30 +50,7 @@
     display: flex;
     align-items: center;
 }
-@media (max-width: 800px) {
-    .container1{
-    display: flex;
-    flex-direction: column-reverse;
-    }
-    .container1 .img1{
-        width: 100vw;
-        height: auto;
-        padding-bottom: 1.5em;
-    }
-    .container2{
-        display: flex;
-        flex-direction: column;
-        }
-        .container2 .img2{
-            width: 100vw;
-            height: auto;
-            padding-top: 1.5em;
-        }
-    /* .subContainer1a {
-        width: 100vw;
-    } */
 
-}
 
 .subContainer1a {
     width: 50vw;
@@ -95,7 +69,7 @@
 
 .list {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     color: var(--color3);
     font-family: var(--font2);
     margin: 0;
@@ -179,5 +153,33 @@
     color: var(--color4);
 }
 
-
+@media (max-width: 800px) {
+    .container1{
+    display: flex;
+    flex-direction: column-reverse;
+    }
+    .container1 .img1{
+        width: 97vw;
+        height: auto;
+        padding-bottom: 1.5em;
+    }
+    .container2{
+        display: flex;
+        flex-direction: column;
+        }
+        .container2 .img2{
+            width: 97vw;
+            height: auto;
+            padding-top: 1.5em;
+        }
+    .subContainer1a{
+        width: 90vw;
+    }
+    .card {
+        width: 95vw;
+    }
+    .bottomCard{
+        width: 85vw;
+    }
+}
 

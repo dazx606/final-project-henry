@@ -180,3 +180,62 @@
     font-size: 14px;
     color: var(--color3);
 }
+
+@media (max-width: 800px) {
+    .container1{
+        width: 95vw;
+        margin: auto;
+        line-height: 1.5rem;
+    }
+    .container2{
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        align-items: center;
+        
+    }
+    .mapContainer{
+        width: 90vw;
+        height: 60vw;
+        padding: 0;
+        margin: 0;
+        
+    }
+    .form{
+        width: 99vw;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        
+        align-items: center;
+        
+    }
+    .inputs{
+        width: 85vw;
+     
+        
+    }
+    .textarea{
+        width: 85vw;
+    }
+    .subcontainer1{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.3rem;
+        margin: auto;
+    }
+    .titleh{
+        padding-top: 1em;
+    }
+    .buttonContainer{
+        padding-bottom: 1em;
+    }
+    .iconContainer{
+        padding-bottom: 1em;
+    }
+    .findus{
+        width: 90vw;
+        
+    }
+}

@@ -27,10 +27,10 @@ export default function Alert() {
 
     return (
         <div className={style.all} id="All" >
-            <div className={style.alertContainer} id="Alert">
+            <div className={`boxGlobal ${style.alertContainer} `} id="Alert">
                 <h1 className={style.tittle}>Select a city to continue</h1>
                 <div className={style.seacrh}>
-                    <LocationFilter />
+                    <LocationFilter className={style.select}/>
                 </div>
                 <NavLink to={`/city/${city}`}><button className={`buttonGlobal ${style.homeBtn}`} disabled={activeBtn} onClick={handleClick}>select</button></NavLink>
             </div>

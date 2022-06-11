@@ -1,5 +1,15 @@
 const { Router } = require("express");
-const { User, RentOrder, IndividualCar, CarModel, Location } = require("../db.js");
+const {
+  Op,
+  User,
+  RentOrder,
+  IndividualCar,
+  CarModel,
+  Location,
+  Driver,
+  OptionalEquipment,
+} = require("../db.js");
+const { statusUpdater } = require("./controllers.js");
 const { expressjwt: jwt } = require("express-jwt");
 const jwks = require("jwks-rsa");
 require("dotenv").config();
@@ -21,6 +31,7 @@ const router = Router();
 
 // ============================ GET =============================================================//
 router.get("/", authMiddleWare, async (req, res, next) => {
+
   const { email } = req.query;
   try {
     let completed;
@@ -29,20 +40,80 @@ router.get("/", authMiddleWare, async (req, res, next) => {
     user.firstName && user.lastName && user.documentId && user.license
       ? (completed = true)
       : (completed = false);
-    return res.status(200).send({ data: user, completed });
+
+    await statusUpdater();
+    const allowedStatus = ["maintenance", "concluded"];
+    let userReservations = await User.findByPk(user.id, {
+      include: [{
+        model: RentOrder,
+        where: {
+          rated: false,
+          status: { [Op.or]: allowedStatus }
+        },
+        attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] },
+        include: [{
+          model: IndividualCar,
+          include: [{
+            model: CarModel,
+            attributes: ['brand', "model", "images"],
+          }]
+        }]
+      }]
+    })
+    let reservations = [];
+    if (userReservations) {
+      userReservations.rentOrders.forEach(e => {
+        if (!reservations.find(el => el.model === e.individualCar.carModel.model)) {
+          reservations.push({
+            model: e.individualCar.carModel.model,
+            brand: e.individualCar.carModel.brand,
+            img: e.individualCar.carModel.images[0],
+          })
+        }
+      });
+    }
+
+    return res.status(200).send({ data: user, completed, reservations });
   } catch (error) {
     next(error);
   }
 });
 
 router.get("/reservations", async (req, res, next) => {
-
   const { userId } = req.query;
 
   try {
     if (userId) {
-      let orders = await RentOrder.findAll({ where: { userId, payed: true }, attributes: { exclude: ['refundId'] }, include: [{ model: IndividualCar, include: [CarModel, Location] }] });
-      return res.json(orders)
+      await statusUpdater();
+      let orders = await RentOrder.findAll({
+        where: { userId, payed: true },
+        attributes: { exclude: ["refunds", "paymentDays", "paymentAmount"] },
+        include: [{ model: IndividualCar, include: [CarModel, Location] }],
+      });
+      return res.json(orders);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/reservation/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+  try {
+    await statusUpdater();
+    if (orderId) {
+      let order = await RentOrder.findOne({
+        where: { id: orderId, payed: true },
+        include: [{ model: IndividualCar, include: [CarModel, Location] },
+        { model: User, attributes: ['firstName', 'lastName', 'email'] },
+          Location,
+          Driver,
+          OptionalEquipment,
+        ],
+      });
+      return order !== null
+        ? res.send({ order })
+        : res.status(404).send({ msg: "order not found" });
     }
   } catch (error) {
     next(error)
@@ -58,8 +129,8 @@ router.post("/", async (req, res, next) => {
         email: email,
       },
       defaults: {
-        picture: picture
-      }
+        picture: picture,
+      },
     });
     let completed;
     user.firstName && user.lastName && user.documentId && user.license
@@ -74,13 +145,51 @@ router.post("/", async (req, res, next) => {
       data: user.id,
       completed,
     });
-
   } catch (error) {
     next(error);
   }
 });
 
 // ============================ PATCH =============================================================//
+//[ 'Trafic', 'Corolla' ]
+ router.patch("/rate", authMiddleWare, async (req, res, next) => {
+
+  const { userId, ratings } = req.body;  //ratings = {model:name, rate:number}
+  try {
+    const allowedStatus = ["maintenance", "concluded"];
+    let userReservations = await User.findByPk(userId, {
+      include: [{
+        model: RentOrder,
+        where: {
+          rated: false,
+          status: { [Op.or]: allowedStatus }
+        },
+        attributes: { exclude: ['refunds', "paymentDays", "paymentAmount"] },
+        include: [{
+          model: IndividualCar,
+          where: { carModelModel: String(ratings.model) },
+          include: [{
+            model: CarModel,
+          }]
+        }]
+      }]
+    })
+    if (!userReservations) return res.status(404).json({ msg: "RentOrder not found!!!" });
+    await Promise.all(
+      userReservations.rentOrders.map((d) => RentOrder.update({ rated: true }, { where: { id: d.id } }))
+    )
+    if (ratings.rate) {
+      const model = userReservations.rentOrders[0].individualCar.carModel;
+      const ratingNum = model.ratingNum + 1;
+      const rating = (model.rating * model.ratingNum + ratings.rate) / ratingNum;
+      await CarModel.update({ rating, ratingNum }, { where: { model: model.model } });
+    }
+    res.json({ msg: 'OK' })
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.patch("/:id", authMiddleWare, async (req, res, next) => {
   try {
     const { id } = req.params;

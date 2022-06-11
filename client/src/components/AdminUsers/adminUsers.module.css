@@ -13,7 +13,7 @@
 }
 
 .usersBox {
-  width: auto;
+  
   height: auto;
   background-color: var(--color6Tr);
   border: groove 1px var(--color4Tr);
@@ -22,35 +22,62 @@
   padding: 0.5rem;
   color: var(--color3Tr);
 }
+/* .internBox{
+  width: auto;
+  height: auto;
+} */
 
 .listTitle {
   display: flex;
   align-items: center;
-  margin: 1rem;
-  justify-content: space-evenly;
+  justify-content:space-around;
   color: var(--color4);
   font-size: 1em;
+  /* border-bottom: groove 1px var(--color4Tr); */
+  height: 1em;
+  margin: auto;
+  padding: 1rem;
+  
 }
 
 .userListItem {
   display: flex;
   align-items: center;
-  margin: 1rem;
-  justify-content: space-evenly;
+  justify-content:space-around;
+  width: auto;
+  height: 1em;
+  padding: 1rem;
+  margin: auto;
 
+}
+.namePemail{
+  display: flex;
+  justify-content: space-around;
+  width: 35rem;
 }
 
 .name {
   width: 12rem;
   display: flex;
-  justify-content: center;
-
+  justify-content: left;
+}
+.nameT{
+  width: 12rem;
+  display: flex;
+  justify-content: left;
 }
 
 .email {
   width: 20rem;
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  margin-left: 8rem;
+}
+.emailT{
+  width: 20rem;
+  display: flex;
+  justify-content: left;
+  margin-left: 8rem;
 }
 
 .trashIcon {
@@ -59,13 +86,18 @@
   justify-content: center;
 
 }
+.trashTitle{
+  width: 10rem;
+  display: flex;
+  justify-content: center;
+}
 
 .trashIcon:hover {
   font-size: 1.3em;
   cursor: pointer;
 }
 
-.imgIcon {
+/* .imgIcon {
   color: var(--color4);
   width: 2.5rem;
   height: 2.5rem;
@@ -77,6 +109,15 @@
   font-size: 1.2em;
   font-weight: 700;
 
+} */
+.alert {
+  position: fixed;
+  background-color: #00000094;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .alertContainer {
@@ -88,50 +129,90 @@
   left: 35vw;
   height: 30vh;
   width: 30vw;
-  background-color: var(--color1);
-  color: var(--color4);
-    width: 2.5rem;
-    height: 2.5rem;
-    margin: 0px 0px 0px 24px;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
-    display: flex;
-    font-size: 1.2em;
-    font-weight: 700;
-   
+  background-color: var(--color6);
+  color: var(--color3Tr);
 }
 .searchUser{
   display: flex;
   justify-content: left;
   margin: 2rem 7rem;
  
-  z-index: 10;
-  border: groove 1px var(--color4Tr);
-  border-radius: 0px;
-  box-shadow: 0px 0px 8px 4px var(--color6Tr);
+}
+.all{
+  width: 100vw;
+  height: 100vh;
+  
 }
 
-.Xcont{
-  display: flex;
-  justify-content: right;
-  height: 4rem;
-}
-.Xbton{
-  border: none;
-  margin: 0rem 1rem;
-  color: var(--color4);
-  background-color: rgba(0, 0, 0, 0);
-  box-shadow: none;
-  font-family: var(--font2);
-  font-size: 1.4em;
-}
 .dltBton{
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 
 .sureTxt{
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 400;
-  margin: 0 2em 0 2em;
+  margin: 2.5em 2em 0 2em;
+}
+
+@media (max-width: 750px){
+  .searchUser{
+    margin: 2rem 0;
+  }
+  .inputSearch {
+    margin: 0 auto;
+  }
+  .usersBox {
+    width: 90vw;
+    margin: 0 auto;
+  }
+  .listTitle{
+    width:100%;
+    padding: 1rem 0rem; 
+  }
+  .userListItem{
+    width: 100%;
+    height: 4vh;
+    padding: 1rem 0rem; 
+  }
+  .trashTitle{
+   width: 4rem; 
+  }
+  .trashIcon{
+    width: 4rem; 
+    font-size: 0.9em;
+  }
+  .trashIcon:hover {
+    font-size: 0.9em;
+  }
+  .emailT{
+    display:none;
+  }
+  .namePemail{
+    display: flex;
+    flex-direction: column;
+    width: 12rem;
+  }
+  .email{
+    width: 12rem;
+    font-size: 0.8em;
+    margin: 0;
+  }
+  .name{
+    font-size: 0.9em;
+  }
+
+  .alertContainer {
+    top: 30%;
+    left: 4vw;  
+    width: 92vw;
+    background-color: var(--color6);
+    color: var(--color3Tr);
+  }
+  .sureTxt{
+    font-size: 0.9em;
+    margin: 2.5em 2em 0 2em;
+  }
+  .dltBton{
+    font-size: 0.8em;
+  }
 }

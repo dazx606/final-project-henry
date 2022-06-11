@@ -2,7 +2,14 @@
   margin: 16px 8px;
   width: 20rem;
   height: 33px;
-  
+}
+
+@media (max-width: 800px) {
+ .citySelect{
+   width: 80vw;
+   max-width: 80vw;
+   
+ }
 }
 
 
