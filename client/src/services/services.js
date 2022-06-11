@@ -213,11 +213,52 @@ export function rentCar(
   };
 }
 
-export function getOrderDetail(orderId,token){
-  const options={
-    method:'GET',
-    mode:'cors',
-    headers:{authorization:  `Bearer ${token}`}
+export function getOrderDetail(orderId, token) {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    headers: { authorization: `Bearer ${token}` }
   }
   return axios.get(`http://localhost:3001/admin/reservation/${orderId}`, options)
 }
+
+export function modifyReservation(
+  startingDate,
+  endingDate,
+  userId,
+  rentId,
+  getToken
+) {
+  return async () => {
+    try {
+      const token = await getToken();
+      const options = {
+        method: "PATCH",
+        mode: "cors",
+        headers: { authorization: `Bearer ${token}` },
+      };
+      const res = await axios.patch(
+        `${URL}rent/modify`,
+        {
+          startingDate,
+          endingDate,
+          userId,
+          rentId
+        },
+        options
+      );
+      window.location.href = res.data.url;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+// export function modifyBooking(token, body) {
+//   const options = {
+//     method: "PATCH",
+//     mode: "cors",
+//     headers: { authorization: `Bearer ${token}` },
+//   };
+//   return axios.patch(`${URL}rent/modify`,body, options);
+// }

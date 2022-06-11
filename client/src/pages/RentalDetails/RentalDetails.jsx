@@ -32,7 +32,7 @@ export default function RentalDetails() {
 
     function handleMessageOk() {
         setShowAlertOk(false)
-        navigate(`/profile/${reservation?.order?.userId}`);
+        navigate(`/`);
     }
 
     function handleShow () {
@@ -137,9 +137,9 @@ export default function RentalDetails() {
                     Cancel Order
                 </button>
             </div>
-            {showModify && <div>
-                <ModifyForm status={reservation?.order?.status} startingDate={reservation?.order?.startingDate} endingDate={datePlus.toDateString()} />
-            </div>}
+            <div>
+                <ModifyForm status={reservation?.order?.status} userId={reservation?.order?.userId} />
+            </div>
             <AlertConfirmation onCancel={() => setShowAlert(false)} showAlert={showAlert} onConfirmation={handleCancel} alertText={`Are you sure you want to cancel reservation ${orderId}?`} buttonText={'Cancel'} />
             <AlertConfirmation onCancel={handleMessageOk} showAlert={showAlertOk} onConfirmation={handleMessageOk} alertText={`Reservation ${orderId} has been canceled successfully. Refound process could take between 5 to 10 days.`} buttonText={'Close'} />
         </div>

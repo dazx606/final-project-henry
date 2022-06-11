@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from 'react-date-picker';
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { userReservation } from "../../redux/actions";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useParams } from "react-router-dom";
+import { modifyReservation } from "../../services/services";
 
 const datePlus = (date, num) => {
     return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num))
@@ -61,7 +64,7 @@ const checkInvalidDate = (day, array) => {
     return array.some(d => d.toDateString() === day);
 }
 
-export default function Form({ status }) {
+export default function Form({ status , userId}) {
 
     const [startingDate, setStartingDate] = useState(new Date());
     const [message, setMessage] = useState("");
@@ -70,7 +73,14 @@ export default function Form({ status }) {
     const [initialDisableDay, setInitialDisableDay] = useState([]);
     const [maxEndingDisableDate, setMaxEndingDisableDate] = useState([]);
     const [validDays, setValidDays] = useState(true);
-    const filteredCars = useSelector(state => state.filteredCars[0])
+    const filteredCars = useSelector((state) => state.filteredCars[0]);
+    const { orderId } = useParams();
+    const { getAccessTokenSilently } = useAuth0();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(userReservation(getAccessTokenSilently, orderId));
+    }, [dispatch, orderId]);
 
     useEffect(() => {
         setStartingDate(new Date());
@@ -117,9 +127,22 @@ export default function Form({ status }) {
             );
         }
     }, []);
+    
+    // const body = {
+    //     startingDate: startingDate.toDateString(),
+    //     endingDate: endingDate.toDateString(),
+    //     userId: userId,
+    //     rentId: orderId
+    // }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        dispatch(modifyReservation(startingDate.toDateString(), endingDate.toDateString(), userId, orderId, getAccessTokenSilently))
+    }
 
     return (
         <div>
+            <form onSubmit={handleSubmit}>
             {
                 status === 'pending' ?
                     (
@@ -173,6 +196,8 @@ export default function Form({ status }) {
                         </div>
                     )
             }
+            <button type="submit">Modify</button>
+            </form>
         </div>
     )
 
