@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { cancelReservation, userReservation } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import AlertConfirmation from '../../components/AlertConfirmation/AlertConfirmation';
+import ModifyForm from './ModifyForm';
 import styles from "./RentalDetails.module.css";
 
 export default function RentalDetails() {
@@ -131,15 +132,9 @@ export default function RentalDetails() {
                     Cancel Order
                 </button>
             </div>
+            <ModifyForm/>
             <AlertConfirmation onCancel={() => setShowAlert(false)} showAlert={showAlert} onConfirmation={handleCancel} alertText={`Are you sure you want to cancel reservation ${orderId}?`} buttonText={'Cancel'} />
             <AlertConfirmation onCancel={handleMessageOk} showAlert={showAlertOk} onConfirmation={handleMessageOk} alertText={`Reservation ${orderId} has been canceled successfully. Refound process could take between 5 to 10 days.`} buttonText={'Close'} />
         </div>
     )
-}
-
-function Form() {
-    return (
-        <div>Modify date</div>
-    )
-
 }

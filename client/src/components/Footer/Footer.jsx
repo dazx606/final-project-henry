@@ -57,8 +57,6 @@ export default function Footer() {
             else setHid(false)
         }
 
-        console.log(window.addEventListener('resize', handleResize));
-
         // if(w<800) setHid(true)
     }, [])
     return (
@@ -89,7 +87,7 @@ export default function Footer() {
                 <i className={`fa-brands fa-instagram ${styles.icon}`}></i>
 
                 <br />
-                <span>Luxurent</span><span style={{ color: "rgb(31, 30, 30)", fontSize: "0.7rem",paddingLeft:"30px" }}>Un Pi con esteroides</span>
+                <span>Luxurent</span><span style={{ color: "rgb(31, 30, 30)", fontSize: "0.7rem", paddingLeft: "30px" }}>Un Pi con esteroides</span>
             </div>
             <div className={styles.map} hidden={hid}>
                 {!isLoaded ? <div>Loading...</div> : <Map />}
