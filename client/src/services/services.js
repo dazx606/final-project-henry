@@ -221,3 +221,12 @@ export function getOrderDetail(orderId,token){
   }
   return axios.get(`${URL}admin/reservation/${orderId}`, options)
 }
+
+export function rateCar(token, userId, ratings) {
+  const options = {
+    method: 'PATCH',
+    mode: 'cors',
+    headers: {authorization:  `Bearer ${token}`}
+  };
+  return axios.patch(`http://localhost:3001/user/rate`, {userId, ratings}, options)
+}
