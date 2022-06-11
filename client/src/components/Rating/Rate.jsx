@@ -1,16 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { sendCarRating } from '../../redux/actions';
+import { useAuth0 } from "@auth0/auth0-react";
 import style from "./Rating.module.css";
 
-function Rate({ dbUser }) {
+function Rate({ dbUser, setHide }) {
+    const { getAccessTokenSilently } = useAuth0();
+    const dispatch = useDispatch();
     const [rating, setRating] = useState(0)
     const stars = [1, 2, 3, 4, 5];
     let fullStars = [...Array(rating)];
     let emptyStars = [...Array(5 - rating)];
-    // onClick={() => handleRating(fs)}
+
+    useEffect(() =>{
+        return () => {
+            setRating(0);
+        }
+    }, [])
 
     const handleRating = (fs) => {
-        setRating(fs);
-        setTimeout()
+        setRating(fs)
+        setTimeout(() => {
+            dispatch(sendCarRating(getAccessTokenSilently, dbUser.data.id, { model: dbUser.reservations[0].model, rate: fs }))            
+            setHide(true)
+        },"300")
     }
 
     return (
@@ -19,8 +32,8 @@ function Rate({ dbUser }) {
                 <div>Give us some feedback!</div>
 
                 <div className={style.info} >
-                    <div className={style.question} >How did you enjoy using our {dbUser.reservations[0].brand} {dbUser.reservations[0].model}?</div>
-                    <img className={style.carImg} src={dbUser.reservations[0].img} />
+                    <div className={style.question} >How did you enjoy using our {dbUser.reservations[0]?.brand} {dbUser.reservations[0]?.model}?</div>
+                    <img className={style.carImg} src={dbUser.reservations[0]?.img} />
                     <div className={style.starsCont}>
                         {
                             fullStars.length ?
@@ -52,17 +65,13 @@ function Rate({ dbUser }) {
                                 })
                                 : null
                         }
-
                     </div>
                     <div className={style.btonCont}>
                         <button className={`buttonGlobal ${style.btonDismiss}`}>Dismiss</button>
                     </div>
-
                 </div>
             </div>
-
         </div>
-
     )
 }
 

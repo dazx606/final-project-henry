@@ -23,6 +23,7 @@ import {
   deleteSpecificCar,
   cancelUserReservation,
   getOrderDetail,
+  rateCar,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -54,6 +55,7 @@ export const DELETE_CAR = "DELETE_CAR";
 export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
 export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
+export const RATE_CAR = "RATE_CAR";
 
 export const URL = "http://localhost:3001/";
 
@@ -464,4 +466,18 @@ export function getOrderReservationId(orderId, getToken) {
       });
     }
   };
+}
+
+export function sendCarRating (getToken, userId, ratings) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      let response = await rateCar(token, userId, ratings)
+      return dispatch ({
+        type: RATE_CAR,        
+      })
+    }catch (e) {
+      console.log(e)
+    }
+  }
 }

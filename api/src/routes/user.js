@@ -152,8 +152,7 @@ router.post("/", async (req, res, next) => {
 
 // ============================ PATCH =============================================================//
 //[ 'Trafic', 'Corolla' ]
-// router.patch("/rate", authMiddleWare, async (req, res, next) => {
-router.patch("/rate", async (req, res, next) => {
+ router.patch("/rate", authMiddleWare, async (req, res, next) => {
 
   const { userId, ratings } = req.body;  //ratings = {model:name, rate:number}
   try {
@@ -185,7 +184,7 @@ router.patch("/rate", async (req, res, next) => {
       const rating = (model.rating * model.ratingNum + ratings.rate) / ratingNum;
       await CarModel.update({ rating, ratingNum }, { where: { model: model.model } });
     }
-    res.json({ msg: userReservations })
+    res.json({ msg: 'OK' })
   } catch (error) {
     next(error);
   }

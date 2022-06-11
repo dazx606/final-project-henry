@@ -10,6 +10,7 @@ function Rating() {
     const dbUser = useSelector(state => state.user);
     const dispatch = useDispatch();
     const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+    console.log(dbUser)
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -28,7 +29,7 @@ function Rating() {
 
     return !hide && (
         <div className={style.popUp} >
-            < Rate dbUser={dbUser} />
+            < Rate dbUser={dbUser} setHide={setHide} />
         </div>
 
     )
