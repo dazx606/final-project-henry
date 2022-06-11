@@ -23,9 +23,11 @@ import {
   GET_ALL_RESERVATIONS,
   DELETE_RESERVATION,
   GET_ALL_ADMIN_CARS,
-  GET_DETAIL_RESERVATION,
   GET_ALL_MODELS,
   DELETE_CAR,
+  GET_USER_RESERVATION,
+  CANCEL_RESERVATION,
+  GET_DETAIL_RESERVATION,
 } from "../actions";
 
 const initialState = {
@@ -48,6 +50,7 @@ const initialState = {
   savedUser: [],
   user: {},
   userReservations: [],
+  userReservation: [],
   token: "",
   users: [],
   userForAdmin: {},
@@ -59,8 +62,8 @@ const initialState = {
   Orders: [],
   modelNames: [],
   orders: [],
-  order:{},
   carDeleted: {},
+  order: {},
 };
 
 export default function rootReducer(state = initialState, { type, payload, token }) {
@@ -179,6 +182,17 @@ export default function rootReducer(state = initialState, { type, payload, token
         userReservations: payload,
       };
     }
+    case GET_USER_RESERVATION: {
+      return {
+        ...state,
+        userReservation: payload,
+      };
+    }
+    case CANCEL_RESERVATION: {
+      return {
+        ...state,
+      };
+    }
     case GET_ALL_RESERVATIONS: {
       return {
         ...state,
@@ -201,7 +215,7 @@ export default function rootReducer(state = initialState, { type, payload, token
       return {
         ...state,
         orders: payload,
-        order:{},
+        order: {},
       };
     }
     case GET_ALL_ADMIN_CARS: {

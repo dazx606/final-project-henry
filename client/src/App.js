@@ -19,6 +19,7 @@ import Booking from "./pages/Booking/Booking";
 // import AdminUsers from "./components/AdminUsers/AdminUsers";
 import AdminRoutes from "./AdminRoutes";
 import AdminOptions from "./pages/AdminOptions/AdminOptions";
+import RentalDetails from "./pages/RentalDetails/RentalDetails";
 import AdminReservationForm from "./components/AdminReservationForm/AdminReservationForm";
 
 function App() {
@@ -43,7 +44,8 @@ function App() {
           <Route path="/about" element={<AboutUs />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="/user/:userId" element={<ProfileUpdate />} />
-            <Route path="/profile/:userId" element={<ProfileOptions />} />+
+            <Route path="/profile/:userId" element={<ProfileOptions />} />
+            <Route path="/reservation/:orderId" element={<RentalDetails />} />
             <Route path="/booking" element={<Booking />} />
           </Route>
           <Route element={<AdminRoutes />}>

@@ -13,12 +13,14 @@
 .filters {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  
+}
+.section{
+  padding-right: 1.5em;
 }
 
-.divider {
-  width: 2rem;
-}
 
-.to {
-  margin-left: 0.5rem;
-}
+
+

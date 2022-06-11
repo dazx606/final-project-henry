@@ -287,14 +287,7 @@ router.post(
       if (event.type === "checkout.session.completed") {
         // console.log(event.data.object);
         const stripeObject = event.data.object;
-        RentOrder.update(
-          {
-            payed: true,
-            refundId: stripeObject.payment_intent,
-            paymentAmount: stripeObject.amount_total,
-          },
-          { where: { id: stripeObject.client_reference_id } }
-        );
+        rentUpdate(stripeObject);
       }
       return res.json({ received: true });
     } catch (error) {

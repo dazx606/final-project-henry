@@ -14,13 +14,15 @@ import {
   getAllUsersInfo,
   deleteUserInfo,
   getUserReservations,
+  getUserReservation,
   getAllReservs,
   deleteReserv,
   getAllCars,
-  getOrderDetail,
   getAllModels,
   createIndividualCar,
   deleteSpecificCar,
+  cancelUserReservation,
+  getOrderDetail,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -47,9 +49,11 @@ export const GET_USER_RESERVATIONS = "GET_USER_RESERVATIONS";
 export const GET_ALL_RESERVATIONS = "GET_ALL_RESERVATIONS";
 export const DELETE_RESERVATION = "DELETE_RESERVATION";
 export const GET_ALL_ADMIN_CARS = "GET_ALL_ADMIN_CARS";
-export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 export const GET_ALL_MODELS = "GET_ALL_MODELS";
 export const DELETE_CAR = "DELETE_CAR";
+export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
+export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
+export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 
 export const URL = "https://car-rents.herokuapp.com/";
 
@@ -184,25 +188,6 @@ export function showAlert(payload) {
   };
 }
 
-export function rentCar(location, model, startingDate, endingDate, optionalEquipments, drivers, endLocation, userId) {
-  return async (dispatch) => {
-    try {
-      const res = await axios.post(`${URL}rent/car`, {
-        location,
-        model,
-        startingDate,
-        endingDate,
-        optionalEquipments,
-        drivers,
-        endLocation,
-        userId,
-      });
-      window.location.href = res.data.url;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
 // authentication actions:
 
 export function setUserInfo(getToken, email) {
@@ -234,6 +219,40 @@ export function userReservations(getToken, userId) {
       }
     } catch (error) {
       return dispatch({ type: GET_USER_RESERVATIONS, payload: undefined });
+    }
+  };
+}
+
+export function userReservation(getToken, orderId) {
+  return async (dispatch) => {
+    let token = getToken();
+    try {
+      if (orderId) {
+        let response = await getUserReservation(token, orderId);
+        return dispatch({
+          type: GET_USER_RESERVATION,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      return dispatch({ type: GET_USER_RESERVATION, payload: undefined });
+    }
+  };
+}
+
+export function cancelReservation(getToken, userId, rentId) {
+  return async (dispatch) => {
+    let token = getToken();
+    try {
+      if (userId && rentId) {
+        let response = await cancelUserReservation(token, userId, rentId);
+        return dispatch({
+          type: CANCEL_RESERVATION,
+          payload: response.data,
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 }
@@ -322,7 +341,9 @@ export function getAllReservations(getToken, id) {
       let response = await getAllReservs(token, id);
       return dispatch({
         type: GET_ALL_RESERVATIONS,
-        payload: response.data.order ? [response.data.order] : response.data.orders,
+        payload: response.data.order
+          ? [response.data.order]
+          : response.data.orders,
       });
     } catch (error) {
       console.log(error);
@@ -413,6 +434,21 @@ export function getOptionalEquipment() {
     }
   };
 }
+
+export function getModels() {
+  return async (dispatch) => {
+    try {
+      const response = await getAllModels();
+      return dispatch({
+        type: GET_ALL_MODELS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export function getOrderReservationId(orderId, getToken) {
   return async (dispatch) => {
     try {
@@ -427,19 +463,6 @@ export function getOrderReservationId(orderId, getToken) {
         type: GET_DETAIL_RESERVATION,
         payload: { error: error.response?.data.msg },
       });
-    }
-  }
-}
-export function getModels() {
-  return async (dispatch) => {
-    try {
-      const response = await getAllModels();
-      return dispatch({
-        type: GET_ALL_MODELS,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.log(error);
     }
   };
 }
