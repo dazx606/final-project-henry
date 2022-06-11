@@ -474,7 +474,8 @@ export function sendCarRating (getToken, userId, ratings) {
       const token = await getToken();
       let response = await rateCar(token, userId, ratings)
       return dispatch ({
-        type: RATE_CAR,        
+        type: RATE_CAR,    
+        payload: ratings.rate    
       })
     }catch (e) {
       console.log(e)

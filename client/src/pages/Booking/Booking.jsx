@@ -204,7 +204,7 @@ export default function Booking() {
             <p>{message}</p>
         </section>
         : <div className={styles.container}>
-            <section className={styles.containerForm}>
+            <section className={`boxGlobal ${styles.containerForm}`}>
                 <div className={styles.container1}>
                     <form onSubmit={handleRentForm} className={styles.rentForm}>
                         <div className={styles.title}>
@@ -217,14 +217,14 @@ export default function Booking() {
                         {
                             !location && <div>Select a Location first</div>
                         }
-                        <div>
+                        <div className={styles.selectBox}>
                             <label>Car Model:  </label>
-                            <select className={styles.selects} name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
+                            <select className={`selectGlobal ${styles.selects}`} name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
                                 <option value="placeholder" hidden>Car Model</option>
                                 {locationCarsModels && locationCarsModels.map((el, k) => <option key={k} value={el}>{el}</option>)}
                             </select>
                         </div>
-                        <div className={styles.subContainerEquipment}>
+                        <div className={`boxGlobal ${styles.subContainerEquipment}`}>
                             <label>Optional Equipment:</label>
                             <div>
                                 {carRenting &&
@@ -280,9 +280,9 @@ export default function Booking() {
                         </div>
                         {!validDays && <p>Invalid dates</p>}
                         <Drivers drivers={drivers} setDrivers={setDrivers} />
-                        <div>
+                        <div className={styles.selectBox}>
                             <label>Return location: </label>
-                            <select className={styles.selects} name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
+                            <select className={`selectGlobal ${styles.selects}`} name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
                                 <option value="placeholder" hidden>location...</option>
                                 {allLocation.map((el, k) => <option key={k} value={el.id}>{el.city}</option>)}
                             </select>
