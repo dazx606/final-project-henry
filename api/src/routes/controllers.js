@@ -12,11 +12,10 @@ const {
   StatusUpdate,
 } = require("../db.js");
 require("dotenv").config();
-const { EMAIL } = process.env;
+const { EMAIL, YOUR_DOMAIN } = process.env;
 const Mailgen = require("mailgen")
 const { confirmationEmail } = require("../MailTemplate/OrderConfirmation")
 const { transporter } = require("../config/mailer")
-const YOUR_DOMAIN = "http://localhost:3000";  //DIRECCION DEL FRONT
 
 let mailGenerator = new Mailgen({
   theme: 'default',
