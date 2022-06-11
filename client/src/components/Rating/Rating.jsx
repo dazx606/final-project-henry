@@ -10,7 +10,6 @@ function Rating() {
     const dbUser = useSelector(state => state.user);
     const dispatch = useDispatch();
     const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
-    console.log(dbUser)
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -22,8 +21,6 @@ function Rating() {
         if (dbUser.reservations?.length) {
             setHide(false)
         }
-        // console.log(hide)
-        // console.log(dbUser)
     }, [dispatch, dbUser])
 
 
