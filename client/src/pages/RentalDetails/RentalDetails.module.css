@@ -62,7 +62,17 @@
     /* padding-left: 5vw;
     margin-right: 0vw; */
     text-align: start;
-    width: 15vw;
+    width: 30vw;
+}
+
+.itemsRent4 {
+    position: relative;
+    
+    justify-content: start;
+    padding-left: 5vw;
+    margin-right: 0em;
+    text-align: start;
+    width: 30vw;
 }
 
 .buttons {

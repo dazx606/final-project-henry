@@ -103,7 +103,7 @@ export default function RentalDetails() {
                                         </tr>
                                         <tr className={styles.itemsRent}>
                                             <td className={styles.itemsRent1}>Drivers:</td>
-                                            <td className={styles.itemsRent2}>
+                                            <td className={styles.itemsRent4}>
                                                 {
                                                     reservation?.order?.drivers.map((d, k) =>
                                                         <div key={k}>
@@ -115,7 +115,7 @@ export default function RentalDetails() {
                                         </tr>
                                         <tr className={styles.itemsRent}>
                                             <td className={styles.itemsRent1}>Optional Equipment:</td>
-                                            <td className={styles.itemsRent2}>
+                                            <td className={styles.itemsRent4}>
                                                 {
                                                     reservation?.order?.optionalEquipments.map((e, k) =>
                                                         <div key={k}>
