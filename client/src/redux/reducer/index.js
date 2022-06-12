@@ -244,11 +244,17 @@ export default function rootReducer(state = initialState, { type, payload, token
       };
     }
     case RATE_CAR: {
-      
-      return {
-        ...state,
-        user: {...state.user, reservations: state.user.reservations.slice(1)}
+      if (payload){
+        return {
+          ...state,
+          user: {...state.user, reservations: state.user.reservations.slice(1)}
+        }
       }
+      return{
+        ...state,
+        user: {...state.user, reservations: []}
+      }
+      
     }
 
     default:
