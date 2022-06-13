@@ -1,7 +1,4 @@
-.popUp{
-
-}
-.popUpcont{
+.popUpcont {
     text-align: center;
     align-items: center;
     font-family: var(--font2);
@@ -17,20 +14,22 @@
     font-size: 1.2em;
 }
 
-.question{
+.question {
     margin: 1.5rem 1em 0rem 1rem;
     color: var(--color3Tr);
     font-size: 0.9em;
-    
+
 }
-.carImg{
+
+.carImg {
     width: 10rem;
     max-height: 10rem;
     margin: auto;
     margin-top: 1.5rem;
     display: flex;
 }
-.starsCont{
+
+.starsCont {
     display: flex;
     width: 50%;
     margin: auto;
@@ -39,22 +38,38 @@
     color: var(--color2);
     text-align: center;
     justify-content: space-around;
-    
-}
-.stars{
-    color:#ca9600; 
+
 }
 
-.stars:hover{
+.stars {
+    color: #ca9600;
+}
+
+.stars:hover {
     cursor: pointer;
 
 }
-.btonCont{
+
+.btonCont {
     height: 6rem;
 }
-.btonDismiss{
+
+.btonDismiss {
     font-size: 0.8em;
     margin: 2rem 0;
 }
 
+.all {
+    height: 100vh;
+    width: 100vw;
+}
 
+.popUp{
+    position: fixed;
+    background-color: #00000094;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
