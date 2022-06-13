@@ -20,6 +20,7 @@ const { transporter } = require("../config/mailer");
 const userRouter = require("./user");
 const adminRouter = require("./admin");
 const rentRouter = require("./rent");
+const YOUR_DOMAIN = "http://localhost:3000";  //DIRECCION DEL FRONT
 
 const endpointSecret = STRIPE_SECRET_WEBHOOK_KEY;
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
@@ -295,5 +296,6 @@ router.post(
     }
   }
 );
+
 
 module.exports = router;

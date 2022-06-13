@@ -33,3 +33,14 @@
 .text {
   color: var(--color3);
 }
+
+@media (max-width: 750px) {
+  .container{
+    width: 99vw;
+    align-items: center;
+
+  }
+  .info{
+    flex-wrap: wrap;
+  }
+}
