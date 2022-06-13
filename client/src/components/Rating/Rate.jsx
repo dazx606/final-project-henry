@@ -25,6 +25,13 @@ function Rate({ dbUser, setHide }) {
             setHide(true)
         },"300")
     }
+    const handleDismiss = () =>{
+        const reservCopy = [...dbUser.reservations];
+        reservCopy.forEach(element => {
+            dispatch(sendCarRating(getAccessTokenSilently, dbUser.data.id, { model: element.model, rate: 0 }))
+        });
+        setHide(true)
+    }
 
     return (
         <div id='All' className={style.all}>
@@ -45,9 +52,9 @@ function Rate({ dbUser, setHide }) {
                                     )
                                 })
                                 :
-                                stars.map((s) => {
+                                stars.map((s, i) => {
                                     return (
-                                        <div key={s} className={style.stars} onClick={() => handleRating(s)} >
+                                        <div key={i} className={style.stars} onClick={() => handleRating(s)} >
                                             <i className="fa-regular fa-star"></i>
                                         </div>
                                     )
@@ -67,7 +74,7 @@ function Rate({ dbUser, setHide }) {
                         }
                     </div>
                     <div className={style.btonCont}>
-                        <button className={`buttonGlobal ${style.btonDismiss}`}>Dismiss</button>
+                        <button className={`buttonGlobal ${style.btonDismiss}`} onClick={handleDismiss}>Dismiss</button>
                     </div>
                 </div>
             </div>

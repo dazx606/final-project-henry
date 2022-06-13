@@ -100,7 +100,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
       customer_email: carRent.user.email,
       client_reference_id: `${rentId}:${numberOfDays}`,
       mode: 'payment',
-      expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
+      expires_at: 3601 + Math.floor(new Date().getTime() / 1000),
       success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,
       cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
     });

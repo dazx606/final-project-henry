@@ -53,21 +53,33 @@ code {
   color: var(--color4);
   box-shadow: 0px 0px 3px 0px var(--color4Tr);
   transition: 0.1s;
-  padding: 10px;
+  padding: 8px;
+  height: 2.5rem;
 }
 
 .buttonGlobal:hover {
   cursor: pointer;
   box-shadow: 0px 0px 4px 1px var(--color4Tr);
-  font-weight: 500;
   border: outset 2px var(--color4);
+}
+
+.buttonGlobal:disabled{
+  background-color: var(--color1);
+  color: var(--color4Tr);
+  border: outset 1px var(--color4Tr);
+}
+.buttonGlobal:disabled:hover{
+  cursor:auto;
+  box-shadow: 0px 0px 3px 0px var(--color4Tr);
+  border: outset 1px var(--color4Tr);
+  font-weight: 400;
 }
 
 .selectGlobal {
   border: outset 1px var(--color4);
   outline: none;
   padding: 4px;
-  background-color: var(--color1);
+  background-color: var(--color6);
   box-shadow: 0px 0px 8px 2px var(--color6Tr);
   font-family: var(--font2);
   font-size: 1rem;
@@ -80,6 +92,19 @@ code {
   box-shadow: 0px 0px 8px 6px var(--color6Tr);
   font-weight: 500;
   border: outset 2px var(--color4);
+}
+.selectGlobal:disabled{
+  background-color: var(--color1);
+  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color3Tr);
+}
+.selectGlobal:disabled:hover{
+  cursor: auto;
+  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  font-weight: 400;
+  border: outset 1px var(--color4);
 }
 
 .inputGlobal {

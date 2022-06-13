@@ -57,3 +57,6 @@
   margin-right:5px;
 display: inline-block;
 }
+.viewAll{
+  border: outset 2px var(--color4);
+}

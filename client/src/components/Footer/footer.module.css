@@ -22,6 +22,12 @@
   padding: 5px 0;
   display: inline-block;
   /* margin-right: 13rem; */
+  transition: 0.2s;
+}
+
+.navLinks:hover {
+  
+  color: var(--color4);
   
 }
 .links {

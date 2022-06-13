@@ -12,6 +12,7 @@
     background-color: var(--color6);
     z-index: 1000;
     color: var(--color4);
+    
 }
 .all{
   height: 100vh;
@@ -20,7 +21,7 @@
 
 .tittle{
     margin: 1.5em 1em 0.5em 1em;
-    font-size: 1.5em;
+    font-size: 1.4em;
     font-weight: 400;
     color: var(--color4)
 }
