@@ -39,7 +39,7 @@ function Rate({ dbUser, setHide }) {
                 <div>Give us some feedback!</div>
 
                 <div className={style.info} >
-                    <div className={style.question} >How did you enjoy using our {dbUser.reservations[0]?.brand} {dbUser.reservations[0]?.model}?</div>
+                    <div className={style.question} >How did you enjoy our {dbUser.reservations[0]?.brand} {dbUser.reservations[0]?.model}?</div>
                     <img className={style.carImg} src={dbUser.reservations[0]?.img} />
                     <div className={style.starsCont}>
                         {
@@ -63,9 +63,9 @@ function Rate({ dbUser, setHide }) {
                         {
                             emptyStars.length &&
                                 emptyStars.length !== 5 ?
-                                emptyStars.map((es) => {
+                                emptyStars.map((es, i) => {
                                     return (
-                                        <div key={es} className={style.stars} >
+                                        <div key={i} className={style.stars} >
                                             <i className="fa-regular fa-star"></i>
                                         </div>
                                     )

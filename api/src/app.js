@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index.js");
 const cors = require("cors");
-
+//un pi con esteroides, by fr
 require("./db.js");
 
 const server = express();
