@@ -1,5 +1,8 @@
 import axios from "axios";
-const URL = "http://localhost:3001/";
+
+const  URL  = process.env.REACT_APP_URL;
+
+//"https://car-rents.herokuapp.com/";
 
 export function getAllLocations() {
   return axios.get(`${URL}locations`);
@@ -32,7 +35,7 @@ export function getUserInformation(token, email) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios(`http://localhost:3001/user?email=${email}`, options);
+  return axios(`${URL}user?email=${email}`, options);
 }
 
 export function getUserReservations(token, userId) {
@@ -81,7 +84,7 @@ export function getAllUsersInfo(token, email) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.get(`http://localhost:3001/admin/users?email=${email}`, options);
+  return axios.get(`${URL}admin/users?email=${email}`, options);
 }
 
 export function deleteUserInfo(userId, token) {
@@ -90,7 +93,7 @@ export function deleteUserInfo(userId, token) {
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
-  return axios.delete(`http://localhost:3001/admin/users/${userId}`, options);
+  return axios.delete(`${URL}admin/users/${userId}`, options);
 }
 
 export function getAllReservs(token, orderId) {
@@ -100,7 +103,7 @@ export function getAllReservs(token, orderId) {
     headers: { authorization: `Bearer ${token}` },
     params: { orderId },
   };
-  return axios.get(`http://localhost:3001/admin/reservations`, options);
+  return axios.get(`${URL}admin/reservations`, options);
 }
 
 export function deleteReserv(reservId, token) {
@@ -110,7 +113,7 @@ export function deleteReserv(reservId, token) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.delete(
-    `http://localhost:3001/admin/reservations/delete/${reservId}`,
+    `${URL}admin/reservations/delete/${reservId}`,
     options
   );
 }
@@ -130,7 +133,11 @@ export function getAllCars(token, plate, page, order) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.get(
+<<<<<<< HEAD
     `http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}&&order=${order}`,
+=======
+    `${URL}admin/allCars?plate=${plate}&&page=${page}`,
+>>>>>>> ac86aeae1ee364a49e5cd91e1a3740f099d2df93
     options
   );
 }
@@ -168,7 +175,7 @@ export function deleteSpecificCar(token, plate) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.delete(
-    `http://localhost:3001/admin//cars/delete/${plate}`,
+    `${URL}admin//cars/delete/${plate}`,
     options
   );
 }
@@ -219,7 +226,7 @@ export function getOrderDetail(orderId, token) {
     mode: 'cors',
     headers: { authorization: `Bearer ${token}` }
   }
-  return axios.get(`http://localhost:3001/admin/reservation/${orderId}`, options)
+  return axios.get(`${URL}admin/reservation/${orderId}`, options)
 }
 
 export function modifyReservation(
@@ -270,5 +277,5 @@ export function rateCar(token, userId, ratings) {
     mode: 'cors',
     headers: {authorization:  `Bearer ${token}`}
   };
-  return axios.patch(`http://localhost:3001/user/rate`, {userId, ratings}, options)
+  return axios.patch(`${URL}user/rate`, {userId, ratings}, options)
 }

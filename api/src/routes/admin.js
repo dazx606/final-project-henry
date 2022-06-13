@@ -95,16 +95,20 @@ router.get("/rent", async (req, res, next) => {
 
 //============ CARS
 router.get("/allCars", async (req, res, next) => {
-  const { plate, locationId, page = 1, order = "ASC"} = req.query;
+  const { plate, locationId, page = 1, order = "ASC" } = req.query;
   let cars = [];
   try {
     if (plate) {
       let specificCar = await IndividualCar.findAll({
         order: [[{ model: CarModel }, "rating", "ASC"]],
-        include: {
+        include: [{
           model: CarModel,
           attributes: ["brand", "images", "rating"],
-        }
+        },
+        {
+          model: Location,
+          attributes: ["city"]
+        }]
       });
       specificCar = specificCar.filter((sc) =>
         sc.license_plate.includes(plate.toUpperCase())
@@ -115,19 +119,23 @@ router.get("/allCars", async (req, res, next) => {
     if (!plate) {
       let allCars = await IndividualCar.findAll({
         order: [[{ model: CarModel }, "rating", "ASC"]],
-        include: {
+        include: [{
           model: CarModel,
           attributes: ["brand", "images", "rating"],
-        }
+        },
+        {
+          model: Location,
+          attributes: ["city"]
+        }]
       });
       cars = allCars;
     }
-    if(order === 'desc') cars = cars.reverse();
+    if (order === 'desc') cars = cars.reverse();
 
-    let totalPages= 1;    
+    let totalPages = 1;
     let carsPerPage = 7;
     totalPages = Math.ceil(cars.length / carsPerPage)
-    cars = cars.slice((page - 1) * carsPerPage, page * carsPerPage);    
+    cars = cars.slice((page - 1) * carsPerPage, page * carsPerPage);
 
     return res.status(200).json({ cars, totalPages });
   } catch (e) {
@@ -259,7 +267,7 @@ router.delete("/cars/delete/:license_plate", async (req, res, next) => {
   try {
     let car = await IndividualCar.destroy({ where: { license_plate } });
     if (car === 1) {
-      
+
       res.send({ msg: "Deleted", license: license_plate })
     }
     else if (car === 0)
@@ -323,15 +331,15 @@ router.delete("/reservations/delete/:id", async (req, res, next) => {
 
 router.get("/reservation/:orderId", async (req, res, next) => {
   const { orderId } = req.params;
-  try { 
+  try {
     await statusUpdater()
     if (orderId) {
       let order = await RentOrder.findOne({
         where: { id: orderId },
         include: [
           { model: IndividualCar, include: [CarModel, Location] },
-          { model: User, attributes: ["firstName", "lastName", "email","license"] },
-          Driver,Location
+          { model: User, attributes: ["firstName", "lastName", "email", "license"] },
+          Driver, Location
         ],
       });
       return order !== null ? res.send({ order }) : res.status(404).send({ msg: "order not found" });
