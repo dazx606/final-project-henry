@@ -83,6 +83,7 @@
     margin: 2rem;
     display: flex;
     justify-content: center;
+    height: 3rem;
 }
 
 .total2 {
@@ -123,13 +124,11 @@
     
     outline: none;
     padding: 4px;
-    background-color: var(--color1);
+    background-color: var(--color6);
     font-family: var(--font2);
     font-size: 1rem;
     font-weight: 400;
     border: 0;
-    border-radius: 5px;
-    box-shadow: 0 0 4px var(--color4);
 }
 
 .date input {

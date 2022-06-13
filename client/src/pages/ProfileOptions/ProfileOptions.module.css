@@ -1,15 +1,29 @@
 .container {
   display: flex;
   font-family: var(--font2);
+  min-height: 92vh;
+}
+
+.checkbox {
+  display: none;
+}
+
+.checkbox2 {
+  display: none;
+}
+
+.checkbox3 {
+  display: none;
 }
 
 .selection {
   width: 25%;
-  height: 92vh;
-  background-color: var(--color6Tr);
+  height: 100vh;
+  background-color: var(--color6);
   display: flex;
   justify-content: center;
   position: fixed;
+  z-index: 0;
 }
 
 .render {
@@ -20,49 +34,46 @@
 }
 
 .selectionbox {
-  margin-top: 4rem;
-  height: 30%;
-  width: 80%;
+  height: 100%;
+  width: 60%;
   display: flex;
   flex-direction: column;
+  transition: all 1.3s;
+  margin-top: 4rem;
 }
 
 .options {
-  color: var(--color4);
-  padding: 0px;
+  color: var(--color3Tr);
+  padding: 10px 0px;
   border: none;
+  border-bottom: 1px groove var(--color3Tr);
   box-shadow: none;
   background-color: rgba(252, 192, 72, 0);
-  font-weight: 500;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 1rem;
   cursor: pointer;
   font-size: 1.1rem;
-  width: 80%;
+  width: 95%;
   height: 5rem;
-  border-bottom: 1px groove var(--color4);
-  position: static;
 }
 
 .options:hover {
-  font-weight: 550;
-  width: 80%;
-  height: 5rem;
-  padding: 0px;
+  font-weight: 300;
+  width: 100%;
   border: none;
   border-bottom: 1px double var(--color4);
   box-shadow: none;
   color: var(--color4);
+  transition: 0.3s;
 }
 
 .profileinfo {
-  width: auto;
+  width: 40rem;
   background-color: var(--color6Tr);
   border: groove 1px var(--color4Tr);
   box-shadow: 0px 0px 8px 4px var(--color6Tr);
-  margin: 2rem 7rem;
+  margin: 2rem auto;
   padding: 0.5rem;
   color: var(--color3Tr);
 }
@@ -87,12 +98,14 @@
 
 .infotitle {
   width: 100%;
+  font-size: 1.2em;
 }
 
 .infocontent {
-  text-align: center;
+  text-align: left;
   width: 100%;
   color: var(--color3);
+  font-size: 1.2em;
 }
 
 .edit {
@@ -103,7 +116,7 @@
   padding: 0;
   border: none;
   box-shadow: none;
-  color: var(--color3Tr);
+  color: var(--color4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,4 +128,113 @@
   box-shadow: none;
   color: var(--color3);
   cursor: pointer;
+}
+
+.activeOpt {
+  color: var(--color4);
+  padding: 10px;
+  border: none;
+  box-shadow: none;
+  background-color: rgba(252, 192, 72, 0);
+  font-weight: 450;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  width: 100%;
+  height: 5rem;
+  border-bottom: 1px double var(--color4);
+  transition: all 0.5s;
+}
+
+.activeOpt:hover {
+  border-bottom: 1px groove var(--color4);
+}
+
+@media (max-width: 750px) {
+
+  .selection {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color6);
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 2000;
+    transition: all 1.3s, background-color 5s;
+  }
+
+  .checkbox:checked~.selection {
+    width: 100vw;
+    height: 7vh;
+    padding: 0;
+  }
+
+  .render {
+    width: 100%;
+    position: static;
+    margin: auto;
+    margin: 2rem 0;
+
+  }
+
+  .selectionbox {
+    width: 90%;
+
+  }
+
+  .checkbox2:checked~.selectionbox {
+    height: 7vh;
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+
+  }
+
+  .options {
+    font-size: 1.2rem;
+    width: 90%;
+  }
+
+  .checkbox3:checked~.options {
+    display: none;
+  }
+
+  .activeOpt {
+    width: 90%;
+    transition-delay: 1s;
+    transition: all 1.3s;
+  }
+
+  .checkbox3:checked~.activeOpt {
+    border: none;
+    height: 7vh;
+    margin: auto;
+  }
+
+  .profileinfo {
+    width: 90vw;
+    margin: 2rem auto;
+    padding: 0;
+  }
+
+  .proInfotle{
+    font-size: 1em;
+    margin-left: 0.2rem;
+  }
+  .edit{
+    margin-right: 0.2rem;
+  }
+  .infotitle {
+    font-size: 1em;
+  }
+  
+  .infocontent {
+    font-size: 1em;
+    text-align: right;
+  }
+  .firstinfo {
+    margin-left: 0;
+  }
 }

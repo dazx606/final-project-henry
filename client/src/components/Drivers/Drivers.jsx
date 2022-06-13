@@ -38,9 +38,9 @@ export default function Drivers({ drivers, setDrivers }) {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={`boxGlobal ${styles.container}`}>
             <div className={styles.subContainer}>
-                <input className={styles.button} type="button" onClick={handleShowAddDriver} value="Add Driver" />
+                <input className={`buttonGlobal ${styles.button}`} type="button" onClick={handleShowAddDriver} value="Add Driver" />
             </div>
             <div className={styles.subContainer2} hidden={showAddDriver}>
                 <div className={styles.container3}>
@@ -61,13 +61,13 @@ export default function Drivers({ drivers, setDrivers }) {
                 </div>
                 {
                     error ? <span>{error}</span> :
-                        <div className={styles.buttonAdd}><input className={styles.button} type="button" disabled={error || !driver.documentId || !driver.firstName || !driver.lastName || !driver.licenseNumber} value="Add" onClick={handleAddDriver} /></div>
+                        <div className={styles.buttonAdd}><input className={`buttonGlobal ${styles.button}`} type="button" disabled={error || !driver.documentId || !driver.firstName || !driver.lastName || !driver.licenseNumber} value="Add" onClick={handleAddDriver} /></div>
                 }
             </div>
             {drivers.map((el, k) =>
                 <div className={styles.buttonX} key={k}>
                     <p>{`${k + 1}.- ${el.firstName} ${el.lastName}`}</p>
-                    <input className={styles.delete} type="button" onClick={handleDelete} value='X' name={el.documentId} />
+                    <input className={`buttonGlobal ${styles.delete}`} type="button" onClick={handleDelete} value='X' name={el.documentId} />
 
                 </div>
             )}

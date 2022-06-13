@@ -18,9 +18,10 @@ function Pages({ pagination, page }) {
         <div className={style.pagesCont}>
             {page !== 1 &&
                 <div>
-                    {page > 1 + range && <button className={style.page} onClick={() => pagination(1)}>1</button>}                    
+                    {page > 1 + range && <button className={style.page} onClick={() => pagination(1)}>1</button>} 
+                    {page > 1 + range && <button className={style.pageT}>...</button>}                   
                     <button className={style.page} onClick={() => pagination(page - 1)}>{`<`}</button>
-                    {page > 1 + range && <button className={style.page}>...</button>}
+                    
                 </div>}
             {
                 showOnly(range)?.map((p, i) => (
@@ -29,8 +30,8 @@ function Pages({ pagination, page }) {
             }
             {page !== totalPages &&
                 <div>
-                    {page < totalPages - range && <button className={style.page} onClick={() => pagination(1)}>...</button>}
                     <button className={style.page} onClick={() => pagination(page + 1)}>{`>`}</button>
+                    {page < totalPages - range && <button className={style.pageT} onClick={() => pagination(1)}>...</button>}
                     {page < totalPages - range && <button className={style.page} onClick={() => pagination(totalPages)}>{totalPages}</button>}
                 </div>}
         </div>

@@ -574,13 +574,14 @@ function CreateModel() {
               </button>
             ))}
           </div>
+          <div className={styles.submit}>
+            <button type="submit" className={`buttonGlobal ${styles.create}`}>
+              Create
+            </button>
+          </div>
         </div>
       </div>
-      <div className={styles.submit}>
-        <button type="submit" className={styles.create}>
-          Create form
-        </button>
-      </div>
+
     </form>
   );
 }
