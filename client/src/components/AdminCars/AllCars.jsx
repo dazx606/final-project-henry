@@ -16,8 +16,6 @@ function AllCars({ plate, order }) {
     const { getAccessTokenSilently } = useAuth0();
     const dispatch = useDispatch();    
 
-    console.log(allCars)
-
     useEffect(() => {
         dispatch(getAllAdminCars(getAccessTokenSilently, plate, page, order));
     }, [dispatch, plate, carDeleted]);
