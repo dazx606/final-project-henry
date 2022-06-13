@@ -33,7 +33,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
           type="date"
           name="startingDate"
           value={selection.startingDate.split("/").join("-")}
-          className={`${styles.inputGlobal} ${styles.select}`}
+          className={`inputGlobal ${styles.select}`}
           onChange={(e) => handleFilters(e)}
           min={toUglyDayFormat(new Date())}
         />
@@ -44,7 +44,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
           type="date"
           name="endingDate"
           value={selection.endingDate.split("/").join("-")}
-          className={`${styles.inputGlobal} ${styles.select}`}
+          className={`inputGlobal ${styles.select}`}
           onChange={(e) => handleFilters(e)}
           min={toUglyDayFormat(!selection.startingDate ? datePlus(new Date(), 1) : datePlus(new Date(selection.startingDate), 1))}
         />
@@ -52,7 +52,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
       <div className={styles.section}>
         <span>Filters</span>
         <select
-          className={styles.select}
+          className={`selectGlobal ${styles.select}`}
           name="category"
           value={selection.category}
           onChange={(e) => handleFilters(e)}
@@ -68,7 +68,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
           <option value=''>All</option>
         </select>
         <select
-          className={styles.select}
+          className={`selectGlobal ${styles.select}`}
           name="brand"
           value={selection.brand}
           onChange={(e) => handleFilters(e)}
@@ -88,7 +88,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
       <div>
         <span>Order</span>
         <select
-          className={styles.select}
+          className={`selectGlobal ${styles.select}`}
           name="orderType"
           value={selection.orderType}
           onChange={(e) => handleFilters(e)}
@@ -97,7 +97,7 @@ function CarFilters({ locationId, selection, handleFilters }) {
           <option value="rating">Rating</option>
         </select>
         <select
-          className={styles.select}
+          className={`selectGlobal ${styles.select}`}
           name="order"
           value={selection.order}
           onChange={(e) => handleFilters(e)}

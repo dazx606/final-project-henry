@@ -63,9 +63,9 @@ function Rate({ dbUser, setHide }) {
                         {
                             emptyStars.length &&
                                 emptyStars.length !== 5 ?
-                                emptyStars.map((es) => {
+                                emptyStars.map((es, i) => {
                                     return (
-                                        <div key={es} className={style.stars} >
+                                        <div key={i} className={style.stars} >
                                             <i className="fa-regular fa-star"></i>
                                         </div>
                                     )
