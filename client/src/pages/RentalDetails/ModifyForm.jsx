@@ -138,8 +138,6 @@ export default function Form({ status, userId, ending, numberOfDatesInitial }) {
     // const numberOfDatesInicial = getDatesInRange(sDate, eDate).length - 1;
     const numberOfDatesModified = getDatesInRange(startingDate, endingDate).length - 1;
 
-    console.log(numberOfDatesModified)
-
     function handleSubmit(e) {
         e.preventDefault();
         dispatch(modifyReservation(startingDate.toDateString(), endingDate.toDateString(), userId, orderId, getAccessTokenSilently))
@@ -162,7 +160,7 @@ export default function Form({ status, userId, ending, numberOfDatesInitial }) {
                     status === 'pending' ?
                         (
                             <div className={styles.calendar}>
-                                <div>
+                                <div className={styles.startingCalendar}>
                                     <label>Start Date: </label>
                                     <DatePicker
                                         className={styles.date}
@@ -183,7 +181,7 @@ export default function Form({ status, userId, ending, numberOfDatesInitial }) {
                                     />
                                 </div>
                                 {
-                                    <div>
+                                    <div className={styles.endingCalendar}>
                                         <label>End Date: </label>
                                         <DatePicker
                                             className={styles.date}
