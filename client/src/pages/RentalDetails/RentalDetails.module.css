@@ -6,10 +6,10 @@
     padding: 0.5rem;
     color: var(--color3Tr);
     font-family: var(--font2);
-    margin-left: 10em;
-    margin-right: 10em;
-    margin-top: 3em;
-    margin-bottom: 3em;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
 }
 
 .containerRent {
@@ -36,39 +36,56 @@
     display: flex;
     justify-content: center;
     border-bottom: 2px solid var(--color4);
-    width: 35em;
+    width: 60vvw
 }
 
 .itemsRent1 {
     display: flex;
     justify-content: start;
-    margin-left: 4em;
-    width: 15em;
+    /* margin-left: 4em; */
+    width: 30vw;
     color: var(--color4)
 }
 
 .itemsRent2 {
     display: flex;
     justify-content: start;
-    padding-left: 5em;
+    padding-left: 5vw;
     margin-right: 0em;
     text-align: start;
-    width: 15em;
+    width: 30vw;
 }
 
 .itemsRent3 {
     display: flex;
     justify-content: start;
-    padding-left: 5em;
-    margin-right: -2em;
+    /* padding-left: 5vw;
+    margin-right: 0vw; */
     text-align: start;
-    width: 15em;
+    width: 30vw;
+}
+
+.itemsRent4 {
+    position: relative;
+    
+    justify-content: start;
+    padding-left: 5vw;
+    margin-right: 0em;
+    text-align: start;
+    width: 30vw;
 }
 
 .buttons {
     display: flex;
     justify-content: space-evenly;
     margin: 2em;
+}
+
+.modifyForm1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
 }
 
 .alert {

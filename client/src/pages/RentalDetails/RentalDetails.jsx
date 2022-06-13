@@ -23,7 +23,7 @@ export default function RentalDetails() {
     const dispatch = useDispatch();
     const { orderId } = useParams();
     const { getAccessTokenSilently } = useAuth0();
-    
+
     const [showAlert, setShowAlert] = useState(false);
     const [showAlertOk, setShowAlertOk] = useState(false);
     const [showModify, setShowModify] = useState(true);
@@ -45,7 +45,7 @@ export default function RentalDetails() {
         navigate(`/`);
     }
 
-    function handleShow () {
+    function handleShow() {
         setShowModify(!showModify)
     }
 
@@ -55,11 +55,11 @@ export default function RentalDetails() {
         return new Date(new Date(date.getTime()).setDate(new Date(date.getTime()).getDate() + num))
     })(date, -2)
 
-    const amount = reservation?.order?.paymentAmount.length === 1 ? 
-        (Number(reservation?.order?.paymentAmount[0])/100) :
+    const amount = reservation?.order?.paymentAmount.length === 1 ?
+        (Number(reservation?.order?.paymentAmount[0]) / 100) :
         (reservation?.order?.paymentAmount.reduce(
-        (previousValue, currentValue) => Number(previousValue) + Number(currentValue) ,
-        0)) /100 ;
+            (previousValue, currentValue) => Number(previousValue) + Number(currentValue),
+            0)) / 100;
 
     const numberOfDatesInitial = getDatesInRange(reservation?.order?.startingDate, datePlus).length - 1;
 
@@ -103,7 +103,7 @@ export default function RentalDetails() {
                                         </tr>
                                         <tr className={styles.itemsRent}>
                                             <td className={styles.itemsRent1}>Drivers:</td>
-                                            <td>
+                                            <td className={styles.itemsRent4}>
                                                 {
                                                     reservation?.order?.drivers.map((d, k) =>
                                                         <div key={k}>
@@ -115,7 +115,7 @@ export default function RentalDetails() {
                                         </tr>
                                         <tr className={styles.itemsRent}>
                                             <td className={styles.itemsRent1}>Optional Equipment:</td>
-                                            <td>
+                                            <td className={styles.itemsRent4}>
                                                 {
                                                     reservation?.order?.optionalEquipments.map((e, k) =>
                                                         <div key={k}>
@@ -140,11 +140,13 @@ export default function RentalDetails() {
                     }
                 </div>
             </div>
-            <div  hidden={showModify}>
-                <ModifyForm status={reservation?.order?.status} 
-                userId={reservation?.order?.userId} 
-                ending={reservation?.order?.status === 'in use' ? datePlus : new Date()} 
-                numberOfDatesInitial={numberOfDatesInitial}/>
+            <div hidden={showModify}>
+                <div  className={styles.modifyForm1}>
+                    <ModifyForm status={reservation?.order?.status}
+                    userId={reservation?.order?.userId}
+                    ending={reservation?.order?.status === 'in use' ? datePlus : new Date()}
+                    numberOfDatesInitial={numberOfDatesInitial} />
+                </div>
             </div>
             <div className={styles.buttons}>
                 <button disabled={reservation?.order?.status === 'canceled' ||

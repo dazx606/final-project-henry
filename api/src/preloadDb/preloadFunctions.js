@@ -121,6 +121,7 @@ const preloadCar = async () => {
             images: c.images,
             rating: Math.floor(Math.random() * (500 - 100) + 100) / 100,
             ratingNum: Math.ceil(Math.random() * 10),
+            description: c.description
           },
         });
         const newIndividualCar = await IndividualCar.findOrCreate({

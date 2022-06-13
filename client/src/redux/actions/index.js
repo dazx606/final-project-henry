@@ -57,7 +57,9 @@ export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 export const RATE_CAR = "RATE_CAR";
 
-export const URL = "http://localhost:3001/";
+const  URL  = process.env.REACT_APP_URL;
+
+// export const URL = "https://car-rents.herokuapp.com/";
 
 export function getLocations() {
   return async (dispatch) => {
@@ -377,11 +379,11 @@ export function deleteReservation(getToken, payload) {
   };
 }
 
-export function getAllAdminCars(getToken, plate, page) {
+export function getAllAdminCars(getToken, plate, page, order) {
   return async (dispatch) => {
     try {
       const token = await getToken();
-      let response = await getAllCars(token, plate, page);
+      let response = await getAllCars(token, plate, page, order);
       return dispatch({
         type: GET_ALL_ADMIN_CARS,
         payload: response.data,

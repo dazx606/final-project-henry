@@ -146,7 +146,7 @@ function CreateCar() {
           className={styles.input}
           onChange={handleInputChange}
         />
-        <button type="submit" className={styles.create}>
+        <button type="submit" className={`buttonGlobal ${styles.create}`}>
           Add Car
         </button>
       </form>
