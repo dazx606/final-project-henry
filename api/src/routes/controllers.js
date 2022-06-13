@@ -15,6 +15,7 @@ require("dotenv").config();
 const { EMAIL, YOUR_DOMAIN } = process.env;
 const Mailgen = require("mailgen")
 const { confirmationEmail } = require("../MailTemplate/OrderConfirmation")
+const { modifyOrder } = require("../MailTemplate/ModifyOrder")
 const { transporter } = require("../config/mailer")
 
 let mailGenerator = new Mailgen({
@@ -159,7 +160,7 @@ const rentUpdate = async (stripeObject) => {
       const emailBody = mailGenerator.generate(confirmationEmail(rent.user.firstName, rent.user.lastName, rent.individualCar.carModel.brand, rent.individualCar.carModel.model, rent.optionalEquipments, rent.startingDate, datePlus(new Date(rent.endingDate), -2).toDateString(), stripeObject.amount_total))
       const emailText = mailGenerator.generatePlaintext(confirmationEmail(rent.user.firstName, rent.user.lastName, rent.individualCar.brand, rent.individualCar.model, rent.optionalEquipments, rent.startingDate, datePlus(new Date(rent.endingDate), -2).toDateString(), stripeObject.amount_total))
 
-      const info = await transporter.sendMail({
+      const infoEmail = await transporter.sendMail({
         from: `Luxurent TEAM <${EMAIL}>`,
         subject: `Receipt for Order #${rent.id}`,
         to: rent.user.email,
@@ -177,6 +178,17 @@ const rentUpdate = async (stripeObject) => {
       },
         { where: { id: rentId } }
       );
+      const emailBody = mailGenerator.generate(modifyOrder(rentId, rent.user.firstName, rent.user.lastName, info[2], datePlus(new Date (info[3]), -2).toDateString()))
+      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, rent.user.firstName, rent.user.lastName, info[2], datePlus(new Date(info[3]), -2).toDateString()))
+
+      const infoEmail = await transporter.sendMail({
+        from: `Luxurent TEAM <${EMAIL}>`,
+        subject: `Order #${rent.id} modified`,
+        to: rent.user.email,
+        html: emailBody,
+        text: emailText,
+      });
+      
     }
   } catch (error) {
     console.log(error);

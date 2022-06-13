@@ -3,6 +3,7 @@ const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Locatio
 require("dotenv").config();
 const Mailgen = require("mailgen")
 const { cancelEmail } = require("../MailTemplate/CancelOrder")
+const { modifyOrder } = require("../MailTemplate/ModifyOrder")
 const { transporter } = require("../config/mailer")
 const { STRIPE_SECRET_KEY, EMAIL, YOUR_DOMAIN } = process.env;
 const { datePlus, filterRentDates, getDatesInRange, statusUpdater } = require("./controllers.js");
@@ -25,11 +26,11 @@ const authMiddleWare = jwt({
 let mailGenerator = new Mailgen({
   theme: 'default',
   product: {
-    // Appears in header & footer of e-mails
-    name: 'Luxurent',
-    link: YOUR_DOMAIN
-    // Optional logo
-    // logo: 'https://mailgen.js/img/logo.png'
+      // Appears in header & footer of e-mails
+      name: 'Luxurent', 
+      link: YOUR_DOMAIN
+      // Optional logo
+      // logo: 'https://mailgen.js/img/logo.png'
   }
 });
 
@@ -101,7 +102,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
       mode: 'payment',
       expires_at: 3601 + Math.floor(new Date().getTime() / 1000),
       success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,
-      cancel_url: `${YOUR_DOMAIN}/`,
+      cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
     });
     setTimeout(async () => {
       try {
@@ -161,7 +162,7 @@ router.delete("/refund/:userId/:rentId", async (req, res, next) => {
   }
 });
 
-router.patch("/modify", async (req, res, next) => {
+router.patch("/modify", authMiddleWare, async (req, res, next) => {
   const { startingDate, endingDate, userId, rentId } = req.body;
   try {
     await statusUpdater();
@@ -234,13 +235,24 @@ router.patch("/modify", async (req, res, next) => {
         mode: 'payment',
         expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
         success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,  ////////////////////////Cambiar esto
-        cancel_url: `${YOUR_DOMAIN}/`,
+        cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
       });
       return res.json({ url: session.url })
     }
 
     if (totalDiff === 0) {
-      await RentOrder.update({ startingDate: start.toDateString(), endingDate: end.toDateString() }, { where: { id: rentId } });
+      await RentOrder.update({ startingDate: start.toDateString(), endingDate: maintenanceEnd.toDateString() }, { where: { id: rentId } });
+      
+      const emailBody = mailGenerator.generate(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+
+      const info = await transporter.sendMail({
+        from: `Luxurent TEAM <${EMAIL}>`,
+        subject: `Order #${rent.id} modified`,
+        to: user.email,
+        html: emailBody,
+        text: emailText,
+      });
       return res.json({ msg: "modified" });
     }
 
@@ -305,6 +317,18 @@ router.patch("/modify", async (req, res, next) => {
         }
         i++;
       }
+
+      const emailBody = mailGenerator.generate(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+
+      const info = await transporter.sendMail({
+        from: `Luxurent TEAM <${EMAIL}>`,
+        subject: `Order #${rent.id} modified`,
+        to: user.email,
+        html: emailBody,
+        text: emailText,
+      });
+      
       return res.json({ msg: "refund successful" });
     }
   } catch (error) {
