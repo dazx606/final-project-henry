@@ -14,7 +14,8 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .usersBox, .searchReservation {
+  .usersBox,
+  .searchReservation {
     margin: 2rem 1rem;
   }
 }
@@ -35,7 +36,6 @@
 .tableTitle {
   color: var(--color4);
   padding: 3px 15px;
-  
 }
 .tableCell {
   padding: 3px 15px;
@@ -44,4 +44,8 @@
 
 .pointer {
   cursor: pointer;
+}
+.table {
+  margin: auto;
+  width: 100%;
 }
