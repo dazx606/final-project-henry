@@ -57,7 +57,7 @@ export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 export const RATE_CAR = "RATE_CAR";
 
-const  URL  = process.env.URL;
+const  URL  = process.env.REACT_APP_URL;
 
 // export const URL = "https://car-rents.herokuapp.com/";
 

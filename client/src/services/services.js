@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const  URL  = process.env.URL;
+const  URL  = process.env.REACT_APP_URL;
 
 //"https://car-rents.herokuapp.com/";
 
@@ -273,5 +273,5 @@ export function rateCar(token, userId, ratings) {
     mode: 'cors',
     headers: {authorization:  `Bearer ${token}`}
   };
-  return axios.patch(`http://localhost:3001/user/rate`, {userId, ratings}, options)
+  return axios.patch(`${URL}user/rate`, {userId, ratings}, options)
 }
