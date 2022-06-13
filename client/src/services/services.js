@@ -1,6 +1,6 @@
 import axios from "axios";
-require("dotenv").config();
-const { URL } = process.env;
+
+const  URL  = process.env.URL;
 
 //"https://car-rents.herokuapp.com/";
 
