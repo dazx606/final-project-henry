@@ -1,5 +1,8 @@
 import axios from "axios";
-const URL = "https://car-rents.herokuapp.com/";
+require("dotenv").config();
+const { URL } = process.env;
+
+//"https://car-rents.herokuapp.com/";
 
 export function getAllLocations() {
   return axios.get(`${URL}locations`);

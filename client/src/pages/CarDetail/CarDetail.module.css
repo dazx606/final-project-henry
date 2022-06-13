@@ -226,6 +226,24 @@
   .extraimages{
     display: flex;
     flex-direction: column;
+    width: 100vw;
     height: auto;
   }
+  .extraimages img{
+    width: 100vw;
+    padding: 0;
+  }
+  .firstsplit{
+    padding: 0;
+  }
+  .secondsplit{
+    padding: 0;
+  }
+  .thirdsplit{
+    padding: 0;
+  }
+  .fourthsplit{
+    padding: 0;
+  }
+
 }
