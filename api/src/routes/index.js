@@ -297,12 +297,4 @@ router.post(
 );
 
 
-router.get("/test",(req,res,next)=>{
-  try {
-    res.send({mail:EMAIL})
-  } catch (error) {
-    next(error)
-  }
-})
-
 module.exports = router;
