@@ -73,6 +73,15 @@
   font-size: 2rem;
   width: 100%;
   padding: 0.5rem 3rem;
+  border: none;
+  box-shadow: none;
+}
+
+.reserve:hover{
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  background-color: rgb(34, 34, 34);
 }
 
 .extraimages {
