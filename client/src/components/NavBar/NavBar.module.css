@@ -132,6 +132,7 @@
 
 .list {
   padding: 0.5rem;
+  width: 113px;
 }
 
 .link {
@@ -209,4 +210,8 @@
     flex-wrap: wrap;
      
   }
+  .list{
+    width: auto;
+  }
+
 }
