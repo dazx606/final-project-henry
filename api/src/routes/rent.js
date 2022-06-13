@@ -118,6 +118,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
   }
 });
 
+
 router.delete("/refund/:userId/:rentId", async (req, res, next) => {
   try {
     await statusUpdater();
