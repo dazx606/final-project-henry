@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const  URL  = process.env.URL;
+const  URL  = process.env.REACT_APP_URL;
 
 //"https://car-rents.herokuapp.com/";
 
@@ -126,14 +126,18 @@ export function getAllIncludedEquipment() {
   return axios.get(`${URL}admin/equipment/included`);
 }
 
-export function getAllCars(token, plate, page) {
+export function getAllCars(token, plate, page, order) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.get(
+<<<<<<< HEAD
+    `http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}&&order=${order}`,
+=======
     `${URL}admin/allCars?plate=${plate}&&page=${page}`,
+>>>>>>> ac86aeae1ee364a49e5cd91e1a3740f099d2df93
     options
   );
 }
