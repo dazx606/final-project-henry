@@ -134,7 +134,7 @@ export default function AdminReservationForm({ orderId, handleOption }) {
               <button type='button' className={`buttonGlobal ${styles.button}`} onClick={() => setShowAlert(true)}>
                 Delete
               </button>
-              <button type='button' className='buttonGlobal' onClick={handleOption}> View All Reservations</button>
+              <button type='button' className={`buttonGlobal ${styles.viewAll}`} onClick={handleOption}> View All Reservations</button>
             </div>
           </div>
         </form>
