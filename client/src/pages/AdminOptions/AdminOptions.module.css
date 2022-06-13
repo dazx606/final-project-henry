@@ -24,7 +24,7 @@
   justify-content: center;
   position: fixed;
   z-index: 2000;
-  transition: all 1.3s, background-color 5s;
+  transition: all 1s, background-color 5s;
 }
 
 .checkbox:checked~.selection {
@@ -50,7 +50,7 @@
   width: 18%;
   display: flex;
   flex-direction: column;
-  transition: all 1.3s;
+  transition: all 1s;
   margin-top: 4rem;
 }
 
@@ -72,7 +72,7 @@
   font-size: 1.5rem;
   width: 95%;
   height: 5rem;
-  transition: all 0.5 s, font-size 1.3s;
+  transition: all 0.5 s, font-size 1s;
 }
 
 .checkbox3:checked~.options {
@@ -151,7 +151,7 @@
   .activeOpt{
     width: 90%;
     transition-delay: 1s;
-    transition: all 1.3s;
+    transition: all 1s;
   }
   .checkbox3:checked~.activeOpt {
     border: none;

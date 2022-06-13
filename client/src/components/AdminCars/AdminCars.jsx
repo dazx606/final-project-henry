@@ -14,13 +14,17 @@ function AdminCars() {
   const [carOption, setCarOption] = useState("allCars");
   const [plate, setPlate] = useState("");
   const [page, setPage] = useState(1);
+  const [order, setOrder] = useState('DESC');
   const dispatch = useDispatch();
 
+  useEffect (() => {
+    dispatch(getAllAdminCars(getAccessTokenSilently, plate, page, order));
+  }, [order])
 
   function handleCarsSearch(e) {
     let searchPlate = e.target.value;
     setPlate(searchPlate);
-    dispatch(getAllAdminCars(getAccessTokenSilently, e.target.value, page));
+    dispatch(getAllAdminCars(getAccessTokenSilently, e.target.value, page, order));
   }
   function handleCarOption(e) {
     setCarOption(e.target.value);
@@ -38,7 +42,11 @@ function AdminCars() {
               value={plate}
               onChange={handleCarsSearch}
             />
-            
+            <select className={` selectGlobal ${style.order}`}  value={order} onChange={e => setOrder(e.target.value)} >
+            <option value="DESC" >Best Rated</option>
+            <option value="ASC">Worst Rated</option>
+            </select>
+
             <div className={style.addButtons}>
               <div className={style.firstButton}>
                 <button
@@ -60,7 +68,7 @@ function AdminCars() {
               </div>
             </div>
           </div>
-          < AllCars plate={plate} />
+          < AllCars plate={plate} order={order}/>
         </div>
       )}
 
