@@ -56,8 +56,8 @@ export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
 export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 export const RATE_CAR = "RATE_CAR";
-require("dotenv").config();
-const { URL } = process.env;
+
+const  URL  = process.env.URL;
 
 // export const URL = "https://car-rents.herokuapp.com/";
 
