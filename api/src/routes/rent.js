@@ -243,8 +243,8 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
     if (totalDiff === 0) {
       await RentOrder.update({ startingDate: start.toDateString(), endingDate: maintenanceEnd.toDateString() }, { where: { id: rentId } });
       
-      const emailBody = mailGenerator.generate(modifyOrder(rentId, userId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
-      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, userId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+      const emailBody = mailGenerator.generate(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
 
       const info = await transporter.sendMail({
         from: `Luxurent TEAM <${EMAIL}>`,
@@ -318,8 +318,8 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
         i++;
       }
 
-      const emailBody = mailGenerator.generate(modifyOrder(rentId, userId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
-      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, userId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+      const emailBody = mailGenerator.generate(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
 
       const info = await transporter.sendMail({
         from: `Luxurent TEAM <${EMAIL}>`,

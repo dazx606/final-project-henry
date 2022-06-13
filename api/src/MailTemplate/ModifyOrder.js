@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { YOUR_DOMAIN } = process.env;
-const modifyOrder = (rentId, userId, firstName, lastName, newStartingDate, newEndingDate) => {
+const modifyOrder = (rentId, firstName, lastName, newStartingDate, newEndingDate) => {
    
     let email = {
         body: {
