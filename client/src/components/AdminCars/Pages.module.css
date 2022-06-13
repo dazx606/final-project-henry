@@ -16,6 +16,14 @@
 .page:hover {
     cursor: pointer;
 }
+.pageT{
+    font-family: var(--font2);
+    color: var(--color4);
+    font-size: 1em;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    margin: 1rem;
+}
 
 .current{
     font-family: var(--font2);

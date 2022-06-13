@@ -52,9 +52,9 @@ function Rate({ dbUser, setHide }) {
                                     )
                                 })
                                 :
-                                stars.map((s) => {
+                                stars.map((s, i) => {
                                     return (
-                                        <div key={s} className={style.stars} onClick={() => handleRating(s)} >
+                                        <div key={i} className={style.stars} onClick={() => handleRating(s)} >
                                             <i className="fa-regular fa-star"></i>
                                         </div>
                                     )
