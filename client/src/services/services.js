@@ -273,5 +273,5 @@ export function rateCar(token, userId, ratings) {
     mode: 'cors',
     headers: {authorization:  `Bearer ${token}`}
   };
-  return axios.patch(`http://localhost:3001/user/rate`, {userId, ratings}, options)
+  return axios.patch(`${URL}user/rate`, {userId, ratings}, options)
 }
