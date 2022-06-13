@@ -47,7 +47,7 @@ function AdminReservations() {
           <div className={styles.usersBox}>
             {allOrders.length ? (
                 <div className={styles.listTitle}>
-                  <table>
+                  <table className={styles.table}>
                    <thead>
                    <tr>
                     <th className={styles.tableTitle}>Email</th>
