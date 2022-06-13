@@ -95,16 +95,16 @@ router.get("/rent", async (req, res, next) => {
 
 //============ CARS
 router.get("/allCars", async (req, res, next) => {
-  const { plate, locationId, page = 1 } = req.query;
+  const { plate, locationId, page = 1, order = "ASC"} = req.query;
   let cars = [];
   try {
     if (plate) {
       let specificCar = await IndividualCar.findAll({
-        order: [["license_plate", "ASC"]],
+        order: [[{ model: CarModel }, "rating", "ASC"]],
         include: {
           model: CarModel,
-          attributes: ["brand", "images"],
-        },
+          attributes: ["brand", "images", "rating"],
+        }
       });
       specificCar = specificCar.filter((sc) =>
         sc.license_plate.includes(plate.toUpperCase())
@@ -114,14 +114,15 @@ router.get("/allCars", async (req, res, next) => {
 
     if (!plate) {
       let allCars = await IndividualCar.findAll({
-        order: [["license_plate", "ASC"]],
+        order: [[{ model: CarModel }, "rating", "ASC"]],
         include: {
           model: CarModel,
-          attributes: ["brand", "images"],
-        },
+          attributes: ["brand", "images", "rating"],
+        }
       });
       cars = allCars;
     }
+    if(order === 'desc') cars = cars.reverse();
 
     let totalPages= 1;    
     let carsPerPage = 7;

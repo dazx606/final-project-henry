@@ -123,14 +123,14 @@ export function getAllIncludedEquipment() {
   return axios.get(`${URL}admin/equipment/included`);
 }
 
-export function getAllCars(token, plate, page) {
+export function getAllCars(token, plate, page, order) {
   const options = {
     method: "GET",
     mode: "cors",
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.get(
-    `http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}`,
+    `http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}&&order=${order}`,
     options
   );
 }

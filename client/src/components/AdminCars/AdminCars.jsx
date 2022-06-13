@@ -38,6 +38,7 @@ function AdminCars() {
               value={plate}
               onChange={handleCarsSearch}
             />
+            
             <div className={style.addButtons}>
               <div className={style.firstButton}>
                 <button
