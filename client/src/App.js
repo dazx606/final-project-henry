@@ -3,7 +3,7 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { setUserInfo } from "./redux/actions";
+import { setUserInfo, saveUser } from "./redux/actions";
 import Home from "./pages/Home/Home";
 import CarDetail from "./pages/CarDetail/CarDetail";
 import NavBar from "./components/NavBar/NavBar";
@@ -19,6 +19,7 @@ import Booking from "./pages/Booking/Booking";
 // import AdminUsers from "./components/AdminUsers/AdminUsers";
 import AdminRoutes from "./AdminRoutes";
 import AdminOptions from "./pages/AdminOptions/AdminOptions";
+import RestrictBooking from "./RestrictBooking";
 import RentalDetails from "./pages/RentalDetails/RentalDetails";
 
 function App() {
@@ -30,6 +31,12 @@ function App() {
       dispatch(setUserInfo(getAccessTokenSilently, user.email));
     }
   }, [dispatch, isAuthenticated, getAccessTokenSilently, user]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(saveUser(user.email, user.picture));
+    }
+  }, [user, dispatch]);
 
   return (
     <div className="app">
@@ -45,7 +52,7 @@ function App() {
             <Route path="/user/:userId" element={<ProfileUpdate />} />
             <Route path="/profile/:userId" element={<ProfileOptions />} />
             <Route path="/reservation/:orderId" element={<RentalDetails />} />
-            <Route path="/booking" element={<Booking />} />
+            <Route path="/booking" element={<RestrictBooking />} />      
           </Route>
           <Route element={<AdminRoutes />}>
             <Route path="/adminOptions" element={<AdminOptions />} />
