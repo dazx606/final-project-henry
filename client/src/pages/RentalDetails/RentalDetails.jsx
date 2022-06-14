@@ -141,23 +141,25 @@ export default function RentalDetails() {
                 </div>
             </div>
             <div hidden={showModify}>
-                <div  className={styles.modifyForm1}>
+                <div className={styles.modifyForm1}>
                     <ModifyForm status={reservation?.order?.status}
-                    userId={reservation?.order?.userId}
-                    ending={reservation?.order?.status === 'in use' ? datePlus : new Date()}
-                    numberOfDatesInitial={numberOfDatesInitial} />
+                        oldStartingDate={reservation?.order?.startingDate}
+                        oldEndingDate={reservation?.order?.endingDate}
+                        userId={reservation?.order?.userId}
+                        ending={reservation?.order?.status === 'in use' ? datePlus : new Date()}
+                        numberOfDatesInitial={numberOfDatesInitial} />
                 </div>
             </div>
             <div className={styles.buttons}>
                 <button disabled={reservation?.order?.status === 'canceled' ||
                     reservation?.order?.status === 'maintenance' ||
-                    reservation?.order?.status === 'concluded'} className='buttonGlobal'
+                    reservation?.order?.status === 'concluded'} className={`buttonGlobal ${styles.buttonDetail} `}
                     onClick={handleShow}>
                     Modify Dates</button>
                 <button disabled={reservation?.order?.status === 'canceled' ||
                     reservation?.order?.status === 'maintenance' ||
                     reservation?.order?.status === 'concluded'}
-                    className='buttonGlobal'
+                    className={`buttonGlobal ${styles.buttonDetail} `}
                     onClick={() => setShowAlert(true)}>
                     Cancel Order
                 </button>

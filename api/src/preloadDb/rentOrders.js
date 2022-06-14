@@ -10,8 +10,8 @@ const rentOrders = [
         status:"concluded",
     },
     {
-        startingDate: "2022/04/04",
-        endingDate: "2022/06/07",
+        startingDate: "2022/09/04",
+        endingDate: "2022/09/07",
         user: "rentacarg7@gmail.com",
         car: "500",
         drivers: ["persona3"],
@@ -20,14 +20,14 @@ const rentOrders = [
         status:"maintenance",
     },
     {
-        startingDate: "2022/07/7",
-        endingDate: "2022/07/8",
+        startingDate: "2022/08/7",
+        endingDate: "2022/08/8",
         user: "rentacarg7@gmail.com",
         car: "500",
         drivers: ["persona5"],
         optionalEquipment: ["GPS", "Child seat", "Baby seat"],
         endLocation: "Cali",
-        status:"canceled",
+        status:"pending",
     },
     {
         startingDate: "2022/02/2",

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "./AllCars.module.css";
 import DltCarAlert from "./DltCarAlert";
 
-function AllCars({ plate }) {
+function AllCars({ plate, order }) {
     const allCars = useSelector((state) => state.allCars.cars);
     const carDeleted = useSelector((state) => state.carDeleted)
     const [page, setPage] = useState(1);
@@ -17,12 +17,12 @@ function AllCars({ plate }) {
     const dispatch = useDispatch();    
 
     useEffect(() => {
-        dispatch(getAllAdminCars(getAccessTokenSilently, plate, page));
+        dispatch(getAllAdminCars(getAccessTokenSilently, plate, page, order));
     }, [dispatch, plate, carDeleted]);
 
     const pagination = (p) => {
         setPage(p);
-        dispatch(getAllAdminCars(getAccessTokenSilently, plate, p));
+        dispatch(getAllAdminCars(getAccessTokenSilently, plate, p, order));
     };
     function handleTClick(plate) {             
         setDltCar({plate: plate })
@@ -40,8 +40,10 @@ function AllCars({ plate }) {
                         <div className={style.imgIcon}></div>
                         <div className={style.brand}>Brand</div>
                         <div className={style.brand}>Model</div>
+                        {/* <div className={style.brand}>Model Rating</div> */}
                         <div className={style.plate}>License Plate</div>
-                        <div className={style.dltTitle}>Delete Car</div>
+                        {/* <div className={style.dltTitle}>Delete Car</div> */}
+                        <div className={style.more}></div>
                     </div>
                     {allCars?.map((c) => (
                         <CarListItem car={c} key={c.id} handleTClick={handleTClick} />
