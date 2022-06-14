@@ -153,13 +153,13 @@ export default function RentalDetails() {
             <div className={styles.buttons}>
                 <button disabled={reservation?.order?.status === 'canceled' ||
                     reservation?.order?.status === 'maintenance' ||
-                    reservation?.order?.status === 'concluded'} className='buttonGlobal'
+                    reservation?.order?.status === 'concluded'} className={`buttonGlobal ${styles.buttonDetail} `}
                     onClick={handleShow}>
                     Modify Dates</button>
                 <button disabled={reservation?.order?.status === 'canceled' ||
                     reservation?.order?.status === 'maintenance' ||
                     reservation?.order?.status === 'concluded'}
-                    className='buttonGlobal'
+                    className={`buttonGlobal ${styles.buttonDetail} `}
                     onClick={() => setShowAlert(true)}>
                     Cancel Order
                 </button>
