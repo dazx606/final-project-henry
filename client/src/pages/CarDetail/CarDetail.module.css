@@ -73,6 +73,15 @@
   font-size: 2rem;
   width: 100%;
   padding: 0.5rem 3rem;
+  border: none;
+  box-shadow: none;
+}
+
+.reserve:hover {
+  box-shadow: none;
+  border: none;
+  font-weight: 400;
+  background-color: rgb(34, 34, 34);
 }
 
 .extraimages {
@@ -166,4 +175,75 @@
   color: var(--color4);
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 750px) {
+  .container {
+    padding: 0;
+    margin: 0;
+  }
+
+  .mainimagecontainer {
+    padding: 0;
+    margin: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mainimage {
+    width: 100vw;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .options {
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+  }
+
+  .carinfo {
+    width: 90vw;
+  }
+
+  .moreinfo {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+  }
+
+  .accessories {
+    width: 95vw;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+  }
+  .extraimages{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: auto;
+  }
+  .extraimages img{
+    width: 100vw;
+    padding: 0;
+  }
+  .firstsplit{
+    padding: 0;
+  }
+  .secondsplit{
+    padding: 0;
+  }
+  .thirdsplit{
+    padding: 0;
+  }
+  .fourthsplit{
+    padding: 0;
+  }
+
 }

@@ -3,6 +3,7 @@ const { Op, CarModel, CarType, Driver, IncludedEquipment, IndividualCar, Locatio
 require("dotenv").config();
 const Mailgen = require("mailgen")
 const { cancelEmail } = require("../MailTemplate/CancelOrder")
+const { modifyOrder } = require("../MailTemplate/ModifyOrder")
 const { transporter } = require("../config/mailer")
 const { STRIPE_SECRET_KEY, EMAIL, YOUR_DOMAIN } = process.env;
 const { datePlus, filterRentDates, getDatesInRange, statusUpdater } = require("./controllers.js");
@@ -99,7 +100,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
       customer_email: carRent.user.email,
       client_reference_id: `${rentId}:${numberOfDays}`,
       mode: 'payment',
-      expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
+      expires_at: 3660 + Math.floor(new Date().getTime() / 1000),
       success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,
       cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
     });
@@ -117,6 +118,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
     next(error);
   }
 });
+
 
 router.delete("/refund/:userId/:rentId", async (req, res, next) => {
   try {
@@ -186,7 +188,8 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
     const maintenanceEnd = datePlus(end, 2);
     const start = new Date(startingDate);
 
-    const otherRentsSameCar = await IndividualCar.findByPk(rent.individualCarId, { include: [{ model: RentOrder, where: { id: { [Op.ne]: rentId } }, }] })
+    const allowedStatus = ["pending", "in use", "maintenance"];
+    const otherRentsSameCar = await IndividualCar.findByPk(rent.individualCarId, { include: [{ model: RentOrder, where: { id: { [Op.ne]: rentId }, status: { [Op.or]: allowedStatus } } }] })
     if (otherRentsSameCar !== null) {
       const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
       const startString = start.toDateString();
@@ -232,7 +235,7 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
         customer_email: email,
         client_reference_id: `${rentId}:${totalDiff}:${start.toDateString()}:${maintenanceEnd.toDateString()}`,
         mode: 'payment',
-        expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
+        expires_at: 3660 + Math.floor(new Date().getTime() / 1000),
         success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,  ////////////////////////Cambiar esto
         cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
       });
@@ -240,7 +243,18 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
     }
 
     if (totalDiff === 0) {
-      await RentOrder.update({ startingDate: start.toDateString(), endingDate: end.toDateString() }, { where: { id: rentId } });
+      await RentOrder.update({ startingDate: start.toDateString(), endingDate: maintenanceEnd.toDateString() }, { where: { id: rentId } });
+
+      const emailBody = mailGenerator.generate(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+
+      const info = await transporter.sendMail({
+        from: `Luxurent TEAM <${EMAIL}>`,
+        subject: `Order #${rent.id} modified`,
+        to: user.email,
+        html: emailBody,
+        text: emailText,
+      });
       return res.json({ msg: "modified" });
     }
 
@@ -305,6 +319,18 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
         }
         i++;
       }
+
+      const emailBody = mailGenerator.generate(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+      const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
+
+      const info = await transporter.sendMail({
+        from: `Luxurent TEAM <${EMAIL}>`,
+        subject: `Order #${rent.id} modified`,
+        to: user.email,
+        html: emailBody,
+        text: emailText,
+      });
+
       return res.json({ msg: "refund successful" });
     }
   } catch (error) {

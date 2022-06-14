@@ -3,11 +3,11 @@
   flex-direction: column;
   width: auto;
   min-width: 40rem;
-  max-width: 50rem;
+  
   background-color: var(--color6Tr);
   border: groove 1px var(--color4Tr);
   box-shadow: 0px 0px 8px 4px var(--color6Tr);
-  margin: 2rem auto;
+  margin: 2rem 7rem;
   padding: 0.5rem;
 }
 
@@ -39,6 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--color4);
 }
 
 .taginfo {
@@ -166,22 +167,17 @@
 
 .submit {
   display: flex;
-  justify-content: end;
-  margin-top: 0.5rem;
-  width: 100%;
+  justify-content: right;
+  position: relative;
+  bottom: -15rem;
+  height: 6rem;
 }
 
 .create {
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.2rem;
-  background-color: var(--color4);
-  color: var(--color3);
+  margin-right: 4px;
 }
-
-.create:hover {
-  cursor: pointer;
-  background-color: var(--color4Tr);
+.create:hover{
+  margin-right: 3px;
 }
 
 .links {
@@ -198,7 +194,6 @@
   display: flex;
   align-items: center;
   margin: 0.5rem;
-  justify-content: space-between;
   background-color: rgba(0, 0, 0, 0);
   border: none;
   color: var(--color2);

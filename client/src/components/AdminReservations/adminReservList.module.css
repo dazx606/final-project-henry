@@ -1,3 +1,7 @@
+.searchReservation {
+  margin: 2rem 7rem;
+  cursor:text;
+}
 .usersBox {
   width: auto;
   height: auto;
@@ -7,69 +11,42 @@
   margin: 2rem 7rem;
   padding: 0.5rem;
   color: var(--color3Tr);
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 1024px) {
+  .usersBox,
+  .searchReservation {
+    margin: 2rem 1rem;
+  }
 }
 
 .listTitle {
-  display: flex;
-  align-items: center;
-  margin: 1rem;
-  color: var(--color4);
-}
-
-.userListItem {
-  display: flex;
-  align-items: center;
   margin: 1rem;
 }
 
-.name {
-  width: 12rem;
-  display: flex;
-  justify-content: center;
-}
-
-.email {
-  width: 20rem;
-  display: flex;
-  justify-content: center;
-}
 .eye {
-  width: 10rem;
-  display: flex;
-  justify-content: center;
-  color:var(--color3);
+  color: var(--color3);
   text-decoration: none;
-
-}
-.imgIcon {
-  color: var(--color4);
-  width: 2.5rem;
-  height: 2.5rem;
-  margin: 0px 0px 0px 24px;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  display: flex;
-  font-size: 1.2em;
-  font-weight: 700;
-}
-.reservation {
-  width: 20rem;
+  background-color: var(--color6Tr);
+  background-color: inherit;
+  border: 0;
   cursor: pointer;
+}
+
+.tableTitle {
+  color: var(--color4);
+  padding: 3px 15px;
+}
+.tableCell {
+  padding: 3px 15px;
   text-align: center;
 }
-.startingDate {
-  width: 20rem;
-  display: flex;
-  justify-content: center;
+
+.pointer {
+  cursor: pointer;
 }
-.searchReservation {
-  display: flex;
-  justify-content: left;
-  margin: 2rem 7rem;
-}
-.viewMore {
-  display: flex;
-  justify-content: center;
-  margin:1rem;
+.table {
+  margin: auto;
+  width: 100%;
 }

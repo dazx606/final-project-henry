@@ -41,11 +41,7 @@ function CarDetail() {
           <div className={styles.options}>
             <div className={styles.carinfo}>
               <span className={styles.text}>
-                AQUI VA UNA DESCRIPCION BREVE DEL MODELO SELECCIONADO... Lorem
-                ipsum, dolor sit amet consectetur adipisicing elit. Harum
-                veritatis autem nam, excepturi cum iusto, quo sequi illo fugit
-                exercitationem animi, explicabo commodi facilis minima.
-                Reiciendis porro tempora accusamus quis?
+                {carDetails.description}
               </span>
             </div>
             <div className={styles.moreinfo}>
@@ -80,7 +76,7 @@ function CarDetail() {
               </div>
             </div>
             <div className={styles.caroptions}>
-              <NavLink to = "/booking"><button onClick={handleClick} className={styles.reserve}>Reserve</button></NavLink>
+              <NavLink to = "/booking"><button onClick={handleClick} className={`${styles.reserve} buttonGlobal`}>Reserve</button></NavLink>
             </div>
           </div>
           <div className={styles.extraimages}>

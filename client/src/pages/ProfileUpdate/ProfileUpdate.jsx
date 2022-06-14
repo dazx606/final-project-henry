@@ -79,7 +79,7 @@ export default function Profile() {
   }
 
   return (
-    <div className={styles.profile}>
+    <div className={`boxGlobal ${styles.profile}`}>
       {alert === "Your information has been updated" ? (
         <div>
           <div className={styles.messages}>{alert}</div>
@@ -93,12 +93,12 @@ export default function Profile() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <h3 className={styles.helloP}> Hello {user.email}!</h3>
+        <form onSubmit={handleSubmit}> 
+          <h3 className={styles.helloP}>Hello {userInfo.data.firstName ? userInfo.data.firstName : user.email}!</h3>
           <div>
             <div className={styles.titles}>First name: </div>
             <input
-              className={`${styles.inputGlobal} ${styles.inputs}`}
+              className={`inputGlobal ${styles.inputs}`}
               type="text"
               value={input.firstName}
               name="firstName"
@@ -111,7 +111,7 @@ export default function Profile() {
           <div>
             <div className={styles.titles}>Last name: </div>
             <input
-              className={`${styles.inputGlobal} ${styles.inputs}`}
+              className={`inputGlobal ${styles.inputs}`}
               type="text"
               value={input.lastName}
               name="lastName"
@@ -124,7 +124,7 @@ export default function Profile() {
           <div>
             <div className={styles.titles}>Phone: </div>
             <input
-              className={`${styles.inputGlobal} ${styles.inputs}`}
+              className={`inputGlobal ${styles.inputs}`}
               type="text"
               value={input.phone}
               name="phone"
@@ -137,7 +137,7 @@ export default function Profile() {
           <div>
             <div className={styles.titles}>Language: </div>
             <select
-              className={`${styles.inputGlobal} ${styles.inputs}`}
+              className={`inputGlobal ${styles.inputsS}`}
               value={input.language}
               name="language"
               onChange={handleChange}
@@ -149,7 +149,7 @@ export default function Profile() {
           <div>
             <div className={styles.titles}>Document ID: </div>
             <input
-              className={`${styles.inputGlobal} ${styles.inputs}`}
+              className={`inputGlobal ${styles.inputs}`}
               type="text"
               value={input.documentId}
               name="documentId"
@@ -162,7 +162,7 @@ export default function Profile() {
           <div>
             <div className={styles.titles}>License: </div>
             <input
-              className={`${styles.inputGlobal} ${styles.inputs}`}
+              className={`inputGlobal ${styles.inputs}`}
               type="text"
               value={input.license}
               name="license"
@@ -175,7 +175,7 @@ export default function Profile() {
           <div>
             <div className={styles.titles}>City: </div>
             <select
-              className={`${styles.inputGlobal} ${styles.inputs}`}
+              className={`inputGlobal ${styles.inputsS}`}
               value={input.city}
               name="city"
               onChange={handleChange}

@@ -1,12 +1,13 @@
 .searchCar {
     display: flex;
     justify-content: left;
-    margin: 2.5rem 7rem 1rem 7rem;
-    height: 4rem;
+    margin: 2.5rem 7rem 0rem 7rem;
+    
 }
 .inputSearch{
     height: 2.5rem;
     width: 20rem;
+    margin-right: 1rem;
 }
 .inputSearch:hover {
     cursor: text;
@@ -14,18 +15,39 @@
 
 .addButtons{
     display: flex;
-    justify-content: left;
-    height: 4rem;
+    justify-content: right;
+    height: 2.5rem;
     width: 100%;
-    margin-left: 1.5rem;
+    font-size: 0.8em;
 }
 .firstButton{
-    width: 10rem;
+    width: 8rem;
+    display: flex;
+    justify-content: center;
 }
-.addButton{
-    height: 2.5rem;
-    margin-right: 1rem;
+.secondButton{
+    width: 6rem;
+    display: flex;
+    justify-content: center;
 }
+.allButton{
+    width: 5rem;
+    display: flex;
+    justify-content: center;
+}
+.order{
+    height: auto;
+    width: auto;
+    border: outset 1px var(--color4Tr);
+    padding: 0 0.4rem;
+    color: var(--color4);
+    background-color: var(--color6);
+    font-family: var(--font2);
+    box-shadow: none;
+    font-size: small;
+}
+
+
 
 
 

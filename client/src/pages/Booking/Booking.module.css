@@ -6,18 +6,12 @@
 .containerForm {
     margin: 3rem;
     padding: 2rem;
-    background-color: var(--color1);
-    font-family: var(--font2);
     font-size: 1rem;
     font-weight: 400;
     color: var(--color3);
-    border: outset 1px var(--color4);
     outline: none;
     max-width: 30em;
     line-height: 2rem;
-    border: 0;
-    border-radius: 5px;
-    box-shadow: 0 0 8px var(--color4);
 }
 
 .title {
@@ -48,18 +42,12 @@
     padding: 1rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    background-color: var(--color1);
     font-family: var(--font2);
     font-size: 1rem;
     font-weight: 400;
-    color: var(--color3);
-    border: outset 1px var(--color4);
     outline: none;
     max-width: 26rem;
     line-height: 3rem;
-    border: 0;
-    border-radius: 5px;
-    box-shadow: 0 0 8px var(--color4);
 }
 
 /* .date:hover {
@@ -95,6 +83,7 @@
     margin: 2rem;
     display: flex;
     justify-content: center;
+    height: 3rem;
 }
 
 .total2 {
@@ -109,22 +98,20 @@
 }
 
 .selects {
-    border: outset 1px var(--color4);
     outline: none;
     padding: 4px;
-    background-color: var(--color1);
-    box-shadow: 0px 0px 8px 2px var(--color6Tr);
-    font-family: var(--font2);
     font-size: 1rem;
     font-weight: 400;
-    color: var(--color3);
+}
+.selectBox{
+    height: 12px;
 }
 
 .selects:hover {
-    cursor: pointer;
+    /* cursor: pointer;
     box-shadow: 0px 0px 8px 6px var(--color6Tr);
-    font-weight: 500;
-    border: outset 2px var(--color4);
+    font-weight: 500; */
+    border: none;
 }
 
 .locationContainer {
@@ -134,16 +121,14 @@
 }
 
 .date {
-    
+
     outline: none;
     padding: 4px;
-    background-color: var(--color1);
+    background-color: var(--color6);
     font-family: var(--font2);
     font-size: 1rem;
     font-weight: 400;
     border: 0;
-    border-radius: 5px;
-    box-shadow: 0 0 4px var(--color4);
 }
 
 .date input {
@@ -163,7 +148,7 @@
 }
 
 .checkbox {
- width: 1.5em;   
+ width: 1.5em;
  height: 1.5em;
  align-items: center;
  margin-right: 1em;
