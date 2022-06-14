@@ -35,7 +35,7 @@ export default function Faq() {
             <FaqItem title='Will I Receive A Confirmation Of My Online Reservation?' text1='Yes! After submitting your request, you will receive an email with your reservation details and Pick Up instructions.' />
             <FaqItem title='Can I Add An Additional Driver?' text1='Yes, you can add up to 2 additional drivers. Each additional driver has to comply with the same condition as the primary driver. A fee will apply for adding each additional driver.' />
             <FaqItem title='What Personal Identification I Have To Bring In Order To Rent A Car?' text1='Each driver has to bring a valid Driver’s License. Non US Drivers must bring a second form of ID, Such as a Passport or a valid government issued ID. An International Driver License is necessary if the original Driver’s License is printed in non-Roman alphabet (such as Chinese, arabic, Cyrillic, etc.)' />
-            <div className={styles.containerButton}><NavLink to='/' className={styles.navLink}><button className={styles.goBtn}>Go Home</button></NavLink></div>
+            <div className={styles.containerButton}><NavLink to='/' className={styles.navLink}><button className='buttonGlobal'>Go Home</button></NavLink></div>
         </div>
     )
 }
