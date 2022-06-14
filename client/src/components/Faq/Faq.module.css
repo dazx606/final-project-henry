@@ -1,14 +1,14 @@
 .titles {
   font-family: var(--font2);
   font-size: 1rem;
-  color: var(--color3);
+  color: var(--color4);
   padding: 0;
   display: inline;
   transition: 0.2s;
 }
 
 .titles:hover {
-  color: var(--color4);
+  color: var(--color4Tr);
 }
 
 .background {
@@ -34,12 +34,12 @@
 
 .text {
   color: var(--color3);
-  padding: 0;
+  padding-top: 0;
   font-family: var(--font1);
 }
 
 .content {
-  border: 1px groove var(--color3Tr);
+  border: 1px groove var(--color4);
   border-radius: 5px;
   padding: 10px 10px;
   max-width: 50rem;
@@ -51,7 +51,7 @@
 }
 
 .arrow {
-  color: var(--color3);
+  color: var(--color4);
   padding-left: 10px;
 }
 
@@ -59,4 +59,5 @@
   display: flex;
   justify-content: center;
   padding: 10px;
+  margin: 1em;
 }

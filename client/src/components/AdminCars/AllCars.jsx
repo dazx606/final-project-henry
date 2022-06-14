@@ -7,17 +7,14 @@ import { useDispatch, useSelector } from "react-redux";
 import style from "./AllCars.module.css";
 import DltCarAlert from "./DltCarAlert";
 
-function AllCars({ plate }) {
+function AllCars({ plate, order }) {
     const allCars = useSelector((state) => state.allCars.cars);
     const carDeleted = useSelector((state) => state.carDeleted)
     const [page, setPage] = useState(1);
     const [alert, setAlert] = useState(false);
     const [dltCar, setDltCar] = useState({ plate: '' })
-    const [order, setOrder] = useState('ASC');
     const { getAccessTokenSilently } = useAuth0();
     const dispatch = useDispatch();    
-
-    console.log(allCars)
 
     useEffect(() => {
         dispatch(getAllAdminCars(getAccessTokenSilently, plate, page, order));
@@ -43,9 +40,10 @@ function AllCars({ plate }) {
                         <div className={style.imgIcon}></div>
                         <div className={style.brand}>Brand</div>
                         <div className={style.brand}>Model</div>
-                        <div className={style.brand}>Model Rating</div>
+                        {/* <div className={style.brand}>Model Rating</div> */}
                         <div className={style.plate}>License Plate</div>
-                        <div className={style.dltTitle}>Delete Car</div>
+                        {/* <div className={style.dltTitle}>Delete Car</div> */}
+                        <div className={style.more}></div>
                     </div>
                     {allCars?.map((c) => (
                         <CarListItem car={c} key={c.id} handleTClick={handleTClick} />

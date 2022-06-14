@@ -29,6 +29,7 @@ import {
   CANCEL_RESERVATION,
   GET_DETAIL_RESERVATION,
   RATE_CAR,
+  GET_UNAVAILABLE_DAYS,
 } from "../actions";
 
 const initialState = {
@@ -65,6 +66,7 @@ const initialState = {
   orders: [],
   carDeleted: {},
   order: {},
+  unavailableDays:[],
 };
 
 export default function rootReducer(state = initialState, { type, payload, token }) {
@@ -255,6 +257,12 @@ export default function rootReducer(state = initialState, { type, payload, token
         user: {...state.user, reservations: []}
       }
       
+    }
+    case GET_UNAVAILABLE_DAYS: {
+      return {
+        ...state,
+        unavailableDays: payload,
+      };
     }
 
     default:
