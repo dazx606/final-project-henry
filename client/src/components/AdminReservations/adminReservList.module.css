@@ -1,7 +1,7 @@
 .searchReservation {
   margin: 2rem 7rem;
 }
-.inputSearch{
+.inputSearch:hover{
   cursor:text;
 }
 .usersBox {

@@ -32,3 +32,14 @@
   font-weight: 400;
   margin: 2.5em 2em 0 2em;
 }
+
+@media (max-width: 800px) {
+  .alertContainer{
+    width: 90vw;
+    margin: auto;
+    left: 0;
+    right: 0;
+    height: 36vh;
+  }
+ 
+}

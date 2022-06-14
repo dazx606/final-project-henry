@@ -4,7 +4,6 @@ import styles from "./adminReservationForm.module.css";
 import { getOrderReservationId, deleteReservation } from "../../redux/actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import AlertConfirmation from "../AlertConfirmation/AlertConfirmation";
 
 export default function AdminReservationForm({ orderId, handleOption }) {
@@ -12,8 +11,7 @@ export default function AdminReservationForm({ orderId, handleOption }) {
   const dispatch = useDispatch();
   const order = useSelector((state) => state.order);
   const [showAlert, setShowAlert] = useState(false);
-  const [showAlertOk, setShowAlertOk] = useState(false)
-  const navigate = useNavigate();
+  const [showAlertOk, setShowAlertOk] = useState(false);
 
   useEffect(() => {
     dispatch(getOrderReservationId(orderId, getAccessTokenSilently));
@@ -25,8 +23,8 @@ export default function AdminReservationForm({ orderId, handleOption }) {
     setShowAlertOk(true)
   }
   function handleMessageOk() {
-    setShowAlertOk(false)
-    navigate("/adminOptions");
+    setShowAlertOk(false);
+    handleOption();
   }
   const amount = order?.paymentAmount?.length === 1 ?
     (Number(order?.paymentAmount[0]) / 100) :
@@ -89,7 +87,7 @@ export default function AdminReservationForm({ orderId, handleOption }) {
           </div>
           <div className={styles.item}>
             <span className={styles.itemTitle}>Rated: </span>
-            <span>{order?.rated === false ? 'The customer has not rated this car yet.' : 'The customer has rated this car yet.'}</span>
+            <span>{order?.rated === false ? 'The customer has not rated this car yet.' : 'The customer has rated this car.'}</span>
           </div>
 
           <div className={styles.item}>
