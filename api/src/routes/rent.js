@@ -26,11 +26,11 @@ const authMiddleWare = jwt({
 let mailGenerator = new Mailgen({
   theme: 'default',
   product: {
-      // Appears in header & footer of e-mails
-      name: 'Luxurent', 
-      link: YOUR_DOMAIN
-      // Optional logo
-      // logo: 'https://mailgen.js/img/logo.png'
+    // Appears in header & footer of e-mails
+    name: 'Luxurent',
+    link: YOUR_DOMAIN
+    // Optional logo
+    // logo: 'https://mailgen.js/img/logo.png'
   }
 });
 
@@ -100,7 +100,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
       customer_email: carRent.user.email,
       client_reference_id: `${rentId}:${numberOfDays}`,
       mode: 'payment',
-      expires_at: 3601 + Math.floor(new Date().getTime() / 1000),
+      expires_at: 3660 + Math.floor(new Date().getTime() / 1000),
       success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,
       cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
     });
@@ -188,7 +188,8 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
     const maintenanceEnd = datePlus(end, 2);
     const start = new Date(startingDate);
 
-    const otherRentsSameCar = await IndividualCar.findByPk(rent.individualCarId, { include: [{ model: RentOrder, where: { id: { [Op.ne]: rentId } }, }] })
+    const allowedStatus = ["pending", "in use", "maintenance"];
+    const otherRentsSameCar = await IndividualCar.findByPk(rent.individualCarId, { include: [{ model: RentOrder, where: { id: { [Op.ne]: rentId }, status: { [Op.or]: allowedStatus } } }] })
     if (otherRentsSameCar !== null) {
       const unavailableDays = otherRentsSameCar.rentOrders.map(r => getDatesInRange(new Date(r.startingDate), new Date(r.endingDate))).flat()
       const startString = start.toDateString();
@@ -234,7 +235,7 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
         customer_email: email,
         client_reference_id: `${rentId}:${totalDiff}:${start.toDateString()}:${maintenanceEnd.toDateString()}`,
         mode: 'payment',
-        expires_at: 3600 + Math.floor(new Date().getTime() / 1000),
+        expires_at: 3660 + Math.floor(new Date().getTime() / 1000),
         success_url: `${YOUR_DOMAIN}/reservation/${rentId}`,  ////////////////////////Cambiar esto
         cancel_url: `${YOUR_DOMAIN}/booking?canceled=true`,
       });
@@ -243,7 +244,7 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
 
     if (totalDiff === 0) {
       await RentOrder.update({ startingDate: start.toDateString(), endingDate: maintenanceEnd.toDateString() }, { where: { id: rentId } });
-      
+
       const emailBody = mailGenerator.generate(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
       const emailText = mailGenerator.generatePlaintext(modifyOrder(rentId, user.firstName, user.lastName, start.toDateString(), end.toDateString()))
 
@@ -329,7 +330,7 @@ router.patch("/modify", authMiddleWare, async (req, res, next) => {
         html: emailBody,
         text: emailText,
       });
-      
+
       return res.json({ msg: "refund successful" });
     }
   } catch (error) {

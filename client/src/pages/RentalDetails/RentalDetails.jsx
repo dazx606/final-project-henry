@@ -141,11 +141,13 @@ export default function RentalDetails() {
                 </div>
             </div>
             <div hidden={showModify}>
-                <div  className={styles.modifyForm1}>
+                <div className={styles.modifyForm1}>
                     <ModifyForm status={reservation?.order?.status}
-                    userId={reservation?.order?.userId}
-                    ending={reservation?.order?.status === 'in use' ? datePlus : new Date()}
-                    numberOfDatesInitial={numberOfDatesInitial} />
+                        oldStartingDate={reservation?.order?.startingDate}
+                        oldEndingDate={reservation?.order?.endingDate}
+                        userId={reservation?.order?.userId}
+                        ending={reservation?.order?.status === 'in use' ? datePlus : new Date()}
+                        numberOfDatesInitial={numberOfDatesInitial} />
                 </div>
             </div>
             <div className={styles.buttons}>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const  URL  = process.env.REACT_APP_URL;
+const URL = process.env.REACT_APP_URL;
 
 //"https://car-rents.herokuapp.com/";
 
@@ -133,11 +133,7 @@ export function getAllCars(token, plate, page, order) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.get(
-<<<<<<< HEAD
-    `http://localhost:3001/admin/allCars?plate=${plate}&&page=${page}&&order=${order}`,
-=======
     `${URL}admin/allCars?plate=${plate}&&page=${page}`,
->>>>>>> ac86aeae1ee364a49e5cd91e1a3740f099d2df93
     options
   );
 }
@@ -254,7 +250,7 @@ export function modifyReservation(
         },
         options
       );
-      if(res.data.url) {
+      if (res.data.url) {
         window.location.href = res.data.url;
       }
     } catch (error) {
@@ -275,7 +271,17 @@ export function rateCar(token, userId, ratings) {
   const options = {
     method: 'PATCH',
     mode: 'cors',
-    headers: {authorization:  `Bearer ${token}`}
+    headers: { authorization: `Bearer ${token}` }
   };
-  return axios.patch(`${URL}user/rate`, {userId, ratings}, options)
+  return axios.patch(`${URL}user/rate`, { userId, ratings }, options)
 }
+
+export function getUnavailableDays(token, rentId) {
+  const options = {
+    method: 'GET',
+    mode: 'cors',
+    headers: { authorization: `Bearer ${token}` }
+  };
+  return axios.get(`${URL}user/otherRents/${rentId}`, options)
+}
+
