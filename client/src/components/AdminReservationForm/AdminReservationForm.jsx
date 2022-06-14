@@ -92,8 +92,8 @@ export default function AdminReservationForm({ orderId, handleOption }) {
 
           <div className={styles.item}>
             <span className={styles.itemTitle}>Car Information: </span>
+            <span className={styles.marginLeft}>{order.individualCar?.carModel.brand} </span>
             <span>{order.individualCar?.carModel.model}</span>
-            <span className={styles.marginLeft}>{order.individualCar?.carModel.brand}</span>
           </div>
           <div className={styles.item}>
             <span className={styles.itemTitle}> Starting Location: </span>
