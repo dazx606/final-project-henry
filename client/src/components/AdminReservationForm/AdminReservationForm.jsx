@@ -4,7 +4,6 @@ import styles from "./adminReservationForm.module.css";
 import { getOrderReservationId, deleteReservation } from "../../redux/actions/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import AlertConfirmation from "../AlertConfirmation/AlertConfirmation";
 
 export default function AdminReservationForm({ orderId, handleOption }) {
@@ -13,7 +12,7 @@ export default function AdminReservationForm({ orderId, handleOption }) {
   const order = useSelector((state) => state.order);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertOk, setShowAlertOk] = useState(false)
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     dispatch(getOrderReservationId(orderId, getAccessTokenSilently));
@@ -26,7 +25,7 @@ export default function AdminReservationForm({ orderId, handleOption }) {
   }
   function handleMessageOk() {
     setShowAlertOk(false)
-    navigate("/adminOptions");
+    handleOption()
   }
   const amount = order?.paymentAmount?.length === 1 ?
     (Number(order?.paymentAmount[0]) / 100) :
