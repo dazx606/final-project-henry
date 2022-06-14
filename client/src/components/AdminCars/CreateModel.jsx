@@ -6,6 +6,7 @@ import {
 } from "../../redux/actions";
 import { createModel } from "../../services/services";
 import { useAuth0 } from "@auth0/auth0-react";
+import AlertConfirmation from "../AlertConfirmation/AlertConfirmation";
 
 import styles from "./CreateModel.module.css";
 
@@ -75,6 +76,8 @@ function CreateModel() {
   const [errors, setErrors] = useState({});
   const [optionalImage, setOptionalImage] = useState("");
   const [checker, setChecker] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     dispatch(getIncludedEquipment());
@@ -107,26 +110,9 @@ function CreateModel() {
         getAccessTokenSilently
       );
       if (response.msg === "This model already exist") {
-        alert("Model name already in use");
+        setShowError(true)
       } else {
-        alert("Car Model created successfully");
-        setInput({
-          model: "",
-          brand: "",
-          pricePerDay: "",
-          trunk: "",
-          passengers: "",
-          consumption: "",
-          engine: "",
-          cardImage: "",
-          mainImage: "",
-          optionalImages: [],
-          optionalImage: "",
-          carType: "",
-          includedEquipment: [],
-          optionalEquipment: [],
-          description: "",
-        });
+        setShowAlert(true)
         setChecker(false);
       }
     }
@@ -194,6 +180,18 @@ function CreateModel() {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
+      <AlertConfirmation
+        onCancel={() => window.location.reload()} 
+        showAlert={showAlert} 
+        onConfirmation={() => window.location.reload()} 
+        alertText={"Car Model created successfully"} 
+        buttonText={'Continue'} />
+        <AlertConfirmation
+        onCancel={() => setShowError(false)} 
+        showAlert={showError} 
+        onConfirmation={() => setShowError(false)} 
+        alertText={"Model name already in use"} 
+        buttonText={'Continue'} />
       <div className={styles.inputcontainer}>
         <div className={styles.firstsplit}>
           <span className={styles.tag}>
@@ -562,8 +560,9 @@ function CreateModel() {
             {input.optionalImages?.map((item) => (
               <button
                 className={styles.selectionbutton}
-                name="optionalImage"
+                name="optionalImages"
                 key={item}
+                value={item}
                 onClick={removeEquipment}
               >
                 optional image{" "}
