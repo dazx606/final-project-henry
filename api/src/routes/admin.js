@@ -246,7 +246,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
     if (findCar)
       return res.status(200).send({ msg: "License plate already in use" });
     const car = await IndividualCar.create({
-      license_plate: licensePlate,
+      license_plate: licensePlate.toUpperCase(),
       year: year,
     });
     const carLocation = await Location.findOne({ where: { id: location } });
