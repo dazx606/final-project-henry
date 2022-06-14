@@ -11,8 +11,12 @@ export default function AdminReservationForm({ orderId, handleOption }) {
   const dispatch = useDispatch();
   const order = useSelector((state) => state.order);
   const [showAlert, setShowAlert] = useState(false);
+<<<<<<< HEAD
   const [showAlertOk, setShowAlertOk] = useState(false)
 
+=======
+  const [showAlertOk, setShowAlertOk] = useState(false);
+>>>>>>> e417bf1040dcd0c63e80e5ad17b8a9aa7434d861
 
   useEffect(() => {
     dispatch(getOrderReservationId(orderId, getAccessTokenSilently));
@@ -24,8 +28,13 @@ export default function AdminReservationForm({ orderId, handleOption }) {
     setShowAlertOk(true)
   }
   function handleMessageOk() {
+<<<<<<< HEAD
     setShowAlertOk(false)
     handleOption()
+=======
+    setShowAlertOk(false);
+    handleOption();
+>>>>>>> e417bf1040dcd0c63e80e5ad17b8a9aa7434d861
   }
   const amount = order?.paymentAmount?.length === 1 ?
     (Number(order?.paymentAmount[0]) / 100) :
@@ -88,13 +97,13 @@ export default function AdminReservationForm({ orderId, handleOption }) {
           </div>
           <div className={styles.item}>
             <span className={styles.itemTitle}>Rated: </span>
-            <span>{order?.rated === false ? 'The customer has not rated this car yet.' : 'The customer has rated this car yet.'}</span>
+            <span>{order?.rated === false ? 'The customer has not rated this car yet.' : 'The customer has rated this car.'}</span>
           </div>
 
           <div className={styles.item}>
             <span className={styles.itemTitle}>Car Information: </span>
+            <span className={styles.marginLeft}>{order.individualCar?.carModel.brand} </span>
             <span>{order.individualCar?.carModel.model}</span>
-            <span className={styles.marginLeft}>{order.individualCar?.carModel.brand}</span>
           </div>
           <div className={styles.item}>
             <span className={styles.itemTitle}> Starting Location: </span>

@@ -9,7 +9,7 @@ export default function TermsConditions ({show, onClose}) {
     return (
         <div className={styles.overlay}>
             <div className={styles.overlayInner}>
-                <button className={styles.close} onClick={onClose}><i class="fa-solid fa-xmark"></i></button>
+                <button className={styles.close} onClick={onClose}><i className="fa-solid fa-xmark"></i></button>
                 <div className={styles.description}>                   
                     <div className={styles.scrollBox}>
                     <h2>AVIS TERMS AND CONDITIONS OF RENTAL AGREEMENT TO HIRE RENTAL VEHICLE</h2>
