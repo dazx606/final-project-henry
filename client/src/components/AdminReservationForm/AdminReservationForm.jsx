@@ -11,12 +11,8 @@ export default function AdminReservationForm({ orderId, handleOption }) {
   const dispatch = useDispatch();
   const order = useSelector((state) => state.order);
   const [showAlert, setShowAlert] = useState(false);
-<<<<<<< HEAD
   const [showAlertOk, setShowAlertOk] = useState(false)
 
-=======
-  const [showAlertOk, setShowAlertOk] = useState(false);
->>>>>>> e417bf1040dcd0c63e80e5ad17b8a9aa7434d861
 
   useEffect(() => {
     dispatch(getOrderReservationId(orderId, getAccessTokenSilently));
@@ -28,13 +24,8 @@ export default function AdminReservationForm({ orderId, handleOption }) {
     setShowAlertOk(true)
   }
   function handleMessageOk() {
-<<<<<<< HEAD
     setShowAlertOk(false)
     handleOption()
-=======
-    setShowAlertOk(false);
-    handleOption();
->>>>>>> e417bf1040dcd0c63e80e5ad17b8a9aa7434d861
   }
   const amount = order?.paymentAmount?.length === 1 ?
     (Number(order?.paymentAmount[0]) / 100) :
