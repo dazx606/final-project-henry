@@ -112,3 +112,17 @@
     margin: 24px 0px 24px 0px;
     font-size: 0.9em;
 }
+
+@media (max-width: 750px){
+    .authBox{
+        width: 18rem;
+        top: 5rem;
+        right: 0.3rem;
+        font-size: 0.9em;
+    }
+
+    .hello{
+        font-size: 1.3em;
+        
+    }
+}
