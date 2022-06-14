@@ -7,8 +7,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import LoginPopup from "./components/LoginPopup/LoginPopup";
 
 function ProtectedRoutes() {
-  const { isAuthenticated, isLoading, getAccessTokenSilently, user } =
-    useAuth0();
+  const { isAuthenticated, isLoading, getAccessTokenSilently, user } = useAuth0();
   const dispatch = useDispatch();
   const dbUser = useSelector(state => state.user)
 
