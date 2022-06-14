@@ -34,7 +34,6 @@ function AdminReservations() {
     <div>
       {reservationsOptions === true ? (
         <div>
-          {" "}
           <div className={styles.searchReservation}>
             <input
               className={`inputGlobal ${styles.inputSearch}`}

@@ -9,10 +9,10 @@ export default function TermsConditions ({show, onClose}) {
     return (
         <div className={styles.overlay}>
             <div className={styles.overlayInner}>
-                <button className={styles.close} onClick={onClose}><i class="fa-solid fa-xmark"></i></button>
+                <button className={styles.close} onClick={onClose}><i className="fa-solid fa-xmark"></i></button>
                 <div className={styles.description}>                   
                     <div className={styles.scrollBox}>
-                    <h2>AVIS TERMS AND CONDITIONS OF RENTAL AGREEMENT TO HIRE RENTAL VEHICLE</h2>
+                    <h2>TERMS AND CONDITIONS OF RENTAL AGREEMENT TO HIRE RENTAL VEHICLE</h2>
                     <p>The Rental Agreement comprises these terms and conditions and the rental document setting out the hire details which is provided with each Vehicle at the point of hire (referred to in these terms and conditions as the “Rental Document”). The Rental Agreement is made between AVR Myanmar Limited (herein referred to as “the Lessor”) and the person and/or company signing the Rental Document (herein referred to as “the Renter”) whose particulars are recorded in the Rental Document. It is hereby agreed as follows:</p>
                     
                     <h4>VEHICLE DESCRIPTION AND TERM OF HIRE</h4>
