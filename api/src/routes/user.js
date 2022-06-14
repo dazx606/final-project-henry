@@ -120,6 +120,28 @@ router.get("/reservation/:orderId", async (req, res, next) => {
   }
 });
 
+router.get("/otherRents/:rentId", async (req, res, next) => {
+  const { rentId } = req.params;
+  try {
+    await statusUpdater();
+    const rent = await RentOrder.findByPk(rentId)
+    const allowedStatus = ["pending", "in use", "maintenance"];
+    const otherRentsSameCar = await IndividualCar.findByPk(rent.individualCarId,
+      {
+        include:
+          [{
+            model: RentOrder,
+            where: { id: { [Op.ne]: rentId }, status: { [Op.or]: allowedStatus } }
+          }]
+      }
+    )
+    if (!otherRentsSameCar) return res.json([]);
+    return res.json(otherRentsSameCar.rentOrders.map(r => ({ startingDate: r.startingDate, endingDate: r.endingDate })));
+  } catch (error) {
+    next(error)
+  }
+});
+
 // ============================ POST =============================================================//
 router.post("/", async (req, res, next) => {
   const { email, picture } = req.body;
@@ -152,7 +174,7 @@ router.post("/", async (req, res, next) => {
 
 // ============================ PATCH =============================================================//
 //[ 'Trafic', 'Corolla' ]
- router.patch("/rate", authMiddleWare, async (req, res, next) => {
+router.patch("/rate", authMiddleWare, async (req, res, next) => {
 
   const { userId, ratings } = req.body;  //ratings = {model:name, rate:number}
   try {

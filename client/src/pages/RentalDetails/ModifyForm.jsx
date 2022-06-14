@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from 'react-date-picker';
 import { useSelector, useDispatch } from "react-redux";
-import { userReservation } from "../../redux/actions";
+import { userReservation, findUnavailableDays } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useParams, useNavigate } from "react-router-dom";
 import { modifyReservation } from "../../services/services";
@@ -22,27 +22,22 @@ const getDatesInRange = (startDate, endDate) => {
     return dates;
 }
 
-const calcUnavailableInitialDays = (carNum, rents) => {
-    if (carNum > rents.length) return [[], []]
+const calcUnavailableInitialDays = (unavailableDaysFromBack) => {
     let unavailableDaysPlusExtra = []
     let unavailableDays = []
-    let days = {}
-    rents.forEach(car => {
-        car.forEach(({ startingDate, endingDate }) => {
-            const range = getDatesInRange(new Date(startingDate), new Date(endingDate))
-            range.forEach(date => {
-                days[date.toDateString()] = days[date.toDateString()] ? days[date.toDateString()] + 1 : 1
-            })
-        })
+    let dayRanges = []
+
+    unavailableDaysFromBack.forEach(({ startingDate, endingDate }) => {
+        const range = getDatesInRange(new Date(startingDate), new Date(endingDate));
+        dayRanges.push(...range);
     })
 
-    for (let key in days) {
-        if (days[key] === carNum) {
-            const unavailableForAll = [new Date(key), datePlus(new Date(key), -1), datePlus(new Date(key), -2)]
-            unavailableDaysPlusExtra.push(...unavailableForAll, datePlus(new Date(key), -3))
-            unavailableDays.push(...unavailableForAll);
-        }
-    }
+    dayRanges.forEach(day => {
+        const unavailableForAll = [day, datePlus(day, -1), datePlus(day, -2)]
+        unavailableDaysPlusExtra.push(...unavailableForAll, datePlus(day, -3))
+        unavailableDays.push(...unavailableForAll);
+    })
+
     return [unavailableDaysPlusExtra, unavailableDays]
 }
 
@@ -66,18 +61,18 @@ const checkInvalidDate = (day, array) => {
     return array.some(d => d.toDateString() === day);
 }
 
-export default function Form({ status, userId, ending, numberOfDatesInitial }) {
+export default function Form({ status, userId, ending, numberOfDatesInitial, oldStartingDate, oldEndingDate }) {
 
-    const endingValid = ending ? ending : new Date();
+    // const endingValid = ending ? ending : new Date();
 
     const [startingDate, setStartingDate] = useState(new Date());
     const [message, setMessage] = useState("");
-    const [endingDate, setEndingDate] = useState(datePlus(endingValid, 1))
+    const [endingDate, setEndingDate] = useState(datePlus(new Date(), 1));
     const [unavailableDay, setUnavailableDay] = useState([]);
     const [initialDisableDay, setInitialDisableDay] = useState([]);
     const [maxEndingDisableDate, setMaxEndingDisableDate] = useState([]);
     const [validDays, setValidDays] = useState(true);
-    const filteredCars = useSelector((state) => state.filteredCars[0]);
+    const unavailableDaysFromBack = useSelector((state) => state.unavailableDays);
     const { orderId } = useParams();
     const [showAlert, setShowAlert] = useState(false);
     const [showAlertOk, setShowAlertOk] = useState(false);
@@ -87,33 +82,39 @@ export default function Form({ status, userId, ending, numberOfDatesInitial }) {
 
     useEffect(() => {
         dispatch(userReservation(getAccessTokenSilently, orderId));
+        dispatch(findUnavailableDays(getAccessTokenSilently, orderId));
     }, [dispatch, orderId]);
 
     useEffect(() => {
-        setStartingDate(new Date());
-        setEndingDate(datePlus(new Date(), 1));
-        if (filteredCars) {
-            const unailebleDays = calcUnavailableInitialDays(filteredCars.individualCars, filteredCars.existingRents)
+        if (oldStartingDate) setStartingDate(new Date(oldStartingDate));
+        if (oldEndingDate) setEndingDate(datePlus(new Date(oldEndingDate), -2));
+    }, [oldStartingDate, oldEndingDate]);
+
+    useEffect(() => {
+        // setStartingDate(new Date());
+        // setEndingDate(datePlus(new Date(), 1));
+        if (unavailableDaysFromBack) {
+            const unailebleDays = calcUnavailableInitialDays(unavailableDaysFromBack)
             setInitialDisableDay(unailebleDays[0]);
             setUnavailableDay(unailebleDays[1]);
             if (checkInvalidDate(new Date(), unailebleDays[0]) || checkInvalidDate(datePlus(new Date(), 1), unailebleDays[1])) {
                 setValidDays(false);
             } else setValidDays(true);
         };
-    }, [filteredCars])
+    }, [unavailableDaysFromBack])
 
     useEffect(() => {
         setMaxEndingDisableDate([calcMaxAvailableDate(startingDate, unavailableDay)]);
     }, [startingDate, unavailableDay])
 
     useEffect(() => {
-        if (filteredCars) {
-            const unailebleDays = calcUnavailableInitialDays(filteredCars.individualCars, filteredCars.existingRents);
+        if (unavailableDaysFromBack) {
+            const unailebleDays = calcUnavailableInitialDays(unavailableDaysFromBack);
             if (checkInvalidDate(startingDate, unailebleDays[0]) || checkInvalidDate(endingDate, unailebleDays[1])) {
                 setValidDays(false);
             } else setValidDays(true);
         }
-    }, [startingDate, endingDate, filteredCars])
+    }, [startingDate, endingDate, unavailableDaysFromBack])
 
     const handleStartingDateChange = (value) => {
         setStartingDate(value);
@@ -143,7 +144,7 @@ export default function Form({ status, userId, ending, numberOfDatesInitial }) {
         dispatch(modifyReservation(startingDate.toDateString(), endingDate.toDateString(), userId, orderId, getAccessTokenSilently))
         dispatch(userReservation(getAccessTokenSilently, orderId));
         setShowAlert(false)
-        if(numberOfDatesModified < numberOfDatesInitial) {
+        if (numberOfDatesModified < numberOfDatesInitial) {
             setShowAlertOk(true)
         }
     }
@@ -213,19 +214,19 @@ export default function Form({ status, userId, ending, numberOfDatesInitial }) {
                         )
                 }
                 <div className={styles.buttonContainer}>
-                    <input className="buttonGlobal" type="button" value='Modify' onClick={() => setShowAlert(true)}/>
+                    <input className="buttonGlobal" type="button" value='Modify' onClick={() => setShowAlert(true)} />
                 </div>
-                <AlertConfirmation 
-                onCancel={() => setShowAlert(false)} 
-                showAlert={showAlert} 
-                onConfirmation={handleSubmit} 
-                alertText={`Are you sure you want to modify reservation ${orderId}? Remember that in case of refound it could take between 5 to 10 days.`} 
-                buttonText={'Confirm'} />
-                <AlertConfirmation 
-                onCancel={handleMessageOk} 
-                showAlert={showAlertOk} 
-                onConfirmation={handleMessageOk} 
-                alertText={`Reservation ${orderId} has been modified successfully. Check back later to see the status of your reservation.`} buttonText={'Close'} />
+                <AlertConfirmation
+                    onCancel={() => setShowAlert(false)}
+                    showAlert={showAlert}
+                    onConfirmation={handleSubmit}
+                    alertText={`Are you sure you want to modify reservation ${orderId}? Remember that in case of refound it could take between 5 to 10 days.`}
+                    buttonText={'Confirm'} />
+                <AlertConfirmation
+                    onCancel={handleMessageOk}
+                    showAlert={showAlertOk}
+                    onConfirmation={handleMessageOk}
+                    alertText={`Reservation ${orderId} has been modified successfully. Check back later to see the status of your reservation.`} buttonText={'Close'} />
             </form>
         </div>
     )
