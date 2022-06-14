@@ -95,12 +95,12 @@ router.get("/rent", async (req, res, next) => {
 
 //============ CARS
 router.get("/allCars", async (req, res, next) => {
-  const { plate, locationId, page = 1, order = "ASC" } = req.query;
+  const { plate, locationId, page = 1, order } = req.query;
   let cars = [];
   try {
     if (plate) {
       let specificCar = await IndividualCar.findAll({
-        order: [[{ model: CarModel }, "rating", "ASC"]],
+        order: [[{ model: CarModel }, "rating", order]],
         include: [{
           model: CarModel,
           attributes: ["brand", "images", "rating"],
@@ -118,7 +118,7 @@ router.get("/allCars", async (req, res, next) => {
 
     if (!plate) {
       let allCars = await IndividualCar.findAll({
-        order: [[{ model: CarModel }, "rating", "ASC"]],
+        order: [[{ model: CarModel }, "rating", order]],
         include: [{
           model: CarModel,
           attributes: ["brand", "images", "rating"],
@@ -130,7 +130,6 @@ router.get("/allCars", async (req, res, next) => {
       });
       cars = allCars;
     }
-    if (order === 'desc') cars = cars.reverse();
 
     let totalPages = 1;
     let carsPerPage = 7;
@@ -247,7 +246,7 @@ router.post("/car", authMiddleWare, async (req, res, next) => {
     if (findCar)
       return res.status(200).send({ msg: "License plate already in use" });
     const car = await IndividualCar.create({
-      license_plate: licensePlate,
+      license_plate: licensePlate.toUpperCase(),
       year: year,
     });
     const carLocation = await Location.findOne({ where: { id: location } });
