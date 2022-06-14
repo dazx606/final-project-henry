@@ -24,6 +24,7 @@ import {
   cancelUserReservation,
   getOrderDetail,
   rateCar,
+  getUnavailableDays,
 } from "../../services/services";
 export const GET_LOCATIONS = "GET_LOCATIONS";
 export const GET_LOCATION_CARS = "GET_LOCATION_CARS";
@@ -56,6 +57,7 @@ export const GET_USER_RESERVATION = "GET_USER_RESERVATION";
 export const CANCEL_RESERVATION = "CANCEL_RESERVATION";
 export const GET_DETAIL_RESERVATION = "GET_DETAIL_RESERVATION";
 export const RATE_CAR = "RATE_CAR";
+export const GET_UNAVAILABLE_DAYS = "GET_UNAVAILABLE_DAYS";
 
 const  URL  = process.env.REACT_APP_URL;
 
@@ -478,6 +480,21 @@ export function sendCarRating (getToken, userId, ratings) {
       return dispatch ({
         type: RATE_CAR,    
         payload: ratings.rate    
+      })
+    }catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export function findUnavailableDays (getToken, rentId) {
+  return async (dispatch) => {
+    try {
+      const token = await getToken();
+      let response = await getUnavailableDays(token, rentId)
+      return dispatch ({
+        type: GET_UNAVAILABLE_DAYS,    
+        payload: response.data    
       })
     }catch (e) {
       console.log(e)

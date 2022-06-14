@@ -143,6 +143,8 @@ export default function RentalDetails() {
             <div hidden={showModify}>
                 <div className={styles.modifyForm1}>
                     <ModifyForm status={reservation?.order?.status}
+                        oldStartingDate={reservation?.order?.startingDate}
+                        oldEndingDate={reservation?.order?.endingDate}
                         userId={reservation?.order?.userId}
                         ending={reservation?.order?.status === 'in use' ? datePlus : new Date()}
                         numberOfDatesInitial={numberOfDatesInitial} />
