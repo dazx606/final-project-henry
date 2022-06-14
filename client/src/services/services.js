@@ -133,7 +133,7 @@ export function getAllCars(token, plate, page, order) {
     headers: { authorization: `Bearer ${token}` },
   };
   return axios.get(
-    `${URL}admin/allCars?plate=${plate}&&page=${page}`,
+    `${URL}admin/allCars?plate=${plate}&&page=${page}&&order=${order}`,
     options
   );
 }
