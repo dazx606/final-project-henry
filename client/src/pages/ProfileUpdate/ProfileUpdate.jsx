@@ -56,9 +56,9 @@ export default function Profile() {
       setAlert(" Please complete your information");
       return;
     }
-    
-     dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
-     dispatch(setUserInfo(getAccessTokenSilently, user.email));
+
+    dispatch(patchUser(getAccessTokenSilently, { ...input, userId }));
+    dispatch(setUserInfo(getAccessTokenSilently, user.email));
     setAlert("Your information has been updated");
   }
   function handleChange(e) {
@@ -93,8 +93,8 @@ export default function Profile() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}> 
-          <h3 className={styles.helloP}>Hello {userInfo.data.firstName ? userInfo.data.firstName : user.email}!</h3>
+        <form onSubmit={handleSubmit}>
+          <h3 className={styles.helloP}>Hello {userInfo?.data?.firstName ? userInfo?.data?.firstName : user?.email}!</h3>
           <div>
             <div className={styles.titles}>First name: </div>
             <input
@@ -189,7 +189,7 @@ export default function Profile() {
             </select>
           </div>
           <div className={styles.buttonContainer}>
-            <button className={`buttonGlobal ${styles.button}`} type="submit">
+            <button disabled={!input.firstName || !input.lastName || !input.license || !input.documentId} className={`buttonGlobal ${styles.button}`} type="submit">
               Submit
             </button>
           </div>
