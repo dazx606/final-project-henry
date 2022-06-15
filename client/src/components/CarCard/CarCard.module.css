@@ -15,7 +15,7 @@
     transition: all 0.3s;
 }
 .cardCont:hover{
-    background-image: linear-gradient(var(--color5), var(--color1)70%, var(--color5));
+    background-image: linear-gradient(var(--color5), var(--color4Tr)70%, var(--color5));
     box-shadow: 0px 0px 12px 2px var(--color4Tr);
     transition: all 0.3s;
 }
@@ -72,6 +72,7 @@
     text-align: center;
     justify-content: center;
 }
+
 
 @media (max-width: 1350px){
     .cardImg {        
