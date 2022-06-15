@@ -59,4 +59,5 @@ display: inline-block;
 }
 .viewAll{
   border: outset 2px var(--color4);
+  height:auto;
 }

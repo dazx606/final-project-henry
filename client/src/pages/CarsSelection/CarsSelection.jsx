@@ -87,9 +87,15 @@ function CarsSelection() {
             );
           })
         ) : (
-          <div>
-            <div>{`We are sorry! :(`}</div>
-            <div>Car selection unavailable </div>
+          <div className={styles.warningContainer}>
+            <div className={styles.warningImg}>
+              {/* <img className={styles.warning} src="https://icon-library.com/images/error-image-icon/error-image-icon-3.jpg" alt='not found' /> */}
+              <i className={`fa-solid fa-car ${styles.warningIcon}`}></i>
+            </div>
+            <div className={styles.warningText}>
+              <p className={styles.warning2}>{`We are sorry!`}</p>
+              <p className={styles.warning2}>No cars found</p>
+            </div>
           </div>
         )}
       </div>

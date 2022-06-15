@@ -72,7 +72,7 @@ export default function RentalDetails() {
                         reservation ?
                             (
                                 <table>
-                                    <tbody>
+                                    <thead>
                                         <tr className={styles.itemsRent}>
                                             <td className={styles.itemsRent1}>Reservation Number:</td>
                                             <td className={styles.itemsRent2}>{reservation?.order?.id}</td>
@@ -133,7 +133,7 @@ export default function RentalDetails() {
                                             <td className={styles.itemsRent1}>Status:</td>
                                             <td className={styles.itemsRent2}>{reservation?.order?.status === 'maintenance' ? 'concluded' : reservation?.order?.status}</td>
                                         </tr>
-                                    </tbody>
+                                    </thead>
                                 </table>
                             ) :
                             <div>Loading...</div>
