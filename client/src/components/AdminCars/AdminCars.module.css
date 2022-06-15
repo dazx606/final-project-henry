@@ -8,6 +8,8 @@
     height: 2.5rem;
     width: 20rem;
     margin-right: 1rem;
+    background-color: var(--color6Tr);
+    border: outset 1px var(--color4);
 }
 .inputSearch:hover {
     cursor: text;

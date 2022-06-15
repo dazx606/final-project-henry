@@ -45,7 +45,7 @@ function CarsSelection() {
         endingLowerThanStarting = true;
       }
     }
-    let selected = { ...selection, [e.target.name]: value , page:1};
+    let selected = { ...selection, [e.target.name]: value, page: 1 };
     if (endingLowerThanStarting) selected.endingDate = toUglyDayFormat(datePlus(new Date(value), 1)).split("-").join("/");
     dispatch(setSelection(selected));
     dispatch(getFilteredCars(selected, locationId));
@@ -54,7 +54,7 @@ function CarsSelection() {
   const handlePages = (page) => {
     dispatch(getFilteredCars({
       ...selection,
-      page 
+      page
     }, locationId))
   }
 
@@ -71,30 +71,36 @@ function CarsSelection() {
           />
         </div>
       </div>
-        <div className={styles.cardsScreen}>
-          {filteredCars.length ? (
-            filteredCars.map((car) => {
-              return (
-                <div key={car.model} className={styles.child}>
-                  <CarCard 
-                    brand={car.brand}
-                    model={car.model}
-                    pricePerDay={car.pricePerDay}
-                    rating={car.rating}
-                    image={car.images[0]}
-                  />
-                </div>
-              );
-            })
-          ) : (
-            <div>
-              <div>{`We are sorry! :(`}</div>
-              <div>Car selection unavailable </div>
+      <div className={styles.cardsScreen}>
+        {filteredCars.length ? (
+          filteredCars.map((car) => {
+            return (
+              <div key={car.model} className={styles.child}>
+                <CarCard
+                  brand={car.brand}
+                  model={car.model}
+                  pricePerDay={car.pricePerDay}
+                  rating={car.rating}
+                  image={car.images[0]}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <div className={styles.warningContainer}>
+            <div className={styles.warningImg}>
+              {/* <img className={styles.warning} src="https://icon-library.com/images/error-image-icon/error-image-icon-3.jpg" alt='not found' /> */}
+              <i className={`fa-solid fa-car ${styles.warningIcon}`}></i>
             </div>
-          )}
-        </div>
-        {
-        filteredCars.length ? <Pagination handlePages={handlePages} />: null
+            <div className={styles.warningText}>
+              <p className={styles.warning2}>{`We are sorry!`}</p>
+              <p className={styles.warning2}>No cars found</p>
+            </div>
+          </div>
+        )}
+      </div>
+      {
+        filteredCars.length ? <Pagination handlePages={handlePages} /> : null
       }
     </div>
   );

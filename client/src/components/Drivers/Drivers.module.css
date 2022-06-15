@@ -5,7 +5,6 @@
     font-family: var(--font2);
     font-size: 1rem;
     font-weight: 400; 
-    max-width: 26em;
     line-height: 3rem;
 }
 
@@ -16,6 +15,7 @@
 }
 
 .button {
+    font-size: 0.9rem;
     transition: 0.1s;
 }
 
@@ -25,18 +25,21 @@
 }
 
 .subContainer2 {
-    margin: 1rem;
-    max-width: 24em;
+    margin: 1rem auto;
+    width:90%;
     justify-content: center;
 }
 
 .inputs {
     width: 60%;
-    height: 1rem;
+    height: 2rem;
+}
+.inputs:hover{
+    cursor: text;
 }
 
 .labels {
-    width: 40%;
+    width: 35%;
 }
 
 .buttonAdd {
@@ -47,7 +50,7 @@
 
 .buttonX {
     display: flex;
-    justify-content: start;
+    justify-content: center;
     margin-top: 1rem;
     align-items: center;
 }
@@ -66,4 +69,15 @@
     box-shadow: 0px 0px 8px 6px var(--color6Tr);
     font-weight: 500;
     border: outset 2px var(--color4);
+}
+@media (max-width: 700px){
+    .container3{
+        flex-direction: column;
+    }
+    .labels {
+        width: 90%;
+    }
+    .inputs {
+        width: 90%;
+    }
 }
