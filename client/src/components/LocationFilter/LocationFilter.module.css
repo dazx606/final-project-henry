@@ -1,15 +1,23 @@
 .citySelect {
-  margin: 16px 8px;
+  margin: 4px 8px;
   width: 20rem;
   height: 33px;
+  max-width: 80%;
+}
+.options{
+  display: flex;
+  justify-content: center;
+  margin: auto;
 }
 
 @media (max-width: 800px) {
  .citySelect{
-   width: 80vw;
-   max-width: 80vw;
+   max-width: 80%;
    
  }
+ .options{
+  max-width: 80%;
+}
 }
 
 

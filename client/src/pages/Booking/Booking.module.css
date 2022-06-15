@@ -1,41 +1,52 @@
-.container {
+.container {    
+    padding: 2rem;
     display: flex;
     justify-content: center;
+    width: 35vw;
+    margin: 3rem auto;
 }
-
-.containerForm {
-    margin: 3rem;
-    padding: 2rem;
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--color3);
-    outline: none;
-    max-width: 30em;
-    line-height: 2rem;
+.rentForm{
+    width: 100%;
 }
-
 .title {
     display: flex;
     justify-content: center;
+    color: var(--color4);
 }
-
-.container1 {
+.locationContainer {
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 3rem;
+    margin-top: 1rem;
 }
-
-.formContainer {
-    display: block;
+.error{
+    width: 100%;
+    color: var(--color4);
+    font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
 }
-
-.container2 {
-    justify-content: left;
-    margin-top: 2rem;
+.selectBox {
+    height: 3rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
 }
-
-.terms {
-    font-weight: bold;
-    cursor: pointer;
+.tag {
+    color: var(--color3Tr);
+    padding: 4px;
+}
+.tagN{
+    color: var(--color4);
+    padding: 4px;
+}
+.selects {
+    outline: none;
+    padding: 4px;
+    font-size: 0.9rem;
 }
 
 .subContainerEquipment {
@@ -46,16 +57,30 @@
     font-size: 1rem;
     font-weight: 400;
     outline: none;
-    max-width: 26rem;
-    line-height: 3rem;
+    line-height: 2rem;
+}
+.dateBox{
+    height: 3rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    
+}
+.calendar {
+    display: flex;
+    justify-content: space-around;
 }
 
-/* .date:hover {
+.container2 {
+    justify-content: left;
+    margin-top: 2rem;
+}
+
+.terms {
+    font-weight: bold;
     cursor: pointer;
-    box-shadow: 0px 0px 0px 0px var(--color6Tr);
-    font-weight: 500;
-    border: outset 2px var(--color4);
-} */
+    color: var(--color4);
+}
 
 .colum1 {
     width: 8rem;
@@ -64,11 +89,6 @@
 .colum2 {
     width: 4rem;
     text-align: end;
-}
-
-.calendar {
-    display: flex;
-    justify-content: space-between;
 }
 
 .termsConditions {
@@ -84,6 +104,7 @@
     display: flex;
     justify-content: center;
     height: 3rem;
+    font-size: 0.9rem;
 }
 
 .total2 {
@@ -95,31 +116,8 @@
     margin-top: 2rem;
     display: flex;
     justify-content: space-evenly;
-}
 
-.selects {
-    outline: none;
-    padding: 4px;
-    font-size: 1rem;
-    font-weight: 400;
 }
-.selectBox{
-    height: 12px;
-}
-
-.selects:hover {
-    /* cursor: pointer;
-    box-shadow: 0px 0px 8px 6px var(--color6Tr);
-    font-weight: 500; */
-    border: none;
-}
-
-.locationContainer {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-
 .date {
 
     outline: none;
@@ -135,8 +133,6 @@
     color: var(--color3);
 }
 
-
-
 .date p {
     color: var(--color3);
 }
@@ -148,33 +144,43 @@
 }
 
 .checkbox {
- width: 1.5em;
- height: 1.5em;
- align-items: center;
- margin-right: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    align-items: center;
+    margin-right: 1em;
 }
 
-/*
-.date button:hover {
-    cursor: pointer;
-    box-shadow: none;
+@media (max-width: 700px) {
+    .container {    
+        width: 90vw;
+        margin: 3rem auto;
+        padding: 0;
+        padding-top: 1rem;
+    }
+    .rentForm{
+        width: 85vw;
+        margin: auto;
+    }
+    .locationContainer {
+        flex-direction: column;
+        margin: 2rem auto;
+        margin-bottom: 0.5rem;
+        height: 4rem;
+    }
+    .error{
+        margin-bottom: 1rem;
+    }
+    .selectBox {
+        height: 3rem;
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .locationBox{
+        width: 80vw;
+    }
+    .tag {
+        display: flex;
+    }
+    
 }
-
-.date input {
-    border: outset 1px var(--color4);
-    outline: none;
-    padding: 4px;
-    background-color: var(--color1);
-    box-shadow: none;
-    font-family: var(--font2);
-    font-size: 1.1rem;
-    font-weight: 400;
-    color: var(--color3);
-}
-
-.date input:hover {
-    cursor: pointer;
-    box-shadow: none;
-    font-weight: 500;
-    border: outset 2px var(--color4);
-} */
