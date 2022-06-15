@@ -52,7 +52,7 @@ export default function Benefits() {
             </div>
             <div className={styles.container3}>
                 <div className={styles.benefit}>
-                    <h3 className={styles.titleh}>Rent A Car Agencies</h3>
+                    <h3 className={styles.titleh}>Why Luxurent?</h3>
                 </div>
             </div>
             <dir>
