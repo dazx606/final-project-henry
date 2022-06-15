@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getLocations, getModels } from "../../redux/actions";
 import { createIndividualCar } from "../../services/services";
 import { useAuth0 } from "@auth0/auth0-react";
+import AlertConfirmation from "../AlertConfirmation/AlertConfirmation";
 
 import styles from "./CreateCar.module.css";
 
@@ -21,6 +22,8 @@ function CreateCar() {
   const dispatch = useDispatch();
   const locations = useSelector((state) => state.locations);
   const models = useSelector((state) => state.modelNames);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const [input, setInput] = useState({
     model: "",
@@ -60,13 +63,9 @@ function CreateCar() {
         getAccessTokenSilently
       );
       if (response.msg === "License plate already in use") {
-        alert("License plate already in use");
+        setShowError(true)
       } else {
-        alert("New car added successfully");
-        setInput({
-          licensePlate: "",
-          year: "",
-        });
+        setShowAlert(true)
         setChecker(false);
       }
     }
@@ -74,6 +73,18 @@ function CreateCar() {
 
   return (
     <div className={styles.container}>
+      <AlertConfirmation
+        onCancel={() => window.location.reload()} 
+        showAlert={showAlert} 
+        onConfirmation={() => window.location.reload()} 
+        alertText={"New car added successfully"} 
+        buttonText={'Continue'} />
+        <AlertConfirmation
+        onCancel={() => setShowError(false)} 
+        showAlert={showError} 
+        onConfirmation={() => setShowError(false)} 
+        alertText={"License plate already in use"} 
+        buttonText={'Continue'} />
       <span className={styles.title}>ADD NEW CAR TO COLLECTION</span>
       <form className={styles.form} onSubmit={handleSubmit}>
         <span className={styles.tag}>
