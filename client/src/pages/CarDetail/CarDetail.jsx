@@ -30,88 +30,102 @@ function CarDetail() {
   return (
     <>
       {Object.keys(carDetails).length !== 0 ? (
-        <div className={styles.container}>
-          <div className={styles.mainimagecontainer}>
-            <img
-              className={styles.mainimage}
-              src={carDetails.images[1]}
-              alt=""
-            />
-          </div>
-          <div className={styles.options}>
-            <div className={styles.carinfo}>
-              <span className={styles.text}>
-                {carDetails.description}
-              </span>
+        <div>
+          <div className={styles.container}>
+            <div className={styles.mainimagecontainer}>
+              <img
+                className={styles.mainimage}
+                src={carDetails.images[1]}
+                alt=""
+              />
             </div>
-            <div className={styles.moreinfo}>
-              <div className={styles.accessories}>
-                <Accessories carDetails={carDetails} />
-              </div>
-              <div className={styles.rating}>
-                <h2>Rating</h2>
-                <div className={styles.starsCont}>
-                  {completeStar &&
-                    [...Array(completeStar)].map((i, k) => {
-                      return (
-                        <div className={styles.starY} key={k}>
-                          <i className="fa-solid fa-star"></i>
-                        </div>
-                      );
-                    })}
-                  {!halfStar && (
-                    <div className={styles.starH}>
-                      <i className="fa-regular fa-star-half-stroke"></i>
+            <h2 className={styles.carName}>{`${carDetails.brand} ${carDetails.model}`}</h2>
+            <div className={styles.options}>
+              <div className={styles.flex}>
+                <div className={styles.infoAndStarsContainer}>
+                  <div className={styles.infoAndStars}>
+                    <div className={styles.carinfo}>
+                      <span className={styles.text}>
+                        {carDetails.description}
+                      </span>
                     </div>
-                  )}
-                  {emptyStar !== 0 &&
-                    [...Array(emptyStar)].map((i, k) => {
-                      return (
-                        <div className={styles.starG} key={k}>
-                          <i className="fa-regular fa-star"></i>
-                        </div>
-                      );
-                    })}
+                    <div className={styles.rating}>
+                      <div className={styles.starsCont}>
+                        {completeStar &&
+                          [...Array(completeStar)].map((i, k) => {
+                            return (
+                              <div className={styles.starY} key={k}>
+                                <i className="fa-solid fa-star"></i>
+                              </div>
+                            );
+                          })}
+                        {!halfStar && (
+                          <div className={styles.starH}>
+                            <i className="fa-regular fa-star-half-stroke"></i>
+                          </div>
+                        )}
+                        {emptyStar !== 0 &&
+                          [...Array(emptyStar)].map((i, k) => {
+                            return (
+                              <div className={styles.starG} key={k}>
+                                <i className="fa-regular fa-star"></i>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.moreinfo}>
+                  <div className={styles.accessories}>
+                    <Accessories carDetails={carDetails} />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className={styles.caroptions}>
-              <NavLink to = "/booking"><button onClick={handleClick} className={`${styles.reserve} buttonGlobal`}>Reserve</button></NavLink>
+              <div className={styles.caroptions}>
+                <NavLink to="/booking"><button onClick={handleClick} className={`buttonGlobal ${styles.reserve}`}>Reserve</button></NavLink>
+              </div>
             </div>
           </div>
+
           <div className={styles.extraimages}>
-            <div className={styles.second}>
-              <div className={styles.firstsplit}>
-                <img className={styles.two} src={carDetails.images[2]} alt="" />
+            {carDetails.images[5] ?
+              <div className={styles.second}>
+                <div className={styles.firstsplit}>
+                  <img className={styles.two} src={carDetails.images[2]} alt="" />
+                </div>
+                <div className={styles.secondsplit}>
+                  <img
+                    className={styles.three}
+                    src={carDetails.images[3]}
+                    alt=""
+                  />
+                </div>
               </div>
-              <div className={styles.secondsplit}>
-                <img
-                  className={styles.three}
-                  src={carDetails.images[3]}
-                  alt=""
-                />
+              :
+              <div className={styles.first}>
+                <img className={styles.one} src={carDetails.images[2]} alt="" />
               </div>
-            </div>
+            }
             <div className={styles.first}>
               <img className={styles.one} src={carDetails.images[4]} alt="" />
             </div>
+            {carDetails.images[5] ?
+              <div className={styles.third}>
+                <div className={styles.thirdsplit}>
+                  <img
+                    className={styles.four}
+                    src={carDetails.images[5]}
+                    alt=""
+                  />
+                </div>
+              </div>
+              :
+              <div className={styles.first}>
+                <img className={styles.one} src={carDetails.images[3]} alt="" />
+              </div>
+            }
 
-            <div className={styles.third}>
-              <div className={styles.thirdsplit}>
-                <img
-                  className={styles.four}
-                  src={carDetails.images[5]}
-                  alt=""
-                />
-              </div>
-              <div className={styles.fourthsplit}>
-                <img
-                  className={styles.five}
-                  src={carDetails.images[6]}
-                  alt=""
-                />
-              </div>
-            </div>
           </div>
         </div>
       ) : (

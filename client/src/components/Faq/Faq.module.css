@@ -1,63 +1,108 @@
-.titles {
-  font-family: var(--font2);
-  font-size: 1rem;
-  color: var(--color4);
-  padding: 0;
-  display: inline;
-  transition: 0.2s;
-}
-
-.titles:hover {
-  color: var(--color4Tr);
-}
-
-.background {
-  background-color: var(--color1);
-}
-
 .faq {
   padding: 20px;
   text-align: center;
-  color: var(--color3);
-  font-family: var(--font1);
+  color: var(--color4);
+  font-family: var(--font2);
+  font-weight: 400;
 }
+.bigContent{
+  border: none;
+  border-bottom: groove 1px var(--color3Tr);
+  width: 50%;
+  margin: auto;
+  
+}
+.content {  
+  display: flex;
+  padding: 8px 10px;
+  width: 97%;  
+  align-items: center;
+  justify-content: space-between;
+  
+}
+.titles {
+  font-family: var(--font2);
+  font-size: 1.2rem;
+  font-weight: 400;
+  width: 95%;
+  color: var(--color3Tr);
+  padding: 8px 0px;
+  display: inline;
+  transition: 0.3s;
+}
+
+.titles:hover{
+  color: var(--color4Tr);
+}
+.content:hover{
+  cursor: pointer;
+}
+.flecha:hover {
+  color: var(--color4Tr);
+}
+.flecha{
+  color: var(--color3Tr);
+  transition: all 0.5s;
+}
+.text {
+  display: none;
+  transition: all 0.5s;
+}
+
 
 .navLink {
   color: var(--color4);
   font-family: var(--font2);
   text-align: center;
 }
-
-.contentTitle {
-  display: inline;
+.background2{
+  margin:auto;
+  margin-bottom: 3rem;
 }
 
-.text {
-  color: var(--color3);
-  padding-top: 0;
-  font-family: var(--font1);
+.checkbox{
+  display: none;
 }
-
-.content {
-  border: 1px groove var(--color4);
-  border-radius: 5px;
-  padding: 10px 10px;
-  max-width: 50rem;
-  margin: auto;
+.checkbox2{
+  display: none;
 }
-
-.content:hover {
-  cursor: pointer;
-}
-
-.arrow {
+.checkbox2:checked~.flecha{
   color: var(--color4);
-  padding-left: 10px;
+  transform: rotate(0.25turn);
 }
-
-.containerButton {
+.checkbox2:checked~.content{
+  color: var(--color4);
+  transform: rotate(0.25turn);
+  height: auto;
+  z-index: 0;
+}
+.checkbox:checked~.text{
   display: flex;
-  justify-content: center;
-  padding: 10px;
-  margin: 1em;
+  color: var(--color3);
+  padding: 0.5rem;
+  font-family: var(--font1);
+  text-align: justify;
+  font-size: 1.1em;
+}
+.checkbox2:checked~.titles{
+  color: var(--color4);
+}
+@media (max-width: 800px){
+  .bigContent{
+    width: 90vw;
+  }
+  .content {    
+    width: 85vw;  
+    justify-content: space-between;
+  }
+  .titles {
+    width: 78vw; 
+    font-size: 1em;   
+  }
+  .checkbox:checked~.text{
+    font-size: 1em;
+  }
+  .titles:hover{
+    color: var(--color3Tr);
+  }
 }

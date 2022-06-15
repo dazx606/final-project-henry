@@ -6,11 +6,11 @@ import style from './Carousel.module.css'
 function Carousel() {
 
   const images = [
-    "https://i.ibb.co/n6KsBxP/911-1.jpg",
+    "https://i.ibb.co/LZzKHF2/porsche-zoom2-1.jpg",
     "https://i.ibb.co/HVf1n1K/pexels-hyundai-motor-group-11158760-2-1-1.jpg",
-   "https://i.ibb.co/85jswKW/pexels-sourav-mishra-2710043-2.jpg", 
-   "https://i.ibb.co/cvdLnCv/pexels-brett-sayles-1592261-2-1.jpg",
-   ]
+    "https://i.ibb.co/85jswKW/pexels-sourav-mishra-2710043-2.jpg",
+    "https://i.ibb.co/cvdLnCv/pexels-brett-sayles-1592261-2-1.jpg",
+  ]
   const [img, setImg] = useState(0)
 
   function next() {

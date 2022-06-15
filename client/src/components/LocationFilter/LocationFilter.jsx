@@ -5,12 +5,12 @@ import { getLocations, setCity } from '../../redux/actions';
 import styles from './LocationFilter.module.css';
 
 function LocationFilter() {
-  
+
   //react-redux
   const locations = useSelector((state) => state.locations);
-  const city = useSelector ((state) => state.city);
+  const city = useSelector((state) => state.city);
   const navigate = useNavigate();
-  const {locationId} = useParams();
+  const { locationId } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,14 +26,14 @@ function LocationFilter() {
 
   return (
     <div className={styles.options}>
-    <select className={` selectGlobal ${styles.citySelect}`} value={city} onChange={handleLocChange} >
-      <option className={styles.cityOptions} hidden>City</option>
-      {
-        locations?.map(l =>
-          <option className={styles.cityOptions} key={l.city} value={l.id}>{l.city}</option>
-        )
-      }
-    </select>
+      <select className={`selectGlobal ${styles.citySelect}`} value={city} onChange={handleLocChange} >
+        <option className={styles.cityOptions} hidden>City</option>
+        {
+          locations?.map(l =>
+            <option className={styles.cityOptions} key={l.city} value={l.id}>{l.city}</option>
+          )
+        }
+      </select>
     </div>
   )
 }

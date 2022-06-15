@@ -111,21 +111,30 @@ code {
   cursor: auto;
   box-shadow: 0px 0px 8px 2px var(--color6Tr);
   font-weight: 400;
-  border: outset 1px var(--color4);
 }
 
 .inputGlobal {
-  border: outset 1px var(--color4);
-  outline: none;
-  padding: 8px;
-  background-color: var(--color6Tr);
-  box-shadow: 0px 0px 8px 2px var(--color6Tr);
+  height: 1.75rem;
+  width: auto;
+  border-radius: 0.2rem;
+  border: none;
+  padding: 0 0.4rem;
+  color: var(--color3Tr);
+  background-color: var(--color8);
   font-family: var(--font2);
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--color3);
+  box-shadow: none;
+  font-size: small;
 }
-
+.inputGlobal:focus {
+  outline: none;
+}
+.inputGlobal:-webkit-autofill,
+.inputGlobal:-webkit-autofill:hover, 
+.inputGlobal:-webkit-autofill:focus, 
+.inputGlobal:-webkit-autofill:active{
+  -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+  -webkit-transition-delay: 9999s;
+}
 .inputGlobal:hover {
   cursor: pointer;
   box-shadow: 0px 0px 8px 6px var(--color6Tr);
@@ -141,4 +150,8 @@ code {
   box-shadow: 0px 0px 8px 4px var(--color6Tr);
   padding: 0.5rem;
   color: var(--color3Tr);
+}
+
+.react-multiple-carousel__arrow {
+  z-index: 3 !important;
 }

@@ -6,6 +6,7 @@
   margin-left: 0.5rem;
   width: 8rem;
   height: 2rem;
+  margin-top: 5px;
 }
 .select:hover{
   cursor: pointer;
@@ -15,12 +16,21 @@
   align-items: center;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  
+  align-self: flex-end;
+}
+.date {
+  border: outset 1px var(--color4);
+  outline: none;
+  padding: 0rem 2px;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  width: 8rem;
+  height: 2rem;
+  margin-top: 3px;
+}
+.datefirst{
+  margin-right: 10px;
 }
 .section{
-  padding-right: 1.5em;
+  padding-right: 5px;
 }
-
-
-
-

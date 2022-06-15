@@ -1,9 +1,16 @@
 .searchReservation {
   margin: 2rem 7rem;
 }
-.inputSearch:hover{
-  cursor:text;
+
+.inputSearch {
+  background-color: var(--color6Tr);
+  border: outset 1px var(--color4);
 }
+
+.inputSearch:hover {
+  cursor: text;
+}
+
 .usersBox {
   width: auto;
   height: auto;
@@ -17,6 +24,7 @@
 }
 
 @media screen and (max-width: 1024px) {
+
   .usersBox,
   .searchReservation {
     margin: 2rem 1rem;
@@ -40,14 +48,16 @@
   color: var(--color4);
   padding: 3px 15px;
 }
+
 .tableCell {
   padding: 3px 15px;
   text-align: center;
 }
 
 .pointer {
-  cursor:text;
+  cursor: text;
 }
+
 .table {
   margin: auto;
   width: 100%;

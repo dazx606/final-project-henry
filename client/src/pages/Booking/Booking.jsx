@@ -203,124 +203,123 @@ export default function Booking() {
         <section>
             <p>{message}</p>
         </section>
-        : <div className={styles.container}>
-            <section className={`boxGlobal ${styles.containerForm}`}>
-                <div className={styles.container1}>
-                    <form onSubmit={handleRentForm} className={styles.rentForm}>
-                        <div className={styles.title}>
-                            <h3>RENTAL FORM</h3>
-                        </div>
-                        <div className={styles.locationContainer}>
-                            <label>Location: </label>
-                            <div className={styles.location}><LocationFilter /></div>
-                        </div>
-                        {
-                            !location && <div>Select a Location first</div>
-                        }
-                        <div className={styles.selectBox}>
-                            <label>Car Model:  </label>
-                            <select className={`selectGlobal ${styles.selects}`} name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
-                                <option value="placeholder" hidden>Car Model</option>
-                                {locationCarsModels && locationCarsModels.map((el, k) => <option key={k} value={el}>{el}</option>)}
-                            </select>
-                        </div>
-                        <div className={`boxGlobal ${styles.subContainerEquipment}`}>
-                            <label>Optional Equipment:</label>
-                            <div>
-                                {carRenting &&
-                                    carRenting.optionalEquipments?.map((el, k) =>
-                                        <p key={k}>
-                                            <input disabled={!selectedLocationModel}
-                                                checked={optionalEquipments.includes(el.name)}
-                                                onChange={handleCheck}
-                                                type="checkbox" name={el.name} key={(k)}
-                                            />
-                                            {el.name} ({`$ ${el.price} /day`})
-                                        </p>
-                                    )
-                                }
-                            </div>
-                        </div>
-                        <div className={styles.calendar}>
-                            <div>
-                                <label>Start Date: </label>
-                                <DatePicker
-                                    className={styles.date}
-                                    clearIcon={null}
-                                    minDate={new Date()}
-                                    onChange={handleStartingDateChange}
-                                    value={startingDate}
-                                    disabled={!selectedLocationModel}
-                                    format="dd/MM/yyyy"
-                                    tileDisabled={({ date, view }) =>
-                                        (view === 'month') &&
-                                        initialDisableDay.some(disabledDate =>
-                                            date.getFullYear() === disabledDate.getFullYear() &&
-                                            date.getMonth() === disabledDate.getMonth() &&
-                                            date.getDate() === disabledDate.getDate()
-                                        )
-                                    }
-                                />
-                            </div>
-                            {
-                                <div>
-                                    <label>End Date: </label>
-                                    <DatePicker
-                                        className={styles.date}
-                                        clearIcon={null}
-                                        minDate={datePlus(startingDate, 1)}
-                                        onChange={setEndingDate}
-                                        value={endingDate}
-                                        disabled={!selectedLocationModel}
-                                        format="dd/MM/yyyy"
-                                        maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
-                                    />
-                                </div>
-                            }
-                        </div>
-                        {!validDays && <p>Invalid dates</p>}
-                        <Drivers drivers={drivers} setDrivers={setDrivers} />
-                        <div className={styles.selectBox}>
-                            <label>Return location: </label>
-                            <select className={`selectGlobal ${styles.selects}`} name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
-                                <option value="placeholder" hidden>location...</option>
-                                {allLocation.map((el, k) => <option key={k} value={el.id}>{el.city}</option>)}
-                            </select>
-                        </div>
-                        <div className={styles.container2}>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td className={styles.colum1}><label>Price Per Day: </label></td>
-                                        <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td className={styles.colum1}><label>Total Days: </label></td>
-                                        <td className={styles.colum2}><span>{getDatesInRange(startingDate, endingDate).length - 1}</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td className={styles.colum1}><label>Total Price: </label></td>
-                                        <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((getDatesInRange(startingDate, endingDate).length - 1) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className={styles.termsConditions}>
-                            <input className={styles.checkbox} type="checkbox" onChange={checkboxHandler} />
-                            <label htmlFor="agree"> I agree to <a className={styles.terms} onClick={() => { setShow(true) }}>terms and conditions</a></label>
-                        </div>
-                        {!loading ?
-                            <div className={styles.buttonRent}>
-                                <button className="buttonGlobal" disabled={!agree || !location || !carRenting.model || !drivers.length || !endLocation || !validDays} type="submit">
-                                    Rent
-                                </button>
-                            </div>
-                            : <p>Loading...</p>
-                        }
-
-                    </form>
+        : <div className={`boxGlobal ${styles.container}`}>
+            <form onSubmit={handleRentForm} className={styles.rentForm}>
+                <div className={styles.title}>
+                    <h3>RENTAL FORM</h3>
                 </div>
-                <TermsConditions show={show} onClose={() => setShow(false)} />
-            </section>
+                <div className={styles.locationContainer}>
+                    <label className={styles.tag} >Location: </label>
+                    <div className={styles.locationBox}><LocationFilter /></div>
+                </div>
+
+                {
+                    !location && <div className={styles.error}>Select a Location first</div>
+                }
+
+                <div className={styles.selectBox}>
+                    <label className={styles.tag}>Car Model:  </label>
+                    <select className={`selectGlobal ${styles.selects}`} name="Model" disabled={!location} value={`${carRenting.brand} ${carRenting.model}`} onChange={handleSelectModel}>
+                        <option value="placeholder" hidden>Car Model</option>
+                        {locationCarsModels && locationCarsModels.map((el, k) => <option key={k} value={el}>{el}</option>)}
+                    </select>
+                </div>
+                <div className={`boxGlobal ${styles.subContainerEquipment}`}>
+                    <label className={styles.tagN}>Optional Equipment:</label>
+                    <div>
+                        {carRenting &&
+                            carRenting.optionalEquipments?.map((el, k) =>
+                                <p key={k}>
+                                    <input disabled={!selectedLocationModel}
+                                        checked={optionalEquipments.includes(el.name)}
+                                        onChange={handleCheck}
+                                        type="checkbox" name={el.name} key={(k)}
+                                    />
+                                    {el.name} ({`$ ${el.price} /day`})
+                                </p>
+                            )
+                        }
+                    </div>
+                </div>
+                <div className={styles.calendar}>
+                    <div className={styles.dateBox} >
+                        <label className={styles.tagN}>Start Date: </label>
+                        <DatePicker
+                            className={styles.date}
+                            clearIcon={null}
+                            minDate={new Date()}
+                            onChange={handleStartingDateChange}
+                            value={startingDate}
+                            disabled={!selectedLocationModel}
+                            format="dd/MM/yyyy"
+                            tileDisabled={({ date, view }) =>
+                                (view === 'month') &&
+                                initialDisableDay.some(disabledDate =>
+                                    date.getFullYear() === disabledDate.getFullYear() &&
+                                    date.getMonth() === disabledDate.getMonth() &&
+                                    date.getDate() === disabledDate.getDate()
+                                )
+                            }
+                        />
+                    </div>
+                    {
+                        <div className={styles.dateBox} >
+                            <label className={styles.tagN}>End Date: </label>
+                            <DatePicker
+                                className={styles.date}
+                                clearIcon={null}
+                                minDate={datePlus(startingDate, 1)}
+                                onChange={setEndingDate}
+                                value={endingDate}
+                                disabled={!selectedLocationModel}
+                                format="dd/MM/yyyy"
+                                maxDate={maxEndingDisableDate.length && datePlus(startingDate, 1) <= maxEndingDisableDate[0] ? maxEndingDisableDate[0] : null}
+                            />
+                        </div>
+                    }
+                </div>
+                {!validDays && <p>Invalid dates</p>}
+                <Drivers drivers={drivers} setDrivers={setDrivers} />
+                <div className={styles.selectBox}>
+                    <label className={styles.tag}>Return location: </label>
+                    <select className={`selectGlobal ${styles.selects}`} name="endLocation" value={endLocation} onChange={handleSelectEndLocation}>
+                        <option value="placeholder" hidden>location...</option>
+                        {allLocation.map((el, k) => <option key={k} value={el.id}>{el.city}</option>)}
+                    </select>
+                </div>
+                <div className={styles.container2}>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td className={styles.colum1}><label className={styles.tag} >Price Per Day: </label></td>
+                                <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${carRenting.pricePerDay + sumOfOptionalPrices()}`}</span></td>
+                            </tr>
+                            <tr>
+                                <td className={styles.colum1}><label className={styles.tag}>Total Days: </label></td>
+                                <td className={styles.colum2}><span>{getDatesInRange(startingDate, endingDate).length - 1}</span></td>
+                            </tr>
+                            <tr>
+                                <td className={styles.colum1}><label className={styles.tag}>Total Price: </label></td>
+                                <td className={styles.colum2}><span>{carRenting.pricePerDay && `$ ${((getDatesInRange(startingDate, endingDate).length - 1) * (carRenting.pricePerDay + sumOfOptionalPrices()))}`}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div className={styles.termsConditions}>
+                    <input className={styles.checkbox} type="checkbox" onChange={checkboxHandler} />
+                    <label htmlFor="agree" className={styles.tag}> I agree to <a className={styles.terms} onClick={() => { setShow(true) }}>terms and conditions</a></label>
+                </div>
+                {!loading ?
+                    <div className={styles.buttonRent}>
+                        <button className="buttonGlobal" disabled={!agree || !location || !carRenting.model || !drivers.length || !endLocation || !validDays} type="submit">
+                            Rent
+                        </button>
+                    </div>
+                    : <p>Loading...</p>
+                }
+
+            </form>
+            <TermsConditions show={show} onClose={() => setShow(false)} />
+
         </div>
 }
