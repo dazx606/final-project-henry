@@ -139,7 +139,7 @@ function Authentication({ setDisplay, display, handleLoginInfo }) {
                 </div>
               </div>
               <div className={style.line}></div>
-              <h3 className={style.welcome}>Welcome to RentACar</h3>
+              <h3 className={style.welcome}>Welcome to Luxurent</h3>
               <div className={style.exclam}>UPS! </div>
               <div className={style.msg}>Verify your email to continue</div>
             </div>
