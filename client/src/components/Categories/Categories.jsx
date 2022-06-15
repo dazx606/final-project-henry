@@ -1,5 +1,5 @@
 import CategotyCard from "../CategotyCard/CategoryCard"
-import style from './Categories.module.css'
+import styles from './Categories.module.css'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
@@ -61,9 +61,9 @@ export default function Categories() {
   
 
     return (
-        <div className={style.container}>
+        <div className={styles.container}>
             <Carousel containerClass="container"  responsive={responsive} infinite={true} autoPlay={false} 
-            shouldResetAutoplay={false} >
+            shouldResetAutoplay={false} className={styles.carousel}>
                 {categories.map((e,k) => <CategotyCard key={k+1} card={e}  />)}
             </Carousel>
 

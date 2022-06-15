@@ -142,3 +142,7 @@ code {
   padding: 0.5rem;
   color: var(--color3Tr);
 }
+
+.react-multiple-carousel__arrow {
+  z-index: 3 !important;
+}

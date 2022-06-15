@@ -45,7 +45,7 @@ function CarsSelection() {
         endingLowerThanStarting = true;
       }
     }
-    let selected = { ...selection, [e.target.name]: value , page:1};
+    let selected = { ...selection, [e.target.name]: value, page: 1 };
     if (endingLowerThanStarting) selected.endingDate = toUglyDayFormat(datePlus(new Date(value), 1)).split("-").join("/");
     dispatch(setSelection(selected));
     dispatch(getFilteredCars(selected, locationId));
@@ -54,7 +54,7 @@ function CarsSelection() {
   const handlePages = (page) => {
     dispatch(getFilteredCars({
       ...selection,
-      page 
+      page
     }, locationId))
   }
 
@@ -71,30 +71,30 @@ function CarsSelection() {
           />
         </div>
       </div>
-        <div className={styles.cardsScreen}>
-          {filteredCars.length ? (
-            filteredCars.map((car) => {
-              return (
-                <div key={car.model} className={styles.child}>
-                  <CarCard 
-                    brand={car.brand}
-                    model={car.model}
-                    pricePerDay={car.pricePerDay}
-                    rating={car.rating}
-                    image={car.images[0]}
-                  />
-                </div>
-              );
-            })
-          ) : (
-            <div>
-              <div>{`We are sorry! :(`}</div>
-              <div>Car selection unavailable </div>
-            </div>
-          )}
-        </div>
-        {
-        filteredCars.length ? <Pagination handlePages={handlePages} />: null
+      <div className={styles.cardsScreen}>
+        {filteredCars.length ? (
+          filteredCars.map((car) => {
+            return (
+              <div key={car.model} className={styles.child}>
+                <CarCard
+                  brand={car.brand}
+                  model={car.model}
+                  pricePerDay={car.pricePerDay}
+                  rating={car.rating}
+                  image={car.images[0]}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <div>{`We are sorry! :(`}</div>
+            <div>Car selection unavailable </div>
+          </div>
+        )}
+      </div>
+      {
+        filteredCars.length ? <Pagination handlePages={handlePages} /> : null
       }
     </div>
   );

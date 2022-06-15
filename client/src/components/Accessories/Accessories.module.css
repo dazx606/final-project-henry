@@ -1,15 +1,19 @@
-.container {
+/* .container {
   padding: 1rem;
-}
+} */
 
 .info {
   display: flex;
-  padding: 0.2rem 3rem;
+  padding: 0.2rem 0.7rem;
   justify-content: space-around;
   background-color: var(--color6);
   margin: 1rem;
   border-radius: 5px;
   box-shadow: 1px 1px 71px -14px rgba(0, 0, 0, 0.85);
+}
+
+.img{
+  width: 30px;
 }
 
 .optionsinfo {
@@ -31,16 +35,27 @@
 }
 
 .text {
+  margin-left: 1rem;
   color: var(--color3);
 }
 
 @media (max-width: 750px) {
-  .container{
+  /* .container{
     width: 99vw;
     align-items: center;
 
-  }
+  } */
   .info{
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 500px) {
+  .infoicon {
+    margin: 0.5rem;
+    font-size: 1rem;
+  }
+  .img{
+    width: 20px;
   }
 }

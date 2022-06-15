@@ -31,19 +31,24 @@ export default function Pagination({ handlePages }) {
     }
 
     return (
-        <div>
-            <div className={styles.dotContainer}>
-                {
-                    pages.map((e, k) =>
-                        <span key={k + 1} className={parseInt(pagination.page) !== e ? styles.dot : styles.activeDot} onClick={() => dots(e)}></span>
-                    )
-                }
-            </div>
-            <div className={styles.pageBox}>
-                <a className={styles.prev} onClick={back}>&#10094;</a>
-                <a className={styles.next} onClick={next}>&#10095;</a>
-            </div>
-        </div>
+        <>
+            {pagination.pageNum > 1 ?
+                <>
+                    <div className={styles.dotContainer}>
+                        {
+                            pages.map((e, k) =>
+                                <span key={k + 1} className={parseInt(pagination.page) !== e ? styles.dot : styles.activeDot} onClick={() => dots(e)}></span>
+                            )
+                        }
+                    </div>
+                    <div className={styles.pageBox}>
+                        <a className={styles.prev} onClick={back}>&#10094;</a>
+                        <a className={styles.next} onClick={next}>&#10095;</a>
+                    </div>
+                </>
+                : <div className={styles.padingo} />
+            }
+        </>
 
     )
 }
