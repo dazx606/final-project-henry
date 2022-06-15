@@ -150,6 +150,60 @@
     margin-right: 1em;
 }
 
+/*
+.date button:hover {
+    cursor: pointer;
+    box-shadow: none;
+}
+
+.date input {
+    border: outset 1px var(--color4);
+    outline: none;
+    padding: 4px;
+    background-color: var(--color1);
+    box-shadow: none;
+    font-family: var(--font2);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--color3);
+}
+
+.date input:hover {
+    cursor: pointer;
+    box-shadow: none;
+    font-weight: 500;
+    border: outset 2px var(--color4);
+} */
+
+.warningContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20vh;
+    margin-bottom: 20vh;
+}
+
+.warningIcon {
+    font-size: 80px;
+    color: var(--color4Tr)
+}
+
+.warning {
+    width: 10vw;
+}
+
+.warningText {
+    margin-left: 30px;
+}
+
+.warning2 {
+    text-align: start;
+    font-family: var(--font2);
+    font-size: 1.5em;
+    color: var(--color4Tr);
+    font-weight: bold;
+}
+
 @media (max-width: 700px) {
     .container {    
         width: 90vw;
