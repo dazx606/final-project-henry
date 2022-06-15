@@ -45,5 +45,33 @@
   align-content: center;
   margin-top: 16px;
   margin-bottom: 16px;
+}
 
+.warningContainer {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20vh;
+  margin-bottom: 20vh;
+}
+
+.warningIcon {
+  font-size: 80px;
+  color: var(--color4Tr)
+}
+
+.warning {
+  width: 10vw;
+}
+
+.warningText {
+  margin-left: 30px;
+}
+
+.warning2 {
+  text-align: start;
+  font-family: var(--font2);
+  font-size: 1.5em;
+  color:var(--color4Tr);
+  font-weight: bold;
 }

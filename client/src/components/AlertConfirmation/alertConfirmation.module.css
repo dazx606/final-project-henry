@@ -15,7 +15,7 @@
   position: fixed;
   top: 30%;
   left: 35vw;
-  height: auto;
+  height: fit-content;
   width: 30vw;
   background-color: var(--color6);
   color: var(--color3Tr);
@@ -45,7 +45,7 @@
     margin: auto;
     left: 0;
     right: 0;
-    height: 36vh;
+    height: fit-content;
   }
 
 }
