@@ -201,7 +201,14 @@ export default function Booking() {
 
     return message ?
         <section>
-            <p>{message}</p>
+            <div className={styles.warningContainer}>
+                <div className={styles.warningImg}>
+                    <i className={`fa-solid fa-car ${styles.warningIcon}`}></i>
+                </div>
+                <div className={styles.warningText}>
+                    <p className={styles.warning2}>Order canceled. Payment incomplete.</p>
+                </div>
+            </div>
         </section>
         : <div className={`boxGlobal ${styles.container}`}>
             <form onSubmit={handleRentForm} className={styles.rentForm}>
