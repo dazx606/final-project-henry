@@ -4,8 +4,7 @@
   height: 33px;
   max-width: 80%;
 }
-
-.options {
+.options{
   display: flex;
   justify-content: center;
   margin: auto;
