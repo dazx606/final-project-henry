@@ -19,8 +19,6 @@
   flex-wrap: wrap;
   justify-content: space-around;
   align-self: flex-end;
-  margin-right: 100px;
-
 }
 
 .date {
@@ -47,9 +45,9 @@
   display: flex;
 }
 
-@media (max-width: 1425px) {
+@media (min-width: 1550px) {
   .filters {
-    margin-right: 0px;
+    margin-right: 100px;
   }
 }
 
