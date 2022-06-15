@@ -28,6 +28,10 @@
 .logo {
   font-size: 20px;
 }
+.logoC{
+  height: 1.8rem;
+  margin-right: 8px;
+}
 
 .icon {
   color: var(--color4);
@@ -75,7 +79,7 @@
   margin: 1rem auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .btnLabel {
@@ -192,6 +196,7 @@
 .tittle {
   text-decoration: none;
   color: var(--color4);
+  
 }
 
 .alert {

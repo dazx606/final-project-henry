@@ -185,14 +185,14 @@ router.post("/model", authMiddleWare, async (req, res, next) => {
     if (checkIfModelExist) return res.status(200).send({ msg: "This model already exist" });
     //////////////////////// ESTA FUNCION SE DESCOMENTA CUANDO SE NECESITA AGREGAR PRECIO DE STRIPE
 
-    // const product = await stripe.products.create({
-    //   name: `${brand} ${model}`,
-    // });
-    // const price = await stripe.prices.create({
-    //   product: product.id,
-    //   unit_amount: pricePerDay * 100,
-    //   currency: "usd",
-    // });
+    const product = await stripe.products.create({
+      name: `${brand} ${model}`,
+    });
+    const price = await stripe.prices.create({
+      product: product.id,
+      unit_amount: pricePerDay * 100,
+      currency: "usd",
+    });
 
     ////////////////////////////////
     const newModel = await CarModel.create({
@@ -205,7 +205,7 @@ router.post("/model", authMiddleWare, async (req, res, next) => {
       engine: parseFloat(engine),
       images: images,
       description: description,
-      //stripePriceId: price.id,
+      stripePriceId: price.id,
     });
 
     const type = await CarType.findOne({ where: { name: carType } });

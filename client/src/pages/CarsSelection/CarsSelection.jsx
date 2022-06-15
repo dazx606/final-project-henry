@@ -63,7 +63,9 @@ function CarsSelection() {
       <div>
         <div className={styles.title}>{findCityName(locations)}</div>
         <div className={styles.selections}>
-          <LocationFilter />
+          <div className={styles.locSelections}>
+            <LocationFilter />
+          </div>
           <CarFilters
             locationId={locationId}
             selection={selection}
@@ -75,15 +77,14 @@ function CarsSelection() {
         {filteredCars.length ? (
           filteredCars.map((car) => {
             return (
-              <div key={car.model} className={styles.child}>
-                <CarCard
-                  brand={car.brand}
-                  model={car.model}
-                  pricePerDay={car.pricePerDay}
-                  rating={car.rating}
-                  image={car.images[0]}
-                />
-              </div>
+              <CarCard
+                key={car.model}
+                brand={car.brand}
+                model={car.model}
+                pricePerDay={car.pricePerDay}
+                rating={car.rating}
+                image={car.images[0]}
+              />
             );
           })
         ) : (

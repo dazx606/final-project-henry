@@ -201,7 +201,14 @@ export default function Booking() {
 
     return message ?
         <section>
-            <p>{message}</p>
+            <div className={styles.warningContainer}>
+                <div className={styles.warningImg}>
+                    <i className={`fa-solid fa-car ${styles.warningIcon}`}></i>
+                </div>
+                <div className={styles.warningText}>
+                    <p className={styles.warning2}>Order canceled. Payment incomplete.</p>
+                </div>
+            </div>
         </section>
         : <div className={`boxGlobal ${styles.container}`}>
             <form onSubmit={handleRentForm} className={styles.rentForm}>
@@ -229,14 +236,16 @@ export default function Booking() {
                     <div>
                         {carRenting &&
                             carRenting.optionalEquipments?.map((el, k) =>
-                                <p key={k}>
+                                <div key={k} className={styles.tagPrice}>
                                     <input disabled={!selectedLocationModel}
                                         checked={optionalEquipments.includes(el.name)}
                                         onChange={handleCheck}
                                         type="checkbox" name={el.name} key={(k)}
                                     />
-                                    {el.name} ({`$ ${el.price} /day`})
-                                </p>
+                                    <div >
+                                        {el.name} ({`$ ${el.price} /day`})
+                                    </div>
+                                </div>
                             )
                         }
                     </div>
