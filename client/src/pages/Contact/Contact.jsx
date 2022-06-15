@@ -28,7 +28,7 @@ function Contact() {
           <div className={styles.subcontainer1}>
             <h3 className={styles.titleh}>FIND US HERE</h3>
             <div>
-              <p className={styles.text}>RENT A CAR NEAR EZEIZA AIRPORT</p>
+              <p className={styles.text}>LUXURENT NEAR EZEIZA AIRPORT</p>
               <p className={styles.text}>Bellow you will find our office location. You can also review then on the map so you can easily find us. If you need a vehicle delivered on your door just contact us.</p>
             </div>
             <div className={styles.iconContainer}>
