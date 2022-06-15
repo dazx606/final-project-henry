@@ -15,7 +15,7 @@ function Contact() {
   return (
     <div className={styles.container}>
       <div className='column'>
-        
+
       </div>
       <div className={styles.container1}>
         <h3 className={styles.titleh}>GET IN TOUCH</h3>
@@ -149,58 +149,60 @@ function Form() {
   }, [errors, input, disabled]);
 
   return (
-    <div className={styles.form}>
+    <div className={`boxGlobal ${styles.form}`}>
       <h3 className={styles.titleh}>CONTACT FORM</h3>
       <form onSubmit={e => handleSubmit(e)}>
-        <div>
+        <div className={styles.tag}>
           <div className={styles.paragraph}>Full name*: </div>
-          <input className={styles.inputs} type="text" value={input.name} name='name' onChange={e => handleChange(e)} />
+          <input className={`inputGlobal ${styles.inputs}`} type="text" value={input.name} name='name' onChange={e => handleChange(e)} />
+          </div>
           {
             errors.name &&
-            (<p className={styles.paragraph}>{errors.name}</p>)
+            (<p className={styles.error}>{errors.name}</p>)
           }
-        </div>
-        <div>
+        
+        <div className={styles.tag}>
           <div className={styles.paragraph}>Email*: </div>
-          <input className={styles.inputs} type="email" value={input.email} name='email' onChange={e => handleChange(e)} />
+          <input className={`inputGlobal ${styles.inputs}`} type="email" value={input.email} name='email' onChange={e => handleChange(e)} />
+          </div>
           {
             errors.email &&
-            (<p className={styles.paragraph}>{errors.email}</p>)
+            (<p className={styles.error}>{errors.email}</p>)
           }
-        </div>
-        <div>
+        
+        <div className={styles.tag}>
           <div className={styles.paragraph}>Phone: </div>
-          <input className={styles.inputs} type="number" value={input.phone} name='phone' onChange={e => handleChange(e)} />
+          <input className={`inputGlobal ${styles.inputs}`} type="number" value={input.phone} name='phone' onChange={e => handleChange(e)} />
+          </div>
           {
             errors.phone &&
-            (<p className={styles.paragraph}>{errors.phone}</p>)
+            (<p className={styles.error}>{errors.phone}</p>)
           }
-        </div>
-        <div>
+        
+        <div className={styles.tag}>
           <div className={styles.paragraph}>Subject: </div>
-          <input className={styles.inputs} type="text" value={input.subject} name='subject' onChange={e => handleChange(e)} />
+          <input className={`inputGlobal ${styles.inputs}`} type="text" value={input.subject} name='subject' onChange={e => handleChange(e)} />
+          </div>
           {
             errors.subject &&
-            (<p className={styles.paragraph}>{errors.subject}</p>)
+            (<p className={styles.error}>{errors.subject}</p>)
           }
-        </div>
-        <div>
+        
+        <div className={styles.tagT}>
           <div className={styles.paragraph}>Message*: </div>
-          <textarea className={styles.textarea} type='text' value={input.message} name='message' onChange={e => handleChange(e)} />
+          <textarea className={`inputGlobal ${styles.textarea}`} type='text' value={input.message} name='message' onChange={e => handleChange(e)} />
+          </div>
           {
             errors.message &&
-            (<p className={styles.paragraph}>{errors.message}</p>)
+            (<p className={styles.error}>{errors.message}</p>)
           }
-        </div>
+        
         <div>
           <p className={styles.paragraph}>* Please fill in required fields</p>
         </div>
         <div className={styles.buttonContainer}>
-          {
-            disabled === false ?
-              (<button className='buttonGlobal' type='submit' disabled={disabled}>SUBMIT</button>) :
-              (<button className={styles.disabled} type='submit' disabled={disabled}>SUBMIT</button>)
-          }
+          <button className='buttonGlobal' type='submit' disabled={disabled}>SUBMIT</button>
+
         </div>
       </form>
     </div>

@@ -1,13 +1,49 @@
 .container {
-  padding: 1rem 7rem;
+  /* padding: 1rem 7rem; */
   position: relative;
   font-family: var(--font1);
+  padding: 0;
+  margin: 0;
+}
+
+.carName {
+  font-size: 2rem;
+  font-family: var(--font1);
+  margin: 30px 0 0;
+  text-align: center;
+  color: var(--color2);
+}
+
+.flex {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: auto;
+}
+
+.infoAndStarsContainer{
+  display: flex;
+  padding: 1rem;
+  width: calc(40vw - 1rem);
+  max-width: calc(600px - 1rem);
+}
+
+.infoAndStars {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--color6);
+  border-radius: 5px;
+  padding: 2rem;
 }
 
 .mainimagecontainer {
   width: 100%;
-  height: 30rem;
-  padding: 0 auto;
+  padding: 0;
+  margin: 15px 0 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .mainimage {
@@ -19,39 +55,50 @@
   box-shadow: 1px 13px 24px -6px rgba(0, 0, 0, 0.69);
 }
 
+/* .mainimage {
+  width: 100vw;
+  height: 80%;
+  object-fit: cover;
+} */
+
 .options {
   width: 100%;
-  display: flex;
+  margin: auto;
+  /* display: flex; */
   height: auto;
   padding: 1rem 0;
+  /* flex-direction: column; */
+  /* align-items: center; */
 }
 
-.carinfo {
-  padding: 1rem;
-  width: 100%;
-
+/* .carinfo {
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   overflow: auto;
-}
+  
+} */
 
 .text {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   text-align: justify;
-  color: var(--color3);
+  color: var(--color2);
+  /* width: 40vw; */
+  /* max-width: 600px; */
 }
 
-.moreinfo {
+/* .moreinfo {
   width: 100%;
-}
+} */
 
 .accessories {
-  width: 100%;
+  width: 40vw;
   height: 85%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 600px;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
 }
 
 .rating {
@@ -65,30 +112,27 @@
 
 .caroptions {
   padding: 1rem;
-  display: flex;
-  align-items: center;
+  /* display: flex; */
+  margin: auto;
+  /* align-items: center; */
+  height: 5rem;
+  width: fit-content;
 }
 
 .reserve {
-  font-size: 2rem;
+  height: fit-content;
+  font-size: 1.6rem;
   width: 100%;
-  padding: 0.5rem 3rem;
-  border: none;
-  box-shadow: none;
-}
-
-.reserve:hover {
-  box-shadow: none;
-  border: none;
-  font-weight: 400;
-  background-color: rgb(34, 34, 34);
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .extraimages {
-  width: 90%;
+  width: 98%;
   height: 20rem;
   display: flex;
   margin: 0 auto;
+  margin-bottom: 0.4rem;
 }
 
 .first {
@@ -101,7 +145,7 @@
   margin: auto;
   object-fit: cover;
   width: 100%;
-  height: 100%;
+  height: calc(100% + 0.2rem);
 }
 
 .second {
@@ -137,14 +181,14 @@
 }
 
 .third {
-  width: 100%;
+  width: 75%;
   display: flex;
   height: 100%;
+  margin: 0;
 }
 
 .thirdsplit {
   padding: 0 0.2rem;
-
   height: 100%;
 }
 
@@ -153,12 +197,12 @@
   margin: auto;
   object-fit: cover;
   width: 100%;
-  height: 100%;
+  height: calc(100% + 0.2rem);
 }
 
 .fourthsplit {
   height: 100%;
-  padding: 0 0.2rem;
+  /* padding: 0 0.2rem; */
 }
 
 .five {
@@ -170,14 +214,25 @@
 }
 
 .starsCont {
+  margin-top: 10px;
   display: flex;
   font-size: 2rem;
-  color: var(--color4);
+  color: #ca9600;
   align-items: center;
   justify-content: center;
 }
 
-@media (max-width: 750px) {
+
+
+
+@media (min-width: 1740px) {
+  .flex {
+    max-width: 70vw;
+  }
+}
+
+
+@media (max-width: 1200px) {
   .container {
     padding: 0;
     margin: 0;
@@ -197,6 +252,44 @@
     object-fit: cover;
   }
 
+  .flex {
+    justify-content: space-around;
+  }
+  
+
+  .extraimages {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: auto;
+  }
+
+  .extraimages img {
+    width: 100vw;
+    padding: 0;
+  }
+
+  .firstsplit {
+    padding: 0;
+  }
+
+  .secondsplit {
+    padding: 0;
+    margin-top: 0;
+
+  }
+
+  .thirdsplit {
+    padding: 0;
+  }
+
+  .fourthsplit {
+    padding: 0;
+  }
+
+}
+
+@media (max-width: 1050px) {
   .options {
     flex-direction: column;
     align-items: center;
@@ -204,46 +297,28 @@
     margin: 0;
   }
 
-  .carinfo {
-    width: 90vw;
+  .infoAndStarsContainer {
+    width: calc(95vw - 2rem);
   }
+  /* infoAndStarsContainer */
+    
+  
+  /* infoAndStars  */
 
-  .moreinfo {
+  /* .moreinfo {
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center;
     flex-direction: column;
 
-  }
+  } */
 
   .accessories {
     width: 95vw;
     padding: 0;
     margin: 0;
     align-items: center;
-  }
-  .extraimages{
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    height: auto;
-  }
-  .extraimages img{
-    width: 100vw;
-    padding: 0;
-  }
-  .firstsplit{
-    padding: 0;
-  }
-  .secondsplit{
-    padding: 0;
-  }
-  .thirdsplit{
-    padding: 0;
-  }
-  .fourthsplit{
-    padding: 0;
   }
 
 }

@@ -202,12 +202,6 @@ export default function rootReducer(state = initialState, { type, payload, token
         orders: payload,
       };
     }
-    case DELETE_RESERVATION: {
-      return {
-        ...state,
-        orders: payload,
-      };
-    }
     case GET_ALL_RESERVATIONS: {
       return {
         ...state,
