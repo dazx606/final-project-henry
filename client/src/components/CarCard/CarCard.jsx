@@ -10,7 +10,7 @@ function CarCard({ brand, model, pricePerDay, rating, image }) {
   const halfStar = Number.isInteger(rating);
 
   return (
-    <div className={styles.cardCont}>
+    <div className={`${styles.cardCont} ${styles.carColor}`}>
       <NavLink to={`/car/${model}`} className={styles.cardLink}>
         <h3 className={styles.carTitle}>
           {brand.toUpperCase()} {model.toUpperCase()}
