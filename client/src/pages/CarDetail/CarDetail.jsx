@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
-import { getCarDetails, deleteCarDetails, getRentingCar } from "../../redux/actions";
+import { getCarDetails, deleteCarDetails, getRentingCar, getFilteredCars } from "../../redux/actions";
 import Accessories from "../../components/Accessories/Accessories";
 
 import styles from "./CarDetail.module.css";
@@ -9,6 +9,7 @@ import styles from "./CarDetail.module.css";
 function CarDetail() {
   const { carModel } = useParams();
   const dispatch = useDispatch();
+  const location = useSelector(state => state.city)
   const carDetails = useSelector((state) => state.carDetails);
 
   const totalStars = 5;
@@ -24,6 +25,7 @@ function CarDetail() {
   }, [dispatch]);
 
   const handleClick = () => {
+    dispatch(getFilteredCars({ brand: carDetails.brand, carsPerPage: 0, model: carDetails.model }, location))
     dispatch(getRentingCar(carModel))
   }
 
