@@ -103,7 +103,8 @@
     font-size: 1rem;
     font-weight: 400;
 }
-.selectBox{
+
+.selectBox {
     height: 12px;
 }
 
@@ -148,10 +149,10 @@
 }
 
 .checkbox {
- width: 1.5em;
- height: 1.5em;
- align-items: center;
- margin-right: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    align-items: center;
+    margin-right: 1em;
 }
 
 /*
@@ -178,3 +179,32 @@
     font-weight: 500;
     border: outset 2px var(--color4);
 } */
+
+.warningContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20vh;
+    margin-bottom: 20vh;
+}
+
+.warningIcon {
+    font-size: 80px;
+    color: var(--color4Tr)
+}
+
+.warning {
+    width: 10vw;
+}
+
+.warningText {
+    margin-left: 30px;
+}
+
+.warning2 {
+    text-align: start;
+    font-family: var(--font2);
+    font-size: 1.5em;
+    color: var(--color4Tr);
+    font-weight: bold;
+}
