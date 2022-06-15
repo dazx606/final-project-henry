@@ -169,6 +169,7 @@ function CreateModel() {
   const addOptionalImage = (e) => {
     e.preventDefault();
     if (!errors.optionalImage) {
+      if (input.optionalImages.includes(input.optionalImage)) return;
       const updatedList = [...input.optionalImages, input.optionalImage];
       setInput({
         ...input,
@@ -573,14 +574,13 @@ function CreateModel() {
               </button>
             ))}
           </div>
-          <div className={styles.submit}>
-            <button type="submit" className={`buttonGlobal ${styles.create}`}>
-              Create
-            </button>
-          </div>
         </div>
       </div>
-
+      <div className={styles.submit}>
+          <button type="submit" className={`buttonGlobal ${styles.create}`}>
+            Create
+          </button>
+      </div>
     </form>
   );
 }
