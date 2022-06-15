@@ -95,7 +95,7 @@ export default function Profile() {
       ) : (
         <form onSubmit={handleSubmit}>
           <h3 className={styles.helloP}>Hello {userInfo?.data?.firstName ? userInfo?.data?.firstName : user?.email}!</h3>
-          <div>
+          <div className={styles.tag}>
             <div className={styles.titles}>First name: </div>
             <input
               className={`inputGlobal ${styles.inputs}`}

@@ -8,16 +8,21 @@
   height: 2rem;
   margin-top: 5px;
 }
-.select:hover{
+
+.select:hover {
   cursor: pointer;
 }
+
 .filters {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-self: flex-end;
+  margin-right: 100px;
+
 }
+
 .date {
   border: outset 1px var(--color4);
   outline: none;
@@ -28,9 +33,36 @@
   height: 2rem;
   margin-top: 3px;
 }
-.datefirst{
+
+.datefirst {
   margin-right: 10px;
 }
-.section{
+
+.section {
   padding-right: 5px;
+}
+
+.dateSection {
+  padding-right: 5px;
+  display: flex;
+}
+
+@media (max-width: 1425px) {
+  .filters {
+    margin-right: 0px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .filters {
+    margin-top: 16px;
+  }
+
+}
+
+@media (max-width: 440px) {
+  .dateSection {
+    display: flex;
+    flex-direction: column;
+  }
 }

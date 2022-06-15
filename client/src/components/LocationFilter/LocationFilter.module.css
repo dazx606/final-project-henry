@@ -3,6 +3,7 @@
   width: 20rem;
   height: 33px;
   max-width: 80%;
+  font-size: 1.2em;
 }
 .options{
   display: flex;

@@ -149,6 +149,12 @@
     align-items: center;
     margin-right: 1em;
 }
+.tagPrice{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    gap: 0 8px;
+}
 
 /*
 .date button:hover {

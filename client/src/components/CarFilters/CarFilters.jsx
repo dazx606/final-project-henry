@@ -27,25 +27,30 @@ function CarFilters({ locationId, selection, handleFilters }) {
 
   return (
     <div className={styles.filters}>
-      <div className={styles.section}>
-        <span>From:</span>
-        <input
-          type="date"
-          name="startingDate"
-          value={selection.startingDate.split("/").join("-")}
-          className={`inputGlobal ${styles.date} ${styles.datefirst}`}
-          onChange={(e) => handleFilters(e)}
-          min={toUglyDayFormat(new Date())}
-        />
-        <span >to:</span>
-        <input
-          type="date"
-          name="endingDate"
-          value={selection.endingDate.split("/").join("-")}
-          className={`inputGlobal ${styles.date}`}
-          onChange={(e) => handleFilters(e)}
-          min={toUglyDayFormat(!selection.startingDate ? datePlus(new Date(), 1) : datePlus(new Date(selection.startingDate), 1))}
-        />
+      <div className={styles.dateSection}>
+        <div>
+          <span>Start date:</span>
+          <input
+            type="date"
+            name="startingDate"
+            value={selection.startingDate.split("/").join("-")}
+            className={`inputGlobal ${styles.date} ${styles.datefirst}`}
+            onChange={(e) => handleFilters(e)}
+            min={toUglyDayFormat(new Date())}
+          />
+        </div>
+        <div>
+          <span >End date:</span>
+          <input
+            type="date"
+            name="endingDate"
+            value={selection.endingDate.split("/").join("-")}
+            className={`inputGlobal ${styles.date}`}
+            onChange={(e) => handleFilters(e)}
+            min={toUglyDayFormat(!selection.startingDate ? datePlus(new Date(), 1) : datePlus(new Date(selection.startingDate), 1))}
+          />
+        </div>
+
       </div>
       {/* <div className={styles.section}>
 
