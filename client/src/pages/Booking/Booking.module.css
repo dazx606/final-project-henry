@@ -118,24 +118,6 @@
     justify-content: space-evenly;
 
 }
-
-.selectBox {
-    height: 12px;
-}
-
-.selects:hover {
-    /* cursor: pointer;
-    box-shadow: 0px 0px 8px 6px var(--color6Tr);
-    font-weight: 500; */
-    border: none;
-}
-
-.locationContainer {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
-
 .date {
 
     outline: none;
