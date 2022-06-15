@@ -7,6 +7,7 @@ import Authentication from "../Authenti/Authentication";
 import styles from "./NavBar.module.css";
 import Alert from "../Alert/Alert";
 import Rating from "../Rating/Rating";
+import logo from "./logoCar.png"
 
 function NavBar() {
   const [display, setDisplay] = useState(false);
@@ -39,7 +40,10 @@ function NavBar() {
             <label htmlFor="btn-nav" className={styles.btnLabel} onClick={showAllLinks}>
               <div className={styles.headerButton}></div>
             </label>
-            <NavLink className={styles.tittle} to="/"><h1>LUXURENT</h1></NavLink>
+
+            <NavLink className={styles.tittle} to="/">              
+              <h1><img src={logo} className={styles.logoC} alt="" />LUXURENT</h1>
+            </NavLink>
 
             {isAuthenticated ?
               <div onClick={handleLoginInfo} className={styles.logIcon} >
@@ -73,7 +77,7 @@ function NavBar() {
             <NavLink to="/contact">
               <li className={styles.list} onClick={showAllLinks}>CONTACT US</li>
             </NavLink>
-            
+
           </ul>
         </nav>
         {!hide &&

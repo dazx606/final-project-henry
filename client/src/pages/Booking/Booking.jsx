@@ -229,14 +229,16 @@ export default function Booking() {
                     <div>
                         {carRenting &&
                             carRenting.optionalEquipments?.map((el, k) =>
-                                <p key={k}>
+                                <div key={k} className={styles.tagPrice}>
                                     <input disabled={!selectedLocationModel}
                                         checked={optionalEquipments.includes(el.name)}
                                         onChange={handleCheck}
                                         type="checkbox" name={el.name} key={(k)}
                                     />
-                                    {el.name} ({`$ ${el.price} /day`})
-                                </p>
+                                    <div >
+                                        {el.name} ({`$ ${el.price} /day`})
+                                    </div>
+                                </div>
                             )
                         }
                     </div>
